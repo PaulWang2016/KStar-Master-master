@@ -1,0 +1,132 @@
+﻿<!--  Tenant Management  -->
+@using aZaaS.KStar.Html;
+@using aZaaS.Framework.Extend;
+@using System.Text;
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaTenant" type="text/javascript"></script>
+<div class="section">  
+    <div id="TenantManaView" class="sectionGrid" style="overflow-y: auto">
+    </div>
+</div>
+
+<!--/. AddTenantWindow-->
+<div id="AddTenantWindow" style="display: none">
+    <div>
+        <div style="width: 700px;">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("TenantID")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="TenantID" class="k-textbox" name="TenantID" />                   
+                </div>
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("TenantName")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="TenantName" name="TenantName" class="k-textbox" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("ExpireDate")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="ddlExpireDate"/>
+                </div>
+                <div class="col-lg-3 col-md-4"><input id="chkExpireDate"  type="checkbox" style="vertical-align:sub;"  value="@Html.CSHtmlResx("ExpireDateOption")"/><label style=" font-weight:inherit;vertical-align: -moz-middle-with-baseline;"  for="chkExpireDate"  >@Html.CSHtmlResx("ExpireDateOption")@Html.CSHtmlResx("ExpireDate")</label></div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="ExpireDate" name="ExpireDate" />
+                </div>
+            </div>                    
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+     <script type="text/javascript">
+         $(function () {
+             var itemform = $("#AddTenantWindow");
+             kendo.init(itemform);
+             itemform.kendoValidator({
+                 validateOnBlur: true,
+                 messages: {
+                     TenantID: jsResxMaintenance_SeaTenant.ExistsUserId,
+                     TenantIDSpecial: jsResxMaintenance_SeaTenant.SpecialChar,
+                     TenantNameSpecial: jsResxMaintenance_SeaTenant.SpecialChar,
+                     TenantIDRequired: jsResxMaintenance_SeaTenant.Required,
+                     TenantNameRequired: jsResxMaintenance_SeaTenant.Required                     
+                 },
+                 rules: {
+                     TenantID: function (input) {
+                         if (input.is("[name='TenantID']")) {                             
+                             var flag = true;
+                             if (input.val().length > 0) {
+                                 $.ajax({
+                                     type: "POST",
+                                     url: "/Maintenance/Tenant/ExistTenantId",
+                                     data: { Tenantid: input.val() },
+                                     async: false,
+                                     success: function (result) {
+                                         if (result) {
+                                             flag = false;
+                                         }
+                                     }
+                                 });
+                             }
+                             return flag;
+                         }
+                         else {
+                             return true;
+                         }
+                     },
+                     TenantIDSpecial: function (input) {
+                         if (input.is("[name='TenantID']")) {
+                             var flag = true;
+                             var regx = new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}/`\|*])*)$/);
+                             return regx.test(input.val());
+                         }
+                         else {
+                             return true;
+                         }
+                     },
+                     TenantNameSpecial: function (input) {
+                         if (input.is("[name='TenantName']")) {
+                             var flag = true;
+                             var regx = new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/);
+                             return regx.test(input.val());
+                         }
+                         else {
+                             return true;
+                         }
+                     },                   
+                     TenantIDRequired: function (input) {
+                         if (input.is("[name='TenantID']")) {
+                             if (input.val().length == 0) {
+                                 return false;
+                             }
+                             return true;
+                         }
+                         else {
+                             return true;
+                         }
+                     },
+                     TenantNameRequired: function (input) {
+                         if (input.is("[name='TenantName']")) {
+                             if (input.val().length == 0) {
+                                 return false;
+                             }
+                             return true;
+                         }
+                         else {
+                             return true;
+                         }
+                     }
+                 }
+             });
+         });
+        </script>
+</div>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_Tenant", function (init) {
+        init();
+    });
+</script>

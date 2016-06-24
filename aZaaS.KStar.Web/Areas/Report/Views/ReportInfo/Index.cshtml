@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "ReportCenter";
+}
+
+<link href="~/CSS/bootstrap.css" rel="stylesheet" />
+<script src="~/JS/jquery.min.js"></script>
+<script src="~/JS/bootstrap.js"></script>
+
+<script type="text/ecmascript">
+
+    $(document).ready(function () {
+
+
+
+        loadFavourite();
+
+
+
+
+    });
+
+
+    function loadReportCategory()
+    {
+        $.getJSON("", {}, function () {
+
+
+
+
+
+        });
+    }
+
+
+
+</script>
+
+
+<div class="container">
+    <fieldset>
+        <legend>Category</legend>
+        <form method="post" action="/report/reportinfo/AddCategory">
+            <input type="text" name="name" />
+            <input type="text" name="comment" />
+            <input type="text" />
+            <button type="submit">Submit</button>
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Favourite</legend>
+        <form name="favourite" method="post" action="/report/reportinfo/AddFavourite">
+            <input type="text" name="name" />
+
+            <input type="text" name="comment" />
+
+            <input type="text" />
+
+            <input type="text" />
+
+            <button type="submit">Submit</button>
+        </form>
+    </fieldset>
+
+    <fieldset>
+        <legend>Report</legend>
+        <form method="post" action="/report/reportinfo/AddReport" name="report">
+            <input type="text" name="name" />
+            <input type="text" name="comment" />
+            <input type="text" name="Department" />
+            <input type="text" />
+            <button type="submit">Submit</button>
+        </form>
+    </fieldset>
+
+    <fieldset>
+        <legend>File Upload:</legend>
+        <form method="post" name="postFile" enctype="multipart/form-data" action="/report/reportinfo    `">
+            <span>File:</span>
+            <input type="file" name="file" />
+            <button type="submit">Submit</button>
+        </form>
+    </fieldset>
+
+</div>

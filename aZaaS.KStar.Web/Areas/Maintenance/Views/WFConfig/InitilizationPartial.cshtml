@@ -1,0 +1,101 @@
+﻿@using aZaaS.KStar.Html;
+@{
+    IHtmlString PleaseSelectCategory = new HtmlString(@Html.CSHtmlResx("Pleaseselectcategory"));
+    IHtmlString PleaseSelectUninitializedProcess = new HtmlString(@Html.CSHtmlResx("Pleaseselectuninitializedprocess"));
+    IHtmlString PleaseFillBusinessDataConfig = new HtmlString(@Html.CSHtmlResx("PleaseFillBusinessDataConfig")); 
+}
+<div id="ProcessInitialize">
+    <ul>
+        <li class="k-state-active">
+            <a href="#"><span class="info-title">@Html.CSHtmlResx("WFInitialize")</span></a>
+            <div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3  col-sm-3" style="padding: 10px; padding-left: 30px;">@Html.CSHtmlResx("InitializeType")</div>
+                    <div class="col-lg-9 col-md-9  col-sm-9" style="padding: 10px;">
+                        <input id="CategoryType" name="CategoryType" />
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <a href="#"><span class="info-title">@Html.CSHtmlResx("BusinessDataConfig")</span></a>
+            <div class="form-horizontal" role="form" style=" margin-top:10px;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">@Html.CSHtmlResx("ConnectionString")：</label>
+                <div class="col-sm-8">
+                    <input type="text" id="ConnectionString" name="ConnectionString" class="form-control" placeholder="@Html.CSHtmlResx("ConnectionString")" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">@Html.CSHtmlResx("DataTable")：</label>
+                <div class="col-sm-8">
+                    <input type="text" id="DataTable" name="DataTable" class="form-control" placeholder="@Html.CSHtmlResx("DataTable")" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">@Html.CSHtmlResx("WhereQuery")：</label>
+                <div class="col-sm-8">
+                    <input type="text" id="WhereQuery" name="WhereQuery" class="form-control" placeholder="@Html.CSHtmlResx("WhereQuery")" >
+                </div>
+            </div>
+          </div>
+        </li>
+    </ul>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <input type="hidden" id="BusinessDataConfigFullName" />
+        <button id="InitializeProc" class="k-button operacontent" style="width: 80px; display: block;">@Html.CSHtmlResx("initialize")</button>
+        <div class="tips" style="color: green; text-align: center; visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+    </div>
+</div>
+<script type="text/ecmascript">
+    $(function () {
+        $.getJSON("/Maintenance/WFConfig/GetAllCategoryListWithNoChilds", { _t: new Date() }, function (items) {
+            InitDropDownList("CategoryType", "Name", "ID", "--Select Type--", items);
+        });
+
+        $("#InitializeProc").click(function () {                
+            var CategoryType = $("#CategoryType").val();
+            var ConnectionString=$("#ConnectionString").val();
+            var DataTable=$("#DataTable").val();
+            var WhereQuery=$("#ConnectionString").val();
+
+            if (parseInt(currentProcSetId) > 0 && parseInt(currentItemId)==0) {
+                if (CategoryType.length > 0 && parseInt(CategoryType) > 0) {
+
+                    @*if(ConnectionString.length==0||DataTable.length==0||WhereQuery.length==0)
+                    {
+                        ShowTip(@PleaseFillBusinessDataConfig, "error");
+                        return;   
+                    }*@
+                    showOperaMask("ProcessInitialize");
+                    $.post("/Maintenance/WFConfig/InitProcessSet", 
+                        { 
+                          procSetID: currentProcSetId, 
+                          categoryID: CategoryType,
+                          ApplicationName: $("#BusinessDataConfigFullName").val(),
+                          ProcessName: $("#BusinessDataConfigFullName").val(),
+                          ConnectionString: ConnectionString,
+                          DataTable: DataTable,
+                          WhereQuery: WhereQuery
+                        }, 
+                        function (item) {
+                        hideOperaMask("ProcessInitialize");
+                        $("#InitializeProc").siblings(".tips").css("visibility", "visible");
+                        refresh();
+                        currentProcSetId = 0;
+                    }).fail(function () {
+                        hideOperaMask("ProcessInitialize");
+                    })
+                }
+                else {
+                    ShowTip(@PleaseSelectCategory, "error");
+                    }
+                }
+                else {
+                    ShowTip(@PleaseSelectUninitializedProcess, "error");
+                }
+            });
+            $("#ProcessInitialize").children("ul").kendoPanelBar();
+        })
+</script>

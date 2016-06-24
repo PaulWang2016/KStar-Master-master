@@ -1,0 +1,186 @@
+﻿<!-- panel layout -->
+<div class="panel panel-default" style="margin-top: 10px;">
+    <div class="panel-heading">
+        <h3 class="panel-title">Customer Management</h3>
+    </div>
+    <!-- panel body -->
+    <div class="panel-body" style="min-width: 650px; ">
+
+        <!-- alert container -->
+        <div id="alert_container">
+
+        </div><!-- /.alert container -->
+
+        <!-- toolbar -->
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group-lg" role="group">
+                <button id="add_customer" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+
+            <div class="btn-group btn-group-lg" role="group">
+                <button id="remove_customer" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </div>
+        </div><!-- /.toolbar -->
+
+        <!-- grid view  -->
+        <table id="customer_grid" style="cursor: pointer; " class="table table-condensed table-hover table-striped">
+            <thead>
+                <tr>
+                    <th data-column-id="CustomerID" data-identifier="true">Customer ID</th>
+                    <th data-column-id="CompanyName" data-formatter="companLink" >Company Name</th>
+                    <th data-column-id="ContactName">Contact Name</th>
+                    <th data-column-id="ContactTitle">Contact Title</th>
+                    <th data-column-id="Country">Country</th>
+                    <th data-column-id="City" data-order="desc">City</th>
+                    <th data-column-id="Address">Address</th>
+                    <th data-column-id="Region">Region</th>
+                    <th data-column-id="PostalCode" data-order="desc">PostalCode</th>
+                    <th data-column-id="Fax" data-order="desc">Fax</th>
+                    <th data-column-id="Phone" data-sortable="false">Phone</th>
+                    <th data-column-id="commands" data-align="center" data-formatter="commands" data-sortable="false">Commands</th>
+                </tr>
+            </thead>
+        </table>
+        <!-- /. grid view -->
+
+    </div>
+    <!-- /.panel body -->
+</div>
+<!-- /.panel layout -->
+
+<!-- modal -->
+<div class="modal fade bootdialog" id="customer_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+
+                <!-- data form -->
+                <form id="customer_form" class="form-horizontal">
+
+                    <div class="form-group  ">
+                        <label class="col-sm-2 control-label">Customer ID:</label>
+                        <div class="col-sm-4" title="Customer ID">
+                            <input type="text" 
+                                data-rule-required="true"
+                                data-msg-required="Customer ID is required!"
+                                data-rule-minlength="3"
+                                data-msg-minlength="Customer ID at least {0} characters."
+                                class="form-control" data-bind="value: CustomerID" name="CustomerID" placeholder="Customer ID" />
+                        </div>
+
+                        <label class="col-sm-2 control-label">Company Name:</label>
+                        <div class="col-sm-4 " title="Company Name">
+                            <input type="text"
+                                data-rule-required="true"
+                                data-msg-required="Company Name is required!"
+                                class="form-control" data-bind="value: CompanyName" name="CompanyName" placeholder="Company Name" />
+                        </div>
+                    </div>
+
+                    <div class="form-group  ">
+                        <label class="col-sm-2 control-label">Contact Name:</label>
+                        <div class="col-sm-4" title="Contact Name">
+                            <input type="text" 
+                                data-rule-required="true"
+                                data-msg-required="Contact Name is required!"
+                                class="form-control" data-bind="value: ContactName" name="ContactName" placeholder="Contact Name" />
+                        </div>
+
+                        <label class="col-sm-2 control-label">Contact Title:</label>
+                        <div class="col-sm-4 " title="Contact Title">
+                            <input type="text" class="form-control" data-bind="value: ContactTitle" name="ContactTitle" placeholder="Contact Title" />
+                        </div>
+                    </div>
+
+                    <div class="form-group  ">
+                        <label class="col-sm-2 control-label">Phone:</label>
+                        <div class="col-sm-4" title="Phone">
+                            <input type="text" class="form-control" data-bind="value: Phone" name="Phone" placeholder="Phone" />
+                        </div>
+
+                        <label class="col-sm-2 control-label">Fax:</label>
+                        <div class="col-sm-4 " title="Fax">
+                            <input type="text" class="form-control" data-bind="value: Fax" name="Fax" placeholder="Fax" />
+                        </div>
+                    </div>
+
+                    <div class="form-group  ">
+                        <label class="col-sm-2 control-label">Country:</label>
+                        <div class="col-sm-4" title="Country">
+                            <select name="Country" 
+                                data-rule-required="true"
+                                data-msg-required="Country is required!"                               
+                                class="form-control" data-bind='options: countries, optionsText: "CountryName",optionsValue:"CountryCode", optionsCaption: "Select...", value: Country,valueAllowUnset:true'></select>
+                        </div>
+
+                        <label class="col-sm-2 control-label">Region:</label>
+                        <div class="col-sm-4 " title="Region">
+                            <input type="text" class="form-control" data-bind="value: Region" name="Region" placeholder="Region" />
+                        </div>
+                    </div>
+
+                    <div class="form-group  ">
+                        <label class="col-sm-2 control-label">City:</label>
+                        <div class="col-sm-4 " title="City">
+                             <select name="City" 
+                                 data-rule-required="true"
+                                 data-msg-required="City is required!"                                     
+                                 class="form-control" data-bind='options: cities, optionsText: "CityName", optionsValue: "CityCode", optionsCaption: "Select...", value: City, valueAllowUnset: true'></select>
+                        </div>
+                        <label class="col-sm-2 control-label">PostalCode:</label>
+                        <div class="col-sm-4" title="PostalCode">
+                            <input type="text" class="form-control" data-bind="value: PostalCode" name="PostalCode" placeholder="PostalCode" />
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label">Address:</label>
+                        <div class="col-sm-10" title="Address">
+                            <textarea class="form-control" data-bind="value: Address" name="Address" rows="3" placeholder="Address"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+                <!-- /.data form -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
+<!-- CSS & Script References -->
+
+@Styles.Render("~/kstar-boostrap-base/css")
+@Scripts.Render("~/bundles/kstar-management-base")
+
+<!-- Custom Script Blocks -->
+<script type="text/javascript">
+
+    //(Fixed)Enables wrapper scrollbar
+    //NOTE:If you need kstar scrollbar you can do this,else ignore this.
+    $('#pane-wrapper-Dashboard').css('height', '');
+
+    seajs.use("/JS/CustomerManagement/Sea_CustomerManagement", function (main) {
+
+        main.initView('@Url.Action("List")', '@Url.Action("Cities")', '@Url.Action("Countries")',
+                      '@Url.Action("Add")', '@Url.Action("Edit")','@Url.Action("Remove")','@Url.Action("Get")');
+    });
+
+</script>

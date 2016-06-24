@@ -1,0 +1,37 @@
+﻿@model bool
+<!--Completed_Tasks -->
+<div class="section">
+    @if (Model)
+    {
+        <div class="selectbar1">
+            <span>Start Date : From</span>
+            <span>
+                <input type="text" class="datepicker" name="StartDate" /></span>
+            <span>To</span>
+            <span>
+                <input type="text" class="datepicker" name="EndDate" /></span>
+            <span>
+                <a type="button" name="select" href="javascript:void(0)"class="k-button selectbtn" >select</a></span>
+        </div>
+    }
+    <div id="completedTask" class="sectionGrid">
+    </div>
+</div>
+<!--/Completed_Tasks -->
+@if (Model)
+{
+    <script type="text/javascript">
+        title = "Completed Tasks - Kendo UI";
+        $("#completedTask").prev().find(".selectbtn").click(function () {
+            var startDate = $("#completedTask").prev().find("input[name=StartDate]").val();
+            var endDate = $("#completedTask").prev().find("input[name=EndDate]").val();
+            $.post("/Dashboard/CompletedTasks/Find", { StartDate: startDate, EndDate: endDate }, function (items) {
+                InitKendoExcelGrid("completedTask", TaskModel, completedcolumns, items, 20, "Completed Tasks", function () {
+                    bindAndLoad("completedTask");
+                });
+                InitHistoryTooltip("completedTask");
+            })
+        }).click();
+    </script>
+}
+

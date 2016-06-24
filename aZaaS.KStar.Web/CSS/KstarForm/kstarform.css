@@ -1,0 +1,65 @@
+﻿
+span.disabled{
+pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+span:disabled{
+pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+span[disabled]{
+pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+} 
+
+/*div.disabled{
+pointer-events: none;
+  cursor: not-allowed;
+}
+
+div:disabled{
+pointer-events: none;
+  cursor: not-allowed;
+}*/
+
+/*div[disabled]{
+pointer-events: none;
+  cursor: not-allowed;
+}*/
+
+label.control-label  {
+    padding-top:8px;
+    font-size: 12px;
+}
+span.browser{
+	position:relative;
+}
+span.browser input { 
+  top: 0px;
+  right: -15px;
+  margin: 0;
+  border: solid transparent;
+  border-width: 0 0 100px 200px;
+  opacity: .0;
+  filter: alpha(opacity= 0);
+  -o-transform: translate(250px,-50px) scale(1);
+  -moz-transform: translate(-300px,0) scale(4);
+  direction: ltr;
+  cursor: pointer;
+  position: absolute;
+  width: 80px;
+}

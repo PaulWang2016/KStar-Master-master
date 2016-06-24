@@ -1,0 +1,91 @@
+﻿html, body { /*font-family: verdana,arial,helvetica,sans-serif;*/ font-size: 12px; }
+img { border: 0px; }
+#logopanel { height: 112px; width: 200px; float: left; display: block; text-align: left; }
+#header #main { margin: 5px 605px 0px 205px; height: 112px; font-size: 2em; line-height: 112px; text-align: left; margin: 5px 0px 0px 205px; }
+#logo { margin-top: 15px; display: block; height: 87px; width: 198px; margin-left: auto; margin-right: auto; }
+#back { float: right; margin-top: 66px; }
+
+
+#mainpanel > ul { margin-top: 15px; }
+#Inpanel > ul { margin-top: 15px; margin-left: 10px; margin-right: 10px; }
+#mainpanel > ul a.k-header { font-weight: bold; font-size: 14px; }
+.RequestTable { padding: 10px; width: 100%; }
+
+    .RequestTable tr { height: 25px; }
+
+.Table { padding: 10px; width: 100%; }
+
+    .Table tr { height: 25px; }
+#mainpanel .noborderBottom { border-bottom: none; }
+/*#mainpanel.readonly .noborderBottom{ color:#9797AD !important}*/
+#attachmentSection, #attachmentSection_Out { padding: 2px; }
+.disableUploadStatus .k-upload .k-dropzone,
+.disableUploadStatus .k-upload .k-upload-button,
+.k-upload.k-state-disabled .k-dropzone,
+.k-upload.k-state-disabled .k-upload-button { display: none; }
+.disableUploadStatus .k-upload .k-upload-files,
+.k-upload.k-state-disabled .k-upload-files { margin-bottom: 0; }
+.disableUploadStatus .k-file-success,
+.k-upload.k-state-disabled .k-file-success { color: #2E2E2E; }
+.k-upload-files .k-fileheader { color: #2e2e2e; }
+.k-upload-files .k-textbox.k-state-disabled { background-color: transparent; border-width: 0; text-overflow: ellipsis; }
+li.k-file .file-wrapper .k-upload-action { position: absolute; top: 0; right: 0; }
+
+li.k-file div.file-wrapper { position: relative; }
+li.k-file-progress td.remark { position: relative; }
+    li.k-file-progress td.remark:after { z-index: 100004; right: 15px; top: 0; bottom: 0; left: 0; position: absolute; display: block; background-color: black; background-image: url(/CSS/kendoui/Default/loading.gif); background-position: center; background-repeat: no-repeat; opacity: 0.15; content: open-quote; }
+li.k-file .file-wrapper.readonly, li.k-file .file-wrapper.readonly a { color: gray; }
+    li.k-file .file-wrapper.readonly a:after { content: "(Inactive)"; float: right; }
+    li.k-file .file-wrapper.readonly .k-upload-action { visibility: hidden; }
+
+a.black { color: black; text-decoration: underline; }
+#container.onloading:after { z-index: 100004; right: 0; top: 0; bottom: 0; left: 0; position: fixed; display: block; background-color: black; background-image: url(/CSS/kendoui/Default/loading_2x.gif); background-position: center; background-repeat: no-repeat; opacity: 0.5; content: open-quote; }
+.modal-backdrop.onloading { background-image: url(/CSS/kendoui/Default/loading_2x.gif); background-position: center; background-repeat: no-repeat; }
+.operabar { width: 100%; display: block; position: relative; height: 45px; padding-top: 10px; margin-top: 20px; margin-bottom: 10px; }
+.operamask { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: black; opacity: 0.6; background-image: url(/CSS/kendoui/Default/loading_2x.gif); background-position: center; background-repeat: no-repeat; visibility: hidden; }
+.operacontent { width: 250px; margin: 0 auto auto; }
+.operacontentimg { width: 259px; margin: 0 auto auto; }
+.form-btn { width: 72px; height: 25px; background: url(/images/eForm/eFrom_Ico.png) no-repeat top left; }
+    .form-btn.center { display: block; margin: 5px auto; }
+.form-ico { width: 27px; height: 27px; background: url(/images/eForm/eFrom_Ico.png) no-repeat top left; }
+
+/*Submit*/
+.form-btn.submit { background-position: 0 -243px; }
+.form-btn.savedraft { background-position: 0 -208px; }
+.form-btn.deletedraft { background-position: 0 -70px; }
+.form-btn.withdraw { background-position: 0 -278px; }
+.form-btn.confirm { background-position: 0 -35px;; }
+/*Approve*/
+.form-btn.approve { background-position: 0 0; }
+.form-btn.endorse { background-position: 0 -104px; }
+.form-btn.return { background-position: 0 -174px; }
+.form-btn.reject { background-position: 0 -139px; }
+
+/*all*/
+.form-ico.back { background-position: 0 -313px; }
+.form-ico.closebtn { background-position: 0 -350px; }
+.form-ico.home { background-position: 0 -387px; }
+.form-ico.print { background-position: 0 -424px; }
+
+.form-ico:hover,
+.form-btn:hover { background-position-x: -82px; }
+
+label { font-weight: normal; }
+.control-label.title { /*font-weight: bold;*/ text-align: left !important; }
+.noborderBottom > div.row { padding: 10px; }
+.Phase { margin-left: -10px; margin-right: -10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; }
+.Phase1, .Phase2, .Phase3 { margin-left: -10px; margin-right: -10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; border: 1px solid #c5c5c5; }
+.grayFont { color: #9797b0; }
+.alert-xs { margin-bottom: 5px; padding: 5px; }
+.alert-dismissable.alert-xs .close { right: 0; }
+#Inpanel .errorslog { margin-left: 10px; margin-right: 10px; }
+.spaceline { margin-bottom: 50px !important; }
+.spaceline2 { margin-top: 50px !important; }
+.original .k-link.k-header { background: rgb(84, 141, 212); }
+label.red { color: red; }
+#FormList.k-grid td, #FormList.k-grid th, #CustomerLevelCodesGrid.k-grid td, #CustomerLevelCodesGrid.k-grid th, UnitLevelCodesGrid.k-grid td, UnitLevelCodesGrid.k-grid th { font-size: 10px; }
+
+
+@media (min-width: 992px) {
+    .col-sm-offset-2-1 { margin-left: 4.166666666666667%; }
+}

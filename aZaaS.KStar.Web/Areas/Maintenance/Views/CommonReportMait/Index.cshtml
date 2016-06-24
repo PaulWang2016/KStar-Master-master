@@ -1,0 +1,242 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="section">
+
+    <div class="top-heading">
+        <div class="k-block" style="overflow: hidden;">
+            <div class="toolbar" style="min-width:900px; float:left !important; width:100%">
+                <label class="category-label" for="Folio" style="width: 15%;">  选择流程：</label>
+                <input class="k-textbox" name="sltProcess" type="text" id="sltProcess" style="width:300px;" />
+                @*<label class="category-label" for="Folio" style="width: 15%;">  数据类型：</label>
+                    <input class="k-textbox" name="sltType" type="text" id="sltType" style="width:300px;" />*@
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+
+    <div class="top-heading">
+        <div class="k-block" style="overflow: hidden;">
+            <div class="toolbar" style="min-width:900px; float:left !important; width:100%">
+                <label class="category-label" for="Folio" style="width: 7%;">字段名称：</label>
+                <input type="text" id="txtFieldName" class="k-textbox" style="width: 14%; margin-right:10px;" />
+                <label class="category-label" for="Originator" style="width: 7%;">字段ID：</label>
+                <input type="text" id="txtFieldID" class="k-textbox" style="width: 13%; margin-right:10px;" />
+                <label class="category-label" for="ProcStartDate" style="width: 7%;"> 数据源：</label>
+                <input type="text" id="txtDataSource" class="k-textbox" style="width: 13%; margin-right:10px;" />
+                <label class="category-label" for="ProcStartDate" style="width: 7%;"> XPATH：</label>
+                <input type="text" id="txtXPath" class="k-textbox" style="width: 13%; margin-right:10px;" />
+
+            </div>
+
+            <div id="CommonReport_Context">
+
+            </div>
+            <div class="toolbar" style="min-width: 900px; margin-top: 4px; float: left !important; width: 100%">
+                <label class="category-label" style="width: 80%;"></label>
+                <span style="margin-left:35px;width:15%;display: -moz-inline-box;overflow: hidden;height: 27px;">
+                    <input class="k-button selectbtn" name="select" id="btnReset" type="reset" style="width: 75px;float:right;" value="重置" />
+                    <input class="k-button selectbtn" name="select" id="btnSubmit" type="button" style="width: 75px; float: right;" value="添加" />
+                    <input class="k-button selectbtn" name="select" id="btnQuery" type="button" style="width: 75px; float: right;" value="查询" />
+                </span>
+            </div>
+
+        </div>
+    </div>
+    <div class="sectionGrid" id="CommonReport_TableList"></div>
+</div>
+<div id="AddStaffWindow" style="display: none">
+
+    <div id="staffTab" style="overflow: auto; overflow-x: hidden;">
+        @*<ul>
+            <li class="k-state-active">*@
+                
+                <div id="BasicInformation">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2  col-sm-2">流程名称</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input type="text" id="txtProcessNames" name="UserId" class="k-textbox" style="width: 100%;" />
+                        </div>
+                        <div class="col-lg-2 col-md-2  col-sm-2">字段ID:</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input type="text" id="txtFieldIDs" class="k-textbox" name="StaffName" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                       
+                            <div class="col-lg-2 col-md-2  col-sm-2">字段名称:</div>
+                            <div class="col-lg-4 col-md-4  col-sm-4">
+                                <input type="text" id="txtFieldNames" class="k-textbox" name="FirstName" style="width: 100%;" />
+                            </div>
+                            <div class="col-lg-2 col-md-2  col-sm-2">字段类型:</div>
+                            <div class="col-lg-4 col-md-4  col-sm-4">
+                                <input type="text" id="txtFieldTypes" class="k-textbox" name="LastName" style="width: 100%;" />
+                            </div>
+                     </div>
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-2  col-sm-2">XPATH:</div>
+                        <div class="col-lg-10 col-md-10  col-sm-10">
+                            <input type="text" id="txtXpaths" class="k-textbox" name="XPATH" style="width: 100%;" />
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2  col-sm-2" style="vertical-align: top; margin-top: 5px; display: block;">字段数据来源</div>
+                        <div class="col-lg-10 col-md-10  col-sm-10">
+                            <input type="text" id="txtDataSources" class="k-textbox" name="datasource" style="width: 100%; height: 50px;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2  col-sm-2" style="vertical-align: top; margin-top: 5px; display: block;">备注：</div>
+                        <div class="col-lg-10 col-md-10  col-sm-10">
+                            <textarea class="k-textbox" id="txtMemos" style="width: 100%; height: 50px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            @*</li>
+        </ul>*@
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <input id="hdUserId" type="hidden" />
+            <input id="hdStaffName" type="hidden" />
+            <button class="k-button windowConfirm" style="float: left;">确认</button>
+            <button class="k-button windowCancel" style="float: right">取消</button>
+        </div>
+    </div>
+</div>
+
+@{Html.RenderPartial("CommonReprotMaitenance");}
+@*<script src="~/JS/kendo.all.min.js"></script>
+<link href="~/CSS/kendoui/kendo.common.min.css" rel="stylesheet" />
+<link href="~/CSS/kendoui/kendo.default.min.css" rel="stylesheet" />*@
+@*<link href="~/CSS/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/CSS/bootstrap.css" rel="stylesheet" />*@
+<script src="~/JS/seajs/sea.js"></script>
+<script src="~/JS/Maintenance/Sea_CommonReportMait.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSubmit").bind("click", function () {
+            debugger;
+            $("#AddStaffWindow").kendoWindow({
+                title: "Title",
+                width: 900,
+                height: 450,
+                actions: [
+                    "Pin",
+                    "Minimize",
+                    "Maximize",
+                    "Close"
+                ],
+                modal: true
+            });
+            // $('#modal_ViewDeliveryRecords').modal('show');
+            $("#AddStaffWindow").data("kendoWindow").center().title("通用报表维护").open();
+        });
+        $("#AddStaffWindow .windowCancel").bind("click", function () {
+            $("#AddStaffWindow").data("kendoWindow").close();
+        });
+        $("#AddStaffWindow .windowConfirm").bind("click", function () {
+            AddCommonReportConfig();
+        });
+        var itemform = $("#staffTab");
+        kendo.init(itemform);
+        itemform.kendoValidator({
+            validateOnBlur: true,
+            messages: {
+                ProcessRequired:"请选择流程",
+                StaffNameRequired: "请输入字段ID",
+                FirstNameRequired: "请输入字段名称",
+                LastNameRequired: "请输入字段类型",
+                XPathRequired: "请输入XPATH",
+            },
+            rules: {
+                //UserId: function (input) {
+                //    if (input.is("[name='UserId']")) {
+                //        var flag = true;
+                //        if ($("#hdUserId").val() != input.val() && input.val().length > 0) {
+                //            $.ajax({
+                //                type: "POST",
+                //                url: "/Maintenance/Staff/ExistStaffId",
+                //                data: { UserId: input.val() },
+                //                async: false,
+                //                success: function (result) {
+                //                    if (result) {
+                //                        flag = false;
+                //                    }
+                //                }
+                //            });
+                //        }
+                //        return flag;
+                //    }
+                //    else {
+                //        return true;
+                //    }
+                //},
+                
+                ProcessRequired: function (input) {
+                    if (input.is("[name='UserId']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                StaffNameRequired: function (input) {
+                    if (input.is("[name='StaffName']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                FirstNameRequired: function (input) {
+                    if (input.is("[name='FirstName']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                LastNameRequired: function (input) {
+                    if (input.is("[name='LastName']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                XPathRequired: function (input) {
+                    if (input.is("[name='XPATH']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                }              
+            }
+        });
+    
+    });
+</script>

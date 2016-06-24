@@ -1,0 +1,287 @@
+﻿@using aZaaS.KStar.Html;
+@using aZaaS.Framework.Extend;
+@using System.Text;
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaFieldExtend" type="text/javascript"></script>
+<div id="FieldExtendContextMenu" style="top: 100px; left: 230px; display: none;">
+    @*<div class="m-split"></div>*@
+    <li style="display: normal;">
+        <a id="DelContextMenu" href="#">
+            <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("Delete")</span></a></li>
+    @*<div class="m-split"></div>*@
+</div>
+<!--  FieldExtend Management  -->
+
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">@Html.CSHtmlResx("FieldExtendManagement")</div>
+    </div>
+    <div class="fullwidget">
+        <div id="FieldExtendManaView" class="well">
+            <div>
+                <div id="FieldExtendManageTreeView"></div>
+            </div>
+            <div id="FieldExtendInfomation">
+                <ul>
+                    <li class="k-state-active">
+                        <a href="#"><span class="info-title">@Html.CSHtmlResx("FieldExtendInfomation")</span></a>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3  col-sm-3">@Html.CSHtmlResx("Name")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input id="itemName" class="k-textbox" readonly="readonly" style="width: 100%" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="fieldsextends" class="k-state-active">
+                        <a href="#">@Html.CSHtmlResx("FieldsExtends")</a>
+                        <div>
+                            <div class="top-toolbar">
+                                <input name="FieldType" id="FieldType" />
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        var data = [
+                                            { text: "TextField", value: "TextField" },
+                                            { text: "DateField", value: "DateField" },
+                                            { text: "YesNoField", value: "YesNoField" },
+                                            { text: "ChooseField", value: "ChooseField" },
+                                            { text: "NumericField", value: "NumericField" }
+                                        ];
+                                        $("#FieldType").kendoDropDownList({
+                                            dataTextField: "text",
+                                            dataValueField: "value",
+                                            dataSource: data,
+                                            index: 0,
+                                            readonly: true
+                                        });                                      
+                                    });
+                                </script>
+                                <a id="FieldAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                                <a id="FieldeeDel" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                            <div id="FieldList" style=""></div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="operabar">
+                    <div class="operamask"></div>
+                    <input id="itemId" type="hidden" />
+                    <button id="itemSave" class="k-button operacontent" style="width: 80px; display: block;">@Html.CSHtmlResx("Save")</button>
+                    <div class="tips" style="color: green; text-align: center; visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  /.FieldExtend Management  -->
+
+<div id="AddFieldExtendWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("DisplayName")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="FieldExtendName" name="FieldExtendName" class="k-textbox" style="width: 100%" />
+                <script type="text/javascript">
+                    $(function () {
+                        var itemform = $("#AddFieldExtendWindow");
+                        kendo.init(itemform);
+                        itemform.kendoValidator({
+                            validateOnBlur: true,
+                            messages: {
+                                FieldExtendName: jsResxMaintenance_SeaFieldExtend.ExistsNameTip,
+                                RequiredFieldExtendName: jsResxMaintenance_SeaFieldExtend.Required
+                                },
+                            rules: {
+                                FieldExtendName: function (input) {
+                                    if (input.is("[name='FieldExtendName']")) {
+                                        var flag = true;
+                                        var arr=$("#FieldExtendManageTreeView").data("kendoTreeView").dataSource._data;                                     
+                                        for(var i=0;i<arr.length;i++)
+                                        {
+                                            if(input.val().toLowerCase()==arr[i].Name.toLowerCase())
+                                            {
+                                                flag=false;
+                                                break;
+                                            }
+                                        }
+                                        return flag;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequiredFieldExtendName: function (input) {
+                                    if (input.is("[name='FieldExtendName']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+<div id="AddFieldWindow" style="display: none;">
+    <div>
+        <div style="width: 700px;">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Name")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="Name" class="k-textbox" name="Name"/>                    
+                </div>
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("DisplayName")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="DisplayName" name="DisplayName" class="k-textbox" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Description")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="Description" class="k-textbox" />
+                </div>
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("DefalutValue")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="DefalutValue" class="k-textbox" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Value")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="Value" class="k-textbox" />
+                </div>
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("FieldType")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="Type" readonly="true" class="k-textbox k-state-disabled" />
+                </div>
+            </div>
+            <div id="divsource" class="row" style="display: none;">
+                <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Source")</div>
+                <div class="col-lg-3 col-md-8">
+                    <input id="SourceItem" class="k-textbox" />
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <a id="SourceAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                    @*<a id="SourceDel" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>*@
+                </div>
+                <div class="col-lg-3 col-md-8">
+                    <input name="Source" id="Source" />
+                    <script type="text/javascript">
+                        $(document).ready(function () {                           
+                            $("#Source").kendoDropDownList({
+                                dataTextField: "text",
+                                dataValueField: "value",
+                                dataSource: [],
+                                index: 0,
+                                readonly: true,
+                                template: '#: data.text # <span class="glyphicon glyphicon-remove" style="float: right;line-height: 22px;" onclick="sourceDelete.apply(this)"></span>',
+                            });                                      
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <input id="FieldName" type="hidden" />
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var itemform = $("#AddFieldWindow");
+            kendo.init(itemform);
+            itemform.kendoValidator({
+                validateOnBlur: true,
+                messages: {
+                    Name: jsResxMaintenance_SeaFieldExtend.ExistsNameTip,
+                    RequiredName: jsResxMaintenance_SeaFieldExtend.Required,
+                    RequiredDisplayName: jsResxMaintenance_SeaFieldExtend.Required
+                },
+                rules: {
+                    Name: function (input) {
+                        if (input.is("[name='Name']")) {
+                            var flag = true;
+                            var arr = $("#FieldList").data("kendoGrid").dataSource._data;
+                            for (var i = 0; i < arr.length; i++) {
+                                if (input.val().toLowerCase() == arr[i].Name.toLowerCase() && input.val().toLowerCase() != $("#FieldName").val().toLowerCase()) {
+                                    flag = false;
+                                    break;
+                                }
+                            }
+                            return flag;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                    ,
+                    RequiredName: function (input) {
+                        if (input.is("[name='Name']")) {
+                            if (input.val().length == 0) {
+                                return false;
+                            }
+                            return true;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                    ,
+                    RequiredDisplayName: function (input) {
+                        if (input.is("[name='DisplayName']")) {
+                            if (input.val().length == 0) {
+                                return false;
+                            }
+                            return true;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                }
+            });
+        });
+     </script>
+</div>
+<script src="~/JS/seajs/sea.js"></script>
+<script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_FieldExtend", function (init) {
+        init();
+        $(window).resize();
+    });
+</script>
+<script id="FieldExtendManageTreeView-template" type="text/kendo-ui-template">            
+            <span class="k-sprite property"></span>
+            <input type="checkbox" value="#= item.SysId #" data-DisplayName= "#= item.Name #"/>                     
+            #: item.Name #
+</script>
+<script>
+    function sourceDelete() {
+        var index = $(this).closest("li").index();
+        var list = $("#Source").data("kendoDropDownList").dataSource;
+        var item = list.at(index);
+        list.remove(item);
+    }
+</script>

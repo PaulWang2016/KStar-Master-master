@@ -1,0 +1,339 @@
+﻿@using aZaaS.KStar.Html;
+<link rel="stylesheet" href="~/Content/report.css" type="text/css" />
+<link href="~/CSS/star.css" rel="stylesheet" />
+<link href="~/CSS/styleForReport.css" rel="stylesheet" />
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>        
+<script src="~/JS/seajs/sea.js" type="text/javascript"></script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaDataDictionary" type="text/javascript"></script>
+<style>
+    .tab-content > .tab-pane {
+        padding: 20px;
+    }
+</style>
+<style>
+    .category, .processSet, .processVersion, .activity {
+        display: none!important;
+    }
+</style>
+
+<!--  WF Config Center  -->
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">@Html.CSHtmlResx("DataDictionaryManagement")</div>
+    </div>
+    <div class="fullwidget">
+        <div id="DataDictionaryView" class="well">
+            <div>
+                <div class="top-heading">
+                    <div class="top-title">@Html.CSHtmlResx("DataDictionaryCategory")</div>
+                </div>
+                <div class="top-toolbar">
+                    <a id="CategoryAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span>@Html.CSHtmlResx("Add")</a>
+                    <a id="CategoryEdit" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span>@Html.CSHtmlResx("Edit")</a>
+                    <a id="CategoryDel" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span>@Html.CSHtmlResx("Remove")</a>
+                    <a id="CategoryClearSelect" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-refresh"></span>@Html.CSHtmlResx("ClearSelect")</a>
+                </div>
+                <div id="DataDictionaryCategoryTreeView" style="overflow-x:hidden;" >
+                </div>
+            </div>
+            <div id="DataDictionaryInfomation">
+                <div class="top-heading">
+                    <div class="top-title">@Html.CSHtmlResx("DataDictionary")</div>
+                </div>
+                 <div class="top-toolbar">
+                    <a id="DataAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span>@Html.CSHtmlResx("Add")</a>
+                    <a id="DataEdit" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span>@Html.CSHtmlResx("Edit")</a>
+                    <a id="DataDel" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span>@Html.CSHtmlResx("Remove")</a>
+                    <a id="DataClearSelect" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-refresh"></span>@Html.CSHtmlResx("ClearSelect")</a>
+                </div>
+                <div id="DataDictionaryTreeView" >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="AddDataDicCategoryWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Type")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicCategoryType" name="DataDicCategoryType" style="width: 100%" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicCategoryName" name="DataDicCategoryName" class="k-textbox" style="width: 100%"  placeholder="输入分类名称"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Code")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicCategoryCode" name="DataDicCategoryCode" class="k-textbox" style="width: 100%"  placeholder="输入分类编码，长度0-100" />
+                <script type="text/javascript">
+                    $(function () {
+                        var itemform = $("#AddDataDicCategoryWindow");
+                        kendo.init(itemform);
+                        itemform.kendoValidator({
+                            validateOnBlur: true,
+                            messages: {
+                                SpecialChar: jsResxMaintenance_SeaDataDictionary.SpecialChar,
+                                ExistCode: jsResxMaintenance_SeaDataDictionary.ExistCode,
+                                Length: jsResxMaintenance_SeaDataDictionary.Length,
+                                RequireName: jsResxMaintenance_SeaDataDictionary.Required,
+                                RequireCode: jsResxMaintenance_SeaDataDictionary.Required                               
+                                },
+                            rules: {
+                                SpecialChar:function(input){
+                                    if (input.is("[name='DataDicCategoryCode']")) {
+                                        var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                        return regx.test(input.val());                                           
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                Length:function(input){
+                                    if (input.is("[name='DataDicCategoryCode']")) {
+                                        if(input.val().length>100)
+                                            return false;
+                                        else
+                                            return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                ExistCode: function (input) {
+                                    if (input.is("[name='DataDicCategoryCode']")) {
+                                        var flag = true;
+                                        if ($("#hdDataDicCategoryId").val() == "" && input.val().length > 0) {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/Maintenance/DataDictionary/ExistCode",
+                                                data: { code: input.val(), type: 0 },
+                                                async: false,
+                                                success: function (result) {
+                                                    if (result) {
+                                                        flag = false;
+                                                    }
+                                                }
+                                            });
+                                        }                                        
+                                        return flag;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequireName: function (input) {
+                                    if (input.is("[name='DataDicCategoryName']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequireCode: function (input) {
+                                    if (input.is("[name='DataDicCategoryCode']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }                                
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Order")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicCategoryOrder" type="number"  value="1"  min="1" name="DataDicCategoryOrder" style="width: 100%" placeholder="输入分类排序"/>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Remark")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicCategoryRemark" name="DataDicCategoryRemark" class="k-textbox" style="width: 100%" placeholder="输入分类备注"/>
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">     
+            <input type="hidden" id="hdDataDicCategoryId" />       
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+<div id="AddDataDicWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicName" name="DataDicName" class="k-textbox" style="width: 100%" placeholder="输入字典名称"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Code")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicCode" name="DataDicCode" class="k-textbox" style="width: 100%"  placeholder="输入字典编码，长度0-100" />
+                <script type="text/javascript">
+                    $(function () {
+                        var itemform = $("#AddDataDicWindow");
+                        kendo.init(itemform);
+                        itemform.kendoValidator({
+                            validateOnBlur: true,
+                            messages: {
+                                SpecialChar: jsResxMaintenance_SeaDataDictionary.SpecialChar,
+                                ExistCode: jsResxMaintenance_SeaDataDictionary.ExistCode,
+                                Length: jsResxMaintenance_SeaDataDictionary.Length,
+                                RequireName: jsResxMaintenance_SeaDataDictionary.Required,
+                                RequireCode: jsResxMaintenance_SeaDataDictionary.Required,
+                                RequireValue: jsResxMaintenance_SeaDataDictionary.Required                          
+                            },
+                            rules: {
+                                SpecialChar: function (input) {
+                                    if (input.is("[name='DataDicCode']")) {
+                                        var regx = new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/);
+                                        return regx.test(input.val());
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                Length: function (input) {
+                                    if (input.is("[name='DataDicCode']")) {
+                                        if (input.val().length > 100)
+                                            return false;
+                                        else
+                                            return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                ExistCode: function (input) {
+                                    if (input.is("[name='DataDicCode']")) {
+                                        var flag = true;
+                                        if ($("#hdDataDicId").val() == "" && input.val().length > 0) {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/Maintenance/DataDictionary/ExistCode",
+                                                data: { code: input.val(), type: 2 },
+                                                async: false,
+                                                success: function (result) {
+                                                    if (result) {
+                                                        flag = false;
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        return flag;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequireName: function (input) {
+                                    if (input.is("[name='DataDicName']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequireCode: function (input) {
+                                    if (input.is("[name='DataDicCode']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequireValue: function (input) {
+                                    if (input.is("[name='DataDicValue']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }                               
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Value")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicValue" name="DataDicValue" class="k-textbox" style="width: 100%" placeholder="输入字典值"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Order")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicOrder" type="number"  value="1"  min="1" name="DataDicOrder" style="width: 100%"  placeholder="输入字典排序" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Remark")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="DataDicRemark" name="DataDicRemark" class="k-textbox" style="width: 100%" placeholder="输入字典备注"/>
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <input type="hidden" id="hdDataDicId" />
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script id="DataDicTreeView-template" type="text/kendo-ui-template">   
+     # if(item.Type == "0"){ #
+     <span class="k-sprite folder"></span>
+    # }else{ #
+     <span class="k-sprite property"></span>
+    # } #  
+    #: item.Name # (#: item.Code #)
+</script>
+
+<script>
+    seajs.use("/JS/Maintenance/_Sea__DataDictionary", function (init) {
+        init();
+        $(window).resize();
+    });
+</script>

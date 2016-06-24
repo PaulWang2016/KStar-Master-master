@@ -1,0 +1,145 @@
+﻿@using aZaaS.KStar.Html;
+<div class="section">
+    <div class="top-heading top-toolbar">
+        <div class="top-title">@Html.CSHtmlResx("PortalManagement")</div>
+        <a class="k-button" href="javascript:void(0)" id="PortalImport" title="Import from Excel"><span class="glyphicon glyphicon-import"></span></a>
+        <a class="k-button" href="javascript:void(0)" id="PortalExport" title="Export to Excel"><span class="glyphicon glyphicon-export"></span></a>
+    </div>
+    <div class="portalDetail">
+        <div class="row" style="margin-top:12px;">
+            <div class="col-md-2 col-lg-2  col-xs-3">
+                <span>
+                    <label style="">@Html.CSHtmlResx("PortalTitle")</label>
+                </span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <input id="PortalTitle" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 col-lg-2 col-xs-3">
+                <span>
+                    <label style="">@Html.CSHtmlResx("LogoImageUrl")</label>
+                </span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <input id="LogoImageUrl" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span>
+                    <input type="file" name="LogoImageFile" id="LogoImageFile" />
+                </span>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-md-2 col-lg-2 col-xs-3">
+                <span>
+                    <label style="">@Html.CSHtmlResx("LogoTitle")</label>
+                </span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <input id="LogoTitle" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-lg-2 col-xs-3">
+                <span></span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <label>
+                        <input type="checkbox" id="IsLogoHeader" />  @Html.CSHtmlResx("EnableLogoHeader")
+                    </label>
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-lg-2 col-xs-3">
+                <span>
+                    <label style="">@Html.CSHtmlResx("SubLogoImageUrl")</label>
+                </span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <input id="SubLogoImageUrl" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span>
+                    <input type="file" name="SubLogoImageFile" id="SubLogoImageFile" style="width: 100%;" />
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-lg-2 col-xs-3">
+                <span>
+                    <label style="">@Html.CSHtmlResx("BannerImageUrl")</label>
+                </span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <input id="BannerImageUrl" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span>
+                    <input type="file" name="BannerImageFile" id="BannerImageFile" style="width: 100%" />
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-lg-2 col-xs-3">
+                <span></span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <label>
+                        <input type="checkbox" id="IsBannerImage" />  @Html.CSHtmlResx("EnableBanner")
+                    </label>
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span></span>
+            </div>
+        </div>
+        <div class="row" style="margin-top:12px;">
+            <div class="col-md-2 col-lg-2  col-xs-3">
+                <span>
+                    <label style="">@Html.CSHtmlResx("DateTimeFormat")</label>
+                </span>
+            </div>
+            <div class="col-lg-7 col-md-8 col-xs-6">
+                <span>
+                    <input id="DateTimeFormat" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span></span>
+            </div>
+        </div>
+        <div style="margin-top: 10px; text-align: center;">
+            <button class="k-button" id="PortalSave">@Html.CSHtmlResx("Save")</button>
+        </div>
+    </div>
+</div>
+<div id="ImportPortalsWindow"></div>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaPortal" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_Portal", function (init) {
+        init();
+    });
+</script>

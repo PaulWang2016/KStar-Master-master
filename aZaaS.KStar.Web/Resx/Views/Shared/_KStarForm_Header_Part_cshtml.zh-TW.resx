@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicantAccount" xml:space="preserve">
+    <value>申请人账号:</value>
+  </data>
+  <data name="ApplicantAccountChooseButtonTitle" xml:space="preserve">
+    <value>申请人账号选择按钮</value>
+  </data>
+  <data name="ApplicantAccountTitle" xml:space="preserve">
+    <value>申请人账号</value>
+  </data>
+  <data name="ApplicantDisplayName" xml:space="preserve">
+    <value>申请人名称:</value>
+  </data>
+  <data name="ApplicantDisplayNameTitle" xml:space="preserve">
+    <value>申请人名称</value>
+  </data>
+  <data name="ApplicantEmail" xml:space="preserve">
+    <value>申请人邮箱:</value>
+  </data>
+  <data name="ApplicantEmailTitle" xml:space="preserve">
+    <value>申请人邮箱</value>
+  </data>
+  <data name="ApplicantOrgNode" xml:space="preserve">
+    <value>申请人部门:</value>
+  </data>
+  <data name="ApplicantOrgNodeTitle" xml:space="preserve">
+    <value>申请人部门</value>
+  </data>
+  <data name="ApplicantPosition" xml:space="preserve">
+    <value>申请人职位:</value>
+  </data>
+  <data name="ApplicantPositionTitle" xml:space="preserve">
+    <value>申请人职位</value>
+  </data>
+  <data name="ApplicantTelNo" xml:space="preserve">
+    <value>申请人电话:</value>
+  </data>
+  <data name="ApplicantTelNoTitle" xml:space="preserve">
+    <value>申请人电话</value>
+  </data>
+  <data name="ApplyBillNo" xml:space="preserve">
+    <value>申请单号:</value>
+  </data>
+  <data name="ApplyBillNoTitle" xml:space="preserve">
+    <value>申请单号</value>
+  </data>
+  <data name="ApplyInfo" xml:space="preserve">
+    <value>申请信息</value>
+  </data>
+  <data name="Folio" xml:space="preserve">
+    <value>优先级别:</value>
+  </data>
+  <data name="FormSubject" xml:space="preserve">
+    <value>表单主题:</value>
+  </data>
+  <data name="FormSubjectTitle" xml:space="preserve">
+    <value>表单主题</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="InputFormSubjectErrMsg" xml:space="preserve">
+    <value>请输入表单主题信息！</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="Middle" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="phApplicantAccount" xml:space="preserve">
+    <value>请填写申请人账号</value>
+  </data>
+  <data name="phApplicantDisplayName" xml:space="preserve">
+    <value>请填写申请人名称</value>
+  </data>
+  <data name="phApplicantEmail" xml:space="preserve">
+    <value>请填写申请人邮箱</value>
+  </data>
+  <data name="phApplicantTelNo" xml:space="preserve">
+    <value>请填写申请人电话</value>
+  </data>
+  <data name="phApplyBillNo" xml:space="preserve">
+    <value>(系统自动生成)</value>
+  </data>
+  <data name="phFormSubject" xml:space="preserve">
+    <value>请填写表单主题</value>
+  </data>
+  <data name="phSubmitComment" xml:space="preserve">
+    <value>请填写申请备注</value>
+  </data>
+  <data name="phSubmitterAccount" xml:space="preserve">
+    <value>请填写填单人账号</value>
+  </data>
+  <data name="phSubmitterDisplayName" xml:space="preserve">
+    <value>请填写填单人名称</value>
+  </data>
+  <data name="PriorityTitile" xml:space="preserve">
+    <value>优先级别</value>
+  </data>
+  <data name="reqApplicantAccount" xml:space="preserve">
+    <value>请输入申请人账号！</value>
+  </data>
+  <data name="reqApplicantEmail" xml:space="preserve">
+    <value>请输入合法的申请人邮箱信息！</value>
+  </data>
+  <data name="reqLenApplicantEmail" xml:space="preserve">
+    <value>申请人邮箱信息必须大于3个字符！</value>
+  </data>
+  <data name="SubmitComment" xml:space="preserve">
+    <value>申请备注:</value>
+  </data>
+  <data name="SubmitCommentTitle" xml:space="preserve">
+    <value>申请备注</value>
+  </data>
+  <data name="SubmitDate" xml:space="preserve">
+    <value>申请时间:</value>
+  </data>
+  <data name="SubmitDateTitle" xml:space="preserve">
+    <value>申请时间</value>
+  </data>
+  <data name="SubmitterAccount" xml:space="preserve">
+    <value>填单人账号:</value>
+  </data>
+  <data name="SubmitterAccountTitle" xml:space="preserve">
+    <value>填单人账号</value>
+  </data>
+  <data name="SubmitterDisplayName" xml:space="preserve">
+    <value>填单人名称:</value>
+  </data>
+  <data name="SubmitterDisplayNameTitle" xml:space="preserve">
+    <value>填单人名称</value>
+  </data>
+</root>

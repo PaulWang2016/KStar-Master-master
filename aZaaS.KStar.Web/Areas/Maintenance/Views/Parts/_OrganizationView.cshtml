@@ -1,0 +1,652 @@
+﻿<!--  Organization Management  -->
+@using aZaaS.KStar.Html;
+@using aZaaS.Framework.Extend;
+@using System.Text;
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaOrganization" type="text/javascript"></script>
+<div class="section">
+    <div class="top-heading top-toolbar">
+        <div class="top-title">@Html.CSHtmlResx("OrganizationManagement")</div>
+        <a class="k-button" href="javascript:void(0)" id="ChartsExport" title="Export to Xml"><span class="glyphicon glyphicon-export"></span></a>
+    </div>
+    <div class="fullwidget">
+        <div id="OrganizationManaView" class="well">
+            <div>
+                <div class="top-toolbar">
+                    <input id="OrganizationDrop" style="margin-right: 10px;" />
+                    <a class="k-button Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="k-button Edit" href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span></a>
+                    @*<button class="k-button Add" style="margin-right: 10px;">Add</button>*@
+                </div>
+                <div id="OrganizationManageTreeView" style="position: absolute; top: 35px;"></div>
+            </div>
+            <div id="Information" style="display: none">
+                <ul>
+                    <li class="k-state-active">
+                        <a href="#">@Html.CSHtmlResx("BasicInformation")</a>
+
+                        <div id="BasicInformation"></div>
+                    </li>
+                    <li class="k-state-active">
+                        <a href="#">@Html.CSHtmlResx("RelatedUsers")</a>
+                        <div>
+                            <div class="top-toolbar">
+                                <a class="more k-button addNodeUserList" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                                <a class="more k-button delNodeUserList" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                            <div id="NodeUserList" style=""></div>
+
+                            @*   <div class="row-fluid">
+                                <div class="span2">Manager:</div>
+                                <div class="span10">
+                                    <span class="k-textbox k-space-right">
+                                        <input type="text" class="ManagerName" value="Input with icon right" />
+                                        <a class="k-icon k-i-search searchManagerName">&nbsp;</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2">Position:</div>
+                                <div class="span10">
+                                    <span class="k-textbox k-space-right">
+                                        <input type="text" class="Position" value="Input with icon right" />
+                                        <a class="k-icon k-i-search searchPosition">&nbsp;</a>
+                                    </span>
+                                </div>
+                            </div>*@
+                        </div>
+                    </li>
+                    <li class="k-state-active">
+                        <a href="#">@Html.CSHtmlResx("RelatedPositions")</a>
+                        <div>
+                            <div class="top-toolbar">
+                                <a class="more k-button addNodePosition" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                                <a class="more k-button delNodePosition" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                            <div id="NodePositionList" style=""></div>
+                        </div>
+                    </li>
+                    <li class="k-state-active">
+                        <a href="#">@Html.CSHtmlResx("ExtendedInformation")</a>
+                        <div>
+                            <div id="ExtendedInformation">
+                                @{
+                                    int i = 0;
+                                    IHtmlString divstart = new HtmlString("<div class=\"row\">");
+                                    IHtmlString divend = new HtmlString("</div>");
+                                }
+                                @foreach (var item in ViewData["fields"] as FieldBase[])
+                                {
+                                    if (i == 0)
+                                    {          
+                                    @divstart                      
+                                    <div class="col-lg-2 col-md-2  col-sm-2">@item.DisplayName</div>
+                                    <div class="col-lg-4 col-md-4  col-sm-4">
+                                        @switch (item.GetType().Name)
+                                        {
+                                            case "TextField":
+                                            <input type="text" id="@item.Name" name="@item.Name" class="k-textbox" style="width: 100%;" />                                            
+                                                break;
+                                            case "DateField":
+                                            <input type="text" id="@item.Name" style="width: 100%;" />
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $("#@item.Name").kendoDatePicker();
+                                                });
+                                            </script> 
+                                                break;
+                                            case "YesNoField":                                             
+                                            <input type="checkbox" name="Visible" id="@item.Name" />
+                                                break;
+                                            case "ChooseField":
+                                            <input type="text" id="@item.Name" class="k-textbox" style="width: 100%;" />
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                                    @{
+                                                string[] source = ((ChooseField)item).Source ?? new string[0];
+                                                StringBuilder sb = new StringBuilder();
+                                                for (int j = 0; j < source.Length; j++)
+                                                {
+                                                    sb.Append(",");
+                                                    sb.Append("{ text: \"" + source[j] + "\", value: \"" + source[j] + "\" }");
+                                                }
+                                                IHtmlString soucrestring = new HtmlString(sb.ToString().Length > 0 ? sb.ToString().Substring(1) : "");
+                                                                     }
+                                                    var data = [@soucrestring];
+                                                    $("#@item.Name").kendoDropDownList({
+                                                        dataTextField: "text",
+                                                        dataValueField: "value",
+                                                        dataSource: data,
+                                                        index: 0,
+                                                        readonly: true
+                                                    });
+                                                    var ddlGroupType = $("#@item.Name").data("kendoDropDownList");
+                                                });
+                                            </script>
+                                                break;
+                                            case "NumericField":
+                                            <input type="text" id="@item.Name"  min="1" style="width: 100%;" />
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $("#@item.Name").kendoNumericTextBox();
+                                                });
+                                            </script> 
+                                                break;
+                                        }
+                                    </div>
+                               
+                                    }
+                                    else
+                                    {
+                                    <div class="col-lg-2 col-md-2  col-sm-2">@item.DisplayName</div>
+                                    <div class="col-lg-4 col-md-4  col-sm-4">
+                                        @switch (item.GetType().Name)
+                                        {
+                                            case "TextField":
+                                            <input type="text" id="@item.Name" class="k-textbox" style="width: 100%;" />                                            
+                                                break;
+                                            case "DateField":
+                                            <input type="text" id="@item.Name" style="width: 100%;" />
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $("#@item.Name").kendoDatePicker();
+                                                });
+                                            </script> 
+                                                break;
+                                            case "YesNoField":
+                                            <input type="checkbox" name="Visible" id="@item.Name"/>
+                                                break;
+                                            case "ChooseField":
+                                            <input type="text" id="@item.Name" class="k-textbox" style="width: 100%;" />
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                                    @{
+                                                string[] source = ((ChooseField)item).Source;
+                                                StringBuilder sb = new StringBuilder();
+                                                for (int j = 0; j < source.Length; j++)
+                                                {
+                                                    sb.Append(",");
+                                                    sb.Append("{ text: \"" + source[j] + "\", value: \"" + source[j] + "\" }");
+                                                }
+                                                IHtmlString soucrestring = new HtmlString(sb.ToString().Length > 0 ? sb.ToString().Substring(1) : "");
+                                                                     }
+                                                    var data = [@soucrestring];
+                                                    $("#@item.Name").kendoDropDownList({
+                                                        dataTextField: "text",
+                                                        dataValueField: "value",
+                                                        dataSource: data,
+                                                        index: 0,
+                                                        readonly: true
+                                                    });
+                                                    var ddlGroupType = $("#@item.Name").data("kendoDropDownList");
+                                                });
+                                            </script>
+                                                break;
+                                            case "NumericField":
+                                            <input type="text" id="@item.Name" min="1"  style="width: 100%;" />
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $("#@item.Name").kendoNumericTextBox();
+                                                });
+                                            </script>                                      
+                                                break;
+                                        }
+                                    </div>
+                                    }
+                                    i++;
+                                    if (i == 2)
+                                    {
+                                    @divend 
+                                        i = 0;
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="operabar">
+                    @* <a id="Organization_Save" class="more k-button"
+                            href="javascript:void(0)">Save</a>*@
+                    <div class="operamask"></div>
+                    <button id="Organization_Save" class="k-button operacontent" style="width: 80px; display: block;">@Html.CSHtmlResx("Save")</button>
+                    <div class="tips" style="color: green; text-align: center; visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+
+                    @*<input type="button" id="Organization_Save" class="k-button" value="Save" />*@
+                    @* <input type="button" id="Organization_DeleteNode" class="k-button" value="Delete Node" />
+                        <a id="Organization_AddNode" class="more k-button" style="font-size: 12px; line-height: 16px; margin-top: -2px; margin-right: 3px; float: right;" href="javascript:void(0)">Add Node</a>*@
+                </div>
+                <script type="text/javascript">
+                    $(function () {                            
+                        var itemform = $("#Information");
+                        kendo.init(itemform);
+                        itemform.kendoValidator({
+                            validateOnBlur: true,
+                            messages: {
+                                OrganizationName: jsResxMaintenance_SeaOrganization.SpecialChar,
+                                DivisionName:jsResxMaintenance_SeaOrganization.SpecialChar,
+                                ClusterName:jsResxMaintenance_SeaOrganization.SpecialChar,
+                                PropertyName: jsResxMaintenance_SeaOrganization.SpecialChar,
+                                RequiredOrganization: jsResxMaintenance_SeaOrganization.Required,
+                                RequiredDivision: jsResxMaintenance_SeaOrganization.Required,
+                                RequiredCluster: jsResxMaintenance_SeaOrganization.Required,
+                                RequiredProperty: jsResxMaintenance_SeaOrganization.Required,
+                                Ktextbox: jsResxMaintenance_SeaOrganization.SpecialChar,
+                                RequiredKtextbox: jsResxMaintenance_SeaOrganization.Required
+                                },
+                            rules: {
+                                OrganizationName: function (input) {                                    
+                                    if (input.is("[name='OrganizationName']")) {
+                                        var flag = true;
+                                        var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                        return regx.test(input.val());                                    
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                DivisionName: function (input) {
+                                    if (input.is("[name='DivisionName']")) {
+                                        var flag = true;
+                                        var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                        return regx.test(input.val());                                    
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                ClusterName: function (input) {
+                                    if (input.is("[name='ClusterName']")) {
+                                        var flag = true;
+                                        var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                        return regx.test(input.val());                                    
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                PropertyName: function (input) {
+                                    if (input.is("[name='PropertyName']")) {
+                                        var flag = true;
+                                        var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                        return regx.test(input.val());                                    
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                Ktextbox: function (input) {
+                                    if (input.hasClass("k-textbox")) {
+                                        var flag = true;
+                                        var regx = new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\/`\|*])*)$/);                                        
+                                        return regx.test(input.val());
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequiredOrganization: function (input) {
+                                    if (input.is("[name='OrganizationName']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequiredDivision: function (input) {
+                                    if (input.is("[name='DivisionName']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequiredCluster: function (input) {
+                                    if (input.is("[name='ClusterName']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                                ,
+                                RequiredProperty: function (input) {
+                                    if (input.is("[name='PropertyName']")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                } ,
+                                RequiredKtextbox: function (input) {
+                                    if (input.hasClass("k-textbox")) {
+                                        if (input.val().length == 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  /.Organization Management  -->
+<!--   property  -->
+<div id="addproperty" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-2 col-md-4">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-3 col-md-8">
+                <input class="k-textbox propertyName" name="PropertyName" />
+            </div>
+            <div class="col-lg-2 col-md-4">@Html.CSHtmlResx("Type")</div>
+            <div class="col-lg-3 col-md-8">
+                <input name="propertyType" class="propertyType" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editproperty" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-3 col-md-8">
+                <input class="k-textbox propertyName" name="PropertyName" />
+            </div>
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Type")</div>
+            <div class="col-lg-3 col-md-8">
+                <input readonly="true" class="k-textbox k-state-disabled propertyType" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  /.property  -->
+<!--   Cluster/Division  -->
+<div id="SecondBasicInfo" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-3 col-md-8">
+                <input class="k-textbox SecondName" name="ClusterName"  />
+            </div>
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Type")</div>
+            <div class="col-lg-3 col-md-8">
+                <input readonly="true" class="k-textbox k-state-disabled SecondType" />
+            </div>
+        </div>
+    </div>
+</div>
+<!--  /.Cluster/Division  -->
+<!--   The Link -->
+<div id="FirstBasicInfo" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-3 col-md-8">
+                <input class="k-textbox FirstName" name="DivisionName"  />
+            </div>
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Type")</div>
+            <div class="col-lg-3 col-md-8">
+                <input readonly="true" class="k-textbox k-state-disabled FirstType" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="OrgBasicInfo" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-3 col-md-8">
+                <input class="k-textbox OrganizationName" name="OrganizationName"  />
+            </div>
+            <div class="col-lg-3 col-md-4">@Html.CSHtmlResx("Type")</div>
+            <div class="col-lg-3 col-md-8">
+                <input readonly="true" class="k-textbox k-state-disabled OrganizationType" />
+            </div>
+        </div>
+    </div>
+</div>
+<!--  /.The Link  -->
+
+
+<div id="OrgChart" style="display: none">
+    <div id="OrgChartform" class="row">
+        <div class="col-lg-4 col-md-4">@Html.CSHtmlResx("OrganizationName")</div>
+        <div class="col-lg-8 col-md-8">
+            <input class="k-textbox OrganizationName" name="OrganizationName" style="width: 100%" />
+        </div>
+    </div>
+</div>
+<!--  Organization_window  -->
+<div id="Organization_window" style="display: none" class="overflowhidden">
+    <div>
+        <div id="AddInfo">
+        </div>
+        @* <table style="margin-top: 10px; height: 150px;">
+            <tr>
+                <td style="width: 90px">Node Name:</td>
+                <td>
+                    <input id="OrganizationNodeName" />*</td>
+            </tr>
+            <tr>
+                <td>Display Name:</td>
+                <td>
+                    <input id="OrganizationDisplayName" />*</td>
+            </tr>
+        </table>*@
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {                            
+            var itemform = $("#Organization_window");
+            kendo.init(itemform);
+            itemform.kendoValidator({
+                validateOnBlur: true,
+                messages: {
+                    OrganizationName: jsResxMaintenance_SeaOrganization.SpecialChar,
+                    ExistOrganizationName:jsResxMaintenance_SeaOrganization.ExistName,
+                    DivisionName:jsResxMaintenance_SeaOrganization.SpecialChar,
+                    ClusterName:jsResxMaintenance_SeaOrganization.SpecialChar,
+                    PropertyName: jsResxMaintenance_SeaOrganization.SpecialChar,
+                    RequiredOrganization: jsResxMaintenance_SeaOrganization.Required,
+                    RequiredDivision: jsResxMaintenance_SeaOrganization.Required,
+                    RequiredCluster: jsResxMaintenance_SeaOrganization.Required,
+                    RequiredProperty: jsResxMaintenance_SeaOrganization.Required
+                    },
+                rules: {
+                    OrganizationName: function (input) {
+                        if (input.is("[name='OrganizationName']")) {
+                            var flag = true;
+                            var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                            return regx.test(input.val());                            
+                        }
+                        else {
+                            return true;
+                        }
+                    },
+                    ExistOrganizationName: function (input) {
+                        if (input.is("[name='OrganizationName']")) {
+                            var flag = true;
+                            var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                            if(regx.test(input.val()))
+                            {                                
+                                var data=$("#OrganizationDrop").data("kendoDropDownList").dataSource._data;
+                                $.each(data,function(i,item){
+                                    if(item.DisplayName.toString().toLowerCase()==input.val().toLowerCase())
+                                    {
+                                        flag=false;
+                                    }
+                                });
+                                return flag;
+                            }
+                            else{
+                                return true;
+                            }
+                        }
+                        else {
+                            return true;
+                        }
+                    },
+                    DivisionName: function (input) {
+                        if (input.is("[name='DivisionName']")) {
+                            var flag = true;
+                            var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                            return regx.test(input.val());                                    
+                        }
+                        else {
+                            return true;
+                        }
+                    },
+                    ClusterName: function (input) {
+                        if (input.is("[name='ClusterName']")) {
+                            var flag = true;
+                            var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                            return regx.test(input.val());                                    
+                        }
+                        else {
+                            return true;
+                        }
+                    },
+                    PropertyName: function (input) {
+                        if (input.is("[name='PropertyName']")) {
+                            var flag = true;
+                            var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                            return regx.test(input.val());                                    
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                    ,
+                    RequiredOrganization: function (input) {
+                        if (input.is("[name='OrganizationName']")) {
+                            if (input.val().length == 0) {
+                                return false;
+                            }
+                            return true;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                                ,
+                    RequiredDivision: function (input) {
+                        if (input.is("[name='DivisionName']")) {
+                            if (input.val().length == 0) {
+                                return false;
+                            }
+                            return true;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                                ,
+                    RequiredCluster: function (input) {
+                        if (input.is("[name='ClusterName']")) {
+                            if (input.val().length == 0) {
+                                return false;
+                            }
+                            return true;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                                ,
+                    RequiredProperty: function (input) {
+                        if (input.is("[name='PropertyName']")) {
+                            if (input.val().length == 0) {
+                                return false;
+                            }
+                            return true;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</div>
+<!--  /.Organization_window  -->
+
+<!--  /.AddOtherWindows  -->
+<div id="AddOtherWindows" style="display: none" class="overflowhidden">
+    <div>
+        <div>
+            <span style="margin: 3px;">
+                <input type="text" class="k-textbox OtherInput" /></span>
+            <span style="margin: 3px;">
+                <a id="OtherSearch" class="k-button" href="javascript:void(0)" type="button">@Html.CSHtmlResx("Search")</a></span>
+        </div>
+        <div class="ListGridPosition" style="margin-top: 7px;"></div>
+        <div class="ListGridManager" style="margin-top: 7px;"></div>
+
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" data-type="" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--  /.AddOtherWindows  -->
+@*<link href="~/CSS/jquery.contextMenu.css" rel="stylesheet" />*@
+@*<script src="~/JS/jquery.contextMenu.js"></script>*@
+<script src="~/JS/seajs/sea.js"></script>
+@*<script src="~/JS/Maintenance/Organization.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        LoadOrganizationView();
+        $(window).resize();
+
+    })
+</script>*@
+<script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_Organization", function (init) {
+        init();
+        $(window).resize();
+    });
+</script>
+<script id="OrganizationManageTreeView-template" type="text/kendo-ui-template">
+            # if(item.Type == "Property"){ #
+            <span class="k-sprite property"></span>
+            # }else{ #
+            <span class="k-sprite folder"></span>
+            # } #  
+            <input type="checkbox" value="#= item.ID #" />
+            #: item.NodeName #
+</script>

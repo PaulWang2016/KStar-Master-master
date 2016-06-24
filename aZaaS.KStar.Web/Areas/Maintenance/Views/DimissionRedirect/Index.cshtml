@@ -1,0 +1,441 @@
+﻿@{
+    ViewBag.Title = "员工离职流程维护";
+}
+<script type="text/javascript" src="/JSResource/GetJavaScriptResx?jsPageName=Dashboard_Parts_ProcessSupervise"></script>
+
+
+<script type="text/javascript">
+    document.createElement("lang");
+</script>
+<style type="text/css">
+    .k-grid-toolbar .texttd {
+        float: left;
+        width: 400px;
+    }
+
+    .k-grid-toolbar .tdbtn {
+        float: left;
+        width: 60px;
+    }
+
+    .k-grid-toolbar .texttd div {
+        float: left;
+    }
+
+    .k-grid-toolbar .texttd .texttd-label {
+        line-height: 26px;
+    }
+
+    #statusGroup .k-grid-content {
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+
+    #ProcInstListGrid .k-grid-content {
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+
+    .k-multiselect-wrap {
+        width: 100%;
+    }
+</style>
+<div class="section">
+    <div class="top-heading"><div class="top-title" id="workListTitle">员工离职流程转交维护</div></div>
+ 
+        <div class="section k-toolbar k-grid-toolbar" style="background-color: #f5f5f5; margin-bottom:20px">
+
+            @*<div class="toolbar" style="min-width: 900px; margin-top: 2px; float: left !important; width: 100%">*@
+            <div class=" texttd">
+                <div class="texttd-label"> 离职人员：</div>
+                <div data-control='userpick' style="width:305px;" data-target='txtLeaveUser' data-options="{mutilselect:false}" data-controltype='Person' class="col-sm-5 has-feedback">
+                    <input type="text"
+                           class="form-control" id="txtLeaveUser" style="height: 28px;" placeholder="请选择离职人员" />
+                    <span class="glyphicon glyphicon-search form-control-feedback" style="text-align:left;" id="txtDeptName1"></span>
+                </div>
+            </div>
+            <div class=" texttd">
+                <div class="texttd-label">
+                    转交人员：
+                </div>
+                <div data-control='userpick' style="width:305px;" data-target='txtRedirect' data-options="{mutilselect:false}" data-controltype='Person' class="col-sm-5 has-feedback">
+                    <input type="text"
+                           class="form-control" id="txtRedirect" style="height: 28px;" placeholder="选择转交人员" />
+                    <span class="glyphicon glyphicon-search form-control-feedback" style="text-align:left;" id="txtDeptName1"></span>
+                </div>
+            </div>
+            <div class=" texttd">
+                <div class="texttd-label">
+                   
+                </div>
+                <div  style="width:205px;" >
+                    <input class="k-button " name="select" id="btnRedirect" type="button" style="width: 75px; float: right;margin-right:10px;padding-right:10px;" value="转交" />&nbsp;&nbsp;&nbsp;
+                    <input class="k-button selectbtn" name="select" type="button" style="width: 75px; float: left;" value="查询" />
+                </div>
+            </div>
+            <div class=" texttd">
+                <div class="texttd-label">
+                   
+                </div>
+                <div  style="width:105px;" >
+                    
+                </div>
+            </div>
+            
+
+            @*</div>*@
+        </div>
+        <div class="sectionGrid" id="ProcessSupervise"></div>
+    <br />
+    <div class="sectionGrid" id="ProcessSetConfig"></div>
+</div>
+
+<script type="text/x-kendo-template" id="template">
+    <div class="toolbar" style="float:left">
+        @*<input type="button" class="k-button add" value="催办" id="btnSupervise" />*@
+        离职人员待办列表
+    </div>
+</script>
+<script type="text/x-kendo-template" id="template1">
+    <div class="toolbar" style="float:left">
+        @*<input type="button" class="k-button add" value="催办" id="btnSupervise" />*@
+        离职人员配置列表
+    </div>
+</script>
+<script src="~/Scripts/kstarform.userpick.js"></script>
+<script type="text/javascript">
+
+
+    $("#ProcessSupervise").prev().find(".selectbtn").click(function () {
+       // debugger;
+        var Startuser = $("#txtLeaveUser").attr("data-usernames")
+        function NeowayInitKendoExcelGrid(target, viewModel, columns, pageSize, title, callBack) {
+
+            columns = InitializeColumnResize(columns, target);
+
+            if (!pageSize) {
+                pageSize = 5;
+            }
+            if (pageSize != 5 && pageSize != 10 && pageSize != 20) {
+                pageSize = 20;
+            }
+
+            var grid = $("#" + target).data("kendoExcelGrid");
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        //以下其实就是$.ajax的参数
+                        type: "POST",
+                        url: "/Maintenance/DimissionRedirect/Find",
+                        dataType: "json",
+
+                        data: {
+
+
+                            DimissionUserName: Startuser
+                        }
+                    }
+                },
+                schema: {
+                    //取出数据数组
+                    data: function (d) { return d.data; },
+                    //取出数据总笔数(计算页数用)
+                    total: function (d) { return d.total; },
+                    model: ProcessInfo.model
+
+                },
+
+                pageSize: 15,
+                serverPaging: true,
+                serverSorting: true
+
+            });
+
+            if (grid) {
+                grid.setDataSource(dataSource);
+            }
+            else {
+                $("#" + target).kendoExcelGrid({
+
+                    dataSource: dataSource,
+                    groupable: {
+                        messages: {
+                            empty: jsResxbaseInitView.Dropcolumnshere
+                        }
+                    },
+                    toolbar: kendo.template($("#template").html()),
+                    selectable: false,
+                    sortable: false,
+                    //scrollable: false,
+                    columnMenu: {
+                        messages: {
+                            sortAscending: jsResxbaseInitView.Sortasc,
+                            sortDescending: jsResxbaseInitView.Sortdesc,
+                            columns: jsResxbaseInitView.Choosecolumns,
+                            filter: jsResxbaseInitView.Filter,
+                        }
+                    },
+                    pageable: {
+                        pageSizes: true,
+                        messages: {
+                            itemsPerPage: jsResxbaseInitView.dataitemsperpage,
+                            display: jsResxbaseInitView.datadisplay,
+                            empty: jsResxbaseInitView.Noitemstodisplay
+                        }
+                    },
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            info: jsResxbaseInitView.Showitemswithvaluethat,
+                            clear: jsResxbaseInitView.Clear,
+                            filter: jsResxbaseInitView.Filter
+                        },
+                        operators: {
+                            string: {
+                                eq: jsResxbaseInitView.Isequalto,
+                                neq: jsResxbaseInitView.Isnotequalto,
+                                startswith: jsResxbaseInitView.Startswith,
+                                contains: jsResxbaseInitView.Contains,
+                                doesnotcontain: jsResxbaseInitView.Doesnotcontain,
+                                endswith: jsResxbaseInitView.Endswith
+                            },
+                        }
+                    },
+                    reorderable: true,
+                    resizable: true,
+                    columns: columns,
+                    dataBound: function () {
+
+                        refreshCurrentScrolls();//数据绑定完成  刷新滚动条
+
+                        HideGridVerticalScroll(target);//隐藏Scroll
+                    }
+
+                });
+                grid = $("#" + target).data("kendoExcelGrid");
+            }
+            if (callBack) {
+                callBack();
+            }
+        }
+        function NeowayInitProcessetConfig(target, viewModel, columns, pageSize, title, callBack) {
+            //debugger;
+            columns = InitializeColumnResize(columns, target);
+
+            if (!pageSize) {
+                pageSize = 5;
+            }
+            
+
+            var myGrid = $("#" + target).data("kendoExcelGrid");
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        //以下其实就是$.ajax的参数
+                        type: "POST",
+                        url: "/Maintenance/DimissionRedirect/GetProcessSetConfigByUserName",
+                        dataType: "json",
+                        data: {
+                            UserName: Startuser
+                        }
+                    }
+                },
+               schema: {
+                //    //取出数据数组
+                    data: function (d) { return d.data; },
+                //    //取出数据总笔数(计算页数用)
+                   total: function (d) { return d.total; },
+                    model: ProcessInfo.model
+
+                },
+                pageSize: 15
+            });
+
+            if (myGrid) {
+                myGrid.setDataSource(dataSource);
+            }
+            else {
+                $("#" + target).kendoExcelGrid({
+
+                    dataSource: dataSource,
+                    groupable: {
+                        messages: {
+                            empty: jsResxbaseInitView.Dropcolumnshere
+                        }
+                    },
+                    toolbar: kendo.template($("#template1").html()),
+                    selectable: false,
+                    sortable: false,
+                    //scrollable: false,
+                    columnMenu: {
+                        messages: {
+                            sortAscending: jsResxbaseInitView.Sortasc,
+                            sortDescending: jsResxbaseInitView.Sortdesc,
+                            columns: jsResxbaseInitView.Choosecolumns,
+                            filter: jsResxbaseInitView.Filter,
+                        }
+                    },
+                    pageable: {
+                        pageSizes: true,
+                        messages: {
+                            itemsPerPage: jsResxbaseInitView.dataitemsperpage,
+                            display: jsResxbaseInitView.datadisplay,
+                            empty: jsResxbaseInitView.Noitemstodisplay
+                        }
+                    },
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            info: jsResxbaseInitView.Showitemswithvaluethat,
+                            clear: jsResxbaseInitView.Clear,
+                            filter: jsResxbaseInitView.Filter
+                        },
+                        operators: {
+                            string: {
+                                eq: jsResxbaseInitView.Isequalto,
+                                neq: jsResxbaseInitView.Isnotequalto,
+                                startswith: jsResxbaseInitView.Startswith,
+                                contains: jsResxbaseInitView.Contains,
+                                doesnotcontain: jsResxbaseInitView.Doesnotcontain,
+                                endswith: jsResxbaseInitView.Endswith
+                            },
+                        }
+                    },
+                   
+                    reorderable: true,
+                    resizable: true,
+                    columns: columns,
+                    dataBound: function () {
+
+                        refreshCurrentScrolls();//数据绑定完成  刷新滚动条
+
+                        HideGridVerticalScroll(target);//隐藏Scroll
+                    }
+
+                });
+                myGrid = $("#" + target).data("kendoExcelGrid");
+            }
+            if (callBack) {
+                callBack();
+            }
+        }
+        var GetProcessInst = function () {
+            var Processcolumns = [
+                 
+                {
+                    field: "IsReaded", title: "", width: 30, template: function (item) {
+                        return "<a href='" + item.ViewFlowUrl + "' target='_blank'><img src='/images/ViewFlow.gif' /></a>";
+                    }, headerTemplate: "<img src='/images/ViewFlow.gif' />", filterable: false
+                },
+                {
+                    field: "FlowNo", title: "流程实例编号",  filterable: { ui: folioFilter }, template: function (item) {
+                        return "<a href='" + item.ViewUrl + "' target='_blank' class='Folio' >" + item.FlowNo + "</a>";
+                    }
+                },
+                { field: "Title", title: "流程主题", width: 280, filterable: false },
+                //
+                { field: "ActName", title: "当前环节", width: 250, filterable: false },
+               
+                { field: "StartDate", title: "发起时间", width: 200, format: getDateTimeFormat(), filterable: { ui: "datetimepicker" } },
+                { field: "StartUser", title: "发起人", width: 80, filterable: { ui: originatorFilter } },
+                
+                { field: "ProcessName", title: "流程名称", filterable: false }
+
+            ]
+            var ProcessModel = kendo.data.Model.define({
+                id: "Folio",
+                fields: {
+                    Folio: { type: "string" },
+                    Title: { type: "string" },
+                    FlowNo: { type: "string" },
+                    ProcessName: { type: "string" },
+                    StartDate: { type: "date" },
+                    Originator: { type: "string" },
+                    StartUser: { type: "string" },
+                    OperateUser: { type: "string" },
+                    Status: { type: "string" },
+                    ID: { Type: "string" },
+                    ActName: { Type: "string" },
+                    Destination: { Type: "string" },
+                    TaskStartDate: { Type: "string" },
+                    RuningTime: { Type: "string" },
+                    ViewFlowUrl: { type: "string" },
+                    ViewUrl: { type: "string" }
+                }
+            });
+            return { model: ProcessModel, columns: Processcolumns }
+        }
+        var ProcessConfig = function () {
+            var ConfigColumns = [
+                { field: "ProcessSetID", title: "流程ID", width: 180, filterable: false },
+                { field: "ProcessName", title: "流程名称", width: 180, filterable: false },
+                { field: "ActivityName", title: "流程名称", width: 180, filterable: false },
+            ]
+            var ConfigModel = kendo.data.Model.define({
+                id: "ActivityID",
+                fields: {
+                    ProcessSetID: { type: "string" },
+                    ProcessName: { type: "string" },
+                    ActivityName: { type: "string" },
+                    ActivityID: { type: "string" },
+                } 
+            });
+            return { model: ConfigModel, columns: ConfigColumns }
+        }
+        var ProcessInfo = GetProcessInst()
+        var ConfigInfo = ProcessConfig();
+        NeowayInitKendoExcelGrid('ProcessSupervise', ProcessInfo.model, ProcessInfo.columns, 10, "员工离职流程转交维护",
+             function () {
+                 bindAndLoad("ProcessSupervise");
+             });
+        NeowayInitProcessetConfig("ProcessSetConfig", ConfigInfo.model, ConfigInfo.columns, 10, "",
+            function () {
+                bindAndLoad("ProcessSetConfig");
+            });
+
+    }).click();
+
+    $("#btnRedirect").bind("click", function () {
+        if ($("#txtLeaveUser").val() == "")
+        {
+            alert("请选择离职人员");
+            return;
+        }
+        if ($("#txtRedirect").val() == "") {
+            alert("请选择转交人员");
+            return;
+        }
+        $.post("/Maintenance/DimissionRedirect/LeaveUserRedirctTo", { LeaveUser: $("#txtLeaveUser").attr("data-usernames"), RedirectUser: $("#txtRedirect").attr("data-usernames") }, function (result) {
+            if (result.Status == 1) {
+                alert("转交成功！");
+            }
+            else if (result.Status == -1)
+            {
+                alert("转交失败");
+            }
+        });
+    });
+
+
+</script>
+<style scoped>
+    #grid .k-grid-toolbar {
+        padding: .6em 1.3em;
+    }
+
+    .category-label {
+        vertical-align: middle;
+        padding-right: .5em;
+    }
+
+    #category {
+        vertical-align: middle;
+    }
+
+    .toolbar {
+        float: right;
+    }
+</style>
+

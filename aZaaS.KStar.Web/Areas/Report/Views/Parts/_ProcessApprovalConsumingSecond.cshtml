@@ -1,0 +1,113 @@
+﻿@using aZaaS.KStar.Html;
+@*<script type="text/javascript" src="/Scripts/jquery-1.9.0.min.js"></script>*@
+<script type="text/javascript" src="/JS/highcharts-4.0.3/js/highcharts.js"></script>
+<script type="text/javascript" src="/JS/highcharts-4.0.3/js/highcharts-more.js"></script>
+<script src="~/JS/Highcharts-4.0.3/js/highcharts-3d.js"></script>
+<script src="~/Scripts/kstarform.userpick.js"></script>
+<style type="text/css">
+    .selectbar1 .texttd {
+        float: left;
+        width: 240px;
+    }
+
+    .selectbar1 .tdbtn {
+        float: left;
+        width: 60px;
+    }
+
+    .selectbar1 .texttd div {
+        float: left;
+    }
+    .k-multiselect-wrap {
+        width: 100%;
+    }
+</style>
+
+<div>
+    <h3 style="text-align:center;">
+        <b>@Html.CSHtmlResx("ProcessApprovalConsumingSecond")</b>
+    </h3>
+</div>
+<div class="section k-toolbar k-grid-toolbar" style="background-color: #f5f5f5; margin-bottom:20px">
+    <div class="selectbar1">
+        <table>
+            <tr>
+                <td>
+                    <div class="texttd">
+                        开始时间:
+                        <span>
+                            <input name="txtStartDate" type="text" id="txtStartDate" />
+                        </span>
+                    </div>
+                    <div class="texttd">
+                        结束时间:
+                        <span>
+                            <input name="txtFinishDate" type="text" id="txtFinishDate" />
+                        </span>
+                    </div>
+                    @*<div class="texttd">
+                        归属:
+                        <span>
+                            <input class="k-textbox" name="ProcessCategory" type="text" id="ProcessCategory" />
+                        </span>
+                    </div>*@
+                    <div class="texttd" style="width:480px">
+                        <div class="texttd-label">
+                            流程名称:
+                        </div>
+                        <select id="stProcessName" style="width:400px; vertical-align: middle; float:left"></select>
+                    </div>
+                    <div class="texttd">
+                        流程节点:
+                        <span>
+                            <input class="k-textbox" name="stProcessAct" type="text" id="stProcessAct" />
+                        </span>
+                    </div>
+                   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="texttd">
+                        最长/最短:
+                        <span>
+                            <input class="k-textbox" name="topOrbottom" type="text" id="topOrbottom" data-placeholder="" />
+                        </span>
+                    </div>
+
+                    <div class="tdbtn">
+                        <span>
+                            <input class="k-button" id="btnQuery" type="button" value="查询" />
+                        </span>
+                    </div>
+                    <div class="tdbtn">
+                        <span>
+                            <input class="k-button" id="btnReset" type="reset" value="重置" />
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="sectionGrid k-grid k-widget k-secondary" style="margin: 0px auto; width: 100%; text-align:center;">
+    <div id="container1" style="min-width:700px;max-width:900px;height:390px;margin:auto"></div>
+    <div id="sliders" style="min-width:310px;max-width: 800px; display:none;">
+        <table>
+            <tr><td>垂直视角</td><td><input id="R0" type="range" min="0" max="45" value="15" /> <span id="R0-value" class="value"></span></td></tr>
+            <tr><td>水平视角</td><td><input id="R1" type="range" min="0" max="45" value="15" /> <span id="R1-value" class="value"></span></td></tr>
+        </table>
+    </div>
+    <div id="window" style="display:none;">
+        <div id="Items" style="min-width:700px;height:400px">
+        </div>
+    </div>
+</div>
+
+    <script src="~/JS/seajs/sea.js"></script>
+    <script type="text/javascript">
+        seajs.use("/JS/Report/SeaProcessApprovalConsumingSecond", function (init) {
+            init();
+        });
+    </script>
+

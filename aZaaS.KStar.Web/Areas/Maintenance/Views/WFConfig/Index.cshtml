@@ -1,0 +1,1089 @@
+﻿@using aZaaS.KStar.Html;
+<link href="~/CSS/star.css" rel="stylesheet" />
+<link href="~/CSS/styleForReport.css" rel="stylesheet" />
+<link href="~/CSS/KstarForm/ztree.css" rel="stylesheet" />
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaWorklist" type="text/javascript"></script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaWorklistData" type="text/javascript"></script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaWFConfig" type="text/javascript"></script>
+@Scripts.Render("~/bundles/knockout")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/kstarform")
+@Scripts.Render("~/bundles/jqueryztree")
+<script src="@Url.Content("~/JS/Maintenance/_Sea_ControlSetting.js")" type="text/javascript"></script>
+<style>
+    .tab-content > .tab-pane { padding: 20px; }
+</style>
+<style>
+    .category, .processSet, .processVersion, .activity { display: none !important; }
+</style>
+@{
+    IHtmlString ExistsCategory = new HtmlString(@Html.CSHtmlResx("ExistsCategory"));
+    IHtmlString LengthTip = new HtmlString(@Html.CSHtmlResx("LengthTip"));
+    IHtmlString SpecialCharTip = new HtmlString(@Html.CSHtmlResx("SpecialCharTip"));
+    IHtmlString CantDeleteCategory = new HtmlString(@Html.CSHtmlResx("CantDeleteCategory"));
+    IHtmlString ConfirmDeleteCategory = new HtmlString(@Html.CSHtmlResx("ConfirmDeleteCategory"));
+    IHtmlString AddCategoryTitle = new HtmlString(@Html.CSHtmlResx("AddCategoryTitle"));
+    IHtmlString EditCategoryTitle = new HtmlString(@Html.CSHtmlResx("EditCategoryTitle"));
+    IHtmlString ImportVersionTitle = new HtmlString(@Html.CSHtmlResx("ImportVersionTitle"));
+    IHtmlString SelectFiles = new HtmlString(@Html.CSHtmlResx("SelectFiles"));
+    IHtmlString ConfirmSynchronizeVersion = new HtmlString(@Html.CSHtmlResx("ConfirmSynchronizeVersion"));
+    IHtmlString IsNeedUpdateConfigurationVersion = new HtmlString(@Html.CSHtmlResx("IsNeedUpdateConfigurationVersion"));
+    IHtmlString ConfirmProcessUnbundling = new HtmlString(@Html.CSHtmlResx("ConfirmProcessUnbundling"));
+}
+<div id="PositionManaViewContextMenu" style="top: 100px; left: 230px; display: none;">
+    <li style="display: normal;">
+        <a id="EditCategoryContextMenu" href="#">
+            <span class="glyphicon glyphicon-edit"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("EditCategory")</span>
+        </a>
+    </li>
+    <li style="display: normal;">
+        <a id="DeleteCategoryContextMenu" href="#">
+            <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("DeleteCategory")</span>
+        </a>
+    </li>
+</div>
+<div id="ProcessContextMenu" style="top: 100px; left: 230px; display: none;">
+    <li style="display: normal;">
+        <a id="SynchronizeVersion" href="#">
+            <span class="glyphicon glyphicon-edit"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("SynchronizeVersion")</span>
+        </a>
+    </li>
+    <li style="display: normal;">
+        <a id="ProcessUnbundling" href="#">
+            <span class="glyphicon glyphicon-edit"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("ProcessUnbundling")</span>
+        </a>
+    </li>
+</div>
+<!--  WF Config Center  -->
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">@Html.CSHtmlResx("Processconfiguration")</div>
+    </div>
+    <div class="fullwidget">
+        <div id="PositionManaView" class="well">
+            <div>
+                <div class="top-toolbar">
+                    <a id="CategoryAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                </div>
+                <div id="PostionManageTreeView" style="position: absolute; top: 35px;">
+                </div>
+            </div>
+            <div id="PostionInfomation">
+                @*@Html.Partial("/Areas/Maintenance/Views/WFConfig/SegmentPartial.cshtml")*@
+            </div>
+        </div>
+    </div>
+</div>
+<div id="AddCategoryWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("DisplayName")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="CategoryName" name="CategoryName" class="k-textbox" style="width: 100%" required="required" placeholder="输入分类名，长度0-100" />
+                <script type="text/javascript">
+                    $(function () {
+                        var itemform = $("#AddCategoryWindow");
+                        kendo.init(itemform);
+                        itemform.kendoValidator({
+                            validateOnBlur: true,
+                            messages: {
+                                SpecialChar:@SpecialCharTip,
+                                CategoryName: @ExistsCategory,
+                                Length:@LengthTip
+                                },
+                            rules: {
+                                SpecialChar:function(input){
+                                    if (input.is("[name='CategoryName']")) {
+                                        var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/);
+                                        return regx.test(input.val());
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                Length:function(input){
+                                    if (input.is("[name='CategoryName']")) {
+                                        if(input.val().length>100)
+                                            return false;
+                                        else
+                                            return true;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                },
+                                CategoryName: function (input) {
+                                    if (input.is("[name='CategoryName']")) {
+                                        var flag = true;
+                                        var categoryid = $("#CategoryId").val();
+                                        var currentname = "";
+                                        var arr = $("#PostionManageTreeView").data("kendoTreeView").dataSource._data;
+                                        for(var i=0;i<arr.length;i++)
+                                        {
+                                            if (categoryid == arr[i].ID)
+                                            {
+                                                currentname = arr[i].Name;
+                                            }
+                                            if (parseInt(categoryid)<=0) {
+                                                if (input.val().toLowerCase() == arr[i].Name.toLowerCase()) {
+                                                    flag = false;
+                                                    break;
+                                                }
+                                            }
+                                            else {
+                                                if (input.val().toLowerCase() == arr[i].Name.toLowerCase() && arr[i].Name.toLowerCase() != currentname.toLowerCase()) {
+                                                    flag = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        return flag;
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Description")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="CategoryDescription" name="CategoryDescription" class="k-textbox" style="width: 100%" />
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <input type="hidden" id="CategoryId" />
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="ImportVersion" class="overflowhidden" style="display: none">
+    <div>
+        <div class="demo-section k-header">
+            <input name="files" id="importfiles" type="file" />
+        </div>
+    </div>
+</div>
+
+<script>
+    var InitPositionSplitter = function () {
+        $("#PositionManaView").kendoSplitter({
+            panes: [
+                { collapsible: false, size: "300px", min: "250px", max: "450px", resizable: true },
+                { collapsible: false, resizable: true }
+            ]
+        });
+    };
+    $(function () {
+        $(window).resize();
+        InitPositionSplitter();
+    })
+</script>
+<script>
+    var currentItemId;
+    var currentProcSetId;
+    var currentParentId;
+    var itemRework; 
+    var currentProcessFullName
+
+    var selectActivityIdForControlSetting;
+    var selectProcessIdForControlSetting;
+    var viewUrl,approveUrl,startUrl;
+
+    var WorklistDataModel = kendo.data.Model.define({
+        id: "WorklistDataID",
+        fields: {
+            WorklistDataID: { type: "string" },
+            ColumnName: { type: "string" },
+            DisplayName: { type: "string" },
+            Description: { type: "string" },
+            ValueType: { type: "string" },
+            IsVisible: { type: "string" },
+            WorklistID: { type: "string" }
+        }
+    });
+    var worklistdatacolumns = [
+            {
+                title: jsResxMaintenance_SeaWorklistData.Checked, width: 35, template: function (item) {
+                    return "<input type='checkbox' value='" + item.WorklistDataID + "' />";
+                }, headerTemplate: "<input type='checkbox' />", filterable: false
+            },
+        { field: "ColumnName", title: jsResxMaintenance_SeaWorklistData.ColumnName, filterable: false },
+        { field: "DisplayName", title: jsResxMaintenance_SeaWorklistData.DisplayName, filterable: false },
+        { field: "Description", title: jsResxMaintenance_SeaWorklistData.Description, filterable: false },
+        { field: "ValueType", title: jsResxMaintenance_SeaWorklistData.ValueType, filterable: false },
+        { field: "IsVisible", title: jsResxMaintenance_SeaWorklistData.IsVisible, template: function (item) { return item.IsVisible == "true" ? "Yes" : "No" }, filterable: false },
+        { command: [{ name: "edit", template: "<a  href='javascript:void(0)' class='k-button k-button-icontext k-grid-edit'><span class='glyphicon glyphicon-pencil'></span></a>", text: "", click: function (e) { var tr = $(e.target).closest("tr"); var data = this.dataItem(tr); EditWData(data.WorklistDataID) } }], width: 58 }
+    ]
+
+
+    $(function () {
+        var servicesRoot = "/Maintenance/WFConfig/";
+
+        var ActivityList = {
+            type: "json",
+            transport: {
+                read: function (options) {
+                    var item = Configuration_CategoryDTO.get(options.data.uid);
+                    var parent = item.parentNode();
+                    var data={ id: item.ID, procID: parent.ID, procSetID: parent.ProcessSetID,"_t": new Date() };
+                    if(parseInt(item.ID)==0)
+                    {
+                        data={ id: item.ID, procID:item.ProcessVersionID, procSetID: parent.ProcessSetID,"_t": new Date() };
+                    }
+                    $.getJSON(servicesRoot + "GetActivityListByProcessVersion", data, function (result) {
+                        options.success(result);
+                    }).error(function (result) {
+                        options.error(result);
+                    }).success(function (result) {
+                        setTimeout(function () {
+                        }, 1000);
+                    });
+                }
+            },
+            schema: {
+                model: {
+                    id: "uid",
+                    spriteCssClass: "activity",
+                    hasChildren: function () {
+                        return false;
+                    }
+                }
+            }
+        };
+
+
+        var Configuration_ProcessVersionDTO = {
+            type: "json",
+            schema: {
+                model: {
+                    spriteCssClass: "processVersion",
+                    id: "uid",
+                    hasChildren: "ActivityList",
+                    children: ActivityList,
+                }
+            },
+            transport: {
+                read: function (options) {                    
+                    var item = Configuration_CategoryDTO.get(options.data.uid);
+                    $.getJSON(servicesRoot + "GetProcessVersionListByProcessSet", { id: item.ID, procSetId: item.ProcessSetID ,"_t": new Date()}, function (result) {
+                        options.success(result);
+                    }).error(function (result) {
+                        options.error(result);
+                    }).success(function (result) {
+                        setTimeout(function () {
+                        }, 1000);
+                    });
+                }
+            }
+        };
+
+        var Configuration_ProcessSetDTO = {
+            type: "json",
+            schema: {
+                model: {
+                    spriteCssClass: "processSet",
+                    id: "uid",
+                    hasChildren: "ProcessVersionList",
+                    children: Configuration_ProcessVersionDTO
+                }
+            },
+            transport: {
+                read: function (options) {                    
+                    var item = Configuration_CategoryDTO.get(options.data.uid);
+                    $.getJSON(servicesRoot + "GetProcessSetListByCategory", { id: item.ID,"_t": new Date()}, function (result) {
+                        options.success(result);
+                    }).error(function (result) {
+                        options.error(result);
+                    }).success(function (result) {
+                        setTimeout(function () {
+                        }, 1000);
+                    });
+                }
+            }
+        };
+
+        var Configuration_CategoryDTO = new kendo.data.HierarchicalDataSource({
+            type: "json",
+            transport: {
+                read: function (options) {
+                    showOperaMask();
+                    $.getJSON(servicesRoot + "GetAllCategoryList",{"_t": new Date()}, function (result) {
+                        options.success(result);
+                    }).error(function (result) {
+                        options.error(result);
+                    }).success(function (result) {
+                        setTimeout(function () {
+                            hideOperaMask();
+                        }, 1000);
+                    });
+                }
+            },
+            schema: {
+                model: {
+                    spriteCssClass: "category",
+                    hasChildren: "ProcessSetList",
+                    id: "uid",
+                    children: Configuration_ProcessSetDTO
+                }
+            }
+        });
+
+        $("#PostionManageTreeView").kendoTreeView({
+            template: kendo.template($("#PostionManageTreeView-template").html()),
+            select: onSelect,
+            dataSource: Configuration_CategoryDTO,
+            dataBound:function(e){           
+                var clickevent = { "click": checkboxUnChange, "dblclick": checkboxUnChange };
+                var mousedown = function (e) { if (e.which == 3) $(this).click(); }
+                $("#PostionManageTreeView").find(":checkbox").unbind(clickevent).bind(clickevent);
+                $("#PostionManageTreeView").off("mousedown", ".k-state-hover", mousedown).on("mousedown", ".k-state-hover", mousedown)
+
+                var treeview = $("#PostionManageTreeView").data("kendoTreeView");
+                var select=GetSelectTreeItem();
+                if (treeview && treeview != null&&select==undefined) {
+                    treeview.expand(".k-first");
+                }
+            }
+        });
+
+        //TreeViewNodeToggle("PostionManageTreeView");
+
+        $("#CategoryAdd").click(function () { AddCategory(); })
+
+        window.onscroll=function(){
+            console.log('scroll');            
+        }       
+    });
+
+    function onSelect(e) {  
+        //var treeview = $("#PostionManageTreeView").data("kendoTreeView");
+        $("#PostionManageTreeView").find("input").prop("checked", false);
+        $("#PostionManageTreeView_tv_active").find("input").first().prop("checked", true); 
+        var item = e.sender.dataItem(e.node);
+        currentItemId = item.ID;
+        currentProcSetId = item.ProcessSetID;
+        //if(item.expanded)
+        //{
+        //    treeview.collapse("#PostionManageTreeView_tv_active");
+        //}
+        //else
+        //{
+        //    treeview.expand("#PostionManageTreeView_tv_active");
+        //}
+
+        if (e.sender.dataItem(e.node.parentNode) != undefined) {
+            currentParentId = e.sender.dataItem(e.node.parentNode).ID;
+        }
+        var parent = $(e.node.parentNode);
+        if (parent.find(".category").length > 0) {
+            if (item.ID > 0) {
+                $(e.node).click();
+                $('#PostionManageTreeView .k-state-focused').WinContextMenu({
+                    //cancel: '.cancel',
+                    menu: "#PositionManaViewContextMenu",
+                    removeMenu: '#homeBody',
+                    action: function (e) {
+                        switch (e.id) {
+                            case "EditCategoryContextMenu": EditCategoryContextMenu(); break;
+                            case "DeleteCategoryContextMenu": DeleteCategoryContextMenu(); break;
+                        }
+                    }
+                });
+                $("#PostionInfomation").html("");
+            }
+        }
+        else if (parent.find(".processSet").length > 0) {
+            if (parseInt(item.Configuration_CategoryID) == 0) { // need to be initialized
+                $("#PostionInfomation").load("/Maintenance/WFConfig/InitilizationPartial", function () {
+                    $("#BusinessDataConfigFullName").val(item.ProcessFullName);
+                });
+            } else {
+                $(e.node).click();
+                $('#PostionManageTreeView .k-state-focused').WinContextMenu({
+                    //cancel: '.cancel',
+                    menu: "#ProcessContextMenu",
+                    removeMenu: '#homeBody',
+                    action: function (e) {
+                        switch (e.id) {
+                            case "SynchronizeVersion": SynchronizeVersion(); break;
+                            case "ProcessUnbundling":ProcessUnbundling();break;
+                        }
+                    }
+                });
+                selectActivityIdForControlSetting=0;
+                selectProcessIdForControlSetting=item.ID;
+                startUrl=item.StartUrl;
+                $("#PostionInfomation").load("/Maintenance/WFConfig/FlowPartial", function () {                    
+                    InitProcessInfo(item);
+                });
+
+                //判断是否需要更新版本
+                $.post("/Maintenance/WFConfig/IsNeedUpdateConfigurationVersion", { ID: currentItemId}, function (result) {
+                    if (result.toString().toLowerCase() == "true") {
+                        ShowTip(@IsNeedUpdateConfigurationVersion, "info");
+                    }
+                });
+
+            }
+        }
+        else if (parent.find(".processVersion").length > 0) {
+            if (item.ProcessVersionID == 0) {
+                $("#PostionInfomation").load("/Maintenance/WFConfig/InitilizationPartial", function () {
+
+                });
+            } else {
+                $("#PostionInfomation").html("");
+            }
+        }
+        else if (parent.find(".activity").length > 0) {
+             
+            if (item.ID > 0) {                
+                selectActivityIdForControlSetting=item.ActivityID;
+                selectProcessIdForControlSetting=item.parentNode().parentNode().ID;
+                viewUrl=item.parentNode().parentNode().ViewUrl;
+                approveUrl=item.parentNode().parentNode().ApproveUrl;
+                startUrl=item.parentNode().parentNode().StartUrl;
+                currentProcessFullName=item.parentNode().parentNode().ProcessFullName;
+                $("#PostionInfomation").load("/Maintenance/WFConfig/SegmentPartial", function () {
+                    $("#ActivityNo").val(item.ActivityNo);
+                    $("#ActivityMetaData").val(item.MetaData);
+                    $("#ActivityName").val(item.Name);
+                    if(item.ProcessTime!=null)
+                    {
+                        $("#ProcessTime").data("kendoNumericTextBox").value(parseInt(item.ProcessTime)/8);     
+                        $("#ProcessTime").data("curtime",parseInt(item.ProcessTime)/8);
+                    }
+                    //初始化处理人列表
+                    InitBaseKendoGrid("OperateUserList", StartUserModel, StartUsercolumns, item.OperateUserList, function () {
+                        bindGridCheckbox("OperateUserList")
+                    });
+
+                    itemRework = item.ReworkActivityList;
+                    $.each(item.ReworkActivityList, function (i, id) {
+                        $("#activity_" + id).prop("checked", true);
+                    });
+                });
+            }
+            else
+            {
+                $("#PostionInfomation").html("");
+            }
+        }
+
+    }
+
+    function InitProcessInfo(process)
+    {
+        $("#ProcessSetNo").val(process.ProcessSetNo);
+        $("#ProcessFullName").val(process.ProcessFullName);
+        $("#ProcessName").val(process.ProcessName);
+
+        $("#businessType").val(process.Configuration_CategoryID);
+
+        $("#OrderNo").val(process.OrderNo);
+        $("#StartUrl").val(process.StartUrl);
+        $("#ViewUrl").val(process.ViewUrl);
+        $("#ApproveUrl").val(process.ApproveUrl);
+        $("#NotAssignIfApproved").prop("checked", process.NotAssignIfApproved);
+        $("#OpenProcessPre").prop("checked", process.ProcessPredict);
+        $("#LoopRemark").val(process.LoopRemark); 
+        $("#Description").val(process.Description);
+
+        InitEndcc(process.EndCc);
+        InitReworkCc(process.ReworkCc);
+
+        //初始化版本号列表
+        InitBaseKendoGrid("ProcessVersionList", ProcessVersionModel, ProcessVersioncolumns, process.ProcessVersionList, function () {
+            bindGridCheckbox("ProcessVersionList")
+        });
+        //初始化发起人列表
+        InitBaseKendoGrid("StartUserList", StartUserModel, StartUsercolumns, process.StartUserList, function () {
+            bindGridCheckbox("StartUserList")
+        });
+
+        //初始化工作列表配置
+        $.ajax({
+            url: "/Maintenance/Worklist/GetWorkByProcessName",
+            type: "POST",
+            data: {processname:process.ProcessFullName},
+            traditional: true,
+            success: function (json) {
+                if(json.WorklistID!=null&&json.WorklistID!="null")
+                {
+                    $("#ConnectionString").val(json.ConnectionString);
+                    $("#DataTable").val(json.DataTable);
+                    $("#WhereQuery").val(json.WhereQuery);
+                    $("#BusinessDataConfigId").val(json.WorklistID);
+
+                    InitFetchGrid();
+                    //FetchConfigField(json.WorklistID);
+                    //InitWorkListData();
+                }
+                $("#BusinessDataConfigFullName").val(process.ProcessFullName);
+            }
+        });
+    }
+
+    function EditCategoryContextMenu()
+    {
+        var selectitem = GetSelectTreeItem();
+        AddCategory(selectitem);
+    }
+
+    function DeleteCategoryContextMenu() {
+        var selectitem = GetSelectTreeItem();
+        if (selectitem.ProcessSetList.length > 0)
+        {
+            ShowTip(@CantDeleteCategory, "error");
+            return;
+        }
+        bootbox.confirm(@ConfirmDeleteCategory, function (result) {
+            if (result) {
+                $.post("/Maintenance/WFConfig/DeleteCategory", { ID: selectitem.ID }, function (flag) {
+                    if (flag) {
+                        var treeview = $("#PostionManageTreeView").data("kendoTreeView");
+                        var selectedNode = treeview.select();
+                        treeview.remove(selectedNode);
+                    }
+                }).fail(function () {
+                })
+            }
+        });
+    }
+
+    //同步流程版本
+    function SynchronizeVersion()
+    {
+        var selectitem = GetSelectTreeItem();
+        bootbox.confirm(@ConfirmSynchronizeVersion, function (result) {
+            if (result) {
+                showOperaMask();
+                $.post("/Maintenance/WFConfig/SynchronizeVersion", { ID: selectitem.ID }, function (count) {
+                    hideOperaMask();
+                    if (parseInt(count)>=0) {
+                        var treeview = $("#PostionManageTreeView").data("kendoTreeView");
+                        var selectedNode = GetSelectTreeItem();                       
+                        treeview.collapse("#PostionManageTreeView_tv_active");
+                        selectedNode._loaded=false;
+                    }
+                }).fail(function () {
+                    hideOperaMask();
+                })
+            }
+        });
+    }
+
+    //流程解绑
+    function ProcessUnbundling()
+    {
+        var selectitem = GetSelectTreeItem();
+        bootbox.confirm(@ConfirmProcessUnbundling, function (result) {
+            if (result) {
+                showOperaMask();
+                $.post("/Maintenance/WFConfig/ProcessUnbundling", { ID: selectitem.ID }, function (flag) {
+                    hideOperaMask();
+                    if (flag) {
+                        refresh();
+                    }
+                }).fail(function () {
+                    hideOperaMask();
+                })
+            }
+        });
+    }
+
+    function InitEndcc(Endcc)
+    {
+        var endarr = new Array();
+        var endlist = [];
+        $("[name='EndCc']").prop("checked", false);
+        $.each(Endcc, function (i, n) {
+            if (n.Value == "流程发起人") {
+                $("[name='EndCc']").each(function () {
+                    if ($(this).val() == "流程发起人") {
+                        $(this).prop("checked", true);
+                        $(this).data("list", { ID: n.ID, Key: n.Key, Value: n.Value });
+                    }
+                })
+            }
+            else if (n.Value == "流程参与人") {
+                $("[name='EndCc']").each(function () {
+                    if ($(this).val() == "流程参与人") {
+                        $(this).prop("checked", true);
+                        $(this).data("list", { ID: n.ID, Key: n.Key, Value: n.Value });
+                    }
+                })
+            }
+            else {
+                endarr.push(n.Value);
+                endlist.push({ ID: n.ID, Key: n.Key, Value: n.Value });
+            }
+        });
+        if (endarr.length > 0)
+            $(".EndCc").val(endarr.join(";"));
+        if (endlist.length > 0) {
+            $(".EndCc").data("list", endlist);
+            $("[name='EndCc']").each(function () {
+                if ($(this).val() == "on") {
+                    $(this).prop("checked", true);
+                }
+            })
+        }
+    }
+
+    function InitReworkCc(ReworkCc)
+    {
+        var reworkarr = new Array();
+        var reworklist = [];
+
+        $("[name='ReworkCc']").prop("checked", false);
+
+        $.each(ReworkCc, function (i, n) {
+            if (n.Value == "流程发起人") {
+                $("[name='ReworkCc']").each(function () {
+                    if ($(this).val() == "流程发起人") {
+                        $(this).prop("checked", true);
+                        $(this).data("list", { ID: n.ID, Key: n.Key, Value: n.Value });
+                    }
+                })
+            }
+            else if (n.Value == "流程参与人") {
+                $("[name='ReworkCc']").each(function () {
+                    if ($(this).val() == "流程参与人") {
+                        $(this).prop("checked", true);
+                        $(this).data("list", { ID: n.ID, Key: n.Key, Value: n.Value });
+                    }
+                })
+            }
+            else {
+                reworkarr.push(n.Value);
+                reworklist.push({ ID: n.ID, Key: n.Key, Value: n.Value });
+            }
+        });
+        if (reworkarr.length > 0)
+            $(".ReworkCc").val(reworkarr.join(";"));
+        if (reworklist.length > 0) {
+            $(".ReworkCc").data("list", reworklist);
+            $("[name='ReworkCc']").each(function () {
+                if ($(this).val() == "on") {
+                    $(this).prop("checked", true);
+                }
+            })
+        }
+    }
+
+    function GetSelectTreeItem()
+    {
+        var node = $("#PostionManageTreeView_tv_active");
+        var item = $("#PostionManageTreeView").data("kendoTreeView").dataItem(node);
+        return item;
+    }
+
+    function refresh() {
+        $('#PostionManageTreeView').data('kendoTreeView').dataSource.read();
+    }
+
+    function UpdateProcessTreeItem(treeitem,item)
+    {
+        if(treeitem!=null&&item!=null)
+        {
+            treeitem.ApproveUrl=item.ApproveUrl;
+            treeitem.Configuration_CategoryID=item.Configuration_CategoryID;
+            treeitem.Description=item.Description;
+            treeitem.EndCc=item.EndCc;
+            treeitem.OrderNo=item.OrderNo;
+            treeitem.ProcessName=item.ProcessName;
+            treeitem.ProcessVersionList=item.ProcessVersionList;
+            treeitem.ReworkCc=item.ReworkCc;
+            treeitem.StartUrl=item.StartUrl;
+            treeitem.StartUserList=item.StartUserList;
+            treeitem.ViewUrl=item.ViewUrl;
+            treeitem.items=item.ProcessVersionList;
+            treeitem.NotAssignIfApproved=item.NotAssignIfApproved;
+        }
+    } 
+
+</script>
+<script>
+    function SelectPerson() {
+        var own = $(this);
+        InitSelectPersonWindow(this, "Person", function (json) {              
+            var list = json.Root.Users.Item;
+            var arr = $.map(list, function (n, i) {
+                return n.Name;
+            });
+            var input = arr.join(";");
+
+            var group = own.closest(".form-group");
+            var inputelement = group.find(":text");
+            inputelement.val(input);
+
+            var templist = [];
+            $.each(list, function (i, t) {
+                templist.push({ Key:t.Value, Value:t.Name});
+            })
+            inputelement.data("list", templist);
+        })
+    }
+    function ChooseAllPerson() {
+        var own = $(this);
+        InitSelectPersonWindow(this, "All", function (json) {     
+            var chooselist=[];
+            var userlist = json.Root.Users.Item;
+            var deptlist = json.Root.Depts.Item;
+            var positionlist = json.Root.Positions.Item;
+            var custiomlist = json.Root.CustomRoles.Item;
+            var roleslist = json.Root.SystemRoles.Item;
+
+            var templist = [];
+            $.each(userlist, function (i, t) {
+                chooselist.push(t.Name);
+                templist.push({ Key:t.Value, Value:t.Name,UserType: 0, Key: t.Value,RefID:currentItemId});
+            })
+            $.each(deptlist, function (i, t) {
+                chooselist.push(t.Name);
+                templist.push({ Key:t.Value, Value:t.Name,UserType: 1, Key: t.Value,RefID:currentItemId});
+            })
+            $.each(positionlist, function (i, t) {
+                chooselist.push(t.Name);
+                templist.push({ Key:t.Value, Value:t.Name,UserType: 2, Key: t.Value,RefID:currentItemId});
+            })
+            $.each(custiomlist, function (i, t) {
+                chooselist.push(t.Name);
+                templist.push({ Key:t.Value, Value:t.Name,UserType: 3, Key: t.Value,RefID:currentItemId});
+            })
+            $.each(roleslist, function (i, t) {
+                chooselist.push(t.Name);
+                templist.push({ Key:t.Value, Value:t.Name,UserType: 4, Key: t.Value,RefID:currentItemId});
+            })
+            var input = chooselist.join(";");
+            var group = own.closest(".form-group");
+            var inputelement = group.find(":text");
+            inputelement.val(input);
+            inputelement.data("list", templist);
+        })
+    }
+    function SelectAllPerson() {
+        var own = $(this);
+        var griddiv=own.parent().siblings().first();
+        var data=$(griddiv).data("kendoGrid").dataSource._data;
+        InitSelectPersonWindow(this, "All", function (json) {            
+            var userlist = json.Root.Users.Item;
+            $.each(userlist, function (i, n) {
+                if(!ExistsSelectPerson(n,data))
+                {
+                    $(griddiv).data("kendoGrid").dataSource.add({ ID:0,Value: n.Name, UserType: 0, Key: n.Value,RefID:currentItemId })
+                }
+            });
+
+            var deptlist = json.Root.Depts.Item;
+            $.each(deptlist, function (i, n) {
+                if(!ExistsSelectPerson(n,data))
+                {
+                    $(griddiv).data("kendoGrid").dataSource.add({ ID:0,Value: n.Name, UserType: 1, Key: n.Value, RefID: currentItemId });
+                }
+            });
+
+            var positionlist = json.Root.Positions.Item;
+            $.each(positionlist, function (i, n) {
+                if(!ExistsSelectPerson(n,data))
+                {
+                    $(griddiv).data("kendoGrid").dataSource.add({ ID:0,Value: n.Name, UserType: 2, Key: n.Value, RefID: currentItemId });
+                }
+            });
+
+            var custiomlist = json.Root.CustomRoles.Item;
+            $.each(custiomlist, function (i, n) {
+                if(!ExistsSelectPerson(n,data))
+                {
+                    $(griddiv).data("kendoGrid").dataSource.add({ ID:0,Value: n.Name, UserType: 3, Key: n.Value, RefID: currentItemId });
+                }
+            });
+
+            var roleslist = json.Root.SystemRoles.Item;
+            $.each(roleslist, function (i, n) {
+                if(!ExistsSelectPerson(n,data))
+                {
+                    $(griddiv).data("kendoGrid").dataSource.add({ ID:0,Value: n.Name, UserType: 4, Key: n.Value, RefID: currentItemId });
+                }
+            });
+        })
+    }
+
+    function ExistsSelectPerson(item,data)
+    {        
+        var flag=false;
+        $.each(data,function(i,n){
+            if(n.Key==item.Value)
+            {
+                flag=true;
+            }
+        });
+        return flag;
+    }
+
+    function TypeDisplay(type) {
+        var result = "";
+        switch (type) {
+            case 0:
+                result = "Users";
+                break;
+            case 1:
+                result = "Depts";
+                break;
+            case 2:
+                result = "Positions";
+                break;
+            case 3:
+                result = "CustomRoles";
+                break;
+            case 4:
+                result = "SystemRoles";
+                break;
+        }
+        return result;
+    }
+
+    var AddCategory= function (category) {
+        var AddCategoryWindow = $("#AddCategoryWindow").data("kendoWindow");
+        if (!AddCategoryWindow) {
+            $("#AddCategoryWindow").kendoWindow({
+                width: "500px",
+                actions: [
+                    "Close"
+                ],
+                open: function (e) {
+                    $("#AddCategoryWindow .windowCancel").bind("click", CategoryCancel);
+                    $("#AddCategoryWindow .windowConfirm").bind("click", CategoryConfirm);
+                },
+                close: function (e) {
+                    $("#AddCategoryWindow .windowCancel").unbind("click", CategoryCancel);
+                    $("#AddCategoryWindow .windowConfirm").unbind("click", CategoryConfirm);
+                    hideOperaMask("AddCategoryWindow");
+                },
+                resizable: false,
+                modal: true
+            });
+            AddCategoryWindow = $("#AddCategoryWindow").data("kendoWindow").center();
+            window.AddSplitters(AddCategoryWindow);
+        }
+        AddCategoryWindow.title((category==undefined?@AddCategoryTitle:@EditCategoryTitle));
+        if (category != undefined) {
+            $("#CategoryId").val(category.ID);
+            $("#CategoryName").val(category.Name);
+            $("#CategoryDescription").val(category.Description);
+        }
+        else {
+            $("#CategoryId").val(0);
+            $("#CategoryName").val("");
+            $("#CategoryDescription").val("");
+        }
+        AddCategoryWindow.open();
+    }
+
+    var CategoryCancel = function () {
+        $("#AddCategoryWindow").data("kendoWindow").close()
+    }
+    var CategoryConfirm = function () {
+        var validator = $("#AddCategoryWindow").data("kendoValidator");
+        if (validator.validate()) {
+            var that = $(this);
+            that.unbind("click", CategoryConfirm);
+            showOperaMask("AddCategoryWindow");
+            var CategoryId= $("#CategoryId").val();
+            var CategoryName = $("#CategoryName").val();
+            var CategoryDescription = $("#CategoryDescription").val();
+            $.post("/Maintenance/WFConfig/AddCategory", { ID:CategoryId, Name: CategoryName, Description: CategoryDescription }, function (item) {
+                var treeview = $("#PostionManageTreeView").data("kendoTreeView");
+                if (parseInt(CategoryId) > 0)
+                {
+                    var selectitem = GetSelectTreeItem();
+                    selectitem.Name = CategoryName;
+                    selectitem.Description = CategoryDescription;
+                    treeview.text("#PostionManageTreeView_tv_active", CategoryName);
+                }
+                else
+                {
+                    treeview.append(item, null);
+                    if($("#businessType")!=undefined)
+                    {
+                        InitBusinessType();
+                    }
+                }
+                $("#AddCategoryWindow").data("kendoWindow").close()
+            }).fail(function () {
+                that.bind("click", CategoryConfirm);
+                hideOperaMask("AddCategoryWindow");
+            })
+        }
+    }
+
+    var InitBusinessType=function(){
+        $.ajax({
+            url: "/Maintenance/WFConfig/GetAllCategoryListWithNoChilds", async: false, dataType: "json", success: function (items) {
+                $("#businessType").empty();
+                $.each(items, function (i, item) {
+                    $("#businessType").append("<option value='" + item.ID + "'>" + item.Name + "</option>");
+                });
+            }
+        });
+    }
+</script>
+<script>
+    function VersionImport(ProcessVersionID) {        
+        var ImportVersion = $("#ImportVersion").data("kendoWindow");
+        if (!ImportVersion) {
+            $("#ImportVersion").kendoWindow({
+                width: "500px",
+                title:@ImportVersionTitle,
+                actions: [
+                    "Close"
+                ],
+                resizable: false,
+                modal: true
+            });
+            ImportVersion = $("#ImportVersion").data("kendoWindow").center();
+            window.AddSplitters(ImportVersion);
+        }
+
+        if(!$("#importfiles").data("kendoUpload"))
+        {
+            $("#importfiles").kendoUpload({
+                async: {
+                    saveUrl: "/Maintenance/WFConfig/ImportConfigVersion?procID="+ProcessVersionID,
+                    autoUpload: false
+                },
+                files: [],
+                multiple: false,
+                upload: onUpload,
+                success: onSuccess,
+                localization: {
+                    uploadSelectedFiles: @ImportVersionTitle,
+                    select: @SelectFiles
+                    }
+            });
+        }
+        if($("#ImportVersion ul.k-upload-files"))
+        {
+            $("#ImportVersion ul.k-upload-files").remove();
+        }
+        if($("#ImportVersion button"))
+        {
+            $("#ImportVersion button").remove();
+        }
+        if($("#ImportVersion strong.k-upload-status"))
+        {
+            $("#ImportVersion strong.k-upload-status").remove();
+        }
+
+        ImportVersion.open();
+    }
+    var onSuccess=function(e)
+    {        
+        var files = e.files;
+        if (e.operation == "upload") {
+            e.preventDefault();
+        }
+    }
+    var onUpload=function(e)
+    {
+        var files = e.files;
+        $.each(files, function () {
+            if (this.extension.toLowerCase() != ".xml") {
+                alert("Only .xml files can be uploaded");
+                e.preventDefault();
+            }
+        });
+    }
+    function VersionExport(ID) {
+        $.post("/Maintenance/WFConfig/ExportConfigurationVersion", { configuration_ProcessVersionID:ID}, function (json) {
+            console.log(json);
+        }).fail(function () {
+        })
+    }
+</script>
+<script id="PostionManageTreeView-template" type="text/kendo-ui-template">
+    # if(item.spriteCssClass=='category'){ #
+    <input type="checkbox" value="#= item.ID #" />
+    #: item.Name # (#: item.ProcessSetList.length #)
+    # }else if(item.spriteCssClass=='processSet'){ #
+    <input type="checkbox" value="#= item.ID #" />
+    #: item.ProcessName # (#: item.ProcessVersionList.length #)
+    # if(item.ProcessSetID == 0){ #
+    (@Html.CSHtmlResx("uninitialized"))
+    # } #
+    # }else if(item.spriteCssClass=='processVersion'){ #
+    <input type="checkbox" value="#= item.ID #" />
+    #: item.VersionNo # #: kendo.toString(new Date(new Date(parseInt(item.DeployDate.replace("/Date(", "").replace(")/",""),10))),'yyyy-MM-dd HH:mm:ss') #
+    # if(item.ProcessVersionID == 0){ #
+    (@Html.CSHtmlResx("uninitialized"))
+    # } #
+    # }else if(item.spriteCssClass=='activity'){ #
+    <input type="checkbox" value="#= item.ID #" />
+    #: item.Name #
+    # } #
+</script>
+
+<script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>
+<script id="versionlist-template" type="text/kendo-ui-template">
+    # for (var i = 0; i < data.length; i++) { #
+    <tr>
+        <td>#: i+1 #</td>
+        <td>#: data[i].VersionNo #</td>
+        <td>#: kendo.toString(new Date(new Date(parseInt(data[i].DeployDate.replace("/Date(", "").replace(")/",""),10))),'yyyy-MM-dd HH:mm:ss') #</td>
+        <td>#: data[i].IsCurrent #</td>
+        <td style="text-align: center;">
+            <form action="/Maintenance/WFConfig/ImportConfigVersion" method="post" enctype="multipart/form-data">
+                <a class="abtn" onclick="VersionExport.apply(this)">导出</a>
+                <a class="abtn" onclick="VersionImport.apply(this)">导入</a>
+                <input type="file" class="hide" name="file" />
+                <input type="hidden" name="procID" value="#: data[i].ProcessVersionID #" />
+            </form>
+        </td>
+    </tr>
+    # } #
+</script>
+@*<script id="senderlist-template" type="text/kendo-ui-template">
+        # for (var i = 0; i < data.length; i++) { #
+                        <tr>
+                            <td style="text-align: center;"><input type="checkbox" name="personitem" value="#=data[i].Key #" index="#=i+1 #"  /></td>
+                            <td>#: i+1 #</td>
+                            <td>#: data[i].Value #</td>
+                            <td>#: TypeDisplay(data[i].UserType) #</td>
+                        </tr>
+            # } #
+    </script>*@
+
+@*<script id="handlerlist-template" type="text/kendo-ui-template">
+        # for (var i = 0; i < data.length; i++) { #
+                        <tr>
+                            <td style="text-align: center;"><input type="checkbox" name="personitem" value="#=data[i].Key #"  index="#=i+1 #" /></td>
+                            <td>#: i+1 #</td>
+                            <td>#: data[i].Value #</td>
+                            <td>#: TypeDisplay(data[i].UserType) #</td>
+                        </tr>
+            # } #
+    </script>*@
+
+
+@*<script id="item-template" type="text/kendo-ui-template">
+                        <tr>
+                            <td style="text-align: center;"><input type="checkbox" name="personitem" value="#=Key #" index="#=No #" /></td>
+                            <td>#: No #</td>
+                            <td>#: Name #</td>
+                            <td>#: Type #</td>
+                        </tr>
+    </script>*@
+

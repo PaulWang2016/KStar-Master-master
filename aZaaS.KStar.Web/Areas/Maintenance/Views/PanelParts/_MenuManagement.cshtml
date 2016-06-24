@@ -1,0 +1,166 @@
+﻿@using aZaaS.KStar.Html;
+@using aZaaS.KStar.Localization;
+<style>
+    .displayName-plus {
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 7px;
+        padding: 0px;
+    }
+</style>
+
+<div style="height: 600px;">
+    <div id="MenuManagementSplitter" style="position: relative; height: 100%;">
+        <div id="MenuManagementTreeView"></div>
+        <div id="Menu_Information" style="visibility: hidden; overflow: auto; height: 600px; -webkit-overflow-scrolling: touch;">@*display: none; *@
+            <ul>
+                <li class="k-state-active">
+                    <a href="#">@Html.CSHtmlResx("BasicInformation")</a>
+                    <div id="Menu_BasicInformation">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("DisplayName")</div>
+                            <div class="col-lg-9 col-md-9">
+                                <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" readonly />
+                                <span class="glyphicon glyphicon-plus btn displayName-plus"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("Hyperlink")</div>
+                            <div class="col-lg-9 col-md-9">
+                                <input type="text" class="k-textbox Hyperlink" style="width: 100%;" placeholder="Hyper link" />
+                            </div>
+                        </div>
+                        <div class="row" style="display: none;">
+                            <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("Target")</div>
+                            <div class="col-lg-9 col-md-9">
+                                <input type="text" id="MenuBarTarget_show" style="width: 100%;" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("IconKey")</div>
+                            <div class="col-lg-9 col-md-9">
+                                <input type="text" class="k-textbox IconKey" style="width: 100%;" placeholder="IconKey" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("Order")</div>
+                            <div class="col-lg-9 col-md-9">
+                                <input type="text" class="k-textbox OrderBy" style="width: 100%;" placeholder="Order" />
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+            <div class="operabar">
+                <div class="operamask"></div>
+                <button id="Menu_Information_Save" class="k-button operacontent" style="width: 80px; text-align: center; display: block;">@Html.CSHtmlResx("Save")</button>
+                <div class="tips" style="color: green; text-align: center; visibility: hidden; display: block;">@Html.CSHtmlResx("Savedsuccessfully")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="AddMenuWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("DisplayName")</td>
+                <td colspan="3" style="position: relative;">
+                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" readonly/>
+                    <span class="glyphicon glyphicon-plus btn displayName-plus" style="right: 10px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Hyperlink")</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox Hyperlink" style="width: 100%;" placeholder="Hyper link" /></td>
+            </tr>
+            <tr style="display: none;">
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Target")</td>
+                <td colspan="3">
+                    <input type="text" id="MenuBarTarget" style="width: 100%;" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("IconKey")</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox IconKey" style="width: 100%;" placeholder="IconKey" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Order")</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox OrderBy" style="width: 100%;" placeholder="Order" /></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<div id="updateDisplayName" style="display: none;">
+    <div>
+        @{
+            var dic = LocalizationResxExtend.GetPortalLanguage();
+            foreach (var key in dic.Keys)
+            {
+                var dk = key.ToLower().Replace("-", "");
+            <div class="form-group" data-key="@dk">
+                <label for="@dk" class="col-sm-3 control-label">@dic[key]</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="@dk" placeholder="@dic[key]">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            }
+        }
+        @*<div class="form-group">
+            <label for="simplifiedchinese" class="col-sm-3 control-label">简体中文</label>
+            <div class="col-sm-9">
+                <input type="email" class="form-control" id="simplifiedchinese" placeholder="简体中文">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="form-group">
+            <label for="traditionalchinese" class="col-sm-3 control-label">繁體中文</label>
+            <div class="col-sm-9">
+                <input type="email" class="form-control" id="traditionalchinese" placeholder="繁體中文">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="form-group">
+            <label for="americanenglish" class="col-sm-3 control-label">American English</label>
+            <div class="col-sm-9">
+                <input type="email" class="form-control" id="americanenglish" placeholder="American English">
+            </div>
+            <div class="clearfix"></div>
+        </div>*@
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaMenuManagementent" type="text/javascript"></script>
+<script id="MenuManagementTreeView-template" type="text/kendo-ui-template">
+            # if(item.ParentID!= null){ #
+            <span class="k-sprite property"></span>
+            # }else{ #
+
+        <span class="k-sprite folder"></span>
+            # } # 
+            <input type="checkbox"value="#= item.ID #"  />
+        #: item.Name #
+</script>

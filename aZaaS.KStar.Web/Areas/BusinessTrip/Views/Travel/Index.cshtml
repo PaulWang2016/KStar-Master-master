@@ -1,0 +1,261 @@
+﻿@using aZaaS.KStar.Form.Mvc;
+
+@model aZaaS.KStar.Web.Areas.BusinessTrip.Models.TravelRequestModel
+
+<!-- #kstarform customform part -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_customform_panel">表单信息
+            </a>
+        </h4>
+    </div>
+    <div id="_kstarform_customform_panel" class="panel-collapse collapse in">
+        <div class="panel-body">
+            <!-- #kstarform customform part panel -->
+
+            <p class="bg-primary" style="padding: 10px;">
+                <span class="caret"></span>&nbsp; <b>员工业务外出/用车申请</b>
+            </p>
+
+            <form id="travel_form" class="form-horizontal">
+
+                <div class="form-group  ">
+                    <label class="col-sm-2 control-label">外出日期:</label>
+                    <div class="col-sm-4 kstar-control" id="txt_startdate" title="外出日期">
+                        <div class="input-group date">
+                            <input type="text"
+                                class="form-control" name="StartDate" data-bind="datepicker: StartDate, datepickerOptions: { format: 'YYYY-MM-DD', pickTime: false }" placeholder="YYYY-MM-DD" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+
+                    </div>
+
+                    <label class="col-sm-2 control-label">返回日期:</label>
+                    <div class="col-sm-4 kstar-control" id="txt_backdate" title="返回日期">
+                        <div class="input-group date">
+                            <input type="text"
+                                class="form-control" name="BackDate" data-bind="datepicker: BackDate, datepickerOptions: { format: 'YYYY-MM-DD', pickTime: false }" placeholder="预计返回日期" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label">随行人员:</label>
+                    <div class="col-sm-10 kstar-control" id="txt_entourage" title="随行人员">
+                        <textarea class="form-control" name="Entourage" data-bind="value: Entourage" rows="3" placeholder="随行人员，多人用逗号隔开"></textarea>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label">外出事由:</label>
+                    <div class="col-sm-10 kstar-control" id="txt_travelreason" title="外出事由">
+                        <textarea class="form-control" name="TravelReason" data-bind="value: TravelReason" rows="3" placeholder="外出事由"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label"></label>
+
+                    <div class="checkbox col-sm-4 kstar-control" id="rad_isusingcar" title="是否用车">
+                        <label>
+                            <input type="checkbox" name="IsUsingCar" data-bind="checked: IsUsingCar">
+                            是否用车
+                        </label>
+                    </div>
+
+                    <label class="col-sm-2 control-label">总计天数:</label>
+                    <div class="col-sm-4 kstar-control" id="txt_totaldays" title="总计天数">
+                        <input type="text"
+                            class="form-control" disabled="disabled" name="TotalDays" data-bind="value: TotalDays" placeholder="" />
+                    </div>
+                </div>
+
+                <br />
+
+                <div id="schedule_item">
+
+                    <p class="bg-primary" style="padding: 3px;">
+                        <span class="caret"></span>&nbsp;
+                        <button class="btn btn-primary kstar-control" data-bind="click: addSchedule" id="btn_add_schedule" title="添加行程按钮">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            添加行程
+                        </button>
+
+                        <label class="btn btn-primary uploader">
+                            <span class="glyphicon glyphicon glyphicon-import">Excel导入</span>
+                            <input type="file" class="browser"
+                                data-execl-init-row="excelInitRowEvent"
+                                data-before-execl-init-row="excelRowValidateEvent"
+                                data-execl-import-after="excelDataImportedEvent"
+                                id="btn_import">
+                        </label>
+                        <a class="btn btn-template" style="color: red;" href="@Url.Content("~/Template/BusinessTrip_ScheduleDetails.xlsx")" title="模板">Excel模板</a>
+                    </p>
+
+                    <table id="tbl_schedule_item" class="table table-hover kstar-control" title="差旅行程列表">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-1 ">编  号</th>
+                                <th class="col-xs-3">时  间</th>
+                                <th class="col-xs-2">出发地</th>
+                                <th class="col-xs-2">目的地</th>
+                                <th class="col-xs-3">备  注</th>
+                                <th class="col-xs-1">操  作</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Schedules">
+                            <tr>
+                                <td># &nbsp;<span class="text-center" data-bind="text: ($index() + 1)"></span>
+                                </td>
+                                <td>
+
+                                    <div class="input-group">
+                                        <input class="form-control " data-bind="datepicker: FromDate, datepickerOptions: { format: 'YYYY-MM-DD  hh:mm' }, uniqueName: true" />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+
+
+                                    <div class="input-group" style="margin-top: 5px;">
+                                        <input class="form-control  " data-bind="datepicker: ToDate, datepickerOptions: { format: 'YYYY-MM-DD  hh:mm' }, uniqueName: true" />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <textarea class="form-control" data-bind='value: Departure, uniqueName: true' rows="3"></textarea></td>
+                                <td>
+                                    <textarea class="form-control" data-bind='value: Destination, uniqueName: true' rows="3"></textarea></td>
+                                <td>
+                                    <textarea class="form-control" data-bind='value: Comment, uniqueName: true' rows="3"></textarea>
+                                </td>
+                                <td>
+                                    <button class="btn btn-default" data-bind="click: $root.removeSchedule">
+                                        <span class="glyphicon glyphicon-minus-sign"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </form>
+
+        </div>
+        <!-- ./kstarform customform part panel -->
+    </div>
+</div>
+<!-- ./kstarform customform part -->
+
+@section scripts{
+
+    <script src="@Url.Content("~/Scripts/Workflow/formStyle.js")"></script>
+    <script src="@Url.Content("~/Scripts/Workflow/form.uploader.js")"></script>
+    <script src="@Url.Content("~/Scripts/Workflow/form.Utilsl.js")"></script>
+    <script src="@Url.Content("~/Scripts/Workflow/form.Import.js")"></script>
+    <script type="text/javascript">
+
+        //Register viewmodel to KStarForm
+        @Html.RegisterContentModel(Model)
+
+        //Extend the exists model
+        //TODO:Add item properties & attch model events
+        KStarForm.extendModel = function (koModel) {
+
+            var model = KStarForm.toJsModel(koModel);
+            return KStarForm.toKoModel(model, {
+                extend: {
+                    "{root}.Schedules[i]": function (item) {
+
+                        //item.Days = ko.computed(function () {
+                        //    return x + y;
+                        //});
+                    },
+                    "{root}": function (self) {
+
+                        //Calculate total of schedule days.
+                        self.TotalDays = ko.computed(function () {
+                            //var totalDays = 0;
+                            //$.each(self.Schedules(), function () {
+                            //    totalDays += this.Days();
+                            //});
+                            //return totalDays;
+
+                            var diff = moment(self.BackDate(), 'YYYY-MM-DD').diff(moment(self.StartDate(), 'YYYY-MM-DD'));
+                            return moment.duration(diff).asDays();
+                        });
+
+                        self.addSchedule = function () {
+                            var newItem = {
+                                FromDate: new Date(),
+                                ToDate: new Date(),
+                                Departure: '',
+                                Destination: '',
+                                Comment: ''
+                                //Days: 0
+                            };
+
+                            var koItem = KStarForm.toKoModel(newItem);
+                            //koItem.Days = ko.computed(function () {
+                            //    var self = this;
+                            //    return x + y;                               
+                            //}, koItem);
+
+                            self.Schedules.push(koItem);
+                        }
+
+                        self.removeSchedule = function (item) {
+                            self.Schedules.remove(item);
+                        }
+                    }
+                }
+            });
+        };
+
+        /* Excel数据行读取后触发该事件 */
+        function excelInitRowEvent(index, row) {
+
+            debugger;
+            var newItem = {
+                FromDate: new Date(row.FromDate),
+                ToDate: new Date( row.ToDate),
+                Departure: row.Departure,
+                Destination: row.Destination,
+                Comment: row.Comment
+            };
+
+            var koItem = KStarForm.toKoModel(newItem);
+
+            KStarForm.koContentModel.Schedules.push(koItem);
+        }
+
+        /* 通过该事件校验Excel数据有效性 */
+        function excelRowValidateEvent(rows) {
+
+            return true;
+        }
+
+        /* Excel数据被读取完后触发该事件 */
+        function excelDataImportedEvent(rows) {
+
+            //debugger;
+        }
+
+        //JQuery startup
+        $(function () {
+
+            //TODO:
+
+            //Activites excel importing handler
+            $("#btn_import").change(function (e) {
+                _form_Workflow.Import.execl(e);
+            });
+
+        });
+
+    </script>
+}

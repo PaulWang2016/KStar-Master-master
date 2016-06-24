@@ -1,0 +1,290 @@
+﻿<div class="modal fade" data-backdrop="static" id="AddSignerShow">
+
+    <div class="modal-dialog" style="width:800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
+                <h4 class="modal-title">加签编辑器</h4>
+            </div>
+            <div class="modal-body">
+                <div class="toolbar" style="min-width: 750px;">
+
+                    <input type="radio" name="skipSigner" value="False" />加签后发给当前环节人员审批
+                    <input type="radio" name="skipSigner" value="True" checked="checked" />加签后直接送到下一环节审批
+
+                    <input class="btn btn-primary" name="select" type="button" id="NewSigner" style="width: 75px; float: right;" value="+加签组" />
+                </div>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-6">处理人(组)</th>
+                            <th class="col-xs-1">类型</th>
+                            <th class="col-xs-1">状态</th>
+                            <th class="col-xs-2">加签人</th>
+                            <th class="col-xs-2">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableList"></tbody>
+
+                </table>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script id="table-template" type="text/x-handlebars-template">
+
+    {{#each data}}
+    {{#if Peeked}}
+    <tr style="background-color: #BBB4B4">
+        <td><span class="text-center">{{EntryName}}</span></td>
+        <td>
+            <span class="text-center">{{EntryType}}</span>
+        </td>
+        <td>
+            <span class="text-center">已处理</span>
+        </td>
+        <td>
+            <span class="text-center">{{AssignerName}}</span>
+        </td>
+        <td>
+            <a href="javascript:void(0)" onclick="" style="padding-right:10px;" title="上移"><span class='glyphicon glyphicon-arrow-up'></span></a>
+            <a href="javascript:void(0)" onclick="" style="padding-right:10px;" title="下移">
+                <span class='glyphicon glyphicon-arrow-down'></span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="" style="padding-right:10px;" title="删除"> <span class='glyphicon glyphicon-remove'></span></a>
+        </td>
+    </tr>
+    {{else}}
+    {{#if Preinstall}}
+    <tr>
+        <td><span class="text-center">{{EntryName}}</span></td>
+        <td>
+            <span class="text-center">{{EntryType}}</span>
+        </td>
+        <td>
+            <span class="text-center">已处理</span>
+        </td>
+        <td>
+            <span class="text-center">{{AssignerName}}</span>
+        </td>
+        <td>
+            <a href="javascript:void(0)" onclick="" style="padding-right:10px;" title="上移"><span class='glyphicon glyphicon-arrow-up'></span></a>
+            <a href="javascript:void(0)" onclick="" style="padding-right:10px;" title="下移">
+                <span class='glyphicon glyphicon-arrow-down'></span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="" style="padding-right:10px;" title="删除"> <span class='glyphicon glyphicon-remove'></span></a>
+        </td>
+    </tr>
+    {{else}}
+    <tr>
+        <td><span class="text-center">{{EntryName}}</span></td>
+        <td>
+            <span class="text-center">{{EntryType}}</span>
+        </td>
+        <td>
+            <span class="text-center">待处理</span>
+        </td>
+        <td>
+            <span class="text-center">{{AssignerName}}</span>
+        </td>
+        <td>
+            <a href="javascript:void(0)" onclick="UpperParticipantSet('{{SetID}}', '{{Priority}}', '{{MinPriority}}')" style="padding-right:10px;" title="上移"><span class='glyphicon glyphicon-arrow-up'></span></a>
+            <a href="javascript:void(0)" onclick="DownParticipantSet('{{SetID}}', '{{Priority}}', '{{MaxPriority}}')" style="padding-right:10px;" title="下移">
+                <span class='glyphicon glyphicon-arrow-down'></span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="DeleteParticipantSet('{{SetID}}')" style="padding-right:10px;" title="删除"> <span class='glyphicon glyphicon-remove'></span></a>
+        </td>
+    </tr>
+    {{/if}}
+
+    {{/if}}
+    {{/each}}
+</script>
+<script src="~/Scripts/handlebars-v4.0.2.js"></script>
+<script src="~/Scripts/kstarform.userpick.js"></script>
+<script type="text/javascript">
+    //debugger;
+    var _ProcessID;
+    var _ActName;
+    ParticipantSet = { SetID: "00000000-0000-0000-0000-000000000000", realID: "" };
+    var participant = new Object();
+    participant.Add = "/ActivityParticipants/SaveParticipantSetAndEntry";
+    //participant.Update = "/Maintenance/ActivityParticipants/GetActivityParticipantsSet";
+    participant.Upper = "/ActivityParticipants/UpperParticipantPorioty";
+    participant.Down = "/ActivityParticipants/DownParticipantPorioty";
+    participant.Delete = "/ActivityParticipants/DeleteParticipantSet";
+
+    participant.Entry = new Object();
+    participant.Entry.GetEntry = "/ActivityParticipants/GetParticipantSetEntry";
+    participant.Entry.DelEntry = "/ActivityParticipants/DeleteParticipatnEntry";
+
+    $(document).ready(function () {
+        //$("#SkipSigner").kendoDropDownList();
+        //InitSigner();
+        $("#NewSigner").bind("click", function () {
+
+            initChoosePerson();
+        })
+        $("#NewSigner").click();
+    });
+    function InitSigner(ProcInstID, ActName) {
+       
+        //var data = { ProcessInstID: 5410, ActivityName: "020_审核日报" };
+        var dataParam = { ProcessInstID: ProcInstID, ActivityName: ActName, ProcFullName: "" };
+        _ProcessID = ProcInstID;
+        _ActName = ActName;
+        $.getJSON("/ActivityParticipants/GetActivityParticipantsSetByProcessInstID", dataParam, function (items) {
+           
+           
+            var myTemplate = Handlebars.compile($("#table-template").html());
+
+            //将json对象用刚刚注册的Handlebars模版封装，得到最终的html，插入到基础table中。
+            $('#tableList').html(myTemplate(items));
+        });
+    }
+    function DownParticipantSet(guid, p, mp) {
+        //debugger;
+        if (p == mp) return;
+        var data = { SetID: guid };
+
+        $.ajax({
+            url: participant.Down,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {
+                InitSigner(_ProcessID, _ActName);
+                //KStar.Modaldialog.alert({ msg: item }).on(function () {
+                //    InitSigner();
+                //});
+
+            },
+            dataType: "json"
+        }).fail(function (e) {
+        })
+    }
+    function UpperParticipantSet(guid, p, min) {
+        //debugger;
+        if (p == min) return;
+        var data = { SetID: guid };
+        $.ajax({
+            url: participant.Upper,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {
+                InitSigner(_ProcessID, _ActName);
+                //KStar.Modaldialog.alert({ msg: item }).on(function () {
+
+                //});
+
+            },
+            dataType: "json"
+        }).fail(function (e) {
+        })
+    }
+    function DeleteParticipantSet(guid) {
+        KStar.Modaldialog.confirm({ msg: "你确定要删除吗？" }).on(function (e) {
+           
+            if (e) {
+                var data = { SetID: guid };
+                $.ajax({
+                    url: participant.Delete,
+                    type: "POST",
+                    data: data,
+                    traditional: true,
+                    success: function (item) {
+                        
+                        KStar.Modaldialog.alert({ msg: item }).on(function () {
+                            InitSigner(_ProcessID, _ActName);
+                        });
+
+                    },
+                    dataType: "json"
+                }).fail(function (e) {
+
+                });
+            }
+        });
+    }
+    function initChoosePerson() {
+
+        var executeCall = function (data) {
+            var postUrl = participant.Add;
+            var userList = new Array();
+            var items = data.Root.Users.Item;
+            $.each(items, function (i) {
+                userList.push({ ID: 0, SetID: ParticipantSet.SetID, EntryID: items[i].Value, EntryType: "User", EntryName: items[i].Name });
+            });
+            items = data.Root.Depts.Item;
+            $.each(items, function (i) {
+                userList.push({ ID: 0, SetID: ParticipantSet.SetID, EntryID: items[i].Value, EntryType: "OrgNode", EntryName: items[i].Name });
+            });
+            items = data.Root.Positions.Item;
+            $.each(items, function (i) {
+                userList.push({ ID: 0, SetID: ParticipantSet.SetID, EntryID: items[i].Value, EntryType: "Positions", EntryName: items[i].Name });
+            });
+            items = data.Root.CustomRoles.Item;
+            $.each(items, function (i) {
+                userList.push({ ID: 0, SetID: ParticipantSet.SetID, EntryID: items[i].Value, EntryType: "CustomType", EntryName: items[i].Name });
+            });
+            items = data.Root.SystemRoles.Item;
+            $.each(items, function (i) {
+                userList.push({ ID: 0, SetID: ParticipantSet.SetID, EntryID: items[i].Value, EntryType: "Role", EntryName: items[i].Name });
+            });
+            var json = JSON.stringify(userList);
+            var data = {
+                SetID: "00000000-0000-0000-0000-000000000000",
+                Assigner: KStar.User.SysID,
+                AssignerName: KStar.User.FirstName,
+                Setter: "",
+                SetterName: "",
+                Priority: 0,
+                ProcInstID: _ProcessID,
+                ProcessFullName: "",
+                ActivityID: "",
+                ActivityName: _ActName,
+                IsPeeked: 0,
+                IsOriginal: 0,
+                SkipAssigner: 0,
+                SkipSet: $('input:radio[name="liskipSignerst"]:checked').val(),
+                DateAssigned: null,
+                Remark: $("#txtRemark").val()
+            };
+            var str = JSON.stringify(data);
+            var paras = { classString: str, userListString: json, SetID: ParticipantSet.realID };
+            $post(postUrl, paras,
+                 function (data) {
+                     InitSigner(_ProcessID, _ActName);
+                 }, function (err) {
+                     alert('Fail:' + err);
+                 });
+        };
+
+        var ops = {
+            type: 'Person',
+            isshownonreference: true,
+            callback: function (data) {
+
+                executeCall(data);
+
+            },
+            onDetermine: undefined,
+            mutilselect: true,
+            clickTarget: $("#NewSigner")
+        };
+
+        // $.extend(ops, options);
+
+        $(document.body).initSelectPerson(ops)
+    }
+</script>

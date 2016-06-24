@@ -1,0 +1,83 @@
+﻿<!--delegation_list-->
+@using aZaaS.KStar.Html;
+<div class="section">
+    <div class="selectbar1">
+        <span key="StartDate">保存日期</span>:
+        <span key="From">从</span>
+        <span>
+            <input class="datepicker" id="StartDate" type="text" /></span>
+        <span key="To">到</span>
+        <span>
+            <input class="datepicker" id="EndDate" type="text" /></span>
+        <span>流程主题</span>
+        <span>
+            <input class="k-textbox" id="Folio" type="text" /></span>      
+        <span>
+            <input id="selectbtn" class="k-button selectbtn" name="select" type="button"  value="查询" /></span>
+    </div>
+    <div id="myDraftList" class="sectionGrid">
+    </div>
+</div>
+
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaMyDrafts" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_MyDrafts", function (init) {
+        init();
+        $(window).resize();
+    });
+    var myDraftModel1 = kendo.data.Model.define({
+        id: "FormId",
+        fields: {
+            FormId: { type: "int" },
+            FormSubject: { type: "string" },
+            ProcessName: { type: "string" },
+            DraftUrl: { type: "string" },
+            CreatedDate: { type: "date" }
+        }
+    });
+    MyDraftColumns1 = [
+{
+    field: "FormSubject", title: jsResxMaintenance_SeaMyDrafts.FormSubject, filterable: false, template: function (item) {
+        return "<a href='" + item.DraftUrl + "' target='_blank' class='Folio ReadOnly' >"
+            + item.FormSubject + "</a>";
+    }
+},
+{ field: "ProcessName", title: jsResxMaintenance_SeaMyDrafts.ProcessName, filterable: false, sortable: false },
+{ field: "CreatedDate", title: jsResxMaintenance_SeaMyDrafts.SaveDate, filterable: false, format: getDateTimeFormat(), sortable: false },
+{
+    title: jsResxMaintenance_SeaMyDrafts.Operation, filterable: false, width: 58, template: function (item) {
+        return "<a href='javascript:void(0)' class='k-button k-Status' id='" + item.FormId + "'><span class='glyphicon glyphicon-remove'></span></a>"
+    }
+}
+    ];
+
+    var url1 = function () {
+        var startdp = $("#StartDate").data("kendoDatePicker");
+        var enddp = $("#EndDate").data("kendoDatePicker");
+        var startDate = (startdp == null ? null : startdp.value());
+        var endDate = (enddp == null ? null : enddp.value());
+        var folio = $("#Folio").val();
+        var data = {
+            StartDate: (startDate == null ? null : startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()),
+            EndDate: (endDate == null ? null : endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()),
+            folio: folio,
+            "_t": new Date()
+        };
+        return "/Maintenance/MyDrafts/GetMyDraftsForExcel?" + SerializeJsonObject(data);
+    }
+
+    function refreshDraft()
+    {
+        try
+        {
+            InitServerCustomKendoExcelGrid("myDraftList", myDraftModel1, MyDraftColumns1, "/Maintenance/MyDrafts/Get", { "_t": new Date() }, $(window).height() - fullwidgetH, jsResxMaintenance_SeaMyDrafts.MyDrafts, url1,
+              function () {
+                  bindAndLoad("myDraftList");
+                  bindGridCheckbox("myDraftList");
+              });
+        }
+        catch (e) { }
+    }
+
+</script>

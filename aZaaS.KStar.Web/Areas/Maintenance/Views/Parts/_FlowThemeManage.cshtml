@@ -1,0 +1,263 @@
+﻿@{
+    ViewBag.Title = "FlowThemeManage";
+}
+<style>
+.error{
+    color:red;
+}
+</style>
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">流程主题配置</div>
+    </div>
+    <div class="fullwidget">
+        <div id="ProcessPermissionSplitter" style="position: relative; height: 100%;">
+            <div id="left-pane-FlowThemeManage">
+                <div class="pane-content" id="flowThemeManageContent"> 
+                </div>
+                <div class="operabar" style="text-align: center;">
+                    <button id="delete_FlowThemeManage"  style="width: 80px;"> 删 除 </button>
+                    <div class="tips" style="display: none;"></div>
+                </div>
+            </div> 
+        </div>
+    </div> 
+</div>
+ 
+<div class="modal fade _flowThemeManage" aria-hidden="true" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">配置流程主题规则</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="form_flowThemeManage">
+
+                    <div class="input-group">
+                        <span class="input-group-addon">主题名称</span>
+                        <input type="text" class="form-control" id="ProcessName" name="form_flowThemeManage_ProcessName"
+                               data-rule-required="true"
+                               data-msg-required="主题名称不能为空" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">流程编码</span>
+                        <input type="text" class="form-control" id="ProcessCode" name="form_flowThemeManage_ProcessCode"
+                               data-rule-required="true"
+                               data-msg-required="流程编码不能为空" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">对应实体</span>
+                        <input type="text" class="form-control" id="ProcessClass" name="form_flowThemeManage_ProcessClass"
+                               data-rule-required="true"
+                               data-msg-required="对应实体不能为空" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">生成规则</span>
+                        <input type="text" class="form-control" id="ProcessRule" name="form_flowThemeManage_ProcessRule"
+                               data-rule-required="true"
+                               data-msg-required="生成规则不能为空" />
+                    </div>
+                </form>
+              </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="CheckRule()">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    var FeatureRoleModel = kendo.data.Model.define({
+        id: "ID",
+        fields: {
+            ID: { type: "number" },
+            ProcessFullName: { type: "string" },
+            Name: { type: "string" },
+            ModelFullName: { type: "string" },
+            RuleString: { type: "RuleString" }
+        }
+    });
+
+    var FeatureRolecolumns = [
+     {
+         title: jsResxColumns.Checked, width: 35, template: "<input type='radio' name='radio_flowThemeManage' value='#= ID #'/>",
+         headerTemplate: "<span class=\"glyphicon glyphicon-plus\" onclick=\"AddFlowTheme()\" style=\"padding-left: 5px;\"></span>"
+     },
+     { field: "Name", title: "主题名称" },
+     { field: "ProcessFullName", title: "流程编码" },
+     { field: "ModelFullName", title: "对应实体" },
+     { field: "RuleString", title: "生成规则" }
+    ];
+
+    var AddFlowTheme = function () {
+        $('._flowThemeManage').on('hidden.bs.modal', function (e) {
+            $('#ProcessCode').val("");
+            $('#ProcessClass').val("");
+            $('#ProcessRule').val("");
+            $('#ProcessName').val("");
+        });
+        $('._flowThemeManage').modal('show');
+    };
+  
+    var Modaldialog = function () {
+        var msgWindow = '<div id="kstarform-dialog" class="modal">'
++ '            <div class="modal-dialog modal-sm">'
++ '                <div class="modal-content">'
++ '                    <div class="modal-header">'
++ '                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
++ '                        <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i> [Title]</h5>'
++ '                    </div>'
++ '                    <div class="modal-body small">'
++ '                        <p>[Message]</p>'
++ '                    </div>'
++ '                    <div class="modal-footer" >'
++ '                        <button type="button" class="btn btn-primary ok" data-dismiss="modal">[BtnOk]</button>'
++ '                        <button type="button" class="btn btn-default cancel" data-dismiss="modal">[BtnCancel]</button>'
++ '                    </div>'
++ '                </div>'
++ '            </div>'
++ '        </div>';
+
+        var reg = new RegExp("\\[([^\\[\\]]*?)\\]", "igm");
+        var alr = $(msgWindow);
+        var ahtml = alr.html();
+
+        var _alert = function (options) {
+            alr.html(ahtml);    // 复原
+            //alr.find(".ok").removeClass("btn-success").addClass("btn-primary");
+            alr.find(".cancel").hide();
+            _dialog(options);
+
+            return {
+                on: function (callback) {
+                    if (callback && callback instanceof Function) {
+                        alr.find(".ok").click(function () { callback(true) });
+                    }
+                }
+            };
+        };
+
+        var _confirm = function (options) {
+            alr.html(ahtml); // 复原
+            //alr.find(".ok").removeClass("btn-primary").addClass("btn-success");
+            alr.find(".cancel").show();
+            _dialog(options);
+
+            return {
+                on: function (callback) {
+                    if (callback && callback instanceof Function) {
+                        alr.find(".ok").click(function () { callback(true) });
+                        alr.find(".cancel").click(function () { callback(false) });
+                    }
+                }
+            };
+        };
+
+        var _dialog = function (options) {
+            var ops = {
+                msg: "提示内容",
+                title: "系统提示",
+                btnok: "确定",
+                btncl: "取消"
+            };
+
+            $.extend(ops, options);
+
+            var html = alr.html().replace(reg, function (node, key) {
+                return {
+                    Title: ops.title,
+                    Message: ops.msg,
+                    BtnOk: ops.btnok,
+                    BtnCancel: ops.btncl
+                }[key];
+            });
+
+            alr.html(html);
+            alr.modal({
+                width: 500,
+                backdrop: "static"
+            });
+        }
+
+        return {
+            alert: _alert,
+            confirm: _confirm
+        }
+
+    }();
+  
+    var CheckRule = function () {
+        var form = $("#form_flowThemeManage");
+        form.validate();//验证指定的表单  
+        if (form.valid()) {//如果表单验证成功，则进行提交。 
+            showOperaMask();
+            var jsonData = { ProcessFullName: $('#ProcessCode').val(), ModelFullName: $('#ProcessClass').val(), RuleString: $('#ProcessRule').val(), Name: $('#ProcessName').val() }
+            $.post("/Maintenance/FlowTheme/PostAddFlowTheme", { jsonData:JSON.stringify(jsonData) }, function (data, textStatus, jqXHR) {
+                if (data.succeed == false) {
+                    var ops = {
+                        msg: data.message,
+                        title: "系统提示",
+                        btnok: "确定",
+                        btncl: "取消"
+                    };
+                    Modaldialog.alert(ops);
+                } else {
+                    InitFlowThemeManage();
+                    $('._flowThemeManage').modal('hide');
+                }
+                hideOperaMask();
+            }).error(function () {
+                hideOperaMask();
+            });
+        } 
+    };
+
+    var InitFlowThemeManage = function () {
+        showOperaMask();
+        $.getJSON("/Maintenance/FlowTheme/GetFlowThemeList", { _t: new Date() }, function (items) {
+            InitBaseKendoGrid("flowThemeManageContent", FeatureRoleModel, FeatureRolecolumns, items, function () {
+                hideOperaMask();
+                bindGridCheckbox("flowThemeManageContent"); 
+            });
+        })
+    }
+     
+    $(document).ready(function () {
+        InitFlowThemeManage();
+        $("#delete_FlowThemeManage").click(function (e) {
+            var ops = {
+                msg: "是否确定删除？",
+                title: "系统提示",
+                btnok: "确定",
+                btncl: "取消"
+            };
+        
+            Modaldialog.confirm(ops).on(function (isOK) {
+                if (isOK) {
+                    var flowThemeListCheckBox = $("#flowThemeManageContent").find(":radio");
+                    var id = ""; 
+                    $.each(flowThemeListCheckBox, function (index, radio) {
+                        if (radio.checked) { 
+                                id = radio.value;
+                        };
+                    });
+                    if (id.length > 0) {
+                        $.post("/Maintenance/FlowTheme/PostDeleteFlowTheme", { id: parseInt(id) }, function (data, textStatus, jqXHR) {
+                            if (data.succeed == false) {
+                                Modaldialog.alert(data.message);
+                            } else {
+                                InitFlowThemeManage();
+                            }
+                            hideOperaMask();
+                        }).error(function () {
+                            hideOperaMask();
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+ </script>

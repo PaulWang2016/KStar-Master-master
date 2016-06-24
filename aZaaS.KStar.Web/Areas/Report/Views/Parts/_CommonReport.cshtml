@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "CommonReport";
+}
+<div class="section">
+
+    <div class="top-heading">
+        <div class="k-block" style="overflow: hidden;">
+            <div class="toolbar" style="min-width:900px; float:left !important; width:100%">
+                <label class="category-label" for="Folio" style="width: 15%;">  选择流程：</label>
+                <input class="k-textbox" name="sltProcess" type="text" id="sltProcess" style="width:300px;"/>
+                @*<label class="category-label" for="Folio" style="width: 15%;">  数据类型：</label>
+                <input class="k-textbox" name="sltType" type="text" id="sltType" style="width:300px;" />*@
+  
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+
+    <div class="top-heading">
+        <div class="k-block" style="overflow: hidden;">
+            <div class="toolbar" style="min-width:900px; float:left !important; width:100%">
+                <label class="category-label" for="Folio" style="width: 7%;">实例编号：</label>
+                <input type="text" id="txtFolio" class="k-textbox" style="width: 14%; margin-right:10px;" />
+                <label class="category-label" for="Originator" style="width: 7%;">发起人：</label>
+                <input type="text" id="txtOriginator" class="k-textbox" style="width: 13%; margin-right:10px;" />
+                <label class="category-label" for="ProcStartDate" style="width: 7%;"> 发起时间：</label>
+                <input type="text" id="ProcStartDate" name="ProcStartDate" style="width: 13%; " data-date-format="yyyy-mm-dd" />
+                <input type="text" id="ProcEndDate" name="ProcEndDate" style="width: 13%;margin-right:10px;" data-date-format="yyyy-mm-dd" />
+                <label class="category-label" for="ProcStartDate" style="width: 7%;"> 处理状态：</label>
+                <input class="k-textbox" name="ProcessStatus" type="text" id="ProcessStatus" style="width:80px;"/>
+                
+            </div>
+            
+            <div id="CommonReport_Context">
+
+            </div>
+            <div class="toolbar" style="min-width: 900px; margin-top: 4px; float: left !important; width: 100%">
+                <label class="category-label" style="width: 80%;"></label>
+                <span style="margin-left:35px;width:15%;display: -moz-inline-box;display: inline-block;overflow: hidden;height: 27px;">
+                    <input class="k-button selectbtn" name="select" id="btnReset" type="reset" style="width: 75px;float:right;" value="重置" />
+                    <input class="k-button selectbtn" name="select" id="btnQuery" type="button" style="width: 75px; float: right;" value="查询" />
+                </span>
+            </div>
+          
+        </div>
+    </div>
+    <div class="sectionGrid" id="CommonReport_TableList"></div>
+</div>
+
+@*<div id="CommonReport_TableList"></div>*@
+<script src="~/JS/seajs/sea.js"></script>
+<script src="~/JS/Report/CommonReport.js"></script>
+<script type="text/javascript">
+    //debugger;
+    //seajs.use("/JS/Report/CommonReport", function (init) {
+    //init();
+    
+    //});
+    $(function () {
+        $("#ProcStartDate").kendoDatePicker({ format: "yyyy-MM-dd" });
+        $("#ProcEndDate").kendoDatePicker({ format: "yyyy-MM-dd" });
+    });
+    $(document).ready(function () {
+        //$.ajax({
+        //    url: "/Report/CommonReport/GetAllProcessList", async: true, dataType: "json", success: function (items) {
+        //        InitDropDownList("sltProcess", "ProcessName", "ProcessSetID", "--请选择流程--", items, "onChange");
+        //    }
+        //});
+        //var dTypeSource = [
+        //    { text: "督办", value: "1" },
+        //    { text: "监控", value: "2" }
+
+        //];
+        //InitDropDownList("sltType", "text", "value", "请选择", dTypeSource, "TypeChange");
+    });
+
+</script>
+<style scoped>
+    #grid .k-grid-toolbar {
+        padding: .6em 1.3em;
+    }
+
+    .category-label {
+        vertical-align: middle;
+        padding-right: .5em;
+    }
+
+    #category {
+        vertical-align: middle;
+    }
+
+    .toolbar {
+        float: right;
+    }
+</style>

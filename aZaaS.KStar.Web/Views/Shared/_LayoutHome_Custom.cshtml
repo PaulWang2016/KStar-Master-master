@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAll_Custom.cshtml";
+    //bool IsBannerImage = aZaaS.KStar.Facades.PortalEnvironment.IsBannerImage;
+    //bool IsLogoHeader = @aZaaS.KStar.Facades.PortalEnvironment.IsLogoHeader;
+    //string CultureName = aZaaS.KStar.Localization.ResxService.GetAvailableCulture();
+    string CurrentUser = ViewBag.CurrentUser;
+}
+@section style{
+    <link href="~/Content/site_custom.css" rel="stylesheet" />
+    <!--  自适应  -->
+    <link href="~/Content/adaptively.css" rel="stylesheet" />
+    <link href="~/CSS/oneclubIndex.css" rel="stylesheet" />
+    @Styles.Render("~/CSS/selectpersonwindow")
+    @RenderSection("style", required: false)
+}
+@Html.Partial("~/Views/Parts/_Header_Custom.cshtml")
+<section id="container" class="on">
+    <div id="_Left" data-open="true" class="transition">
+        <div id="_MenuContext" class="">
+            @Html.MenuBar("Dashboard", CurrentUser, "_MenuBar_Custom", false)
+            <div class="title"><span class="Home">流程中心门户</span></div>
+        </div>
+        <a class="menuHandle" href="javascript:void(0)"><span class="transition">open</span></a>
+    </div>
+    <div id="right" class="transition">
+        @Html.Partial("~/Views/Parts/_Navgation_Custom.cshtml")
+        @RenderBody()
+        <div id="headersilde" style="float: right; width: 65px; z-index: 1; position: relative; height: 20px; margin-top:-54px; overflow: hidden; color: white; text-align: center; background: url(/images/bth_handle.png) 0 -20px; cursor: pointer;border:1px solid white;" title="点击缩起">缩起</div>
+    </div>
+</section>
+<footer>@ViewBag.Footer</footer>
+<div id="WincontextMenu" style="top: 100px; left: 230px; display: none;">
+    <li style="display: normal;">
+        <a id="AddContextMenu" href="#">
+            <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">增加</span>
+        </a>
+    </li>
+    <li style="display: normal;">
+        <a id="DeleteContextMenu" href="#">
+            <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">删除</span>
+        </a>
+    </li>
+</div>
+@section scripts{
+    <script src="~/JS/JsMsg.js"></script>
+    <script src="~/Scripts/kstar_base.js"></script>
+    <script src="~/Scripts/base.js"></script>
+    @RenderSection("scripts", required: false)
+    <script src="/JSResource/GetJavascriptResx?jsPageName=base" type="text/javascript"></script>
+    <script src="~/JS/jquery.cookies.min.js"></script>
+    <script src="/JSResource/GetJavascriptResx?jsPageName=baseInitView" type="text/javascript"></script>
+    <script src="/JSResource/GetJavascriptResx?jsPageName=kendoExcelGrid" type="text/javascript"></script>
+    <script src="/JSResource/GetJavascriptResx?jsPageName=Columns" type="text/javascript"></script>
+    <script src="~/JS/baseInitView.js?v=20140709"></script>
+    <script src="~/JS/Filters.js?v=20140709"></script>
+    <script src="~/JS/Columns.js?v=20140709"></script>
+    <script src="~/JS/models.js?v=20140709"></script>
+    <script src="~/JS/InitMenuTip.js"></script>
+}

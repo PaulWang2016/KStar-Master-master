@@ -1,0 +1,109 @@
+﻿@using aZaaS.KStar.Form.Mvc;
+@using aZaaS.KStar.Form.Helpers;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/bootstrap/css")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/uploader")
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" type="text/css" href="/Content/bootstrap-ie6.css">
+        <link rel="stylesheet" type="text/css" href="/Content/ie.css">
+    <![endif]-->   
+    <!--[if IE]>
+        <script type="text/javascript" src="/JS/html5shiv.js"></script>
+        <script type="text/javascript" src="/JS/respond.min.js"></script>                        
+    <![endif]-->
+</head>
+<body>
+    <!-- #kstarform container -->
+    <div class="container">
+
+        <!-- #kstarform navigation part -->
+        @*<div class="row kstar-component" title="导航信息" role="_kstarform_navigation">
+                @Html.RenderKStarFormNavigation()
+            </div>*@
+        <!-- ./kstarform navigation part -->
+        <!-- #kstarform header part -->
+        <div class="row kstar-component" title="申请信息" role="_kstarform_header">
+            @Html.RenderKStarFormHeader()
+        </div>
+        <!-- ./kstarform header part -->
+        <!-- #kstarform content part -->
+        <div class="row kstar-component" title="表单信息" role="_kstarform_content">
+            @RenderBody()
+        </div>
+        <!-- ./kstarform content part -->
+        <!-- #kstarform attachment part -->
+        <div class="row kstar-component" title="附件信息" role="_kstarform_attachment">
+            @Html.RenderKStarFormAttachment()
+        </div>
+        <!-- ./kstarform attachment part -->
+        <!-- #kstarform toolbar part -->
+        <div class="row kstar-component" title="操作选项" role="_kstarform_toolbar">
+            @Html.RenderKStarFormToolbar()
+        </div>
+        <!-- #kstarform attachment part -->
+        <div class="row kstar-component" title="审批历史" role="_kstarform_processlog">
+            @Html.RenderKStarFormProcessLog()
+        </div>
+        <!-- ./kstarform attachment part -->
+        <!-- ./kstarform toolbar part -->
+        <!-- #kstarform footer part -->
+        @*<div class="row kstar-component" title="附加信息" role="_kstarform_footer">
+                @Html.RenderKStarFormFooter()
+            </div>*@
+        <!-- ./kstarform footer part -->
+
+    </div>
+    <!-- ./kstarform container -->
+
+    <script type="text/javascript">
+        var $_userPickerUrl = '@Url.Action("GetUserInfo", Html.ViewContext.RouteData.Values)';
+        var $_attachmentUploadUrl = '@Url.Action("_AttachmentUpload", Html.ViewContext.RouteData.Values)';
+        var $_attachemntExtFilter = @Html.Raw(UploaderOptions.ExtFilter ?? "null");
+        var $_attachemntAllowedTypes = '@UploaderOptions.AllowedTypes';
+        var $_attachemntMaxFileSize = @UploaderOptions.MaxFileSize;
+        var $_attachemntAllowedTypes = '@UploaderOptions.AllowedTypes';
+        var $_attachemntAllowedTypes = '@UploaderOptions.AllowedTypes';
+    </script>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/kstarform")
+    @*@Scripts.Render("~/bundles/dmuploader")*@
+    @Scripts.Render("~/bundles/jqueryuiwidget")
+    @Scripts.Render("~/bundles/iframe-transport")
+    @Scripts.Render("~/bundles/fileupload")
+   
+    @Scripts.Render("~/bundles/jqueryztree")
+   <script src="~/JS/kendo.all.min.js"></script>
+   @Scripts.Render("~/bundles/basejs")
+    @*@Scripts.Render("~/bundles/kendobasejs")*@
+    
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="/Scripts/bootstrap-ie.js"></script>    
+    <![endif]-->
+    <script type="text/javascript">
+        $(function () {
+            KStarForm.init();
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        @Html.GetKStarFormUser()
+        @Html.ApplyKStarFormData()
+    </script>
+
+    @{ Html.RenderPartial("AddSignerParticipant");}
+</body>
+</html>

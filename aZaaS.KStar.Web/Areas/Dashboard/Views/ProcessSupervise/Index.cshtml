@@ -1,0 +1,404 @@
+﻿@{
+    ViewBag.Title = "流程督办";
+}
+<script type="text/javascript" src="/JSResource/GetJavaScriptResx?jsPageName=Dashboard_Parts_ProcessSupervise"></script>
+
+
+<script type="text/javascript">
+    document.createElement("lang");
+</script>
+<div class="section">
+
+    <div class="top-heading">
+        <div class="k-block" style="overflow: hidden;">
+            <div class="toolbar" style="min-width:900px; float:left !important; width:100%">
+                <label class="category-label" for="Folio" style="width: 15%;">流程实例编号：</label>
+                <input type="text" id="txtFolio" class="k-textbox" style="width: 30%; margin-right:25px;" />
+                <label class="category-label" for="Originator" style="width: 15%;">发起人：</label>
+                <input type="text" id="txtOriginator" class="k-textbox" style="width: 30%; margin-right:20px;" />
+            </div>
+            <div class="toolbar" style="min-width: 900px; margin-top: 2px; float: left !important; width: 100%">
+                <label class="category-label" for="ProcStartDate" style="width: 15%;"> 发起时间：</label>
+                <input type="text" id="ProcStartDate" name="ProcStartDate" style="width: 15%; " data-date-format="yyyy-mm-dd" />
+                <input type="text" id="ProcEndDate" name="ProcEndDate" style="width: 15%;margin-right:20px;" data-date-format="yyyy-mm-dd" />
+                <label class="Process-label" for="ProcessName" style="width: 15%;">流程名称：</label>
+                <select id="stProcessName" style="width: 30%; margin-right: 50px; margin-top: 2px; vertical-align: middle;" data-placeholder="请选择流程...."></select>
+            </div>
+            <div class="toolbar" style="min-width: 900px; margin-top: 4px; float: left !important; width: 100%">
+                <label class="category-label" style="width: 60%;"></label>
+                <span style="margin-left:35px;width:30%;display: -moz-inline-box;display: inline-block;overflow: hidden;height: 27px;">
+                    <input class="k-button selectbtn" name="select" type="button" style="width: 75px; float: right;" value="查询" />
+                </span>
+            </div>
+            @*<div class="toolbar" style="min-width: 900px; margin-top: 4px;">
+                    <input class="k-button selectbtn" name="select" type="button" style="width: 75px; float: right;" value="查询" />
+                </div>*@
+        </div>
+    </div>
+    <div class="sectionGrid" id="ProcessSupervise"></div>
+</div>
+
+
+<script type="text/x-kendo-template" id="template">
+    <div class="toolbar" style="float:left">
+        <div class="top-title k-grid-title" id="workListTitle">流程督办</div>
+    </div>
+    <div class="toolbar" style="float:right">
+        <input type="button" value="催 办" class="k-button selectbtn" id="btnSupervise">
+    </div>
+</script>
+<script type="text/javascript">
+
+    $("#stProcessName").kendoMultiSelect({
+        dataTextField: "ProcessName",
+        dataValueField: "ProcSetID",
+        width: 300,
+        dataSource: {
+            transport: {
+                read: {
+                    //以下其实就是$.ajax的参数
+                    type: "POST",
+                    url: "/Dashboard/ProcessSupervise/GetProcess",
+                    dataType: "json"
+                }
+            }
+        },
+        dataBound: function () {
+            $("#stProcessName").parent().css("display", "inline-block");
+        }
+    });
+    var ProcessDataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                //以下其实就是$.ajax的参数
+                type: "POST",
+                url: "/Dashboard/ProcessSupervise/GetProcess",
+                dataType: "json",
+
+
+            }
+        }
+
+    });
+    $(function () {
+        $("#ProcStartDate").kendoDatePicker({ format: "yyyy-MM-dd" });
+        $("#ProcEndDate").kendoDatePicker({ format: "yyyy-MM-dd" });
+
+
+
+    });
+
+    var url = function () {
+        var multiSelect = $("#stProcessName").data("kendoMultiSelect");
+
+        var pName = multiSelect.value();
+        var pn = "";
+        if (pName != undefined && pName != null) {
+            for (var i = 0; i < pName.length; i++) {
+                pn += pName[i] + ",";
+            }
+        }
+        //alert(pName);
+        var startDate = $("#ProcStartDate").val();
+        var endDate = $("#ProcEndDate").val();
+        var folio = $("#txtFolio").val();
+        var Startuser = $("#txtOriginator").val();
+        var SysId = KStar.User.SysID;
+
+        data = {
+            processName: pn,
+            Folio: folio,
+            startDate: startDate,
+            finishDate: endDate,
+            startUser: Startuser,
+            Status: 0,
+            pageSize: 65535,
+            SysId: SysId
+        };
+        return "/Dashboard/ProcessSupervise/GetAllRecord?" + SerializeJsonObject(data);
+    }
+
+    $("#ProcessSupervise").prev().find(".selectbtn").click(function () {
+        var multiSelect = $("#stProcessName").data("kendoMultiSelect")
+        var title = "流程督办";
+
+        var pName = multiSelect.value();
+        var pn = "";
+        if (pName != undefined && pName != null) {
+            for (var i = 0; i < pName.length; i++) {
+                pn += pName[i] + ",";
+            }
+        }
+        //alert(pName);
+        var startDate = $("#ProcStartDate").val();
+        var endDate = $("#ProcEndDate").val();
+        var folio = $("#txtFolio").val();
+        var Startuser = $("#txtOriginator").val();
+        var SysId = KStar.User.SysID;
+
+
+        var GetProcessInst = function () {
+            var Processcolumns = [
+                 {
+                     title: "", width: 30, template: function (item) {
+
+                         if (item.Status == "运行中") {
+                             return "<input data-sn='" + item.SN + "'  type='checkbox' name='chkItems' value='" + item.ID + "'/>";
+                         }
+                         else {
+
+                             return "<input data-sn='" + item.SN + "' disabled='disabled' type='checkbox'  name='chkItems' value='" + item.ID + "'/>";
+                         }
+
+                     }, headerTemplate: "<input type='checkbox' name='chkAll'  />", filterable: false,
+
+                 },
+                {
+                    field: "IsReaded", title: "", width: 30, template: function (item) {
+                        return "<a href='" + item.ViewFlowUrl + "' target='_blank'><img src='/images/ViewFlow.gif' /></a>";
+                    }, headerTemplate: "<img src='/images/ViewFlow.gif' />", filterable: false
+                },
+                {
+                    field: "FlowNo", title: "流程实例编号", width: 80, filterable: { ui: folioFilter }, template: function (item) {
+                        // item.HyperLink = item.HyperLink.replace("192.168.1.35", window.location.hostname);
+                        //var clickMethod = "SaveUrlParam('" + item.HyperLink + "','" + item.ProcInstID + "')";
+                        return "<a href='" + item.ViewUrl + "' target='_blank' class='Folio' >" + item.FlowNo + "</a>";
+                    }
+                },
+                { field: "Title", title: "流程主题", width: 180, filterable: false },
+                //
+                { field: "ActName", title: "当前环节", width: 150, filterable: false },
+                { field: "Status", title: "状态", width: 80, filterable: { ui: originatorFilter } },
+                { field: "OperateUser", title: "当前处理人", width: 80, filterable: false },
+                { field: "TaskStartDate", title: "任务到达时间", width: 130, filterable: false },
+                {
+                    field: "RuningTime", title: "当前环节停留时间", width: 150, filterable: false, template: function (item) {
+                        var time = parseFloat(item.RuningTime.split('-')[1]);
+
+                        if (time <= 4)
+                            return "<label class='StayTime' style='color:green' >" + item.RuningTime.split('-')[0] + "</label>";
+                        if (time > 4 && time <= 8)
+                            return "<label class='StayTime' style='color:orange' >" + item.RuningTime.split('-')[0] + "</label>";
+                        else
+                            return "<label class='StayTime' style='color:red' >" + item.RuningTime.split('-')[0] + "</label>";
+                    }
+                },
+                { field: "StartUser", title: "发起人", width: 80, filterable: { ui: originatorFilter } },
+                { field: "StartDate", title: "发起时间", width: 130, format: getDateTimeFormat(), filterable: { ui: "datetimepicker" } }
+
+
+            ]
+            var ProcessModel = kendo.data.Model.define({
+                id: "Folio",
+                fields: {
+                    Folio: { type: "string" },
+                    Title: { type: "string" },
+                    FlowNo: { type: "string" },
+                    ProcessName: { type: "string" },
+                    StartDate: { type: "date" },
+                    Originator: { type: "string" },
+                    StartUser: { type: "string" },
+                    OperateUser: { type: "string" },
+                    Status: { type: "string" },
+                    ID: { Type: "string" },
+                    ActName: { Type: "string" },
+                    SN: { Type: "string" },
+                    Destination: { Type: "string" },
+                    TaskStartDate: { Type: "string" },
+                    RuningTime: { Type: "string" },
+                    ViewFlowUrl: { type: "string" },
+                    ViewUrl: { type: "string" }
+                }
+            });
+            return { model: ProcessModel, columns: Processcolumns }
+        }
+
+        var ProcessInfo = GetProcessInst()
+
+        InitServerCustomKendoExcelGrid("ProcessSupervise", ProcessInfo.model, ProcessInfo.columns, "/Dashboard/ProcessSupervise/Find", {
+            processName: pn,
+            Folio: folio,
+            startDate: startDate,
+            finishDate: endDate,
+            startUser: Startuser,
+            Status: 0,
+            SysId: SysId
+        }, $(window).height() - fullwidgetH - 60, "流程督办", url,
+              function () {
+                  bindAndLoad("ProcessSupervise");
+                  bindGridCheckbox("ProcessSupervise");
+                  if ($("#btnSupervise").length == 0) {
+                      $("#ProcessSupervise .k-toolbar")
+                    .append("<a id='btnSupervise' class='more k-button' href='javascript:void(0)' style='height:26px;' title='催 办'>催 办</a>"
+                            + "<a id='btnStop' class='more k-button' href='javascript:void(0)' style='height:26px;' title='终 止'>终 止</a>"
+                            + "<a id='btnRedirect' class='more k-button' href='javascript:void(0)' style='height:26px;' title='转 交'>转 交</a>")
+                  }
+              });
+
+    }).click();
+
+    $('#btnStop').click(function () {
+
+        var items = $("#ProcessSupervise").data("kendoExcelGrid").dataSource._data;
+        var selectedItems = $("#ProcessSupervise .k-grid-content").find(":checked");
+
+        if (selectedItems.length <= 0) {
+
+            bootbox.alert('请选择流程实例！');
+            return;
+        }
+
+        bootbox.confirm('你确定终止所选的流程实例?<br/> 温馨提示：流程实例被终止后对应的任务项同时会被终止！', function (rest) {
+            if (rest) {
+
+                var postData = new Array();
+                selectedItems.each(function () {
+
+                    var serialNumber = $(this).data('sn');
+                    var itemData = $.grep(items, function (item) {
+                        return item.SN == serialNumber;
+                    });
+
+                    var data = itemData[0];
+                    postData.push({ ProcInstID: data.ID, ProcessName: data.ProcessName, SerialNumber: data.SN, ActivityName: data.ActName, ProcessOwner: data.Destination, RedirectToUser: '' })
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("StopProcessInstance", "ProcessSupervise", new { Area = "Dashboard" })',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    traditional: true,
+                    data: JSON.stringify(postData)
+                }).done(function (rest) {
+                    if (rest.success) {
+                        $("#ProcessSupervise").prev().find(".selectbtn").click();
+                        bootbox.alert('流程实例已成功终止！');
+                    } else
+                        bootbox.alert('流程实例终止异常，请重试！');
+                });
+            }
+        });
+    });
+
+    $('#btnRedirect').click(function () {
+
+        var items = $("#ProcessSupervise").data("kendoExcelGrid").dataSource._data;
+        var selectedItems = $("#ProcessSupervise .k-grid-content").find(":checked");
+
+        if (selectedItems.length <= 0) {
+
+            bootbox.alert('请选择流程实例！');
+            return;
+        }
+
+        InitSelectPersonWindow(this, "Person", function (json) {
+            debugger;
+            var users = json.Root.Users.Item;
+
+            if (users.length <= 0) {
+                bootbox.alert('请选择转交用户！');
+                return;
+            }
+
+            var postData = new Array();
+            selectedItems.each(function () {
+
+                var serialNumber = $(this).data('sn');
+                var itemData = $.grep(items, function (item) {
+                    return item.SN == serialNumber;
+                });
+
+                var data = itemData[0];
+                postData.push({ ProcInstID: data.ID, ProcessName: data.ProcessName, SerialNumber: data.SN, ActivityName: data.ActName, ProcessOwner: data.Destination, RedirectToUser: users[0].UserName })
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RedirectWorklistItem", "ProcessSupervise", new { Area = "Dashboard" })',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                traditional: true,
+                data: JSON.stringify(postData)
+            }).done(function (rest) {
+                if (rest.success) {
+                    $("#ProcessSupervise").prev().find(".selectbtn").click();
+                    bootbox.alert('流程实例已成功转交！');
+                }else
+                    bootbox.alert('流程实例转交异常，请重试！');
+            });
+        })
+
+    });
+
+
+    $("#btnSupervise").click(function () {
+
+        var items = $("input[name='chkItems']");
+        var sv = "";
+        for (var i = 0; i < items.length; i++) {
+            var o = $(items[i]);
+            var c = o[0].checked;
+            var v = $(o[0]).val();
+            if (c) {
+                sv += v + ",";
+            }
+        }
+        if (sv == "") {
+            ShowTip("请选择流程实例", "info");
+            return;
+
+
+        }
+        else {
+            $.post("/Dashboard/ProcessSupervise/ProcessReminder", { processInstIDs: sv }, function (result) {
+                if (result.Status == 1) {
+                    ShowTip("催办已发出", "info");
+                }
+                if (result.Status == -1) {
+                    ShowTip("催办失败", "info");
+                }
+            });
+        }
+    });
+
+    $("#ProcessSupervise .k-grid-header").find(":checkbox").click(function () {
+        if ($(this).prop("checked")) {
+            $("#ProcessSupervise .k-grid-content").find(":checkbox").each(function (index, e) {
+                //debugger;
+                if (!e.hasAttribute('disabled')) {
+                    $(e).prop("checked", true)
+                }
+            });
+
+        }
+        else {
+            $("#ProcessSupervise .k-grid-content").find(":checkbox").each(function (index, e) {
+                //debugger;
+                if (!e.hasAttribute('disabled')) {
+                    $(e).prop("checked", false)
+                }
+            });
+        }
+    })
+
+</script>
+<style scoped>
+    #grid .k-grid-toolbar {
+        padding: .6em 1.3em;
+    }
+
+    .category-label {
+        vertical-align: middle;
+        padding-right: .5em;
+    }
+
+    #category {
+        vertical-align: middle;
+    }
+
+    .toolbar {
+        float: right;
+    }
+</style>
+

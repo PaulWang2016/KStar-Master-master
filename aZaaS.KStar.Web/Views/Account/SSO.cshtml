@@ -1,0 +1,50 @@
+﻿@using aZaaS.KStar.Html;
+@model aZaaS.KStar.Web.Models.LoginModel
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "NeoWayLogin";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SSO</title>
+
+    <script src="~/JS/jquery.min.js"></script>
+
+</head>
+<body style="display:none">
+    <div class="form-signin form-horizontal">
+        <div class="panel panel-default contextpanel">
+            <div class="userName">
+                <input type="text" id="account" class="form-control" value="" placeholder="请输入工号">
+                <input id="clientSecret" name="clientSecret" type="hidden" value="@ViewBag.clientSecret" />
+                <input id="clientid" name="clientid" type="hidden" value="@ViewBag.clientid" />
+                <input id="returnUrl" name="returnUrl" type="hidden" value="@ViewBag.returnUrl" />
+            </div>
+
+            <div class="password">
+                <input type="password" id="password" value="" class="form-control" placeholder="请输入密码">
+            </div>
+            <div class="ValidateCode" style="display:none;">
+                <img id="ImageCode" style="height: 30px;width: 90px;float:right;" src="/Account/ValidateCode" title="看不清？点击更换图片。" />
+                <input type="text" id="validate_Code" class="form-control" style="width: 185px;" placeholder="请输入验证码" />
+
+            </div>
+            <div class="btnEnter">
+                <button id="btn_login" type="submit" class="btn btn-default">
+                    登&nbsp;&nbsp;录
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

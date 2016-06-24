@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="aZaaS.KStar.Wcf.WorkflowSignerService" CodeBehind="WorkflowSignerService.svc.cs" %>

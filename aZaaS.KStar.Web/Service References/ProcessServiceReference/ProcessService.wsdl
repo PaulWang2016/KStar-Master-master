@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ProcessService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WSHttpBinding_IProcessService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/aZaaS.KStar.Wcf" />
+      <xsd:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/aZaaS.KStar.Wcf.DataContracts" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IProcessService_RecordProcessLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:RecordProcessLog" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_RecordProcessLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecordProcessLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetProcessLogList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProcessLogList" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetProcessLogList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProcessLogListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipants_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipants" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipants_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipantsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityNotPopParticipants_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityNotPopParticipants" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityNotPopParticipants_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityNotPopParticipantsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_HasAttachActivityParticipant_InputMessage">
+    <wsdl:part name="parameters" element="tns:HasAttachActivityParticipant" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_HasAttachActivityParticipant_OutputMessage">
+    <wsdl:part name="parameters" element="tns:HasAttachActivityParticipantResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipantEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipantEmail" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipantEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipantEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipantEmails_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipantEmails" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipantEmails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipantEmailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipantCCEmails_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipantCCEmails" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetActivityParticipantCCEmails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityParticipantCCEmailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetProcessConfigByFullName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProcessConfigByFullName" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetProcessConfigByFullName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProcessConfigByFullNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetProcessConfigByProcInstId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProcessConfigByProcInstId" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_GetProcessConfigByProcInstId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProcessConfigByProcInstIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_SaveKStarFormEndCCUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveKStarFormEndCCUser" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_SaveKStarFormEndCCUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveKStarFormEndCCUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_SaveKStarFormReworkCCUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveKStarFormReworkCCUser" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_SaveKStarFormReworkCCUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveKStarFormReworkCCUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_LienRule_InputMessage">
+    <wsdl:part name="parameters" element="tns:LienRule" />
+  </wsdl:message>
+  <wsdl:message name="IProcessService_LienRule_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LienRuleResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IProcessService">
+    <wsdl:operation name="RecordProcessLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/RecordProcessLog" message="tns:IProcessService_RecordProcessLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/RecordProcessLogResponse" message="tns:IProcessService_RecordProcessLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProcessLogList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetProcessLogList" message="tns:IProcessService_GetProcessLogList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetProcessLogListResponse" message="tns:IProcessService_GetProcessLogList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipants">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipants" message="tns:IProcessService_GetActivityParticipants_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipantsResponse" message="tns:IProcessService_GetActivityParticipants_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityNotPopParticipants">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetActivityNotPopParticipants" message="tns:IProcessService_GetActivityNotPopParticipants_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetActivityNotPopParticipantsResponse" message="tns:IProcessService_GetActivityNotPopParticipants_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="HasAttachActivityParticipant">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/HasAttachActivityParticipant" message="tns:IProcessService_HasAttachActivityParticipant_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/HasAttachActivityParticipantResponse" message="tns:IProcessService_HasAttachActivityParticipant_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipantEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipantEmail" message="tns:IProcessService_GetActivityParticipantEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipantEmailResponse" message="tns:IProcessService_GetActivityParticipantEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipantEmails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipantEmails" message="tns:IProcessService_GetActivityParticipantEmails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipantEmailsResponse" message="tns:IProcessService_GetActivityParticipantEmails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipantCCEmails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipantCCEmails" message="tns:IProcessService_GetActivityParticipantCCEmails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetActivityParticipantCCEmailsResponse" message="tns:IProcessService_GetActivityParticipantCCEmails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProcessConfigByFullName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetProcessConfigByFullName" message="tns:IProcessService_GetProcessConfigByFullName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetProcessConfigByFullNameResponse" message="tns:IProcessService_GetProcessConfigByFullName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProcessConfigByProcInstId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/GetProcessConfigByProcInstId" message="tns:IProcessService_GetProcessConfigByProcInstId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/GetProcessConfigByProcInstIdResponse" message="tns:IProcessService_GetProcessConfigByProcInstId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveKStarFormEndCCUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/SaveKStarFormEndCCUser" message="tns:IProcessService_SaveKStarFormEndCCUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/SaveKStarFormEndCCUserResponse" message="tns:IProcessService_SaveKStarFormEndCCUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveKStarFormReworkCCUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/SaveKStarFormReworkCCUser" message="tns:IProcessService_SaveKStarFormReworkCCUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/SaveKStarFormReworkCCUserResponse" message="tns:IProcessService_SaveKStarFormReworkCCUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LienRule">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProcessService/LienRule" message="tns:IProcessService_LienRule_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProcessService/LienRuleResponse" message="tns:IProcessService_LienRule_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSHttpBinding_IProcessService" type="tns:IProcessService">
+    <wsp:PolicyReference URI="#WSHttpBinding_IProcessService_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RecordProcessLog">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/RecordProcessLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProcessLogList">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetProcessLogList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipants">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetActivityParticipants" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityNotPopParticipants">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetActivityNotPopParticipants" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HasAttachActivityParticipant">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/HasAttachActivityParticipant" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipantEmail">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetActivityParticipantEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipantEmails">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetActivityParticipantEmails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityParticipantCCEmails">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetActivityParticipantCCEmails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProcessConfigByFullName">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetProcessConfigByFullName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProcessConfigByProcInstId">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/GetProcessConfigByProcInstId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveKStarFormEndCCUser">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/SaveKStarFormEndCCUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveKStarFormReworkCCUser">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/SaveKStarFormReworkCCUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LienRule">
+      <soap12:operation soapAction="http://tempuri.org/IProcessService/LienRule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProcessService">
+    <wsdl:port name="WSHttpBinding_IProcessService" binding="tns:WSHttpBinding_IProcessService">
+      <soap12:address location="http://127.0.0.1:807/ProcessService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://127.0.0.1:807/ProcessService.svc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <add key="InternetDownloadRole" value="外网下载"/>
+  <add key="InternetRole" value="外网访问"/>
+</resources>

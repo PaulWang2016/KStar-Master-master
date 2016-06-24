@@ -1,0 +1,874 @@
+﻿@using aZaaS.KStar.Html;
+<style>
+    .abtn {
+        padding: 0 5px;
+        cursor: pointer;
+    }
+</style>
+<script>
+    var ConfigFieldModel = kendo.data.Model.define({
+        id: "Field",
+        fields: {
+            Field: { type: "string", editable: false },
+            DisplayName: {
+                type: "string", editable: true, validation: {
+                    required: true,
+                    displaynamevalidation: function (input) {
+                        if (input.is("[name='DisplayName']") && input.val() != "") {
+                            input.attr("data-displaynamevalidation-msg", "Display Name should Unique");
+                            var grid = getKendoGrid("ConfigFieldListView");
+                            var data = grid.dataSource.data()
+                            var count = 0;
+                            $.each(data, function () {
+                                if (this.DisplayName == input.val())
+                                    count++;
+                            })
+                            return count <= 1;
+                        }
+                        return true;
+                    }
+                }
+            },
+            ValueType: { type: "string" },
+            Description: { type: "string", editable: true },
+            IsChecked: { type: "boolean" }
+        }
+    });
+    var configfieldcolumns = [
+            {
+                title: jsResxMaintenance_SeaWorklist.Checked, width: 35, template: function (item) {
+                    return item.IsChecked ? "<input type='checkbox' value='" + item.Field + "' checked='checked' />" : "<input type='checkbox' value='" + item.Field + "' />";
+                }, headerTemplate: "<input type='checkbox' />", filterable: false
+            },
+        { field: "Field", title: jsResxMaintenance_SeaWorklist.ColumnName, filterable: false },
+        { field: "DisplayName", title: jsResxMaintenance_SeaWorklist.DisplayName, filterable: false },
+        { field: "ValueType", title: jsResxMaintenance_SeaWorklistData.ValueType, filterable: false, editor: ValueTypeDropDownEditor },
+        { field: "Description", title: jsResxMaintenance_SeaWorklist.Description, filterable: false }
+    ]
+
+
+    $("#senderPreservation").click(function () {        
+        var array = $("#StartUserList").data("kendoGrid").dataSource._data;
+        var json = JSON.stringify(array);
+        $.post("/Maintenance/WFConfig/SaveSenderInfo", { procSetId: currentItemId, startUserListOfString: json }, function (result) {
+            if (result.toString().toLowerCase() == "true") {
+                var treeitem = GetSelectTreeItem();
+                treeitem.StartUserList = array;
+                $("#senderPreservation").siblings(".tips").css("visibility", "visible");
+            }
+        });
+    });
+
+    $("#processSetBasicInfoPreservation").click(function () {
+         
+        var form = $(this).closest("form");
+        var tbody = $(this).closest(".tab-pane").find("tbody");
+
+        var data = {};
+        var EndCc = [];
+        var ReworkCc = [];
+        data.ID = currentItemId;
+        data.ProcessSetNo = $("#ProcessSetNo").val();
+        data.ProcessFullName = $("#ProcessFullName").val();
+        data.ProcessName = $("#ProcessName").val();
+        data.Configuration_CategoryID = $("#businessType").val();
+        data.OrderNo = $("#OrderNo").val();
+        data.StartUrl = $("#StartUrl").val();
+        data.ViewUrl = $("#ViewUrl").val();
+        data.ApproveUrl = $("#ApproveUrl").val();
+
+        var EndCcItems = form.find("input[name='EndCc']");
+        $.each(EndCcItems, function (i, item) {
+            if ($(item).prop("checked")) {
+                switch ($(item).val()) {
+                    case "流程发起人":
+                        var list1 = $(item).data("list");
+                        if (list1 == undefined) {
+                            EndCc.push(obj2str({ Key: "", Value: "流程发起人" }));
+                        }
+                        else {
+                            EndCc.push(obj2str(list1));
+                        }
+                        break;
+                    case "流程参与人":
+                        var list2 = $(item).data("list");
+                        if (list2 == undefined) {
+                            EndCc.push(obj2str({ Key: "", Value: "流程参与人" }));
+                        }
+                        else {
+                            EndCc.push(obj2str(list2));
+                        }
+                        break;
+                    default:
+                        var inputelement = $(item).closest(".form-group").find(":text");
+                        var list = inputelement.data("list");
+                        $.each(list, function (i, item) {
+                            EndCc.push(obj2str(item));
+                        });
+                        break;
+                }
+            }
+        });
+
+
+        var ReworkCcItems = form.find("input[name='ReworkCc']");
+        $.each(ReworkCcItems, function (i, item) {
+            if ($(item).prop("checked")) {
+                switch ($(item).val()) {
+                    case "流程发起人":
+                        var list1 = $(item).data("list");
+                        if (list1 == undefined) {
+                            ReworkCc.push(obj2str({ Key: "", Value: "流程发起人" }));
+                        }
+                        else {
+                            ReworkCc.push(obj2str(list1));
+                        }
+                        break;
+                    case "流程参与人":
+                        var list2 = $(item).data("list");
+                        if (list2 == undefined) {
+                            ReworkCc.push(obj2str({ Key: "", Value: "流程参与人" }));
+                        }
+                        else {
+                            ReworkCc.push(obj2str(list2));
+                        }
+                        break;
+                    default:
+                        var inputelement = $(item).closest(".form-group").find(":text");
+                        var list = inputelement.data("list");
+                        $.each(list, function (i, item) {
+                            ReworkCc.push(obj2str(item));
+
+                        });
+                        break;
+                }
+            }
+        });
+
+        data.EndCc = "[" + EndCc.join(",") + "]";
+        data.ReworkCc = "[" + ReworkCc.join(",") + "]";
+        data.NotAssignIfApproved = $("#NotAssignIfApproved").prop("checked");
+        data.ProcessPredict = $("#OpenProcessPre").prop("checked");
+        data.LoopRemark = $("#LoopRemark").val(); 
+        data.Description = $("#Description").val();
+        $.post("/Maintenance/WFConfig/SaveProcessSetBasicInfo", data, function (result) {            
+            if (result != null && result.ID > 0) {
+                 
+                result.spriteCssClass = "processSet";
+                var template = kendo.template($("#PostionManageTreeView-template").html())
+                var target = $("#PostionManageTreeView_tv_active .k-state-selected");
+                target.html(template({ item: result }));
+                $("#PostionManageTreeView_tv_active").find("input").first().prop("checked", true);
+
+                UpdateProcessTreeItem(GetSelectTreeItem(), result);
+
+                InitEndcc(result.EndCc);
+                InitReworkCc(result.ReworkCc);
+                $("#processSetBasicInfoPreservation").siblings(".tips").css("visibility", "visible");
+            }
+            else {
+                $("#processSetBasicInfoPreservation").siblings(".tips").css("visibility", "hidden");
+            }
+        });
+    });
+
+    $("#senderAddto").click(function () {
+        SelectAllPerson.apply(this);
+    });
+
+
+    $("#senderDeletefrom").click(function () {
+        var users = $("#StartUserList .k-grid-content").find(":checked");
+        if (users.length==0) {
+            ShowTip(jsResxMaintenance_SeaWorklistData.Pleaseselectanitem);
+            return;
+        }
+        bootbox.confirm(jsResxMaintenance_SeaWorklistData.Areyousure, function (result) {
+            if (result) {
+                $("#StartUserList .k-grid-content").find(":checked").each(function () {
+                    var item = $("#StartUserList").data("kendoGrid").dataSource.get(this.value);
+                    $("#StartUserList").data("kendoGrid").dataSource.remove(item);
+                })
+            }
+        });
+        
+    });
+
+
+    $("#SaveSettings").click(function () {        
+        showOperaMask();
+        var url = "";
+        var isadd=false;
+        if ($("#BusinessDataConfigId").val() != "") {
+            url = "/Maintenance/Worklist/EditWorklist";
+        }
+        else {
+            isadd=true;
+            url = "/Maintenance/Worklist/AddWorklist";
+        }
+        var columns = new Array();
+        var Fieldgrid = getKendoGrid("ConfigFieldListView");
+        $("#ConfigFieldListView .k-grid-content").find("input:checked").each(function () {
+            var field = $(this).val();
+            var column = Fieldgrid.dataSource.get(field);
+            columns.push("{ ColumnName: '" + field + "', DisplayName: '" + column.DisplayName + "', ValueType: '" + column.ValueType + "', Description:'" + column.Description + "' }");
+        })
+        var data = {
+            WorklistID: $("#BusinessDataConfigId").val(),
+            ApplicationName: $("#BusinessDataConfigFullName").val(),
+            ProcessName: $("#BusinessDataConfigFullName").val(),
+            ConnectionString: $("#ConnectionString").val(),
+            DataTable: $("#DataTable").val(),
+            WhereQuery: $("#WhereQuery").val(),
+            isFetch: true,
+            columns: columns
+        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {                
+                if (item.WorklistID != null && item.WorklistID != "null") {
+                    $("#SaveSettings").siblings(".tips").css("visibility", "visible");
+                    if (isadd) {                        
+                        $("#BusinessDataConfigId").val(item.WorklistID);
+                        InitFetchGrid();
+                        //FetchConfigField(item.WorklistID);
+                        //InitWorkListData();                        
+                    }
+                }
+                else
+                {
+                    $("#SaveSettings").siblings(".tips").css("visibility", "hidden");
+                }
+                hideOperaMask();
+            }
+        }).fail(function () {            
+            hideOperaMask();
+            $("#SaveSettings").siblings(".tips").css("visibility", "hidden");
+        })
+    });
+
+
+    $("#processConfigExport").click(function () {
+        window.location.href = "/Maintenance/WFConfig/ExportProcessConfiguration?configuration_ProcessID=" + currentItemId;
+    });
+    $("#processConfigImport").click(function () {        
+        var ImportProcessConfig = $("#ImportProcessConfig").data("kendoWindow");
+        if (!ImportProcessConfig) {
+            $("#ImportProcessConfig").kendoWindow({
+                width: "500px",
+                title:jsResxMaintenance_SeaWFConfig.ImportProcessTitle,
+                actions: [
+                    "Close"
+                ],
+                resizable: false,
+                modal: true
+            });
+            ImportProcessConfig = $("#ImportProcessConfig").data("kendoWindow").center();
+            window.AddSplitters(ImportProcessConfig);
+        }
+
+        if (!$("#importprocessfiles").data("kendoUpload")) {
+            $("#importprocessfiles").kendoUpload({
+                async: {
+                    saveUrl: "/Maintenance/WFConfig/ImportProcessConfiguration?configuration_ProcessID=" + currentItemId,
+                    autoUpload: false
+                },
+                files: [],
+                multiple: false,
+                upload: onUpload,
+                success: onProcessSuccess,
+                localization: {
+                    uploadSelectedFiles: jsResxMaintenance_SeaWFConfig.ImportProcessTitle,
+                    select: jsResxMaintenance_SeaWFConfig.SelectFiles
+                }
+            });
+        }
+        else {
+            $("#importprocessfiles").data("kendoUpload").options.async.saveUrl = "/Maintenance/WFConfig/ImportProcessConfiguration?configuration_ProcessID=" + currentItemId;
+        }
+        if ($("#ImportProcessConfig ul.k-upload-files"))
+        {
+            $("#ImportProcessConfig ul.k-upload-files").remove();
+        }
+        if ($("#ImportProcessConfig button"))
+        {
+            $("#ImportProcessConfig button").remove();
+        }
+        if ($("#ImportProcessConfig strong.k-upload-status"))
+        {
+            $("#ImportProcessConfig strong.k-upload-status").remove();
+        }
+
+        ImportProcessConfig.open();
+    });
+    
+    var onProcessSuccess=function(e)
+    {        
+        var files = e.files;
+        if (e.operation == "upload") {                      
+            e.preventDefault();
+        }
+        if (e.response.flag)
+        {
+            InitProcessInfo(e.response.process);
+            var ImportProcessConfig = $("#ImportProcessConfig").data("kendoWindow");
+            ImportProcessConfig.close();
+        }
+    }
+
+
+
+    $("#FetchField").click(function() {
+        FetchConfigField($("#BusinessDataConfigId").val());
+    });
+
+    $("#WorklistDataSetting").click(function () {
+        var WorklistDataWindow = $("#WorklistDataWindow").data("kendoWindow");
+        if (!WorklistDataWindow) {
+            $("#WorklistDataWindow").kendoWindow({
+                width: "850px",
+                title: jsResxMaintenance_SeaWorklistData.AddWorklistDataConfig,
+                actions: [
+                    "Close"
+                ],
+                open: function (e) {
+                   
+                },
+                close: function (e) {
+                    //FetchConfigField($("#BusinessDataConfigId").val());
+                },
+                resizable: false,
+                modal: true
+            });
+        }
+        $("#WorklistDataWindow").data("kendoWindow").title(jsResxMaintenance_SeaWorklist.AddWorklistConfig).center().open();
+    });
+    /*业务数据列  新增 编辑  删除*/
+    var AddWData = function () {
+        CreateAddWorklistDataWindow();
+        $("#AddWorklistDataWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Worklist/AddWorklistData").attr("data-id", "");
+
+        $("#AddWorklistDataWindow").data("kendoWindow").title(jsResxMaintenance_SeaWorklistData.AddWorklistDataConfig).center().open();
+    }
+    var EditWData = function (id) {
+        CreateAddWorklistDataWindow();
+        if (id) {
+            var item = getKendoGrid("WorklistDataView").dataSource.get(id);
+            $("#AddWorklistDataWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Worklist/EditWorklistData").attr("data-id", item.WorklistDataID);
+
+            $("#AddWorklistDataWindow .ColumnName").val(item.ColumnName);
+            $("#AddWorklistDataWindow .DisplayName").val(item.DisplayName);
+            $("#AddWorklistDataWindow .Description").val(item.Description);
+            $("#ColumnValueType").data("kendoDropDownList").search(item.ValueType);
+            $("#ColumnIsVisible").data("kendoDropDownList").value(item.IsVisible);
+
+            $("#AddWorklistDataWindow").data("kendoWindow").title(jsResxMaintenance_SeaWorklistData.EditWorklistDataConfig).center().open();
+        }
+        else {
+            ShowTip(jsResxMaintenance_SeaWorklistData.Pleaseselectworklist);
+        }
+    }
+    var DelWData = function () {
+        var idList = new Array();
+        $("#WorklistDataView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm(jsResxMaintenance_SeaWorklistData.Areyousure, function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Worklist/DelWorklistData",
+                        type: "POST",
+                        data: { idList: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("WorklistDataView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                grid.dataSource.remove(item);
+                            }
+                        },
+                        dataType: "json"
+                    })
+                }
+            });
+        }
+        else {
+            ShowTip(jsResxMaintenance_SeaWorklistData.Pleaseselectworklistdata);
+        }
+    }
+    var CreateAddWorklistDataWindow = function () {
+        var AddWorklistDataWindow = $("#AddWorklistDataWindow").data("kendoWindow");
+        if (!AddWorklistDataWindow) {
+            $("#AddWorklistDataWindow").kendoWindow({
+                width: "850px",
+                title: jsResxMaintenance_SeaWorklistData.AddWorklistDataConfig,
+                actions: [
+                    "Close"
+                ],
+                open: function (e) {
+                    $("#AddWorklistDataWindow .windowCancel").bind("click", WorklistDataCancel)
+                    $("#AddWorklistDataWindow .windowConfirm").bind("click", WorklistDataConfirm)
+                },
+                close: function (e) {
+                    resetAddWorklistDataWindow();
+                    $("#AddWorklistDataWindow .windowCancel").unbind("click", WorklistDataCancel)
+                    $("#AddWorklistDataWindow .windowConfirm").unbind("click", WorklistDataConfirm)
+                },
+                resizable: false,
+                modal: true
+            });
+        }
+    }
+    var resetAddWorklistDataWindow = function () {
+        hideOperaMask("AddWorklistDataWindow");
+        $("#AddWorklistDataWindow .k-textbox").val("");//清除输入框
+
+        $("#ColumnValueType").data("kendoDropDownList").select(0)
+        $("#ColumnIsVisible").data("kendoDropDownList").select(0)
+    }
+
+    var WorklistDataCancel = function () {
+        $("#AddWorklistDataWindow").data("kendoWindow").close()
+    }
+    var WorklistDataConfirm = function () {
+        var that = $(this);
+        that.unbind("click", WorklistDataConfirm);
+        showOperaMask("AddWorklistDataWindow");
+        var url = that.attr("data-url");
+        var data = {
+            WorklistDataID: that.attr("data-id"),
+            ColumnName: $("#AddWorklistDataWindow .ColumnName").val(),
+            DisplayName: $("#AddWorklistDataWindow .DisplayName").val(),
+            Description: $("#AddWorklistDataWindow .Description").val(),
+            ValueType: $("#ColumnValueType").data("kendoDropDownList").text(),
+            IsVisible: $("#ColumnIsVisible").data("kendoDropDownList").value(),
+            WorklistID: $("#BusinessDataConfigId").val()
+        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {
+                var grid = getKendoGrid("WorklistDataView");
+                var model = grid.dataSource.get(item.WorklistDataID);
+                if (model) {
+                    for (var key in item) {
+                        model.set(key, item[key]);
+                    }
+                }
+                else {
+                    grid.dataSource.add(item)
+                }
+                $("#AddWorklistDataWindow").data("kendoWindow").close();
+            }
+        }).fail(function () {
+            that.bind("click", WorklistDataConfirm);
+            hideOperaMask("AddWorklistDataWindow");
+        })
+    }
+    /*可选业务数据列  新增 编辑  删除*/
+
+    //初始化可选业务数据列gird
+    function InitFetchGrid()
+    {
+        $("#FetchField").parent().show();
+        //获取可选业务数据列
+        InitBaseEditableKendoGrid("ConfigFieldListView", ConfigFieldModel, configfieldcolumns, [], function () {
+            bindGridCheckbox("ConfigFieldListView");
+            $("#ConfigFieldListView").find(".k-grid-content").css("overflow", "auto").css("height", "130px");
+        });
+    }
+
+    function ValueTypeDropDownEditor(container, options) {
+        $('<input required data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                dataSource: ["Text", "Number", "DateTime", "Xml"]
+            });
+    }
+
+
+    //获取可选业务数据列
+    var FetchConfigField = function (configId) {
+        var data = {
+            configId: configId,
+            table: $("#DataTable").val(),
+            ConnectionString: $("#ConnectionString").val()
+        };
+
+        $.ajax({
+            url: "/Maintenance/Worklist/FetchFields",
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (items) {
+                var grid = getKendoGrid("ConfigFieldListView");
+                grid.dataSource.data([]);//清除原数据
+                $.each(items, function () {
+                    var item = this;
+                    grid.dataSource.add(item)
+                });
+            }
+        })
+    }
+
+
+    //初始化已选业务数据列
+    function InitWorkListData() {
+        $("#WorklistDataSetting").show();
+
+        //初始化工作列表 可选业务数据列
+        $.getJSON("/Maintenance/Worklist/GetWorklistData", { _t: new Date(), configId: $("#BusinessDataConfigId").val() }, function (items) {
+            InitKendoExcelGrid("WorklistDataView", WorklistDataModel, worklistdatacolumns, items, 20, jsResxMaintenance_SeaWorklistData.WorklistColumnConfiguration, function () {//
+                bindAndLoad("WorklistDataView");
+                bindGridCheckbox("WorklistDataView");
+                $("#WorklistDataView .k-toolbar a.k-grid-export").remove();
+                $("#WorklistDataView .k-toolbar")
+                    .append("<a id='WDataDel' class='k-button'><span class='glyphicon glyphicon-remove'></span></a>")
+                    .append("<a id='WDataAdd' class='k-button'><span class='glyphicon glyphicon-plus'></span></a>");
+
+                $("#WDataAdd").click(AddWData);
+                $("#WDataDel").click(DelWData);
+            });
+        })
+        $("#ColumnValueType").kendoDropDownList({
+            dataSource: ["Text", "Number", "DateTime", "Xml"]
+        });
+        $("#ColumnIsVisible").kendoDropDownList({
+            dataTextField: "Text",
+            dataValueField: "Value",
+            dataSource: {
+                data: [{ Value: "true", Text: "Yes" }, { Value: "false", Text: "No" }]
+            }
+        });
+    }
+
+
+    $(function () {
+        InitBusinessType();        
+    })
+</script>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#base" data-toggle="tab">@Html.CSHtmlResx("Basicinformation")</a></li>
+    <li><a href="#sender" data-toggle="tab">@Html.CSHtmlResx("Thesponsor")</a></li>
+    <li><a href="#version" data-toggle="tab">@Html.CSHtmlResx("Versioninformation")</a></li>
+    <li style=" display:none;"><a href="#settings" data-toggle="tab">@Html.CSHtmlResx("Worklistsettings")</a></li>
+    <li><a href="#ProcessControlSetting" data-toggle="tab">@Html.CSHtmlResx("FormStartConfiguration")</a></li>
+    <li><a href="#ConfigImportAndExport" data-toggle="tab">@Html.CSHtmlResx("ConfigImportAndExport")</a></li> 
+     
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <!-- 基础信息 -->
+    <div class="tab-pane active" id="base">
+        <form class="form-horizontal" role="form" method="post" action="/Maintenance/WFConfig/SaveProcessSetBasicInfo">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Theprocesssetnumber")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ProcessSetNo" name="ProcessSetNo" class="form-control" placeholder="@Html.CSHtmlResx("Theprocesssetnumber")" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Processfullname")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ProcessFullName" name="ProcessFullName" class="form-control" placeholder="@Html.CSHtmlResx("Processfullname")" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Processname")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ProcessName" name="ProcessName" class="form-control" placeholder="@Html.CSHtmlResx("Processname")">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Thetypeofbusiness")</label>
+                <div class="col-sm-6">
+                    <select class="form-control" id="businessType" name="Configuration_CategoryID">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Sortnumber")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="OrderNo" name="OrderNo" class="form-control" placeholder="@Html.CSHtmlResx("Sortnumber")">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("TheprocessinitiatedbyURL")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="StartUrl" name="StartUrl" class="form-control" placeholder="@Html.CSHtmlResx("TheprocessinitiatedbyURL")">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("ProcessviewURL")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ViewUrl" name="ViewUrl" class="form-control" placeholder="@Html.CSHtmlResx("ProcessviewURL")">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("ProcessapprovalURL")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ApproveUrl" name="ApproveUrl" class="form-control" placeholder="@Html.CSHtmlResx("ProcessapprovalURL")">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Attheendoftheprocessto")</label>
+                <div class="col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="EndCc" value="流程发起人">
+                            @Html.CSHtmlResx("Flowpromoter")
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="EndCc" value="流程参与人">
+                            @Html.CSHtmlResx("Flowofparticipants")
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-6" style="margin-bottom: 10px;">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="EndCc">
+                            @Html.CSHtmlResx("Thespecifiedperson")
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-6">
+                    <input type="text" class="form-control EndCc" name="EndCc" readonly>
+                </div>
+                <div class="col-sm-2" style="padding-left: 0;">
+                    <button class="btn btn-default" type="button" onclick="ChooseAllPerson.apply(this)" data-type="end">...</button>
+                </div>
+                <div class="hide"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Flowbackto")</label>
+                <div class="col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReworkCc" value="流程发起人">
+                            @Html.CSHtmlResx("Flowpromoter")
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReworkCc" value="流程参与人">
+                            @Html.CSHtmlResx("Flowofparticipants")
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-6" style="margin-bottom: 10px;">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReworkCc">
+                            @Html.CSHtmlResx("Thespecifiedperson")
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-6">
+                    <input type="text" class="form-control ReworkCc" name="ReworkCc" readonly>
+                </div>
+                <div class="col-sm-2" style="padding-left: 0;">
+                    <button class="btn btn-default" type="button" onclick="ChooseAllPerson.apply(this)" data-type="rework">...</button>
+                </div>
+                <div class="hide"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Connectedwiththeapprovalofthemskip")</label>
+                <div class="col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="NotAssignIfApproved" name="NotAssignIfApproved">
+                            @Html.CSHtmlResx("yes")
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">开启流程预判</label>
+                <div class="col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="OpenProcessPre" name="OpenProcessPre">
+                            @Html.CSHtmlResx("yes")
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">自循环备注</label>
+                <div class="col-sm-6">
+                    <textarea id="LoopRemark" name="LoopRemark" class="form-control" rows="2" style="resize: none;"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Description")</label>
+                <div class="col-sm-6">
+                    <textarea id="Description" name="Description" class="form-control" rows="3" style="resize: none;"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="button" class="btn btn-default" id="processSetBasicInfoPreservation">@Html.CSHtmlResx("Preservation")</button>
+                    <div class="tips" style="color: green; visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- 发起人 -->
+    <div class="tab-pane" id="sender">
+        <div class="table-responsive">
+            <div>
+                <div class="top-toolbar">
+                    <a id="senderAddto" class="k-button mt-Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                    <a id="senderDeletefrom" class="k-button mt-Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+                <div id="StartUserList"></div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 5px;">
+            <button class="btn btn-default" type="button" id="senderPreservation">@Html.CSHtmlResx("Preservation")</button>
+            <div class="tips" style="color: green; visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+        </div>
+    </div>
+    <!-- 版本信息 -->
+    <div class="tab-pane" id="version">
+        <div class="table-responsive">
+            <div>
+                <div id="ProcessVersionList"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 工作列表配置 -->
+    <div class="tab-pane" id="settings">
+        <div class="table-responsive">
+            <form class="form-horizontal" role="form" method="post" action="/Maintenance/WFConfig/SaveProcessSetBasicInfo">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Html.CSHtmlResx("ConnectionString")</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="ConnectionString" name="ConnectionString" class="form-control" placeholder="@Html.CSHtmlResx("ConnectionString")" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Html.CSHtmlResx("DataTable")</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="DataTable" name="DataTable" class="form-control" placeholder="@Html.CSHtmlResx("DataTable")" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Html.CSHtmlResx("WhereQuery")</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="WhereQuery" name="WhereQuery" class="form-control" placeholder="@Html.CSHtmlResx("WhereQuery")" >
+                    </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-12 col-md-12  col-sm-12">   
+                       <div class="top-toolbar" style=" display:none;"><a href="javascript:void(0)" class="k-button" id="FetchField" >@Html.CSHtmlResx("Fetch")</a></div>                                    
+                       <div id="ConfigFieldListView" class="sectionGrid"></div>                       
+                  </div>
+                </div>                
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <input type="hidden" id="BusinessDataConfigId" />
+                        <input type="hidden" id="BusinessDataConfigFullName" />
+                        <button type="button" class="btn btn-default" id="SaveSettings">@Html.CSHtmlResx("Preservation")</button>
+                        <button type="button" class="btn btn-default" id="WorklistDataSetting" style="display:none;">@Html.CSHtmlResx("WorklistDataSetting")</button>                        
+                        <div class="tips" style="color: green; visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+                    </div>                    
+                </div>                
+            </form>          
+        </div>
+    </div>
+    <!-- 模板控件设置 -->
+    <div class="tab-pane" id="ProcessControlSetting">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">                
+                <div id="ProcessControlSettingContainer">
+                    @{
+                        ViewData["type"] = "process";
+                     }
+                    @Html.Partial("/Areas/Maintenance/Views/WFConfig/ControlSetting.cshtml",this.ViewData)
+                </div>
+            </div>          
+        </form>
+    </div>
+    <!-- 配置导入导出 -->
+    <div class="tab-pane" id="ConfigImportAndExport">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">                
+                <div id="ConfigImportAndExportContainer">
+                    <button type="button" class="btn btn-primary" id="processConfigExport">导出配置</button>
+                    <button type="button" class="btn btn-primary" id="processConfigImport">导入配置</button>
+                </div>
+            </div>          
+        </form>
+    </div>
+</div>
+
+<div id="WorklistDataWindow" class="overflowhidden" style="display: none">
+    <div class="section">
+        <div id="WorklistDataView" class="sectionGrid"></div>
+    </div>
+</div>
+
+<div id="ImportProcessConfig" class="overflowhidden" style="display: none">
+    <div>
+        <div class="demo-section k-header">
+            <input name="files" id="importprocessfiles" type="file" />
+        </div>
+    </div>
+</div>
+
+<!--  /.WorklistData Configuration  -->
+<div id="AddWorklistDataWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("ColumnName")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" class="k-textbox ColumnName" style="width: 100%;" />
+            </div>
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("DisplayName")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" class="k-textbox DisplayName" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("ValueType")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" id="ColumnValueType" style="width: 100%;" />
+            </div>
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("IsVisible")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" id="ColumnIsVisible" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("Description")</div>
+            <div class="col-lg-10 col-md-10  col-sm-10">
+                <input type="text" class="k-textbox Description" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>

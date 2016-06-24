@@ -1,0 +1,752 @@
+﻿@using aZaaS.KStar.Html;
+@*<!DOCTYPE html>
+<html>
+<head>
+    <title>KstarMobile</title>
+    <link href="~/CSS/kendoui/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/CSS/kendoui/kendo.default.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/minified/jquery-ui.min.css">
+    <script src="~/JS/kendo.all.min.js"></script>
+    
+</head>
+<body>*@
+<script type="text/javascript" src="/JSResource/GetJavaScriptResx?jsPageName=KstarMobile_MobileConfig"></script>
+@{
+    IHtmlString mappingtip = new HtmlString("<font style='color:#FF5757'>(" + @Html.CSHtmlResx("MappingTips") + ")</font>");
+    IHtmlString wheretip = new HtmlString("<font style='color:#FF5757'>(" + @Html.CSHtmlResx("WhereTips") + ")</font>");
+    IHtmlString formattip = new HtmlString("<font style='color:#FF5757'>(" + @Html.CSHtmlResx("FormatTips") + ")</font>");
+
+    IHtmlString ExistsItemNameTip = new HtmlString(@Html.CSHtmlResx("ExistsItemNameTip"));
+    IHtmlString ExistsGroupNameTip = new HtmlString(@Html.CSHtmlResx("ExistsGroupNameTip"));
+    IHtmlString ExistsProcessNameTip = new HtmlString(@Html.CSHtmlResx("ExistsProcessNameTip"));
+           
+}
+<style type="text/css">
+    span.k-tooltip {
+        position: static;
+        display: inline-block;
+        border-width: 1px;
+        padding: 2px 5px 1px 16px;
+    }
+    .k-icon[data-for='ProcessName'] {
+        font-size: inherit;
+        top: 50%;
+        margin:6px 0 0 -15px;
+        position: absolute;
+   }
+</style>
+
+
+<!--  KstarMobile Management Center  -->
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">@Html.CSHtmlResx("MobileServiceConfig")</div>
+        <div class="tips" style="color: green; text-align: center; visibility: hidden"></div>
+    </div>
+    <div class="fullwidget">
+        <div id="PositionManaView" class="well">
+            <div>
+                <div class="top-toolbar">
+                    <a id="ProcessAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                    @*<a id="CategoryDelete" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>*@
+                </div>
+                <div id="PostionManageTreeView" style="position: absolute; top: 35px;"></div>
+            </div>
+            <div id="PostionInfomation">
+                <div id="itemSection" class="k-content" style="display: none; width: 98%;">
+                    <div id="itemform" data-role="validator" novalidate="novalidate" style="margin-left: 20px;">
+                        <h3>Item @Html.CSHtmlResx("Info")</h3>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ItemName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="ItemName" class="k-textbox" placeholder="Item名称" name="ItemName" style="display: block; width: 100%;" required="required" />
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            var itemform = $("#itemform");
+                                            kendo.init(itemform);
+                                            itemform.kendoValidator({
+                                                validateOnBlur: true,
+                                                messages: {
+                                                    ItemName: @ExistsItemNameTip
+                                                        },
+                                                    rules: {
+                                                        ItemName: function (input) {
+                                                            if (input.is("[name='ItemName']")) {
+                                                                var flag = true;
+                                                                var node = $("#PostionManageTreeView_tv_active").find("input").first();
+                                                                var parent = $("#PostionManageTreeView").data("kendoTreeView").parent(node).find("input").first();
+                                                                $.ajax({
+                                                                    url: '/KstarMobile/MobileConfig/ExistsItemName',
+                                                                    type: 'POST',
+                                                                    async: false,
+                                                                    data: { itemname: input.val(), id: $("#ItemChildID").val(), groupid: parent.attr("data-ChildID") },
+                                                                    dataType: 'json',
+                                                                    error: function () { popupNotification.show("请求验证失败", "info"); },
+                                                                    success: function (data) {
+                                                                        if (data.flag) {
+                                                                            flag = false;
+                                                                        }
+                                                                        else {
+                                                                            flag = true;
+                                                                        }
+                                                                    }
+                                                                });
+                                                                return flag;
+                                                            }
+                                                            else {
+                                                                return true;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("LabelName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="ItemLabelName" class="k-textbox" placeholder="Label名称" name="LabelName" style="display: block; width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                            <div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ConnectionString")</div>
+                                    <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                        <input id="ItemConnectionString" name="ConnectionString" class="k-textbox" style="display: block; width: 100%;" />
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("MappingField")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="ItemMapping" name="Mapping" class="k-textbox" style="display: block; width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                            <div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("WhereCondition")</div>
+                                    <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                        <input id="ItemWhereString" name="WhereString" class="k-textbox" style="display: block; width: 100%;" />
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3" style="width: 99%;">@Html.CSHtmlResx("Format")@formattip</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input type="text" id="ItemFormat" name="Format" class="k-textbox" style="display: block; width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("Visible")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input type="checkbox" name="Visible" id="ItemVisible" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("Editable")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input id="ItemEditable" name="Editable" type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="operabar">
+                            <div class="operamask"></div>
+                            <div class="operacontent">
+                                <input id="ItemChildID" type="hidden" />
+                                <button id="saveitem" class="k-button" type="button">@Html.CSHtmlResx("Save")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="groupSection" class="k-content" style="display: none; width: 98%;">
+                    <div id="groupform" data-role="validator" novalidate="novalidate" style="margin-left: 20px;">
+                        <div>
+                            <h3 style="display: inline;">Group @Html.CSHtmlResx("Info")</h3>
+                            <span id="GroupTips" style="color: #FF5757"></span>
+                        </div>
+                        <div>
+                            <button id="AddGroup" class="k-primary">@Html.CSHtmlResx("AddGroup")</button>
+                            <button id="AddItem" class="k-primary">@Html.CSHtmlResx("AddItem")</button>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("GroupName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="GroupName" name="GroupName" class="k-textbox" style="display: block; width: 100%;" required />
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            var groupform = $("#groupform");
+                                            kendo.init(groupform);
+                                            groupform.kendoValidator({
+                                                validateOnBlur: true,
+                                                messages: {
+                                                    GroupName: @ExistsGroupNameTip
+                                                        },
+                                                    rules: {
+                                                        GroupName: function (input) {
+                                                            if (input.is("[name='GroupName']")) {
+                                                                var flag = true;
+                                                                $.ajax({
+                                                                    url: '/KstarMobile/MobileConfig/ExistsGroupName',
+                                                                    type: 'POST',
+                                                                    async: false,
+                                                                    data: { groupname: input.val(), id: $("#GroupChildID").val() },
+                                                                    dataType: 'json',
+                                                                    error: function () { popupNotification.show("请求验证失败", "info"); },
+                                                                    success: function (data) {
+                                                                        if (data.flag) {
+                                                                            flag = false;
+                                                                        }
+                                                                        else {
+                                                                            flag = true;
+                                                                        }
+                                                                    }
+                                                                });
+                                                                return flag;
+                                                            }
+                                                            else {
+                                                                return true;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("LabelName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="GroupLabelName" name="LabelName" class="k-textbox" style="display: block; width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ConnectionString")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="GroupConnectionString" name="ConnectionString" class="k-textbox" style="display: block; width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3" style="width: 99%;">@Html.CSHtmlResx("Mapping")@mappingtip</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="GroupMapping" name="Mapping" class="k-textbox" style="display: block; width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3" style="width: 99%;">@Html.CSHtmlResx("WhereCondition")@wheretip</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%;">
+                                    <input id="GroupWhereString" name="WhereString" class="k-textbox" style="display: block; width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("Collapsed")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="margin-left: 5px;">
+                                    <input type="checkbox" name="Collapsed" id="GroupCollapsed" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("GroupType")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input name="Type" id="GroupType" />
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            var data = [
+                                                { text: "SingleGroup", value: "Single" },
+                                                { text: "TableGroup", value: "Table" }
+                                            ];
+                                            $("#GroupType").kendoDropDownList({
+                                                dataTextField: "text",
+                                                dataValueField: "value",
+                                                dataSource: data,
+                                                index: 0,
+                                                readonly: true
+                                            });
+                                            var ddlGroupType = $("#GroupType").data("kendoDropDownList");
+                                            ddlGroupType.enable(false);
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="operabar">
+                            <div class="operamask"></div>
+                            <div class="operacontent">
+                                <input id="GroupChildID" type="hidden" />
+                                <button id="savegroup" class="k-button" type="button">@Html.CSHtmlResx("Save")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dataSection" class="k-content" style="display: none; width: 98%;">
+                    <div id="dataform" data-role="validator" novalidate="novalidate" style="margin-left: 20px;">
+                        <div>
+                            <h3 style="display: inline;">Process @Html.CSHtmlResx("Info")</h3>
+                        </div>
+                        <div>
+                            <button id="DeleteProcess" class="k-primary">@Html.CSHtmlResx("DeleteProcess")</button>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ProcessName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="ProcessName" name="ProcessName" class="k-textbox" style="display: block; width: 100%;" required="required" />
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            var dataform = $("#dataform");
+                                            kendo.init(dataform);
+                                            dataform.kendoValidator({
+                                                validateOnBlur: true,
+                                                messages: {
+                                                    ProcessName: @ExistsProcessNameTip
+                                                        },
+                                                    rules: {
+                                                        ProcessName: function (input) {
+                                                            if (input.is("[name='ProcessName']")) {
+                                                                var flag = true;
+                                                                $.ajax({
+                                                                    url: '/KstarMobile/MobileConfig/ExistsProcessName',
+                                                                    type: 'POST',
+                                                                    async: false,
+                                                                    data: { processname: input.val(), id: $("#ProcessID").val() },
+                                                                    dataType: 'json',
+                                                                    error: function () { popupNotification.show("请求验证失败", "info"); },
+                                                                    success: function (data) {
+                                                                        if (data.flag) {
+                                                                            flag = false;
+                                                                        }
+                                                                        else {
+                                                                            flag = true;
+                                                                        }
+                                                                    }
+                                                                });
+                                                                return flag;
+                                                            }
+                                                            else {
+                                                                return true;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ProcessController")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                                    <input id="ProcessController" name="ProcessController" class="k-textbox" style="display: block; width: 100%;" required="required" />
+                                </div>
+                             </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ProcessPermission")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%"> 
+                                    <div id="PermissionList"></div>  
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="operabar">
+                            <div class="operamask"></div>
+                            <div class="operacontent">
+                                <input id="ProcessID" type="hidden" />
+                                <button id="saveprocess" class="k-button" type="button">@Html.CSHtmlResx("Save")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.AddProcess-->
+    <div id="AddProcessWindow" class="overflowhidden" style="display: none;">
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ProcessName")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddProcessName" name="ProcessName" class="k-textbox" style="display: block; width: 100%;" />                    
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ConnectionString")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="ConnectionString" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Mapping")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="Mapping" name="Mapping" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("WhereCondition")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="WhereString" name="WhereString" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <div class="operabar">
+            <div class="operamask"></div>
+            <div class="operacontent">
+                <button id="confirmAddProcess" class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+                <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+            </div>
+        </div>
+    </div>
+    <!--/.MapProcess
+        <div id="MapProcessWindow" class="overflowhidden" style="display: none;">
+            <div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ConnectionString")</div>
+                    <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                        <input id="MapConnectionString" name="MapConnectionString" class="k-textbox" required="required" style="display: block; width: 100%;" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("Mapping")</div>
+                    <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                        <input id="Mapping" name="Mapping" class="k-textbox" style="display: block; width: 100%;" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("WhereCondition")</div>
+                    <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                        <input id="WhereString" class="k-textbox" style="display: block; width: 100%;" />
+                    </div>
+                </div>
+            </div>
+            <div class="operabar">
+                <div class="operamask"></div>
+                <div class="operacontent">
+                    <input id="MapProcessID" type="hidden" />
+                    <button id="confirmMapProcess" class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+                    <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+                </div>
+            </div>
+        </div>-->
+    <!--/.ProcessGroup-->
+    <div id="AddProcessGroupWindow" class="overflowhidden" style="display: none;">
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("GroupName")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddGroupName" name="GroupName" class="k-textbox" style="display: block; width: 100%;" required />
+                    <script type="text/javascript">
+                        $(function () {
+                            var groupform = $("#AddProcessGroupWindow");
+                            kendo.init(groupform);
+                            groupform.kendoValidator({
+                                validateOnBlur: true,
+                                messages: {
+                                    GroupName: @ExistsGroupNameTip
+                                        },
+                                    rules: {
+                                        GroupName: function (input) {
+                                            if (input.is("[name='GroupName']")) {
+                                                var flag = true;
+                                                $.ajax({
+                                                    url: '/KstarMobile/MobileConfig/ExistsGroupName',
+                                                    type: 'POST',
+                                                    async: false,
+                                                    data: { groupname: input.val(), id: 0 },
+                                                    dataType: 'json',
+                                                    error: function () { popupNotification.show("请求验证失败", "info"); },
+                                                    success: function (data) {
+                                                        if (data.flag) {
+                                                            flag = false;
+                                                        }
+                                                        else {
+                                                            flag = true;
+                                                        }
+                                                    }
+                                                });
+                                                return flag;
+                                            }
+                                            else {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("LabelName")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddGroupLabelName" name="LabelName" class="k-textbox" style="display: block; width: 100%;" required validationmessage="Please enter {0}" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ConnectionString")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddGroupConnectionString" name="ConnectionString" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3" style="width: 99%;">@Html.CSHtmlResx("Mapping")@mappingtip</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddGroupMapping" name="Mapping" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3" style="width: 99%;">@Html.CSHtmlResx("WhereCondition")@wheretip</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddGroupWhereString" name="WhereString" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("Collapsed")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="margin-left: 5px;">
+                    <input type="checkbox" name="Collapsed" id="AddGroupCollapsed" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("GroupType")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9">
+                    <input name="Type" id="AddGroupType" />
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            var data = [
+                                { text: "SingleGroup", value: "Single" },
+                                { text: "TableGroup", value: "Table" }
+                            ];
+                            $("#AddGroupType").kendoDropDownList({
+                                dataTextField: "text",
+                                dataValueField: "value",
+                                dataSource: data,
+                                index: 0
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="operabar">
+            <div class="operamask"></div>
+            <div class="operacontent">
+                <button id="confirmAddProcessGroup" class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+                <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+            </div>
+        </div>
+    </div>
+    <!--/.ProcessItem-->
+    <div id="AddProcessItemWindow" class="overflowhidden" style="display: none;">
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ItemName")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddItemName" name="ItemName" class="k-textbox" style="display: block; width: 100%;" required />
+                    <script type="text/javascript">
+                        $(function () {
+                            var itemform = $("#AddProcessItemWindow");
+                            kendo.init(itemform);
+                            itemform.kendoValidator({
+                                validateOnBlur: true,
+                                messages: {
+                                    ItemName: @ExistsItemNameTip
+                                        },
+                                    rules: {
+                                        ItemName: function (input) {
+                                            if (input.is("[name='ItemName']")) {
+                                                var flag = true;
+                                                var node = $("#PostionManageTreeView_tv_active").find("input").first();
+                                                $.ajax({
+                                                    url: '/KstarMobile/MobileConfig/ExistsItemName',
+                                                    type: 'POST',
+                                                    async: false,
+                                                    data: { itemname: input.val(), id: 0, groupid: node.attr("data-ChildID") },
+                                                    dataType: 'json',
+                                                    error: function () { popupNotification.show("请求验证失败", "info"); },
+                                                    success: function (data) {
+                                                        if (data.flag) {
+                                                            flag = false;
+                                                        }
+                                                        else {
+                                                            flag = true;
+                                                        }
+                                                    }
+                                                });
+                                                return flag;
+                                            }
+                                            else {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("LabelName")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddItemLabelName" name="LabelName" class="k-textbox" style="display: block; width: 100%;" required validationmessage="Please enter {0}" />
+                </div>
+            </div>
+        </div>
+        <!--
+            <div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("ConnectionString")</div>
+                    <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                        <input id="AddItemConnectionString" name="ConnectionString" class="k-textbox" style="display: block; width: 100%;" />
+                    </div>
+                </div>
+            </div>
+            -->
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("MappingField")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input id="AddItemMapping" name="Mapping" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <!--
+            <div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("WhereCondition")</div>
+                    <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                        <input id="AddItemWhereString" name="WhereString" class="k-textbox" style="display: block; width: 100%;" />
+                    </div>
+                </div>
+            </div>
+            -->
+        <div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3" style="width: 99%;">@Html.CSHtmlResx("Format")@formattip</div>
+                <div class="col-lg-9 col-md-9  col-sm-9" style="clear: both; width: 100%">
+                    <input type="text" id="AddItemFormat" name="Format" class="k-textbox" style="display: block; width: 100%;" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("Visible")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9">
+                    <input type="checkbox" name="Visible" id="AddItemVisible" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div style="padding-left: 15px; float: left;">@Html.CSHtmlResx("Editable")</div>
+                <div class="col-lg-9 col-md-9  col-sm-9">
+                    <input id="AddItemEditable" name="ItemEditable" type="checkbox" />
+                </div>
+            </div>
+        </div>
+        <div class="operabar">
+            <div class="operamask"></div>
+            <div class="operacontent">
+                <button id="confirmAddProcessItem" class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+                <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+            </div>
+        </div>
+    </div>
+    <span id="popupNotification"></span>
+    <div id="PositionItemContextMenu" style="top: 100px; left: 230px; display: none;">
+        <li style="display: normal;">
+            <a id="DelItemContextMenu" href="#">
+                <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("DeleteItem")</span></a></li>
+    </div>
+    <div id="PositionGroupContextMenu" style="top: 100px; left: 230px; display: none;">
+        <li style="display: normal;">
+            <a id="AddGroupContextMenu" href="#">
+                <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddGroup")</span></a></li>
+        <li style="display: normal;">
+            <a id="AddItemContextMenu" href="#">
+                <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddItem")</span></a></li>
+        <li style="display: normal;">
+            <a id="DelGroupContextMenu" href="#">
+                <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("DeleteGroup")</span></a></li>
+    </div>
+    <div id="PositionProcessContextMenu" style="top: 100px; left: 230px; display: none;">
+        <li style="display: normal;">
+            <a id="DelProcessContextMenu" href="#">
+                <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("DeleteProcess")</span></a></li>
+    </div>
+    <script src="~/JS/seajs/sea.js" type="text/javascript"></script>
+    <script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>
+    <link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+    <script type="text/javascript">
+        seajs.use("/JS/KstarMobile/MobileConfig", function (init) {
+            init();
+            $(window).resize();
+        });
+    </script>
+    <script id="PostionManageTreeView-template" type="text/kendo-ui-template">   
+            # if(item.ChildType == "Group"){ #
+          
+            <span class="k-sprite folder"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.ChildType #" 
+                                    data-parentid= "#= item.ParentID #"  data-DisplayName= "#= item.DisplayName #" data-ChildID= "#= item.ChildID #" data-ConnectionString= "#= item.ConnectionString #"  data-Mapping= "#= item.Mapping #"  data-WhereString= "#= item.WhereString #" data-OrderNo= "#= item.OrderNo #" />
+            # }else{ #
+      
+            <span class="k-sprite property"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.ChildType #" 
+                                    data-parentid= "#= item.ParentID #" data-DisplayName= "#= item.DisplayName #" data-ChildID= "#= item.ChildID #"  data-ConnectionString= "#= item.ConnectionString #"  data-Mapping= "#= item.Mapping #"  data-WhereString= "#= item.WhereString #" data-OrderNo= "#= item.OrderNo #"/>
+            # } #
+           
+            #: item.DisplayName #
+    </script>
+</div>
+@*</body>
+</html>*@

@@ -1,0 +1,12 @@
+﻿@model List<aZaaS.KStar.Menu>
+
+<ul class="nav">
+    @foreach (var mi in Model)
+    {
+        <!--Hidding the top nav menu By: BingYi Huang --> 
+        @*<li><a href="@("/#pane=" + mi.Key)">@Html.CSHtmlResx(mi.Key)</a></li>*@
+    }
+    @*    <li class="active"><a href="#pane=Dashboard">Dashboard</a></li>
+    <li><a href="#pane=TenantDatabase">Tenant Database</a></li>
+    <li><a href="#pane=FittingOut">Fitting Out</a></li>*@
+</ul>

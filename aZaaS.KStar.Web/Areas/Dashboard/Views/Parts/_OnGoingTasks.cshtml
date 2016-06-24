@@ -1,0 +1,38 @@
+﻿@using aZaaS.KStar.Html;
+
+@model bool
+<!--On-Going_Tasks -->
+<div class="section">
+    @if (Model)
+    {
+        <div class="selectbar1">
+            <span>@Html.CSHtmlResx("StartDateFrom")</span>
+            <span>
+                <input type="text" class="datepicker" name="StartDate" /></span>
+            <span>@Html.CSHtmlResx("To")</span>
+            <span>
+                <input type="text" class="datepicker" name="EndDate" /></span>
+            <span>
+                <a type="button" name="select" href="javascript:void(0)" class="k-button selectbtn"  >@Html.CSHtmlResx("select") </a></span>
+        </div>
+    }
+    <div id="onGoingTask" class="sectionGrid">
+    </div>
+</div>
+<!--/.On-Going_Tasks -->
+@if (Model)
+{
+    <script type="text/javascript">
+        title = "On-Going Tasks - Kendo UI";
+        $("#onGoingTask").prev().find(".selectbtn").click(function () {
+            var startDate = $("#onGoingTask").prev().find("input[name=StartDate]").val();
+            var endDate = $("#onGoingTask").prev().find("input[name=EndDate]").val();
+            $.post("/Dashboard/OnGoingTasks/Find", { StartDate: startDate, EndDate: endDate }, function (items) {
+                InitKendoExcelGrid("onGoingTask", TaskModel, onGoingcolumns, items, 20, "On-Going Tasks", function () {
+                    bindAndLoad("onGoingTask");
+                });
+                InitHistoryTooltip("onGoingTask");
+            })
+        }).click();
+    </script>
+}

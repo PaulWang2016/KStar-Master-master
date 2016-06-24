@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CallCoreMail" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://192.168.2.159:8090/CallCoreMail.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.2.159:8090/CallCoreMail.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.2.159:8090/CallCoreMail.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICallCoreMail_SendMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMail" />
+  </wsdl:message>
+  <wsdl:message name="ICallCoreMail_SendMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICallCoreMail_UserLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:UserLogin" />
+  </wsdl:message>
+  <wsdl:message name="ICallCoreMail_UserLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UserLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICallCoreMail_GetNewListMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNewListMail" />
+  </wsdl:message>
+  <wsdl:message name="ICallCoreMail_GetNewListMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNewListMailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICallCoreMail">
+    <wsdl:operation name="SendMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICallCoreMail/SendMail" message="tns:ICallCoreMail_SendMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICallCoreMail/SendMailResponse" message="tns:ICallCoreMail_SendMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UserLogin">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICallCoreMail/UserLogin" message="tns:ICallCoreMail_UserLogin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICallCoreMail/UserLoginResponse" message="tns:ICallCoreMail_UserLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNewListMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICallCoreMail/GetNewListMail" message="tns:ICallCoreMail_GetNewListMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICallCoreMail/GetNewListMailResponse" message="tns:ICallCoreMail_GetNewListMail_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ICallCoreMail" type="tns:ICallCoreMail">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/ICallCoreMail/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserLogin">
+      <soap:operation soapAction="http://tempuri.org/ICallCoreMail/UserLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNewListMail">
+      <soap:operation soapAction="http://tempuri.org/ICallCoreMail/GetNewListMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CallCoreMail">
+    <wsdl:port name="BasicHttpBinding_ICallCoreMail" binding="tns:BasicHttpBinding_ICallCoreMail">
+      <soap:address location="http://192.168.2.159:8090/CallCoreMail.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

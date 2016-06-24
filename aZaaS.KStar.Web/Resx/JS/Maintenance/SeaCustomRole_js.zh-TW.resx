@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="gb2312"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddCategory" xml:space="preserve">
+    添加類別
+  </data>
+  <data name="Added" xml:space="preserve">
+    上架
+  </data>
+  <data name="AddEmployee" xml:space="preserve">
+    新增員工
+  </data>
+  <data name="AddReport" xml:space="preserve">
+    添加報表
+  </data>
+  <data name="AddRoleClassify" xml:space="preserve">
+    添加角色類型
+  </data>
+  <data name="AllLevels" xml:space="preserve">
+    --所有級別--
+  </data>
+  <data name="Alltypes" xml:space="preserve">
+    --所有類型--
+  </data>
+  <data name="Areyousuretodeletethiscategory" xml:space="preserve">
+    您確定要刪除此分類
+  </data>
+  <data name="Areyousuretodeletethisposition" xml:space="preserve">
+    您確定要刪除此位置
+  </data>
+  <data name="CategoryInfomation" xml:space="preserve">
+    分類信息
+  </data>
+  <data name="Companylevel" xml:space="preserve">
+    公司級
+  </data>
+  <data name="Departmental" xml:space="preserve">
+    部門級
+  </data>
+  <data name="EditorReport" xml:space="preserve">
+    報表修改
+  </data>
+  <data name="FavoriteReport" xml:space="preserve">
+    收藏報表
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    反饋信息
+  </data>
+  <data name="Financecategory" xml:space="preserve">
+    財務類
+  </data>
+  <data name="NameReview" xml:space="preserve">
+    名稱修改
+  </data>
+  <data name="NDIIK" xml:space="preserve">
+    按名稱, 責任部門,內部編號,說明關鍵字
+  </data>
+  <data name="Personnelcategory" xml:space="preserve">
+    人事類
+  </data>
+  <data name="Pleaseinputnameerror" xml:space="preserve">
+    輸入姓名有誤！
+  </data>
+  <data name="Pleaseselectcategory" xml:space="preserve">
+    請選擇類別！
+  </data>
+  <data name="Pleaseselectcategorytoaddposition" xml:space="preserve">
+    請選擇類別添加職位！
+  </data>
+  <data name="Pleaseselectemployeeerror" xml:space="preserve">
+    選擇的員工有誤！
+  </data>
+  <data name="PleaseselecttheCustomRoleorCategorytoberemovederror" xml:space="preserve">
+    請選擇要刪除的角色或類別！錯誤
+  </data>
+  <data name="PositionInfomation" xml:space="preserve">
+    職位信息來源
+  </data>
+  <data name="PostionInfomation" xml:space="preserve">
+    當前職位信息來源
+  </data>
+  <data name="ProcessPerformanceClass" xml:space="preserve">
+    流程績效類
+  </data>
+  <data name="shelves" xml:space="preserve">
+    下架
+  </data>
+  <data name="Stafflevel" xml:space="preserve">
+    員工級
+  </data>
+  <data name="CustomRoleInfomation" xml:space="preserve">
+    程序集信息
+  </data>
+  <data name="UploadCustomRoleDll" xml:space="preserve">
+    上傳自定義角色DLL
+  </data>
+  <data name="Browse" xml:space="preserve">
+    瀏覽…
+  </data>
+  <data name="AddCustomRoleAssembleInfo" xml:space="preserve">
+    添加自定義角色程序集
+  </data>
+  <data name="AreyousuretoUpload" xml:space="preserve">
+    您確定要上傳嗎?
+  </data>
+  <data name="EditCustomRoleAction" xml:space="preserve">
+    編輯自定義角色
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    禁用
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    啟用
+  </data>
+  <data name="AreyousureactiveRole" xml:space="preserve">
+    你確定激活該角色嗎？
+  </data>
+  <data name="AreyousuredisableRole" xml:space="preserve">
+    你確定禁用該角色嗎？
+  </data>
+</root>

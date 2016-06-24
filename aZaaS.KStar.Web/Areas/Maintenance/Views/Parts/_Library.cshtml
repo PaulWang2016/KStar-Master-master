@@ -1,0 +1,222 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>Library Management</div>
+    </div>
+    <div class="top-toolbar">
+        @* <button onclick="Add()">Add</button>
+        <button onclick="Edit()">Edit</button>
+        <button onclick="Del()">Del</button>*@
+        <a class="more k-button" href="javascript:void(0)" onclick="Add()"><span class="glyphicon glyphicon-plus"></span></a>
+        @*        <a class="more k-button" href="javascript:void(0)" onclick="Edit()"><span class="glyphicon glyphicon-pencil"></span></a>*@
+        <a class="more k-button" href="javascript:void(0)" onclick="Del()"><span class="glyphicon glyphicon-remove"></span></a>
+    </div>
+    <div id="GridView"></div>
+</div>
+
+<div id="AddLibraryWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>LibraryKey:</td>
+                <td style="width: 300px;">
+                    <input type="text" class="k-textbox Key" style="width: 100%;" placeholder="LibraryKey" /></td>
+                <td style="width: 50px;"></td>
+                <td>MenuKey:</td>
+                <td style="width: 300px;">
+                    <input type="text" class=" MenuKey" style="width: 100%;" placeholder="MenuKey" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Icon Path:</td>
+                <td>
+                    <input type="text" class="k-textbox IconPath " style="width: 100%;" placeholder="Icon Path" /></td>
+                <td style="width: 50px;"></td>
+                <td>Display Name:</td>
+                <td>
+                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var model = kendo.data.Model.define({
+        id: "Id",
+        fields: {
+            Id: { type: "string" },
+            Key: { type: "string" },
+            MenuKey: { type: "string" },
+            MenuID: { type: "string" },
+            DisplayName: { type: "string" },
+            IconPath: { type: "string" }
+        }
+    });
+    var columns = [
+        {
+            title: "Checked", width: 35, template: function (item) {
+                return "<input type='checkbox' value='" + item.Id + "' />";
+            }, headerTemplate: "<input type='checkbox' />", filterable: false
+        },
+        {
+            field: "Key", title: "LibraryKey", template: function (item) {
+                return "<a href='#pane=Dashboard&widget=/Maintenance/Document/" + item.Id + "'> " + item.Key + "</a>";
+            }, filterable: false
+        },
+        { field: "MenuKey", title: "MenuKey", filterable: false },
+        { field: "DisplayName", title: "Display Name", filterable: false },
+        { field: "IconPath", title: "Icon Path", filterable: false },
+        { command: [{ name: "edit", template: "<a  href='javascript:void(0)' class='k-button k-button-icontext k-grid-edit'><span class='glyphicon glyphicon-pencil'></span></a>", text: "", click: function (e) { var tr = $(e.target).closest("tr"); var data = this.dataItem(tr); EditLibrary(data.Id) } }], width: 58 }
+    ]
+
+    var resetWindow = function () {
+        $("#AddLibraryWindow .k-textbox").val("");//清除输入框
+        $("#AddLibraryWindow .Key").attr("disabled", false);
+    }
+    var Cancel = function () {
+        $("#AddLibraryWindow").data("kendoWindow").close()
+    }
+    var Confirm = function () {
+        var url = $(this).attr("data-url");
+
+        var data = {
+            Id: $("#AddLibraryWindow .Key").attr("data-id"),
+            Key: $("#AddLibraryWindow .Key").val(),
+            MenuKey: $("#AddLibraryWindow .MenuKey").first().children().children().first().text(),
+            DisplayName: $("#AddLibraryWindow .DisplayName").val(),
+            IconPath: $("#AddLibraryWindow .IconPath").val()
+        }
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {
+                var grid = getKendoGrid("GridView");
+                var model = grid.dataSource.get(item.Id);
+                if (model) {
+                    for (var key in item) {
+                        model.set(key, item[key]);
+                    }
+                }
+                else {
+                    grid.dataSource.add(item)
+                }
+                $("#AddLibraryWindow").data("kendoWindow").close();
+            }
+        })
+    }
+
+    var Add = function () {
+        $("#AddLibraryWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Documents/CreateLibrary").attr("data-id", "");
+        $("#AddLibraryWindow").data("kendoWindow").title("Add Document Library").center().open();
+    }
+    //var Edit = function () {
+    //    var id = $("#GridView .k-grid-content").find(":checked").first().val();
+    //    EditLibrary(id);
+    //}
+
+    var EditLibrary = function (id) {
+        if (id) {
+            var item = getKendoGrid("GridView").dataSource.get(id);
+            $("#AddLibraryWindow .Key").val(item.Key).attr("disabled", true);
+            $("#AddLibraryWindow .Key").attr("data-id", id);
+            $("#AddLibraryWindow .DisplayName").val(item.DisplayName);
+            $("#AddLibraryWindow .IconPath").val(item.IconPath);
+
+
+            $("#AddLibraryWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Documents/UpdateLibrary").attr("data-id", item.id);
+            $("#AddLibraryWindow").data("kendoWindow").title("Edit Document Library").center().open();
+            $("#AddLibraryWindow .MenuKey").first().children().children().first().text(item.MenuKey);
+            //$("#AddLibraryWindow .MenuKey").val(item.MenuKey);
+        }
+    }
+
+    var Del = function () {
+        var idList = new Array();
+        $("#GridView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Documents/DelLibrary",
+                        type: "POST",
+                        data: { idList: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("GridView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                grid.dataSource.remove(item);
+                            }
+                        },
+                        dataType: "json"
+                    })
+                }
+            });
+        }
+    }
+    $(function () {
+        $.getJSON("/Maintenance/Documents/GetMenuKey", { "_t": new Date() }, function (items) {//EmailTpml/GetProcessList
+            $("#AddLibraryWindow .MenuKey").kendoDropDownList({
+                dataTextField: "key",
+                dataValueField: "id",
+                dataSource: {
+                    data: items,
+                    schema: {
+                        model: {
+                            id: "id",
+                            fields: {
+                                id: { type: "String" },
+                                key: { type: "String" }
+                            }
+                        }
+                    }
+                },
+                optionLabel: "--Select Process--"
+            });
+        })
+        $.getJSON("/Maintenance/Documents/GetAllLibrary", { "_t": new Date() }, function (items) {
+
+            InitBaseKendoGrid("GridView", model, columns, items, function () {
+                //bindAndLoad("delegationList");
+                bindGridCheckbox("GridView");
+
+                //$("#delegationList .k-toolbar").append("<a id='delegationAdd' class='k-button'><span class='glyphicon glyphicon-plus'></span></a>")
+                //.append("<a id='delegationDisable' class='k-button'><span class='glyphicon glyphicon-ban-circle'></span></a>");
+
+                //$("#delegationAdd").click(AddDelegation)
+                //$("#delegationDisable").click(DisableDelegation)
+            });
+        });
+
+        $("#AddLibraryWindow").kendoWindow({
+            width: "800px",
+            title: "Add Dynamic Widget",
+            actions: [
+                "Close"
+            ],
+            open: function (e) {
+                $("#AddLibraryWindow .windowCancel").bind("click", Cancel)
+                $("#AddLibraryWindow .windowConfirm").bind("click", Confirm)
+            },
+            close: function (e) {
+                resetWindow();
+                $("#AddLibraryWindow .windowCancel").unbind("click", Cancel)
+                $("#AddLibraryWindow .windowConfirm").unbind("click", Confirm)
+            },
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddLibraryWindow").data("kendoWindow"));
+
+    })
+</script>

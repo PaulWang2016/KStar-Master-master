@@ -1,0 +1,178 @@
+﻿input {
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
+
+.col-lg-9 col-md-9 col-sm-9 {
+    position: relative;
+    width: 340px;
+}
+
+.txt {
+    height: 22px;
+    border: 1px solid #cdcdcd;
+    width: 180px;
+}
+
+.btn {
+    background-color: #FFF;
+    border: 1px solid #CDCDCD;
+}
+
+.file {
+    position: absolute;
+    top: 0;
+    right: 80px;
+    height: 24px;
+    filter: alpha(opacity:0);
+    opacity: 0;
+    width: 260px;
+}
+
+ul.report {
+    list-style: none;
+    padding-left: 10px;
+}
+
+    ul.report li {
+        padding: 5px 0px;
+    }
+
+.Totalflow {
+    margin: 10px auto;
+}
+
+
+#star li {
+    float: left;
+    width: 24px;
+    cursor: pointer;
+    text-indent: -9999px;
+    background: url(/images/report/star.png) no-repeat;
+}
+
+#star strong {
+    color: #f60;
+    padding-left: 10px;
+}
+
+#star li.on {
+    background-position: 0 -28px;
+}
+
+#star p {
+    position: absolute;
+    top: 20px;
+    width: 159px;
+    height: 60px;
+    display: none;
+    background: url(/images/report/icon.gif) no-repeat;
+    padding: 7px 10px 0;
+}
+
+    #star p em {
+        color: #f60;
+        display: block;
+        font-style: normal;
+    }
+
+ul.buttonGroup li {
+    padding: 5px 0px;
+}
+
+@media screen and (device-width:1024px) and (device-height:768px) {
+    .tableBlock {
+        max-width: 590px;
+    }
+}
+
+@media screen and (device-width:1920px) and (device-height:1080px) {
+    .tableBlock {
+        min-width: 700px;
+    }
+}
+
+
+
+
+ul.controlsGroup {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    /*text-align: center;*/
+}
+
+    ul.controlsGroup li {
+        /*border: 1px solid red;*/
+        display: inline-block;
+        margin: 5px 10px;
+    }
+
+ul.controls {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    /*text-align: center;*/
+}
+
+    ul.controls li {
+        display: inline-block;
+        margin: 5px 10px;
+    }
+
+
+
+
+span.k-in {
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+}
+
+#MyFavouritetree .caret {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#MyReporttreeGroup {
+    position: relative;
+}
+
+    #MyReporttreeGroup .k-content {
+        position: absolute;
+        left: 0;
+        top: 30px;
+        display: none;
+        z-index: 3;
+        right: 0;
+    }
+
+#MyReporttree {
+    padding: 5px;
+    font-size: 12px;
+    width: 150px;
+    text-align: left;
+    background-color: #e9e9e9;
+    border-color: #c5c5c5;
+}
+
+    #MyReporttree .caret {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+#treeviewR-sprites {
+    overflow: hidden;
+}
+
+.displayName-plus {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    padding: 0px;
+    border: 0!important;
+}

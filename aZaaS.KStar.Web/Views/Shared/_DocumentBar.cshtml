@@ -1,0 +1,6 @@
+﻿@model List<string>
+
+@foreach (var DocLibraryKey in Model)
+{
+    @Html.Widget("doc", widgetAttributes: new { DocLibraryKey = DocLibraryKey })
+}

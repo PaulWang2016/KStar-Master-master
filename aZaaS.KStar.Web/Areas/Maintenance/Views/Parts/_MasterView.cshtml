@@ -1,0 +1,120 @@
+﻿<div id="MasterContextMenu" style="top: 100px; left: 230px; display: none;">
+    @*<div class="m-split"></div>*@
+    <li style="display: normal;">
+        <a id="EditContextMenu" href="#">
+            <span class="glyphicon glyphicon-pencil"></span><span style="margin-left: 5px;">Edit</span>
+        </a>
+    </li>
+    @*<div class="m-split"></div>*@
+</div>
+<!--  Master Management -->
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">Leasing Management</div>
+    </div>
+    <!--  /.Master Management -->
+
+    <!--  Setting   -->
+    <div class="fullwidget">
+        <div id="SettingView" class="well">
+            <div>
+                @*       <div>
+                    <button class="k-button DeleteSetting" style="float: right; top: 0px;">DeleteSetting</button>
+                    <button class="k-button AddSetting" style="float: right; top: 0px;">AddSetting</button>
+                </div>*@
+                <div id="SettingTreeView" style="margin-top: 30px;"></div>
+            </div>
+            <div>
+                <div id="SettingGridAction" style="display: none; float: right; display: inline-block;">
+                    @*  <button class="k-button Delete" style="float: right; margin-right: 4px;">Delete</button>
+                <button class="k-button Edit" data-value="" style="float: right; margin-right: 4px;">Edit</button>
+                <button class="k-button Add" style="float: right; margin-right: 4px;">Add</button>*@
+
+                    @*       <input type="text" class="k-textbox" placeholder="Category" />
+                    <input type="text" class="k-textbox" placeholder="Name" />
+                    <label>
+                        <input type="checkbox" name="IsNull" />
+                        List only null values</label>
+                    <button class="k-button Check">Check</button>
+                    <button class="k-button Reset">Reset</button>*@
+                    <a class='more k-button Delete' href='javascript:void(0)'><span class='glyphicon glyphicon-remove'></span></a>
+                    <a class='more k-button Add' href='javascript:void(0)'><span class='glyphicon glyphicon-plus'></span></a>
+                </div>
+                <div id="SettingGrid" style="display: none; float: right;" class="sectionGrid"></div>
+                <div id="SettingGrid_Election" style="display: none; float: right;" class="sectionGrid"></div>
+                <div id="SettingsGrid" style="display: none; float: right;" class="sectionGrid"></div>
+            </div>
+        </div>
+    </div>
+    <!--  /.Setting   -->
+
+</div>
+<!--  /.OutWindow  -->
+<div id="AddSettingWindow" style="display: none; visibility: visible; overflow: hidden;">
+    <div id="AddSetting">
+        <div class="row">
+            <div class="col-lg-4 col-md-4  col-sm-4">DisplayName:</div>
+            <div class="col-lg-8 col-md-8  col-sm-8">
+                <input type="text" id="DisplayName" class="k-textbox" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row parent" style="display: none;">
+            <div class="col-lg-4 col-md-4  col-sm-4">Parent:</div>
+            <div class="col-lg-8 col-md-8  col-sm-8">
+                <input type="text" id="Parent" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4  col-sm-4">Sort:</div>
+            <div class="col-lg-8 col-md-8  col-sm-8">
+                <input type="text" id="Sort" class="k-textbox" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4  col-sm-4">Status:</div>
+            <div class="col-lg-8 col-md-8  col-sm-8">
+                <input type="checkbox" name="Status" />
+            </div>
+        </div>
+    </div>
+
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" data-url="" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+<!--  /.OutWindow  -->
+
+<div id="AddSettingsWindow" style="display: none">
+    <div id="AddSettings" style="padding: 5px 10px 5px 10px;">
+        Setting Name：<input type="text" class="k-textbox" />
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script src="~/JS/AeroWindow-Contextmenu.js"></script>
+<script src="~/JS/Maintenance/Master.js"></script>
+<script type="text/javascript">
+    LoadMasterView();
+    $(window).resize();
+</script>
+<script id="SettingTreeView-template" type="text/kendo-ui-template">
+            # if(item.HasChildren != true){ #
+            <span class="k-sprite property"></span>
+            # }if(item.HasChildren == true){#
+            <span class="k-sprite folder"></span>
+            #}else{ #           
+            <input type="checkbox" value="#= item.ID #" />
+            # } #              
+            #: item.Name #
+</script>
+

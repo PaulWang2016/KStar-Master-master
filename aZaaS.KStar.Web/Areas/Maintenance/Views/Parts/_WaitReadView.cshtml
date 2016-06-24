@@ -1,0 +1,95 @@
+﻿@using aZaaS.KStar.Html;
+
+<div class="section" id="procStartSection">
+    <div class="section">
+        <div class="selectbar1">
+            <span>@Html.CSHtmlResx("StartDateFrom")</span>
+            <span>
+                <input type="text" class="datepicker" id="StartDate" /></span>
+            <span>@Html.CSHtmlResx("To")</span>
+            <span>
+                <input type="text" class="datepicker" id="EndDate" /></span>
+            <span>@Html.CSHtmlResx("ProcessFolio")</span>
+            <span>
+                <input type="text" class="k-textbox" id="FormSubject" /></span>
+            <span>@Html.CSHtmlResx("ProcessName")</span>
+            <span>
+                <input type="text" class="k-textbox" id="ProcessName" /></span>
+            <span>
+                <a type="button" id="Select" href="javascript:void(0)" class="k-button selectbtn">@Html.CSHtmlResx("select")</a></span>
+        </div>
+    </div>
+    <div class="section">
+        <div id="dataList" class="sectionGrid">
+        </div>
+    </div>
+</div>
+
+<script src="~/JS/seajs/sea.js"></script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaWaitRead" type="text/javascript"></script>
+<script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_WaitRead", function (init) {        
+        init();
+        $(window).resize();
+    });
+
+    var myCCModel1 = kendo.data.Model.define({
+        id: "SysId",
+        fields: {
+            SysId: { type: "string" },
+            ProcessFolio: { type: "string" },
+            ProcInstNo: { type: "string" },
+            ProcessName: { type: "string" },
+            Originator: { type: "string" },
+            OriginatorName: { type: "int" },
+            Receiver: { type: "string" },
+            ReceiverName: { type: "string" },
+            Applicant: { type: "string" },
+            ApplicantName: { type: "string" },
+            ApplicationDate: { type: "date" },
+            FormViewUrl: { type: "string" },
+            CreatedDate: { type: "date" },
+            ReceiverStatus: { type: "string" },
+            ReceiverDate: { type: "date" },
+            Comment: { type: "string" }
+        }
+    });
+
+    var CCToMeColumns1 = [
+        {
+            field: "ProcInstNo", title: jsResxMaintenance_SeaWaitRead.ProcInstNo, filterable: false, sortable: false, template: function (item) {
+                return "<a onclick='window.open(\"" + item.FormViewUrl + "\")'  class='Folio ReadOnly' style='cursor:pointer;' >"
+                    + item.ProcInstNo + "</a>";
+            }
+        },
+        { field: "ProcessFolio", title: jsResxMaintenance_SeaWaitRead.ProcSubject, filterable: false, sortable: false },
+        { field: "ApplicantName", title: jsResxMaintenance_SeaWaitRead.ApplicantName, filterable: false },
+        { field: "ApplicationDate", title: jsResxMaintenance_SeaWaitRead.ApplicationDate, filterable: false, format: getDateTimeFormat() },
+        { field: "CreatedDate", title: jsResxMaintenance_SeaWaitRead.CreatedDate, filterable: false, format: getDateTimeFormat() },
+        { field: "OriginatorName", title: jsResxMaintenance_SeaWaitRead.OriginatorName, filterable: false },
+        { field: "ProcessName", title: jsResxMaintenance_SeaWaitRead.ProcessName, filterable: false, sortable: false }
+    ];
+    var refreshWaitRead = function () {    
+        $.ajax({
+            url: '/Maintenance/MyFormCC/FormCCToMe',
+            type: 'POST',
+            data: {receiveStatus: 0, "_t": new Date() },
+            async: true,
+            error: function () {  },
+            success: function (items) {
+                InitKendoExcelGridWithHeight("dataList", myCCModel1, CCToMeColumns1, items, 20, jsResxMaintenance_SeaWaitRead.GridHeader, $(window).height() - fullwidgetH,
+                    function () {
+                        bindAndLoad("dataList")
+                    });
+            },
+            beforeSend: function () {
+                showOperaMask();
+            },
+            complete: function () {
+                hideOperaMask();
+            }
+        });
+    }
+</script>

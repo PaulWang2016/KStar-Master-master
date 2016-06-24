@@ -1,0 +1,68 @@
+﻿<div class="modal fade" id="modal_ViewDeliveryRecords" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" id="modal_ViewDeliveryRecords_dialog" style="overflow-x:hidden;">
+        <div class="modal-content">
+            <div class="modal-header" style=" padding:0px;">
+                
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">修改日程详情</h4>
+                
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">流程名称:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="txtProcessName" class="k-textbox" name="ProcessName" style="width: 100%;" disabled />
+                        <input type="hidden" id="HidProcessName" class="k-textbox" name="hidProcessName" style="width: 100%;" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">字段ID:</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" id="txtFieldID" class="k-textbox" name="FieldID" style="width: 100%;" />
+                    </div>
+                    <label class="control-label col-sm-2">字段名称:</label>
+
+                    <div class="col-sm-4 ">
+                        <input type="text" id="txtFieldName" class="k-textbox" name="FieldName" style="width: 100%;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">字段类型:</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" id="txtFieldType" class="k-textbox" name="FieldType" style="width: 100%;" />
+                    </div>
+                    <label class="control-label col-sm-2">XPATH:</label>
+
+                    <div class="col-sm-4 ">
+                        <input type="text" id="txtXpath" class="k-textbox" name="XPATH" style="width: 100%;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">字段数据来源:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="txtDataSource" class="k-textbox" name="DataSource" style="width: 100%;" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">备注:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="txtMemo" class="k-textbox" name="Memo" style="width: 100%;" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AddCommonReportConfig()">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div> 

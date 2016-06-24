@@ -1,0 +1,149 @@
+﻿@using aZaaS.KStar.Form.Mvc;
+
+@model aZaaS.KStar.Web.Areas.Depository.Models.DepositRequestModel
+
+<!-- #kstarform customform part -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_customform_panel">表单信息
+            </a>
+        </h4>
+    </div>
+    <div id="_kstarform_customform_panel" class="panel-collapse collapse in">
+        <div class="panel-body">
+            <!-- #kstarform customform part panel -->
+
+
+            <p class="bg-primary" style="padding: 10px;">
+                <span class="caret"></span>&nbsp; <b>物品存放申请单</b>
+            </p>
+
+            <form id="deposit_request_form" class="form-horizontal">
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">客户名称:</label>
+                    <div class="col-sm-4">
+                        <input type="text"
+                            data-rule-required="true"
+                            data-msg-required="客户名称为必填项！"
+                            class="form-control" name="Customer" data-bind="value: Customer" placeholder="请输入客户名称" />
+                    </div>
+
+                    <label class="control-label col-sm-2">手机号码:</label>
+                    <div class="col-sm-4">
+                        <input type="text"
+                            class="form-control" name="Phone" data-bind="value: Phone" placeholder="请输入客户手机号码" />
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">物品类型:</label>
+                    <div class="col-sm-4">
+                        <select name="ItemType" class="form-control" data-bind="value: ItemType">
+                            <option value="电子设备">电子设备</option>
+                            <option value="文件资料">文件资料</option>
+                            <option value="日常用品">日常用品</option>
+                            <option value="贵重物品">贵重物品</option>
+                            <option value="其他物品">其他物品</option>
+                        </select>
+                    </div>
+                    <label class="control-label col-sm-2">取回类型:</label>
+                    <div class="col-sm-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="ReturnType"
+                                data-rule-required="true"
+                                data-msg-required="请选择取回类型！"
+                                id="inlineRadio1" data-bind="checked: ReturnType" value="本人自取">
+                            本人自取
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="ReturnType" id="inlineRadio2" data-bind="checked: ReturnType" value="他人代取">
+                            他人代取
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">取回凭据:</label>
+                    <div class="col-sm-4">
+                        <input type="text"
+                            class="form-control" name="Proof" data-bind="value: Proof" placeholder="请输入取回凭据" />
+                    </div>
+
+                    <label class="control-label col-sm-2">取回时间:</label>
+                    <div class="col-sm-4">
+                        <input type="text"
+                            class="form-control" name="ReturnDate" data-bind="datepicker: ReturnDate, datepickerOptions: { format: 'YYYY-MM-DD', pickTime: false }" placeholder="" />
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">可选服务:</label>
+                    <div class="col-sm-4">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox1" data-bind="checked: Services" value="提前15分钟短信提醒">
+                            提前15分钟短信提醒
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox2" data-bind="checked: Services" value="使用手机号注册本店会员">
+                            使用手机号注册本店会员
+                        </label>
+                    </div>
+
+                    <label class="control-label col-sm-2">会员类型:</label>
+                    <div class="col-sm-4">
+                        @Html.KStarDictionary("MemberType", "DP_MemberType","--会员类型--", new { @class = "form-control", data_bind = "value:MemberType,enable:RegisterAsMember" })
+                    </div>
+
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">托管备注:</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" name="Proof" data-bind="value: Comment" rows="3" placeholder="请输入托管备注信息"></textarea>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!-- ./kstarform customform part panel -->
+    </div>
+</div>
+<!-- ./kstarform customform part -->
+
+@section scripts{
+    <script type="text/javascript">
+
+        @Html.RegisterContentModel(Model)
+        
+        //Extend the exists model
+        //TODO:Add item properties & attach model events
+        KStarForm.extendModel = function (koModel) {
+            var model = KStarForm.toJsModel(koModel);
+            return KStarForm.toKoModel(model, {
+                extend: {
+                    "{root}": function (self) {
+                        //TODO:
+                        self.RegisterAsMember = ko.observable(false);
+
+                        ko.dependentObservable(function () {
+                            var targetValue = '使用手机号注册本店会员';
+
+                            var targetStatus = $.inArray(targetValue, self.Services()) > -1;
+                            self.RegisterAsMember(targetStatus);
+                            if (!targetStatus) {
+                                self.MemberType('')
+                            }
+                        }, self);
+                    }
+                }
+            });
+        };
+
+        //JQuery Startup
+        $(function () {
+            console.log('JQuery is started');
+        });
+
+    </script>
+}

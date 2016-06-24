@@ -1,0 +1,411 @@
+﻿@using aZaaS.KStar.Form.Mvc
+
+@model   aZaaS.KStar.Web.Areas.Production.Models.AdaptivePlanModel
+ 
+<table  style="width:100%"> 
+    <tbody>
+    <tr>
+        <td colspan="4" align="center"><b>有方科技生产计划单审批流程</b> </td>
+
+    </tr>
+    <tr>
+        <td>计划单类型:</td>
+        <td align="left">
+            @{
+                    if (@Model.PlanProduction.PlanType == true)
+                    {
+                        <span>正常生产</span>
+                    }
+                    else
+                    {
+                        <span>改造</span>
+                    }
+            }
+
+
+        </td>
+        <td>创建时间:</td>
+        <td align="left">
+            @Model.PlanProduction.StartDate.ToString("yyyy-MM-dd hh:mm:ss")
+        </td>
+    </tr>
+
+    <tr>
+        <td>任务来源部门:</td>
+        <td align="left">
+            @Model.PlanProduction.SourceDepartment.Name
+
+        </td>
+        <td>生产计划单号:</td>
+        <td align="left">
+            @Model.PlanProduction.PlanNumber
+        </td>
+    </tr>
+
+    <tr>
+        <td>计划人:</td>
+        <td align="left">
+            @Model.PlanProduction.PlannerMan
+
+        </td>
+        <td>加工厂商:</td>
+        <td align="left">
+            @Model.PlanProduction.ProcessingVendor
+        </td>
+    </tr>
+
+    <tr>
+        <td>REV版本:</td>
+        <td>
+            @Model.PlanProduction.REVVersion
+
+        </td>
+        <td>型号:</td>
+        <td>
+            @Model.PlanProduction.Model
+        </td>
+    </tr>
+
+    <tr>
+        <td>总加工数:</td>
+        <td>
+            @Model.PlanProduction.TotalWorkHour
+
+        </td>
+        <td>计划完成时间:</td>
+        <td>
+            @Model.PlanProduction.PlanFinishDate
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="4" align="center">
+            生产信息
+        </td>
+    </tr>
+
+    <tr>
+        <td>产品代码</td>
+        <td>
+            产品名称
+
+        </td>
+        <td>软件版本</td>
+        <td>
+            客户名称
+        </td>
+    </tr>
+    <tr>
+        <td>@Model.PlanProduction.ProductionCode</td>
+        <td>
+            @Model.PlanProduction.ProductionName
+
+        </td>
+        <td>@Model.PlanProduction.SoftVersion</td>
+        <td>
+            @Model.PlanProduction.Clientele
+        </td>
+    </tr>
+
+    <tr>
+        <td>是否为客户定制产品:</td>
+        <td>
+            @{
+                   if (@Model.PlanProduction.IsCustom)
+                   {
+                    <span>
+                        客户定制
+                    </span>
+                   }
+                   else
+                   {
+                    <span>
+                        非客户定制
+                    </span>
+                   }
+            }
+
+        </td>
+        <td>是否定制标签:</td>
+        <td>
+            @{
+                    if (@Model.PlanProduction.IsCustomProduction)
+                    {
+                        <span>
+                            定制标签
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            非定制标签
+                        </span>
+                    }
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <td>波特率:</td>
+        <td>
+            @Model.PlanProduction.BaudRate
+
+        </td>
+        <td>是否批量质检:</td>
+        <td>
+            @{
+                    if (@Model.PlanProduction.QualityTesting)
+                    {
+                        <span>
+                            是
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            否
+                        </span>
+                    }
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <td>  号段(IMEI/MEID/MAC):</td>
+
+        <td colspan="3">@Model.PlanProduction.Dnseg</td>
+
+    </tr>
+
+    <tr>
+        <td colspan="4" align="center"> 标贴打印信息</td>
+    </tr>
+
+    <tr>
+        <td>标贴代码:</td>
+        <td>
+            @Model.PlanProduction.DecalsCode
+
+        </td>
+        <td>碳带代码:</td>
+        <td>
+            @Model.PlanProduction.TTRCode
+        </td>
+    </tr>
+
+    <!-- 软件版本全称-->
+    <tr>
+        <td>软件版本全称:</td>
+        <td colspan="3" align="left"> @Model.SoftwareVersionfullName</td>
+    </tr>
+
+    </tbody> 
+</table>
+   <!-- 配置文件信息-->
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td colspan="4" align="center">配置文件信息</td>
+        </tr>
+        <tr>
+            <td>序号</td>
+            <td>名称</td>
+            <td>发布时间</td>
+            <td>大小</td>
+            <td>备注</td>
+        </tr>
+        @{
+            var count=0;
+            foreach (var item in @Model.ConfigFiles)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@item.Name</td>
+                    <td>@item.IssueDate.ToString("yyyy-MM-dd hh:mm:ss")</td>
+                    <td>
+
+                        @(item.Size / 1024)KB
+                    </td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+   <!-- 提供生产技术信息-->
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td colspan="4" align="center"><b>生产技术信息</b></td>
+        </tr>
+        <!--SMT贴片信息-->
+        <tr>
+            <td colspan="4" align="center"><b> SMT贴片信息</b></td>
+        </tr>
+
+        <tr>
+            <td>序号</td>
+            <td>PCBA代码</td>
+            <td>硬件版本</td>
+            <td>光绘贴片文件</td>
+            <td>备注</td>
+        </tr>
+
+        @{
+            count=0;
+            foreach (var item in @Model.AdaptiveSupplyModels.SMTPasterInfos)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@item.Code</td>
+                    <td>@item.Version</td>
+                    <td>@item.FileDate</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+   <!-- 软件信息-->
+<table style="width:100%">
+    <tbody>
+
+        <tr>
+            <td colspan="4" align="center"><b> 软件信息</b></td>
+        </tr>
+
+        <tr>
+            <td>软件分类</td>
+            <td>工具类型</td>
+            <td>版本/文件名</td>
+            <td>大小</td>
+            <td>发布时间</td>
+            <td>备注</td>
+        </tr>
+
+        @{
+            foreach (var item in @Model.AdaptiveSupplyModels.SoftInfos)
+            {
+                <tr>
+                    <td>@item.Category</td>
+                    <td>@item.ToolType</td>
+                    <td>@item.FileName</td>
+                    <td>@(item.Size/1024)KB</td>
+                    <td>@item.IssueDate.ToString("yyyy-MM-dd hh:mm:ss")</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+   <!-- 工具软件信息-->
+<table style="width:100%">
+    <tbody>
+
+        <tr>
+            <td colspan="4" align="center"><b> 工具软件信息</b></td>
+        </tr>
+
+        <tr>
+            <td>工具类型</td>
+            <td>版本/文件名</td>
+            <td>发布时间</td>
+            <td>备注</td>
+        </tr>
+
+        @{
+            foreach (var item in @Model.AdaptiveSupplyModels.ToolSoftInfos)
+            {
+                <tr>
+                    <td>@item.ToolType</td>
+                    <td>@item.FileName</td>
+                    <td>
+                        @{
+                if (@item.IssueDate != null)
+                {
+                    @item.IssueDate.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                }
+                        }
+
+                    </td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        }
+
+
+    </tbody>
+
+</table>
+
+<table style="width:100%">
+    <tbody> 
+        <tr>
+            <td>生产工序:</td>
+            <td>
+                @{
+                    var procedureString = "";
+                    foreach (string str in Model.AdaptiveSupplyModels.Procedure)
+                    {
+                        if (procedureString == "")
+                        {
+                            procedureString += str;
+                        }
+                        else
+                        {
+                            procedureString += "," + str;
+                        }
+
+                    }
+                    <span>@procedureString </span>
+                }
+
+            </td>
+            <td>是否是返工生产计划:</td>
+            <td>
+                @{
+                    if (Model.AdaptiveSupplyModels.IsReturnPlan)
+                    {
+                        <span>是</span>
+                    }
+                    else
+                    {
+                        <span>否</span>
+                    }
+                }
+            </td>
+        </tr>
+
+        <tr>
+            <td>变更信息:</td>
+            <td>@Model.AdaptiveSupplyModels.ChangeCause</td>
+            <td>是否复检:</td>
+            <td>
+                @{
+                    if (Model.AdaptiveSupplyModels.Review)
+                    {
+                        <span>是</span>
+                    }
+                    else
+                    {
+                        <span>否</span>
+                    }
+                }
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>生产注意事项:</td>
+            <td colspan="3">@Model.AdaptiveSupplyModels.Description</td>
+        </tr>
+
+    </tbody>
+
+</table>

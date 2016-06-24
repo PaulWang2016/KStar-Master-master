@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/aZaaS.KStar.Wcf" />
+  <xs:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://127.0.0.1:807/ProcessService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/aZaaS.KStar.Wcf.DataContracts" />
+  <xs:element name="RecordProcessLog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="processName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="taskOwner" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="actionTaker" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="actionName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="comment" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Post" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecordProcessLogResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProcessLogList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProcessLogListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/aZaaS.KStar.Wcf" minOccurs="0" name="GetProcessLogListResult" nillable="true" type="q1:ArrayOfProcessLogData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipants">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipantsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetActivityParticipantsResult" nillable="true" type="q2:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityNotPopParticipants">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityNotPopParticipantsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetActivityNotPopParticipantsResult" nillable="true" type="q3:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="HasAttachActivityParticipant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="HasAttachActivityParticipantResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="HasAttachActivityParticipantResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipantEmail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipantEmailResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetActivityParticipantEmailResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipantEmails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipantEmailsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetActivityParticipantEmailsResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipantCCEmails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetActivityParticipantCCEmailsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetActivityParticipantCCEmailsResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProcessConfigByFullName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fullname" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProcessConfigByFullNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/aZaaS.KStar.Wcf.DataContracts" minOccurs="0" name="GetProcessConfigByFullNameResult" nillable="true" type="q4:ProcessSetInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProcessConfigByProcInstId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProcessConfigByProcInstIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/aZaaS.KStar.Wcf.DataContracts" minOccurs="0" name="GetProcessConfigByProcInstIdResult" nillable="true" type="q5:ProcessSetInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveKStarFormEndCCUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="comment" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveKStarFormEndCCUserResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveKStarFormReworkCCUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="comment" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveKStarFormReworkCCUserResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LienRule">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procInstId" type="xs:int" />
+        <xs:element minOccurs="0" name="LienName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="activityName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="action" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LienRuleResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="LienRuleResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,91 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>ResourcePermission Management</div>
+    </div>
+    <div class="top-toolbar">
+        <a class="more k-button" href="javascript:void(0)" onclick="Add()"><span class="glyphicon glyphicon-plus"></span></a>
+        @*<a class="more k-button" href="javascript:void(0)" onclick="Edit()"><span class="glyphicon glyphicon-pencil"></span></a>*@
+        <a class="more k-button" href="javascript:void(0)" onclick="Del()"><span class="glyphicon glyphicon-remove"></span></a>
+        @*<button onclick="Add()">Add</button>*@
+        @* <button onclick="Edit()">Edit</button>*@
+        @*<button onclick="Del()">Del</button>*@
+    </div>
+    <div id="ResourcePermissionView"></div>
+</div>
+
+
+<script>
+    $(function () {
+
+        $.getJSON("/Maintenance/ResourcePermission/GetAllResourcePermission", { "_t": new Date() }, function (items) {
+            InitBaseKendoGridWidthPage("ResourcePermissionView", model, columns, items, 10, function () {
+                bindGridCheckbox("ResourcePermissionView");
+            });
+        });
+    });
+
+    var Add = function () {
+        window.location.href = "#pane=Dashboard&widget=/Maintenance/Home/CreateResourcePermission";
+    }
+
+    var Edit = function () {
+
+        var ID = $("#ResourcePermissionView .k-grid-content").find(":checked").first().val();
+        window.location.href = "#pane=Dashboard&widget=/Maintenance/EditResourcePermission/" + ID;
+    }
+
+    var Del = function () {
+        var idList = new Array();
+        $("#ResourcePermissionView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/ResourcePermission/DelResourcePermission",
+                        type: "POST",
+                        data: { idList: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("ResourcePermissionView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                grid.dataSource.remove(item);
+                            }
+                        },
+                        dataType: "json"
+                    })
+
+                }
+            });
+        }
+    }
+
+    var model = kendo.data.Model.define({
+        id: "SysId",
+        fields: {
+            SysId: { type: "string" },
+            ResourceId: { type: "string" },
+            ResourceType: { type: "string" },
+            Resource: { type: "string" },
+            Permission: { type: "string" },
+            PermissionSysId: { type: "string" }
+        }
+    });
+    var columns = [
+        {
+            title: "Checked", width: 35, template: function (item) {
+                return "<input type='checkbox' value='" + item.SysId + "' />";
+            }, headerTemplate: "<input type='checkbox' />", filterable: false
+        },
+        //{
+        //    field: "SysId", title: "ID", template: function (item) {
+        //        return "<a href='#pane=Dashboard&widget=/Maintenance/EditResourcePermission/" + item.SysId + "'> " + item.SysId + "</a>";
+        //    }, filterable: false
+        //},
+        { field: "Resource", title: "Resource", filterable: false },
+        { field: "Permission", title: "Permission", filterable: false },
+        { field: "ResourceType", title: "ResourceType", filterable: false },
+    ]
+</script>

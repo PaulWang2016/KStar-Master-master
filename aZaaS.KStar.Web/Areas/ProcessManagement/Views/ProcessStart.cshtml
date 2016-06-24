@@ -1,0 +1,275 @@
+﻿@using aZaaS.KStar.Html;
+<div class="section" id="procStartSection">
+    <div class="top-heading">
+        <div class="top-title" id="procStartTitle">@Html.CSHtmlResx("ProcessStart")</div>
+    </div>
+    <div class="top-heading">
+          <div class="k-block">              
+              <div class="toolbar">
+                    <label class="category-label" for="ProcessCategory">@Html.CSHtmlResx("ProcessCategory"):</label>
+                    <input type="text" id="ProcessCategory" style="width: 200px; margin-right:50px;"/>
+                    <label class="category-label" for="ProcessName">@Html.CSHtmlResx("ProcessName"):</label>                    
+                    <input type="text" id="ProcessName"   class="k-textbox"   style="width: 200px; margin-right:50px;" />
+                    <button id="SearchProcess" class="k-button operacontent" style="width: 80px;">@Html.CSHtmlResx("Search")</button>
+              </div>
+          </div>
+    </div>
+    <div id="tabstrip">
+        <ul>
+            <li class="k-state-active" tabindex="0">@Html.CSHtmlResx("CommonProcesses")</li>
+            <li tabindex="1">@Html.CSHtmlResx("AllProcesses")</li>
+        </ul>
+        <div id="listView_Common" style="overflow-y:scroll; ">
+            <div id="procStartList_Common">
+                <ul></ul>
+            </div>
+        </div>
+        <div id="listView_All"  style="overflow-y:scroll; ">
+            <div id="procStartList_All">
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setCommonClass(event) {
+        var isCommon = $(event).children(":input").first().val();
+        if (isCommon == "true") {
+            $(event).removeClass("procCommon");
+            $(event).addClass("procNoCommon");
+        }
+        else {
+            $(event).removeClass("procNoCommon");
+            $(event).addClass("procCommon");
+           
+        }
+    }
+
+    function saveCommonProcess(event, id) {
+        showOperaMask();
+        var action = '/ProcessManagement/SaveCommonProcess';
+        var isCommon = $(event).children(":input").first().val();
+        if (isCommon == "true")
+            action = '/ProcessManagement/DeleteCommonProcess';
+        $.ajax({
+            url: action,
+            type: 'POST',
+            data: { configProcSetID: id },
+            async: true,
+            error: function () { hideOperaMask(); },
+            success: function (data) {
+                var event_all = $("#procStartList_All_" + id);
+                if (isCommon == "true") {
+                    $(event_all).children(":input").first().val("false");
+                }
+                else {
+                    $(event_all).children(":input").first().val("true");
+                }
+                setCommonClass(event_all);
+                $("#procStartList_Common").children("ul").empty();
+                bindProcessStartList(data, "procStartList_Common");
+                hideOperaMask();
+            }
+        });
+    }
+    function bindProcessStartList(data, listViewID) {        
+        var divPS = $("#" + listViewID);
+        $(data).each(function (i, category) {
+            divPS.children("ul").append('<li class="k-state-active" style="clear:both;"><a href="#">' + category.Name + '</a><div class="sectionGrid" id="' + listViewID + category.Name.replace(/\s+/g, '') + '"></div></li>');
+            var dataSource = new kendo.data.DataSource({
+                data: category.ProcessSetList
+            });
+            $("#" + listViewID + category.Name.replace(/\s+/g, '')).kendoListView({
+                dataSource: dataSource,
+                template: "<div class='procStartListViewItem' style='height:40px;'><div class='procStartListViewItemHeader'><div style='overflow: hidden;width: 150px;height:16px;float: left;white-space: nowrap;text-overflow: ellipsis;'><a target='_blank' title='#:ProcessName#' onclick='OpenUrl(\"#:StartUrl#\");'>#:ProcessName#</a></div><div id='" + listViewID + "_#:ID#' onclick='saveCommonProcess(this,#:ID#)' class='imgLove'><input type='hidden' value='#:IsCommon#'/></div></div><div class='procStartListViewItemContent' style='display:none;'>#:(Description==null?'':Description)#</div></div>",
+                autoBind: true
+            });
+            //dataSource.read();
+        });
+        divPS.find(".imgLove").each(function (i, ele) { setCommonClass(ele); });
+        divPS.children("ul").append("<div style='clear:both;'></div>");
+        divPS.children().kendoPanelBar();
+    }
+    $("#listView_Common").css("height", $(window).height() - 335);
+    $("#listView_All").css("height", $(window).height() - 335);
+    // attach select event handler during initialization    
+    var tabStrip = $("#tabstrip").kendoTabStrip({
+        animation: {
+            open: {
+                effects: "fadeIn"
+            }
+        }
+    }).data("kendoTabStrip");
+
+    function OpenUrl(url) {
+        if (url != "null") {
+            window.open(url);
+        }
+        else {
+            bootbox.alert("@Html.CSHtmlResx("InvalidProcessUrl")")
+        }
+    };
+
+    var SearchCommon = function (searchkey, isAjax)
+    {
+        $.ajax({
+            url: '/ProcessManagement/GetProcessCommonList',
+            type: 'POST',
+            data: searchkey,
+            async: (isAjax==undefined?true:isAjax),
+            error: function () { /*popupNotification.show("error", "info");*/ },
+            success: function (data) {
+                bindProcessStartList(data, "procStartList_Common");                
+            },
+            beforeSend: function () {
+                showOperaMask();
+            },
+            complete: function () {
+                hideOperaMask();                
+                if (searchkey.ProcessCategory == undefined) {
+                    SearchAll({},false);
+                }
+            }
+        });
+    }
+
+    var SearchAll = function (searchkey,isAjax) {
+        $.ajax({
+            url: '/ProcessManagement/GetProcessAllList',
+            type: 'POST',
+            data:searchkey,
+            async: (isAjax == undefined ? true : isAjax),
+            error: function () { /*popupNotification.show("error", "info");*/ },
+            success: function (data) {
+                bindProcessStartList(data, "procStartList_All");
+            },
+            beforeSend: function () {
+                showOperaMask();                
+            },
+            complete: function () {
+                hideOperaMask();                
+            }
+        });
+    }
+    var getUrlVars = function (name) {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars[name];
+    }
+
+    $(function () {                
+        SearchCommon({},false);
+        //获取分类
+        $.ajax({
+            url: "/Maintenance/WFConfig/GetAllCategoryListWithNoChilds", async: true, dataType: "json", success: function (items) {
+                InitDropDownList("ProcessCategory", "Name", "ID", "--@Html.CSHtmlResx("AllCategories")--", items);
+            }
+        });
+
+        $("#SearchProcess").click(function () {
+            var curindex = $("#tabstrip li.k-state-active").attr("tabindex");
+            var searchkey = { ProcessCategory: $("#ProcessCategory").val(), ProcessName: $("#ProcessName").val() };            
+            if (curindex == "0")
+            {
+                $("#procStartList_Common ul").html("");
+                SearchCommon(searchkey,true);
+            }
+            else if (curindex == "1")
+            {
+                $("#procStartList_All ul").html("");
+                SearchAll(searchkey, true);
+            }
+        });
+        
+        if (getUrlVars("isAll") == '1')
+        {
+            var tabStrip = $("#tabstrip").data("kendoTabStrip");
+            tabStrip.select(1);
+        }
+    });
+</script>
+<style>
+    .procStartListViewItem
+    {
+        float: left;
+        position: relative;
+        width: 200px;
+        height:125px;
+        margin: 5px;
+        padding: 0;
+       
+    }
+
+        .procStartListViewItem a
+        {
+            padding-left: 5px;
+            max-width: 260px;
+            overflow: hidden;
+            line-height: 1.1em;
+            font-size:1.1em;
+            font-weight: 500;
+            /*text-transform: uppercase;
+            color: #999;*/
+            word-wrap: break-word;
+            word-break: normal;
+             color:#595757;
+             cursor:pointer;
+        }
+
+        .procStartListViewItem .imgLove
+        {
+            width: 19px;
+            height: 19px;
+            margin-right: 5px;
+            float: right;
+            cursor: pointer;
+            text-indent: -9999px;
+        }
+
+    .procCommon
+    {
+        background: url(../../../images/report/star.png) no-repeat 0 -28px;
+    }
+
+    .procNoCommon
+    {
+        background: url(../../../images/report/star.png) no-repeat;
+    }
+
+    /*.procCommon:hover
+    {
+        background: url(../../../images/report/star.png) no-repeat;
+    }*/
+
+    /*.procNoCommon:hover
+    {
+        background: url(../../../images/report/star.png) no-repeat 0 -28px;
+    }*/
+
+    .procStartListViewItem .procStartListViewItemHeader
+    {
+        border: 1px solid silver;
+        width: 100%;
+        height: 37px;
+        background-color: white;
+        clear: both;
+        padding-top: 5px;
+    }
+
+    .procStartListViewItem .procStartListViewItemContent
+    {
+        border: 1px solid silver;
+        width: 100%;                
+        height:90px;
+        padding: 5px;
+        clear: both;
+        background-color: white;
+        overflow:hidden;
+    }
+</style>

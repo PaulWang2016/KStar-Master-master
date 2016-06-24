@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model aZaaS.KStar.Report.ReportCategoryEntity 
+@using aZaaS.KStar.Report;
+@{
+    
+    
+    }
+
+
+<link href="~/CSS/bootstrap.css" rel="stylesheet" />
+<script src="~/JS/jquery.min.js"></script>
+<script src="~/JS/bootstrap.js"></script>
+
+ <script type="text/ecmascript">
+     $(document).ready(function () {
+         loadFavourite();
+         $("ul li").click(function () {
+
+
+             alert(this);
+
+         });
+
+       
+
+     });
+
+     function loadFavourite() {
+
+         $.getJSON("/report/ReportFavourite/GetFavourite", { "parentID": "8DCAB70B-D9FD-4AC6-A535-149A551E1608" }, function (item) {
+             var html=formatData(item);
+             $("#favourite").html(html);
+
+         });
+     }
+     
+     function formatData(reportFavourite)
+     {
+         var html="<ul>";
+         $.each(reportFavourite, function (item) {
+
+             html += "<li>" + reportFavourite[item].Name + "</li>";
+         });
+         html+="</ul>";
+         return html;
+     
+     }
+
+ </script>
+
+<h2>Index</h2>
+<div id="favourite" class="nav"></div>

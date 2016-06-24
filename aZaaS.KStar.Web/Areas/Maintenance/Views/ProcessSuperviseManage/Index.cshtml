@@ -1,0 +1,253 @@
+﻿@{
+    ViewBag.Title = "ProcessSuperviseManage";
+}
+@using aZaaS.KStar.Html;
+<div id="PermissionView" style="position: relative; height: 100%;">
+    <div id="PermissionLeft">
+        <div id="PermissionLeftTab">
+            <div id="RolePermissionList"></div>
+        </div>
+    </div>
+    <div id="PermissionRight" style="visibility:visible; overflow: auto; -webkit-overflow-scrolling: touch;">
+        @*display: none; *@
+        <ul>
+            
+            <li class="k-state-active">
+                @*class="k-state-active"*@
+                <a href="#">流程</a>
+                <div>
+                    <div style="overflow: auto;">
+                        <div id="ProcessList"></div>
+                    </div>
+                </div>
+            </li>
+           
+        </ul>
+
+        <div class="operabar">
+            <div class="operamask"></div>
+            <button id="Permission_Information_Save" class="k-button operacontent" style="width: 80px; text-align: center; display: block;">保存</button>
+            <div class="tips" style="color: green; text-align: center; visibility: hidden; display: block;">保存成功!</div>
+        </div>
+    </div>
+</div>
+<script id="PermissionTree-template" type="text/kendo-ui-template">
+    # if(item.ParentID!= null){ #
+    <span class="k-sprite property"></span>
+    # }else{ #
+
+    <span class="k-sprite folder"></span>
+    # } #
+    # if(item.Status == true) {#
+
+    <input type="checkbox" checked="true" value="#= item.ID #" />
+    # } else{#
+    <input type="checkbox" value="#= item.ID #" />
+    # } #
+    #: item.Name #
+</script>
+<script id="treeview-template" type="text/kendo-ui-template">
+    #: item.text #
+    # if (!item.items) { #
+    <a class='delete-link' href='\#'></a>
+    # } #
+</script>
+<script src="/JS/seajs/sea.js"></script>
+<script src="~/JS/Maintenance/_Sea__PermissionManagement.js"></script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaRolManagement" type="text/javascript"></script>
+<script src="~/JS/Maintenance/_Sea__RoleManagement.js"></script>
+<script src="~/JS/Maintenance/_Sea_ApplicationDetail.js"></script>
+<script type="text/javascript">
+    var GetProcessInst = function () {
+        var Processcolumns = [
+             {
+                 field: "IsCheck", title: "", width: 30, template: function (item) {
+                     return "<input type='checkbox' name='chkItems' value='" + item.ID + "'/>";
+                 }, headerTemplate: "", filterable: false
+             },
+            {
+                field: "Name", title: "角色", width: 30
+            }
+                
+
+
+        ]
+        var ProcessModel = kendo.data.Model.define({
+            id: "ID",
+            fields: {
+                ID: { type: "string" },
+                Name: { type: "string" }
+            }
+        });
+        return { model: ProcessModel, columns: Processcolumns }
+    }
+
+    var GetProcessSet = function () {
+        var Processcolumns = [
+             {
+                 field: "IsCheck", title: "", width: 30, template: function (item) {
+                     return "<input type='checkbox' name='chkItems' value='" + item.ProcSetID + "'/>";
+                 }, headerTemplate: "", filterable: false
+             },
+            {
+                field: "ProcessName", title: "流程名称", width: 30
+            }
+                
+
+
+        ]
+        var ProcessModel = kendo.data.Model.define({
+            id: "ProcSetID",
+            fields: {
+                ProcSetID: { type: "string" },
+                ProcessName: { type: "string" },
+                processFullName: { type: "string" }
+            }
+        });
+        return { model: ProcessModel, columns: Processcolumns }
+    }
+    var RoleInfo = GetProcessInst();
+    var ProcessInfo = GetProcessSet();
+    var InitRoleAutoComplete = function () {
+        $.getJSON("/Maintenance/ProcessSuperviseManage/GetRoleList", { _t: new Date() }, function (data) {
+           // debugger;
+            InitBaseKendoGrid("RolePermissionList", RoleInfo.model, RoleInfo.columns, data, function () {
+                debugger;
+                bindGridCheckbox("RolePermissionList");
+                //that.permissionManagement.ChangePermissionTree();
+            });
+            //getKendoGrid("RolePermissionList").setDataSource(getKendoGrid("RoleList").dataSource);
+        });
+    }
+    var InitProcessAutoComplete = function () {
+        $.getJSON("../Dashboard/ProcessSupervise/GetProcess", { _t: new Date() }, function (data) {
+            // debugger;
+            InitBaseKendoGrid("ProcessList", ProcessInfo.model, ProcessInfo.columns, data, function () {
+               
+            });
+            
+        });
+    }
+    InitRoleAutoComplete();
+    InitProcessAutoComplete();
+        function NeowayInitKendoExcelGrid(target, viewModel, columns,  title, callBack) {
+            debugger;
+            //var ID = KStar.User.SysId;
+            //alert(KStar.User.SysID);
+            columns = InitializeColumnResize(columns, target);
+
+         
+
+            var grid = $("#" + target).data("kendoExcelGrid");
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        //以下其实就是$.ajax的参数
+                        type: "POST",
+                        url: "/Maintenance/ProcessSuperviseManage/GetRoleList",
+                        dataType: "json"
+
+                        
+                    }
+                },
+                schema: {
+                    //取出数据数组
+                    data: function (d) { return d.data; },
+                    //取出数据总笔数(计算页数用)
+                    
+                    model: ProcessInfo.model
+
+                },
+            });
+
+            if (grid) {
+                grid.setDataSource(dataSource);
+            }
+            else {
+                $("#" + target).kendoExcelGrid({
+
+                    dataSource: dataSource,
+                    groupable: {
+                        messages: {
+                            empty: jsResxbaseInitView.Dropcolumnshere
+                        }
+                    },
+                    //toolbar: kendo.template($("#template").html()),
+                    selectable: false,
+                    sortable: true,
+                    //scrollable: false,
+                    columnMenu: {
+                        messages: {
+                            sortAscending: jsResxbaseInitView.Sortasc,
+                            sortDescending: jsResxbaseInitView.Sortdesc,
+                            columns: jsResxbaseInitView.Choosecolumns,
+                            filter: jsResxbaseInitView.Filter,
+                        }
+                    },
+                    pageable: {
+                        pageSizes: true,
+                        messages: {
+                            itemsPerPage: jsResxbaseInitView.dataitemsperpage,
+                            display: jsResxbaseInitView.datadisplay,
+                            empty: jsResxbaseInitView.Noitemstodisplay
+                        }
+                    },
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            info: jsResxbaseInitView.Showitemswithvaluethat,
+                            clear: jsResxbaseInitView.Clear,
+                            filter: jsResxbaseInitView.Filter
+                        },
+                        operators: {
+                            string: {
+                                eq: jsResxbaseInitView.Isequalto,
+                                neq: jsResxbaseInitView.Isnotequalto,
+                                startswith: jsResxbaseInitView.Startswith,
+                                contains: jsResxbaseInitView.Contains,
+                                doesnotcontain: jsResxbaseInitView.Doesnotcontain,
+                                endswith: jsResxbaseInitView.Endswith
+                            },
+                        }
+                    },
+                    reorderable: true,
+                    resizable: true,
+                    columns: columns,
+                    //"export": {
+                    //    cssClass: "excel-ico",//"glyphicon glyphicon-export",
+                    //    title: title
+                    //   // createUrl: "/Export/ToExcel"
+                    //   // downloadUrl: "/Export/Get",
+                    //   //// createCSVUrl: "/Export/ToCSV",
+                    //    //downloadSCVUrl: "/Export/GetCSV"
+                    //},
+
+
+                    dataBound: function () {
+
+                        refreshCurrentScrolls();//数据绑定完成  刷新滚动条
+
+                        HideGridVerticalScroll(target);//隐藏Scroll
+                    }
+
+                });
+                grid = $("#" + target).data("kendoExcelGrid");
+                //GridHeaderAppendDiv(target);
+                //HideGridVerticalScroll(target);
+                // AddSplitters(grid);
+            }
+            if (callBack) {
+                callBack();
+            }
+            //refreshCurrentScrolls();
+
+        }
+        
+        //debugger;
+        //NeowayInitKendoExcelGrid('RolePermissionList', ProcessInfo.model, ProcessInfo.columns, 15, "流程督办管理",
+        //    function () {
+        //        bindAndLoad("RolePermissionList");
+        //    });
+    //}
+</script>

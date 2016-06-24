@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+  <simpleTrigger>
+    <RepeatForever>true</RepeatForever>
+    <Interval>100000000</Interval>
+    <StartNow>true</StartNow>
+    <StartTime/>
+    <EndTime/>
+    <RepeatCount/>
+    <Description>InTransitTaskService</Description>
+    <Identity>InTransitTaskService.LaunchTask</Identity>
+    <AppSettings>
+      <add key="ConnectionString" value="Data Source=192.168.2.21;Initial Catalog=aZaaS.Framework;Persist Security Info=True;User ID=sa;Password=K2pass!;"/>
+      <add key="TaskUrl" value="http://192.168.1.201:85/api/Custom_Utilities/GetTransitTask?procInstID={0}"/> 
+    </AppSettings>
+  </simpleTrigger>
+</root>

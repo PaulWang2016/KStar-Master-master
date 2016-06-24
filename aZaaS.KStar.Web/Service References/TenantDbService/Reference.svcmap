@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1fd68afa-d471-4e80-9042-186795ed19da" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8999/TenantDatabaseService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TenantDatabaseService.disco" MetadataType="Disco" ID="282d9953-80ac-4fe9-8819-8aefae216156" SourceId="1" SourceUrl="http://localhost:8999/TenantDatabaseService?disco" />
+    <MetadataFile FileName="TenantDatabaseService.wsdl" MetadataType="Wsdl" ID="9e4af87c-c7f8-439e-ba16-3dd12c8e7d82" SourceId="1" SourceUrl="http://localhost:8999/TenantDatabaseService?wsdl" />
+    <MetadataFile FileName="TenantDatabaseService.xsd" MetadataType="Schema" ID="2f1bfdfd-bb87-4f69-99f5-2e2669499a89" SourceId="1" SourceUrl="http://localhost:8999/TenantDatabaseService?xsd=xsd0" />
+    <MetadataFile FileName="TenantDatabaseService1.xsd" MetadataType="Schema" ID="9df65f81-ffc1-4df4-b603-a068a8d10e9b" SourceId="1" SourceUrl="http://localhost:8999/TenantDatabaseService?xsd=xsd2" />
+    <MetadataFile FileName="TenantDatabaseService2.xsd" MetadataType="Schema" ID="721e3e46-6d8d-4c53-aed2-782825f64d39" SourceId="1" SourceUrl="http://localhost:8999/TenantDatabaseService?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

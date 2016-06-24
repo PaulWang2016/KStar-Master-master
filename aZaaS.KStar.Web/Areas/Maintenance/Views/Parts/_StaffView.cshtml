@@ -1,0 +1,514 @@
+﻿<!--  User Management  -->
+@using aZaaS.KStar.Html;
+@using aZaaS.Framework.Extend;
+@using System.Text;
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaStaff" type="text/javascript"></script>
+<div style="display: none;">
+    <input type="hidden" id="AuthType" value="@ViewBag.AuthType" />
+</div>
+<div class="section">
+    <div class="selectbar1" style="text-align: right;">
+        <span class="k-textbox k-space-right ">
+            <input type="text" name="selectInput" value="" placeholder="@Html.CSHtmlResx("InputKeyWord")" />
+            <a class="k-icon k-i-search selectbtn">&nbsp;</a>
+        </span>
+    </div>
+    <div id="UserManaView" class="sectionGrid" style="overflow-y: auto">
+    </div>
+</div>
+<!--  /.User Management  -->
+
+<!-- AddStaffWindow-->
+<div id="AddStaffWindow" style="display: none">
+
+    <div id="staffTab" style="overflow: auto; overflow-x: hidden;">
+        <ul>
+            <li class="k-state-active">
+                <a href="#">@Html.CSHtmlResx("BasicInformation")</a>
+                <div id="BasicInformation">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("UserId")</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input type="text" id="UserId" name="UserId" class="k-textbox" style="width: 100%;" />
+                        </div>
+                        <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("StaffName")</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input type="text" id="StaffName" class="k-textbox" name="StaffName" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if (ViewBag.CultureName == "en-US")
+                        {
+                            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("FirstName")</div>
+                            <div class="col-lg-4 col-md-4  col-sm-4">
+                                <input type="text" id="FirstName" class="k-textbox" name="FirstName" style="width: 100%;" />
+                            </div>
+                            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("LastName")</div>
+                            <div class="col-lg-4 col-md-4  col-sm-4">
+                                <input type="text" id="LastName" class="k-textbox" name="LastName" style="width: 100%;" />
+                            </div>                                      
+                        }
+                        else
+                        {
+                            
+                            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("FirstName")</div>
+                            <div class="col-lg-4 col-md-4  col-sm-4">
+                                <input type="text" id="FirstName" class="k-textbox" name="FirstName" style="width: 100%;" />
+                            </div> 
+                            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("LastName")</div>
+                            <div class="col-lg-4 col-md-4  col-sm-4">
+                                <input type="text" id="LastName" class="k-textbox" name="LastName" style="width: 100%;" />
+                            </div>  
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("MobileNo")</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input id="MobileNo" class="k-textbox" name="MobileNo" style="width: 100%;" />
+                        </div>
+                        <div class="col-lg-2 col-md-2   col-sm-2">@Html.CSHtmlResx("Email")</div>
+                        <div class="col-lg-4 col-md-4   col-sm-4">
+                            <input type="text" id="Email" class="k-textbox" name="Email" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("Sex")</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input type="text" id="StaffSex" style="width: 100%;" />
+                        </div>
+                        @*<div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("Department")</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input type="text" id="Department" class="k-textbox" style="width: 100%;" />
+                        </div>*@
+                        <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("Status")</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            <input type="text" id="StaffStatus" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2  col-sm-2" style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Remark")</div>
+                        <div class="col-lg-10 col-md-10  col-sm-10">
+                            <textarea class="k-textbox" id="Remark" style="width: 100%; height: 50px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="#">@Html.CSHtmlResx("ExtendedInformation")</a>
+                <div id="ExtendedInformation">
+                    @{
+                        int i = 0;
+                        IHtmlString divstart = new HtmlString("<div class=\"row\">");
+                        IHtmlString divend = new HtmlString("</div>");
+                    }
+                    @foreach (var item in ViewData["fields"] as FieldBase[])
+                    {
+                        if (i == 0)
+                        {          
+                        @divstart                      
+                        <div class="col-lg-2 col-md-2  col-sm-2">@item.DisplayName</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            @switch (item.GetType().Name)
+                            {
+                                case "TextField":
+                                <input type="text" id="@item.Name" class="k-textbox" style="width: 100%;" />
+                                    break;
+                                case "DateField":
+                                <input type="text" id="@item.Name" style="width: 100%;" />
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#@item.Name").kendoDatePicker();
+                                    });
+                                </script> 
+                                    break;
+                                case "YesNoField":                                             
+                                <input type="checkbox" name="Visible" id="@item.Name" />
+                                    break;
+                                case "ChooseField":
+                                <input type="text" id="@item.Name" class="k-textbox" style="width: 100%;" />
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                                        @{
+                                    string[] source = ((ChooseField)item).Source ?? new string[0];
+                                    StringBuilder sb = new StringBuilder();
+                                    for (int j = 0; j < source.Length; j++)
+                                    {
+                                        sb.Append(",");
+                                        sb.Append("{ text: \"" + source[j] + "\", value: \"" + source[j] + "\" }");
+                                    }
+                                    IHtmlString soucrestring = new HtmlString(sb.ToString().Length > 0 ? sb.ToString().Substring(1) : "");
+                                                         }
+                                        var data = [@soucrestring];
+                                        $("#@item.Name").kendoDropDownList({
+                                            dataTextField: "text",
+                                            dataValueField: "value",
+                                            dataSource: data,
+                                            index: 0,
+                                            readonly: true
+                                        });
+                                        var ddlGroupType = $("#@item.Name").data("kendoDropDownList");
+                                    });
+                                </script>
+                                    break;
+                                case "NumericField":
+                                <input type="text" id="@item.Name" min="1" style="width: 100%;" />
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#@item.Name").kendoNumericTextBox();
+                                    });
+                                </script> 
+                                    break;
+                            }
+                        </div>
+                               
+                        }
+                        else
+                        {
+                        <div class="col-lg-2 col-md-2  col-sm-2">@item.DisplayName</div>
+                        <div class="col-lg-4 col-md-4  col-sm-4">
+                            @switch (item.GetType().Name)
+                            {
+                                case "TextField":
+                                <input type="text" id="@item.Name" class="k-textbox" style="width: 100%;" />
+                                    break;
+                                case "DateField":
+                                <input type="text" id="@item.Name" style="width: 100%;" />
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#@item.Name").kendoDatePicker();
+                                    });
+                                </script> 
+                                    break;
+                                case "YesNoField":
+                                <input type="checkbox" name="Visible" id="@item.Name"/>
+                                    break;
+                                case "ChooseField":
+                                <input type="text" id="@item.Name" class="k-textbox" style="width: 100%;" />
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                                        @{
+                                    string[] source = ((ChooseField)item).Source;
+                                    StringBuilder sb = new StringBuilder();
+                                    for (int j = 0; j < source.Length; j++)
+                                    {
+                                        sb.Append(",");
+                                        sb.Append("{ text: \"" + source[j] + "\", value: \"" + source[j] + "\" }");
+                                    }
+                                    IHtmlString soucrestring = new HtmlString(sb.ToString().Substring(1));
+                                                         }
+                                        var data = [@soucrestring];
+                                        $("#@item.Name").kendoDropDownList({
+                                            dataTextField: "text",
+                                            dataValueField: "value",
+                                            dataSource: data,
+                                            index: 0,
+                                            readonly: true
+                                        });
+                                        var ddlGroupType = $("#@item.Name").data("kendoDropDownList");
+                                    });
+                                </script>
+                                    break;
+                                case "NumericField":
+                                <input type="text" id="@item.Name" min="1" style="width: 100%;" />
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#@item.Name").kendoNumericTextBox();
+                                    });
+                                </script>                                      
+                                    break;
+                            }
+                        </div>
+                        }
+                        i++;
+                        if (i == 2)
+                        {
+                        @divend 
+                            i = 0;
+                        }
+                    }
+                </div>
+            </li>
+            <li>
+                <a href="#">@Html.CSHtmlResx("DepartmentInformation")</a>
+                <div id="DepartmentInformation">
+                    <div>
+                        <div class="top-toolbar" style="margin: 5px; text-align: right;">
+                            <a class="k-button mt-Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a class="k-button mt-Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                        <div id="DepartmentList"></div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="#">@Html.CSHtmlResx("OtherInformation")</a>
+                <div>
+                    <div id="staffOtherTab">
+                        <ul>
+                            <li>
+                                <a href="#">@Html.CSHtmlResx("ReportTo")</a>
+                                <div>
+                                    <div class="top-toolbar">
+                                        <a class="k-button mt-Add" href="javascript:void(0)" data-wtitle="ReportTo" data-url="/Maintenance/Staff/GetReportToList" data-text="DisplayName" data-value="StaffId" data-label="--Select Staff--"><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="k-button mt-Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                                    </div>
+                                    <div id="ReportToList"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">@Html.CSHtmlResx("SystemRole")</a>
+                                <div>
+                                    <div class="top-toolbar">
+                                        <a class="k-button mt-Add" href="javascript:void(0)" data-wtitle="Role" data-url="/Maintenance/Staff/GetRoleList" data-text="DisplayName" data-value="RoleID" data-label="--Select Role--"><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="k-button mt-Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                                    </div>
+                                    <div id="RoleList"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">@Html.CSHtmlResx("Position")</a>
+                                <div>
+                                    <div class="top-toolbar">
+                                        <a class="more k-button mt-Add" href="javascript:void(0)" data-wtitle="Position" data-url="/Maintenance/Staff/GetPositionList" data-text="DisplayName" data-value="PositionID" data-label="--Select Position--"><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="more k-button mt-Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                                    </div>
+                                    <div id="PositionList"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <script type="text/javascript">
+            $(function () {
+                var itemform = $("#staffTab");
+                kendo.init(itemform);
+                itemform.kendoValidator({
+                    validateOnBlur: true,
+                    messages: {
+                        UserId: jsResxMaintenance_SeaStaff.ExistsUserId,
+                        ExistsStaffName: jsResxMaintenance_SeaStaff.ExistsStaffName,
+                        StaffName: jsResxMaintenance_SeaStaff.SpecialChar,
+                        FirstName: jsResxMaintenance_SeaStaff.SpecialChar,
+                        LastName: jsResxMaintenance_SeaStaff.SpecialChar,
+                        MobileNo: jsResxMaintenance_SeaStaff.InvalidMobileNo,
+                        Email: jsResxMaintenance_SeaStaff.InvalidEmail,
+                        StaffNameRequired: jsResxMaintenance_SeaStaff.Required,
+                        FirstNameRequired: jsResxMaintenance_SeaStaff.Required,
+                        LastNameRequired: jsResxMaintenance_SeaStaff.Required
+                    },
+                    rules: {
+                        UserId: function (input) {
+                            if (input.is("[name='UserId']")) {
+                                var flag = true;
+                                if ($("#hdUserId").val() != input.val() && input.val().length > 0) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Maintenance/Staff/ExistStaffId",
+                                        data: { UserId: input.val() },
+                                        async: false,
+                                        success: function (result) {
+                                            if (result) {
+                                                flag = false;
+                                            }
+                                        }
+                                    });
+                                }
+                                return flag;
+                            }
+                            else {
+                                return true;
+                            }
+                        },
+                        ExistsStaffName: function (input) {
+                            if (input.is("[name='StaffName']")) {
+                                var flag = true;
+                                if ($("#hdStaffName").val() != input.val() && input.val().length > 0) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Maintenance/Staff/ExistsStaffName",
+                                        data: { UserName: input.val() },
+                                        async: false,
+                                        success: function (result) {
+                                            if (result) {
+                                                flag = false;
+                                            }
+                                        }
+                                    });
+                                }
+                                return flag;
+                            }
+                            else {
+                                return true;
+                            }
+                        },
+                        StaffName: function (input) {
+                            if (input.is("[name='StaffName']")) {
+                                var flag = true;
+                                var regx = new RegExp(/^(([^\^.<>%&',;=?$"':#@@!~\]\[{}/`\|*])*)$/);
+                                return regx.test(input.val());
+                            }
+                            else {
+                                return true;
+                            }
+                        },
+                        FirstName: function (input) {
+                            if (input.is("[name='FirstName']")) {
+                                var flag = true;
+                                var regx = new RegExp(/^(([^\^\<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/);
+                                return regx.test(input.val());
+                            }
+                            else {
+                                return true;
+                            }
+                        },
+                        //LastName: function (input) {
+                        //    if (input.is("[name='LastName']")) {
+                        //        var flag = true;
+                        //        var regx = new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/);
+                        //        return regx.test(input.val());
+                        //    }
+                        //    else {
+                        //        return true;
+                        //    }
+                        //},
+                        MobileNo: function (input) {
+                            if (input.is("[name='MobileNo']")) {
+                                var flag = true;
+                                var regx = new RegExp(/^[0-9]*$/);
+                                return regx.test(input.val());
+                            }
+                            else {
+                                return true;
+                            }
+                        },
+                        Email: function (input) {
+                            if (input.is("[name='Email']") && input.val().length > 0) {
+                                var flag = true;
+                                var regx = new RegExp(/^([0-9A-Za-z\-_\.]+)@@([0-9a-zA-Z\-]+\.[a-z]{2,3}(\.[a-z]{2})?)$/);
+                                return regx.test(input.val());
+                            }
+                            else {
+                                return true;
+                            }
+                        },
+                        StaffNameRequired: function (input) {
+                            if (input.is("[name='StaffName']")) {
+                                if (input.val().length == 0) {
+                                    return false;
+                                }
+                                return true;
+                            }
+                            else {
+                                return true;
+                            }
+                        },
+                        FirstNameRequired: function (input) {
+                            if (input.is("[name='FirstName']")) {
+                                if (input.val().length == 0) {
+                                    return false;
+                                }
+                                return true;
+                            }
+                            else {
+                                return true;
+                            }
+                        }
+                        //LastNameRequired: function (input) {
+                        //    if (input.is("[name='LastName']")) {
+                        //        if (input.val().length == 0) {
+                        //            return false;
+                        //        }
+                        //        return true;
+                        //    }
+                        //    else {
+                        //        return true;
+                        //    }
+                        //}
+                    }
+                });
+            });
+        </script>
+    </div>
+
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <input id="hdUserId" type="hidden" />
+            <input id="hdStaffName" type="hidden" />
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--/.AddStaffWindow-->
+
+<!-- AddOtherWindow-->
+<div id="AddOtherWindow" style="display: none">
+    <div>
+        <input type="text" id="AddOther" style="width: 100%;" />
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--/. AddOtherWindow-->
+<div id="AddEmployeeWindow" style="display: none">
+    <div>
+        <div>
+            <span style="margin: 3px;">
+                <input type="text" id="EmployeeInput" class="k-textbox" /></span>
+            <span style="margin: 3px;">
+                <a class="k-button" id="EmployeeSelect" href="javascript:void(0)" type="button">@Html.CSHtmlResx("select")</a></span>
+        </div>
+        <div id="StaffList" style="margin-top: 7px;"></div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--/.AddEmployeeWindow-->
+
+<!--/.UserImportWindow-->
+<div id="UserImportWindow" style="display: none">
+    <div>
+        <div class="form-group">
+            <label for="Editortextfield" style="font-weight:normal;">@Html.CSHtmlResx("Selectfile") 〔<a href="@Url.Content("~/Template/UserTemplate.xlsx")" target="_blank" >@Html.CSHtmlResx("Downloadtemplate")</a>〕</label>
+            <div class="input-group" style="z-index:100;">
+                <input type="text" name="Editortextfield" id="Editortextfield" style="position: relative;" class="form-control" disabled="disabled">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="$('#EditorfileField').click();">
+                        @Html.CSHtmlResx("Browse")
+                    </button>
+                </span>
+            </div>
+            <input style="padding-left: 260px;border: 1px solid blue;display: block;position: absolute;top: 27px;right: 60px;height: 35px;filter: alpha(opacity:0);opacity: 0;width: 433px;" type="file" name="EditorfileField" id="EditorfileField" onchange="document.getElementById('Editortextfield').value=this.value">
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--/.UserImportWindow-->
+
+@*<script src="~/JS/Maintenance/Staff.js"></script>*@
+<script src="~/JS/seajs/sea.js"></script>
+<script src="~/JS/AjaxFileUploader2.1/ajaxfileupload.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_Staff", function (init) {
+        init();
+    });
+</script>

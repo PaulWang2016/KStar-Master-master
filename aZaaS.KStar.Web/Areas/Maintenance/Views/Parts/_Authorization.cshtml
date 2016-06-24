@@ -1,0 +1,176 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>Authorization Management</div>
+    </div>
+    <div>
+
+        <div style="float: left">
+            <span class="k-textbox k-space-right">
+                <input type="text" id="AuthoriSearchInput" class="k-textbox">
+                <a href="javascript:void(0)" id="AuthoriSearch" class="k-icon k-i-search">&nbsp;</a>
+            </span>
+
+                <a class="more k-button" href="javascript:void(0)" onclick="Add()"><span class="glyphicon glyphicon-plus"></span></a>
+            <a class="more k-button" href="javascript:void(0)" onclick="Del()"><span class="glyphicon glyphicon-remove"></span></a>
+
+        </div>
+        <div style="float: right">
+            <a id="EnableAuthori" class="more k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></span></a>
+            <a id="DisableAuthori" class="more k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-ban-circle"></span></a>
+        </div>
+
+    </div>
+    <div id="AuthorizationView" style="margin-top: 50px;"></div>
+</div>
+
+
+<script>
+
+    var AuthoriSearch = function () {
+
+        var input = $("#AuthoriSearchInput").val();
+        $.post("/Maintenance/Authorization/FindAuthori", { input: input }, function (items) {
+
+            InitBaseKendoGridWidthPage("AuthorizationView", model, columns, items, 10, function () {
+                bindGridCheckbox("AuthorizationView");
+            });
+        })
+    }
+    var Add = function () {
+        window.location.href = "#pane=Dashboard&widget=/Maintenance/Home/CreateAuthorization";
+    }
+
+    //var Edit = function () {
+    //    var ID = $("#AuthorizationView .k-grid-content").find(":checked").first().val();
+    //    window.location.href = "#pane=Dashboard&widget=/Maintenance/EditAuthorization/" + ID;
+    //}
+
+    var Del = function () {
+        var idList = new Array();
+        $("#AuthorizationView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Authorization/DelAuthorization",
+                        type: "POST",
+                        data: { idList: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("AuthorizationView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                grid.dataSource.remove(item);
+                            }
+                        },
+                        dataType: "json"
+                    })
+
+                }
+            });
+        }
+    }
+    var DisableAuthori = function () {
+        var idList = new Array();
+        $("#AuthorizationView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Authorization/DisableAuthorization",
+                        type: "POST",
+                        data: { idList: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("AuthorizationView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                item.set("Granted", "false");
+                            }
+                        },
+                        dataType: "json"
+                    })
+
+                }
+            });
+        }
+    }
+    var EnableAuthori = function () {
+        var idList = new Array();
+        $("#AuthorizationView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Authorization/EnableAuthorization",
+                        type: "POST",
+                        data: { idList: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("AuthorizationView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                item.set("Granted", "true");
+                            }
+                        },
+                        dataType: "json"
+                    })
+
+                }
+            });
+        }
+    }
+    var model = kendo.data.Model.define({
+        id: "SysId",
+        fields: {
+            SysId: { type: "string" },
+            AuthorityId: { type: "string" },
+            UserOrRole: { type: "string" },
+            AuthorizationID: { type: "string" },
+            Resource: { type: "string" },
+            Permission: { type: "string" },
+            ResourceType: { type: "string" },
+            Granted: { type: "string" }
+        }
+    });
+    var columns = [
+        {
+            title: "Checked", width: 35, template: function (item) {
+                return "<input type='checkbox' value='" + item.SysId + "' />";
+            }, headerTemplate: "<input type='checkbox' />", filterable: false
+        },
+        //{
+        //    field: "SysId", title: "ID", template: function (item) {
+        //        return "<a href='#pane=Dashboard&widget=/Maintenance/EditAuthorization/" + item.SysId + "'> " + item.SysId + "</a>";
+        //    }, filterable: false
+        //},
+        {
+            field: "Resource", title: "Resource", template: function (item) {
+                return "<a href='#widget=/Maintenance/EditAuthorization/" + item.SysId + "'>" + item.Resource + "</a>"
+            }, filterable: false
+        },
+        { field: "ResourceType", title: "ResourceType", filterable: false },
+        { field: "Permission", title: "Permission", filterable: false },
+        { field: "UserOrRole", title: "UserOrRole", filterable: false },
+        { field: "Granted", title: "Granted", filterable: false }//,
+        //{ command: [{ name: "edit", text: "", click: function (e) { var tr = $(e.target).closest("tr"); var data = this.dataItem(tr); window.location.href = "#widget=/Maintenance/EditAuthorization/" + data.SysId } }], width: 58 }
+    ]
+
+    $(function () {
+        $.getJSON("/Maintenance/Authorization/GetAllAuthorization", { _t: new Date() }, function (items) {
+            InitBaseKendoGridWidthPage("AuthorizationView", model, columns, items, 10, function () {
+                bindGridCheckbox("AuthorizationView");
+            });
+        });
+        $("#AuthoriSearch").click(AuthoriSearch);
+        $("#DisableAuthori").click(DisableAuthori);
+        //$("#EnableAuthori").click(EnableAuthori);
+
+    });
+</script>

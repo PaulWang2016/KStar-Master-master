@@ -1,0 +1,219 @@
+﻿@using aZaaS.KStar.Html;
+<style type="text/css">
+    span.k-numerictextbox {
+        padding:0px;
+    }
+</style>
+<script>    
+    $("#BasicPreservation").click(function () {
+        var processtime = $("#ProcessTime").data("kendoNumericTextBox").value();
+        if (processtime != null) {
+            var select = GetSelectTreeItem();
+            $.post("/Maintenance/WFConfig/SaveActivityBasicInfo", { configurationActivityId: currentItemId, processtime: processtime }, function (result) {
+                if (result.toString().toLowerCase() == "true") {
+                    $("#BasicPreservation").siblings(".tips").css("visibility", "visible");                    
+                    select.ProcessTime = processtime * 8;
+                }
+            });
+        }
+    });
+
+    $("#handlerPreservation").click(function () {
+        var array = $("#OperateUserList").data("kendoGrid").dataSource._data;        
+        var json = JSON.stringify(array);
+        var select = GetSelectTreeItem();
+        $.post("/Maintenance/WFConfig/SaveHandlerInfo", { configurationActivityId: currentItemId, operateUserListOfString: json }, function (result) {
+            if (result.toString().toLowerCase() == "true") {
+                $("#handlerPreservation").siblings(".tips").css("visibility", "visible");
+                select.OperateUserList = array;
+            }
+        });
+    });
+
+    $("#handlerAddto").click(function () {
+        SelectAllPerson.apply(this);
+    });
+
+    $("#handlerDeletefrom").click(function () {
+        var users = $("#OperateUserList .k-grid-content").find(":checked");
+        if (users.length == 0) {
+            ShowTip(jsResxMaintenance_SeaWorklistData.Pleaseselectanitem);
+            return;
+        }
+        bootbox.confirm(jsResxMaintenance_SeaWorklistData.Areyousure, function (result) {
+            if (result) {
+                $("#OperateUserList .k-grid-content").find(":checked").each(function () {
+                    var item = $("#OperateUserList").data("kendoGrid").dataSource.get(this.value);
+                    $("#OperateUserList").data("kendoGrid").dataSource.remove(item);
+                })
+            }
+        });
+    });        
+
+    $("#reworkPreservation").click(function () {        
+        var checkboxs = $("#ReturnContainer").find("input[type='checkbox']");
+        var reworkitems = [];
+        $.each(checkboxs, function (i, item) {            
+            if ($(item).prop("checked"))
+            {
+                reworkitems.push($(item).attr("revalue"));
+            }
+        });
+        debugger;
+        var select = GetSelectTreeItem();
+        $.post("/Maintenance/WFConfig/SaveRework", { configurationActivityId: select.ID, reworkActivityListOfString: JSON.stringify(reworkitems) }, function (result) {
+            if (result.toString().toLowerCase() == "true") {
+                $("#reworkPreservation").siblings(".tips").css("visibility", "visible");               
+                select.ReworkActivityList = reworkitems;
+            }
+        });
+    });
+    
+    $(function () {
+        $("#ProcessTime").kendoNumericTextBox({
+            decimals: 1,
+            step: 0.5,
+            min: 0,
+            change: function () {
+                 
+                var value = parseFloat(this.value());
+                if (value % 0.5 != 0) {
+                    this.value($("#ProcessTime").data("curtime"));
+                    return false;
+                }
+                else {
+                    $("#ProcessTime").data("curtime", value);
+                }
+            }
+        });
+        $.ajax({
+            url: "/Maintenance/WFConfig/GetActivityListByProcessVersion", async: false, dataType: "json",data:{ id: currentParentId,procID:0, procSetID:0 }, success: function (items) {
+                var template = "<div class=\"{0}col-sm-6\"><div class=\"checkbox\"><label><input id=\"activity_{3}\" type=\"checkbox\" revalue=\"{1}\">{2}</label></div></div>";//col-sm-offset-4
+                var html = "";
+                $.each(items, function (i, item) {
+                    if (i > 0) {
+                        html += template.replace("{0}", "col-sm-offset-4 ").replace("{1}", item.ID).replace("{2}", item.Name).replace("{3}", item.ID);
+                    }
+                    else {
+                        html += template.replace("{0}", "").replace("{1}", item.ID).replace("{2}", item.Name).replace("{3}", item.ID);
+                    }
+                });
+                $("#ReturnContainer").html("").html(html);
+            }
+        });
+    });
+
+</script>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#base" data-toggle="tab">@Html.CSHtmlResx("Basicinformation")</a></li>
+    <li><a href="#handler" data-toggle="tab">@Html.CSHtmlResx("Dealingwithpeople")</a></li>
+    <li><a href="#returnsegment" data-toggle="tab">@Html.CSHtmlResx("RefunableSegment")</a></li>
+    <li><a href="#ControlSetting" data-toggle="tab">@Html.CSHtmlResx("FormControlSetting")</a></li>
+    <li><a href="#ActivityParticipantsSet" data-toggle="tab">加签设置</a></li>
+    <li><a href="#LineRuleSetting" data-toggle="tab">连线规则配置</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <!-- 基础信息 -->
+    <div class="tab-pane active" id="base">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Partnumber")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ActivityNo" class="form-control" placeholder="@Html.CSHtmlResx("Partnumber")" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Linkmetadata")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ActivityMetaData" class="form-control" placeholder="@Html.CSHtmlResx("Linkmetadata")" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Linkmetadata")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ActivityName" class="form-control" placeholder="@Html.CSHtmlResx("Linkmetadata")" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("ProcessTime")</label>
+                <div class="col-sm-6">
+                    <input type="text" id="ProcessTime" class="form-control" placeholder="@Html.CSHtmlResx("ProcessTime")" >&nbsp;&nbsp;/<label>@Html.CSHtmlResx("WorkingDays")</label>
+                </div>
+            </div>            
+        </form>
+         <div  style="text-align:center; margin-top:5px;">
+            <button class="btn btn-default" type="button" id="BasicPreservation">@Html.CSHtmlResx("Preservation")</button>
+             <div class="tips" style="color: green;  visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+        </div>
+    </div>
+    <!-- 处理人 -->
+    <div class="tab-pane" id="handler">
+        <div class="table-responsive">
+            <div>
+                <div class="top-toolbar">
+                    <a id="handlerAddto" class="k-button mt-Add" href="javascript:void(0)" ><span class="glyphicon glyphicon-plus"></span></a>
+                    <a id="handlerDeletefrom" class="k-button mt-Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+                <div id="OperateUserList"></div>
+            </div> 
+        </div>
+        <div  style="text-align:center; margin-top:5px;">
+            <button class="btn btn-default" type="button" id="handlerPreservation">@Html.CSHtmlResx("Preservation")</button>
+             <div class="tips" style="color: green;  visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+        </div>
+    </div>
+    <!-- 可退回环节 -->
+    <div class="tab-pane" id="returnsegment">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">@Html.CSHtmlResx("Returnlink")</label>
+                <div id="ReturnContainer">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="button" class="btn btn-default" id="reworkPreservation">@Html.CSHtmlResx("Preservation")</button>
+                    <div class="tips" style="color: green;  visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- 模板控件设置 -->
+    <div class="tab-pane" id="ControlSetting">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">                
+                <div id="ControlSettingContainer">
+                    @{
+                        ViewData["type"] = "active";
+                     }
+                    @Html.Partial("/Areas/Maintenance/Views/WFConfig/ControlSetting.cshtml",this.ViewData)
+                </div>
+            </div>          
+        </form>
+    </div>
+    <!--加签设置-->
+    <div class="tab-pane" id="ActivityParticipantsSet">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div id="ActivityParticipantsSetContainer">
+                  
+                    @Html.Partial("/Areas/Maintenance/Views/WFConfig/MoreParticipantSet.cshtml", this.ViewData)
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane" id="LineRuleSetting">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div id="LineRuleSettingContainer">
+
+                    @Html.Partial("/Areas/Maintenance/Views/WFConfig/LineRuleSetting.cshtml", this.ViewData)
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

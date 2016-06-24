@@ -1,0 +1,66 @@
+﻿@using aZaaS.KStar.Html;
+<div class="section">
+    <div class="top-heading top-toolbar">
+        <div class="top-title">@Html.CSHtmlResx("ApplicationManagement")</div>
+        <a class="k-button Add" href="javascript:void(0)" style="display:none"><span class="glyphicon glyphicon-plus"></span></a>
+        <a class="k-button Del" href="javascript:void(0)" style="display:none"><span class="glyphicon glyphicon-remove"></span></a>
+        <a class="k-button ImportApps" href="javascript:void(0)" title="Import from Excel" style="display:none"><span class="glyphicon glyphicon-import"></span></a>
+        <a class="k-button ExportApps" href="javascript:void(0)" title="Export to Excel"><span class="glyphicon glyphicon-export"></span></a>
+    </div>
+    <div id="GridView"></div>
+</div>
+
+<div id="AddAppWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>@Html.CSHtmlResx("Key")</td>
+                <td style="width: 300px;">
+                    <input type="text" class="k-textbox Key" style="width: 100%;" placeholder="Key" /></td>
+                <td style="width: 50px;"></td>
+                <td>@Html.CSHtmlResx("DisplayName")</td>
+                <td>
+                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Scope")</td>
+                <td>
+                    <input type="text" id="Scope" class="k-textbox" style="width: 100%;" placeholder="Scope" /></td>
+                <td style="width: 50px;"></td>
+                <td>@Html.CSHtmlResx("DefaultPage")</td>
+                <td>
+                    <input type="text" class="k-textbox DefaultPage" style="width: 100%;" placeholder="Default Page" /></td>
+            </tr>
+            <tr>
+                <td>@Html.CSHtmlResx("MenuOrder")</td>
+                <td><input type="text"  class="k-textbox MenuOrder" style="width: 100%;" placeholder="MenuOrder" /></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+<div id="ImportAppsWindow"></div>
+@*<script src="~/JS/Maintenance/Applicaiton.js"></script>
+<script>
+    $(function () {
+        LoadApplicaiton();
+    })
+</script>*@
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaApplicaiton" type="text/javascript"></script>
+
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_Applicaiton", function (init) {
+        init();
+        $(window).resize();
+    });
+</script>

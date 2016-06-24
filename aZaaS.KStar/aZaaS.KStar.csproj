@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0AC4D700-8155-44AB-A5BD-D97E7C34BCEE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aZaaS.KStar</RootNamespace>
+    <AssemblyName>aZaaS.KStar</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.5\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.Configuration.3.1.0\lib\net40\Autofac.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="aZaaS.Framework">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.ACS.Core">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.ACS.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Authentication">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Authentication.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Configuration">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Extend">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Extend.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Facade">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Facade.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.K2Worklist">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.K2Worklist.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Organization">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Organization.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.SchedulerService">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.SchedulerService.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.SQLQuery">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.SQLQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Template">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Template.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Workflow">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Workflow.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressionEvaluator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=90d9f15d622e2348, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExpressionEvaluator.2.0.3.0\lib\net40\ExpressionEvaluator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractBO.cs" />
+    <Compile Include="AbstractDTO.cs" />
+    <Compile Include="Acs\AcsManager.cs" />
+    <Compile Include="Acs\AuthorityProvider.cs" />
+    <Compile Include="Acs\Models\AuthorityType.cs" />
+    <Compile Include="Acs\Models\AuthorizationMatrices.cs" />
+    <Compile Include="Acs\Models\ResourcePermission.cs" />
+    <Compile Include="Acs\Models\UserAndRole.cs" />
+    <Compile Include="AppDelegate\AppDelegate.cs" />
+    <Compile Include="AppDelegate\AppDelegateManager.cs" />
+    <Compile Include="AppRole\AppRole.cs" />
+    <Compile Include="AppRole\AppRoleManager.cs" />
+    <Compile Include="Authentication\ExceptionRaiser.cs" />
+    <Compile Include="Authentication\Exceptions\AuthenticateException.cs" />
+    <Compile Include="Authentication\Exceptions\PasswordNotMatchException.cs" />
+    <Compile Include="Authentication\ConfigurationSection.csd.cs">
+      <DependentUpon>ConfigurationSection.csd.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Authentication\Exceptions\InvalidParameterException.cs" />
+    <Compile Include="Authentication\Extensions.cs" />
+    <Compile Include="Authentication\IUserAuthProvider.cs" />
+    <Compile Include="Authentication\KStarUserAuthenticator.cs" />
+    <Compile Include="Authentication\Exceptions\UserNotExistsException.cs" />
+    <Compile Include="AutoMapperConfiguration.cs" />
+    <Compile Include="Converter\DataTabletoListConverter.cs" />
+    <Compile Include="CustomExpression\CustomContext.cs" />
+    <Compile Include="CustomRole\CustomDaoManager.cs" />
+    <Compile Include="CustomRole\CustomManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CustomRole\Models\CustomRoleAction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CustomRole\Models\CustomRoleActionDTO.cs" />
+    <Compile Include="CustomRole\Models\CustomRoleCategory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CustomRole\Models\CustomRoleClassify.cs" />
+    <Compile Include="DataDictionary\DataDictionary.cs" />
+    <Compile Include="DataDictionary\DataDictionaryManager.cs" />
+    <Compile Include="DataDictionary\DataDictionaryType.cs" />
+    <Compile Include="Documents\DocumentEntity.cs" />
+    <Compile Include="Documents\DocumentManager.cs" />
+    <Compile Include="Documents\DocumentStorageFactory.cs" />
+    <Compile Include="Documents\IStorageProvider.cs" />
+    <Compile Include="Documents\StorageProviders\FileStorageProvider.cs" />
+    <Compile Include="Documents\StorageProviders\SharePointStorageProvider.cs" />
+    <Compile Include="DTOs\AppRoleDTO.cs" />
+    <Compile Include="DTOs\BusinessDataColumnDTO.cs" />
+    <Compile Include="DTOs\BusinessDataConfigDTO.cs" />
+    <Compile Include="DTOs\CustomRoleCategoryDTO.cs" />
+    <Compile Include="DTOs\CustomRole\ProcInstDataDTO.cs" />
+    <Compile Include="DTOs\DataDictionaryDTO.cs" />
+    <Compile Include="DTOs\ExFieldDTO.cs" />
+    <Compile Include="DTOs\OrgChartDTO.cs" />
+    <Compile Include="DTOs\OrgNodeDTO.cs" />
+    <Compile Include="DTOs\OrgNodeExFieldDTO.cs" />
+    <Compile Include="DTOs\PendingApproverData.cs" />
+    <Compile Include="DTOs\PositionCategoryDTO.cs" />
+    <Compile Include="DTOs\PositionDTO.cs" />
+    <Compile Include="DTOs\PositionExFieldDTO.cs" />
+    <Compile Include="DTOs\Report\ActDTO.cs" />
+    <Compile Include="DTOs\Report\ActInstSlotItemDTO.cs" />
+    <Compile Include="DTOs\Report\ProcessApprovalConsumingSecondDTO.cs" />
+    <Compile Include="DTOs\Report\UseFrequencyDTO.cs" />
+    <Compile Include="DTOs\Report\ProcDealDurationItemDTO.cs" />
+    <Compile Include="DTOs\Report\WorkflowReport1ItemDTO.cs" />
+    <Compile Include="DTOs\Report\WorkflowReport1MasterDTO.cs" />
+    <Compile Include="DTOs\Report\WorkflowReport2ItemDTO.cs" />
+    <Compile Include="DTOs\Report\ProcDealDurationMasterDTO.cs" />
+    <Compile Include="DTOs\Report\WorkflowReport2MasterDTO.cs" />
+    <Compile Include="DTOs\Resource.cs" />
+    <Compile Include="DTOs\RoleDTO.cs" />
+    <Compile Include="DTOs\UserDTO.cs" />
+    <Compile Include="DTOs\UserExFieldDTO.cs" />
+    <Compile Include="DTOs\UserProfile.cs" />
+    <Compile Include="DTOs\WorkflowTask.cs" />
+    <Compile Include="DTOs\WorklistTask.cs" />
+    <Compile Include="DynamicWidgets\DynamicWidgetEntity.cs" />
+    <Compile Include="DynamicWidgets\DynamicWidgetManager.cs" />
+    <Compile Include="ExceptionHandling\EnhancedHandleError.cs" />
+    <Compile Include="ExceptionHandling\ExpcetionLogModule.cs" />
+    <Compile Include="Facades\AcsFacade.cs" />
+    <Compile Include="Facades\AppDelegateFacade.cs" />
+    <Compile Include="Facades\AppRoleFacade.cs" />
+    <Compile Include="Facades\CandidateFacade.cs" />
+    <Compile Include="Facades\DataDictionaryFacade.cs" />
+    <Compile Include="Facades\DocumentFacade.cs" />
+    <Compile Include="DTOs\Document.cs" />
+    <Compile Include="DTOs\DynamicWidget.cs" />
+    <Compile Include="DTOs\EntityConvertExtensions.cs" />
+    <Compile Include="DTOs\Menu.cs" />
+    <Compile Include="DTOs\Widget.cs" />
+    <Compile Include="Facades\DynamicWidgetFacade.cs" />
+    <Compile Include="Facades\MenuFacade.cs" />
+    <Compile Include="Facades\PortalEnvironment.cs" />
+    <Compile Include="Facades\ResourceFacade.cs" />
+    <Compile Include="Facades\SuperADFacade.cs" />
+    <Compile Include="Facades\UserProfileFacade.cs" />
+    <Compile Include="Facades\WidgetFacade.cs" />
+    <Compile Include="Helper\CacheAccessor.cs" />
+    <Compile Include="Helper\CustomHelper.cs" />
+    <Compile Include="Helper\CustomLayout.cs" />
+    <Compile Include="Helper\DataListSort.cs" />
+    <Compile Include="Extensions\DateTimeExtension.cs" />
+    <Compile Include="Helper\ListFilterExpress.cs" />
+    <Compile Include="Helper\LogHelper.cs" />
+    <Compile Include="Helper\SortDescriptor.cs" />
+    <Compile Include="ParticipantSetService\ActivityParticipantSetService.cs" />
+    <Compile Include="ProcessForm\ProcessPrognosis.cs" />
+    <Compile Include="ProcessForm\ProcessPrognosisDetail.cs" />
+    <Compile Include="ProcessForm\ProcessPrognosisTransit.cs" />
+    <Compile Include="ProcessForm\RoleUser.cs" />
+    <Compile Include="ProcessForm\User.cs" />
+    <Compile Include="ProcessForm\view_ProcinstList.cs" />
+    <Compile Include="Report\ReportPermission.cs" />
+    <Compile Include="Report\ReportStatistics.cs" />
+    <Compile Include="Report\ReportUrlResolver.cs" />
+    <Compile Include="SQLQueryConfiguration.cs" />
+    <Compile Include="WorkflowConfiguration\Configuration_ProcInstDesc.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_LineRule.cs" />
+    <Compile Include="WorkflowConfiguration\RuleContextcs.cs" />
+    <Compile Include="Workflow\WorkflowMiscEnum.cs" />
+    <Compile Include="Workflow\WorkflowStatus.cs" />
+    <Compile Include="Html\LocalizationExtensions.cs" />
+    <Compile Include="Html\MenuExtensions.cs" />
+    <Compile Include="Html\WidgetExtensions.cs" />
+    <Compile Include="Converter\ListtoDataTableConverter.cs" />
+    <Compile Include="KstarMobile\GroupDefinitionEntity.cs" />
+    <Compile Include="KstarMobile\GroupDefinitionManager.cs" />
+    <Compile Include="KstarMobile\ItemDefinitionEntity.cs" />
+    <Compile Include="KstarMobile\ItemDefinitionManager.cs" />
+    <Compile Include="KstarMobile\LabelContentEntity.cs" />
+    <Compile Include="KstarMobile\LabelContentManager.cs" />
+    <Compile Include="KstarMobile\ProcessComparer.cs" />
+    <Compile Include="KstarMobile\ProcessDefinitionEntity.cs" />
+    <Compile Include="KstarMobile\ProcessDefinitionManager.cs" />
+    <Compile Include="KstarMobile\ProcessExtend.cs" />
+    <Compile Include="KstarMobile\ProcessPermission.cs" />
+    <Compile Include="Localization\CacheResx.cs" />
+    <Compile Include="Localization\LocalizationResourceEntity.cs" />
+    <Compile Include="Localization\LocalizationResxExtend.cs" />
+    <Compile Include="Localization\LocalizationResxHelper.cs" />
+    <Compile Include="Localization\MyLocalization.cs" />
+    <Compile Include="Localization\ResxService.cs" />
+    <Compile Include="LogRequestProvider\LogRequest.cs" />
+    <Compile Include="LogRequestProvider\LogRequestManager.cs" />
+    <Compile Include="Menus\MenuEntity.cs" />
+    <Compile Include="Menus\MenuManager.cs" />
+    <Compile Include="MgmtDtos\BaseClassDto.cs" />
+    <Compile Include="MgmtDtos\DataDictionaryBaseDto.cs" />
+    <Compile Include="MgmtDtos\DataDictionaryWithChildDto.cs" />
+    <Compile Include="MgmtDtos\ExtensionFieldDto.cs" />
+    <Compile Include="MgmtDtos\FieldExtendBaseDto.cs" />
+    <Compile Include="MgmtDtos\Fx_ExtendDto.cs" />
+    <Compile Include="MgmtDtos\LogRequestDto.cs" />
+    <Compile Include="MgmtDtos\OrgChartBaseDto.cs" />
+    <Compile Include="MgmtDtos\OrgChartWithNodesDto.cs" />
+    <Compile Include="MgmtDtos\OrgChartWithRelationshipsDto.cs" />
+    <Compile Include="MgmtDtos\OrgChartWithRootDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeBaseDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithChartDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithChartParentDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithChildNodesDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithFieldsDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithParentDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithPositionsDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithRelationshipsDto.cs" />
+    <Compile Include="MgmtDtos\OrgNodeWithUsersDto.cs" />
+    <Compile Include="MgmtDtos\PositionBaseDto.cs" />
+    <Compile Include="MgmtDtos\PositionCategoryBaseDto.cs" />
+    <Compile Include="MgmtDtos\PositionCategoryWithChildCategoriesDto.cs" />
+    <Compile Include="MgmtDtos\PositionCategoryWithParentDto.cs" />
+    <Compile Include="MgmtDtos\PositionCategoryWithPositionsDto.cs" />
+    <Compile Include="MgmtDtos\PositionCategoryWithRelationshipsDto.cs" />
+    <Compile Include="MgmtDtos\PositionWithCategoryDto.cs" />
+    <Compile Include="MgmtDtos\PositionWithFieldsDto.cs" />
+    <Compile Include="MgmtDtos\PositionWithNodesDto.cs" />
+    <Compile Include="MgmtDtos\PositionWithRelationshipsDto.cs" />
+    <Compile Include="MgmtDtos\PositionWithUsersDto.cs" />
+    <Compile Include="MgmtDtos\RoleBaseDto.cs" />
+    <Compile Include="MgmtDtos\RoleCategoryBaseDto.cs" />
+    <Compile Include="MgmtDtos\RoleCategoryWithChildCategoriesDto.cs" />
+    <Compile Include="MgmtDtos\RoleCategoryWithParentDto.cs" />
+    <Compile Include="MgmtDtos\RoleCategoryWithRelationshipsDto.cs" />
+    <Compile Include="MgmtDtos\RoleCategoryWithRolesDto.cs" />
+    <Compile Include="MgmtDtos\RoleWithCategoryDto.cs" />
+    <Compile Include="MgmtDtos\RoleWithRelationshipsDto.cs" />
+    <Compile Include="MgmtDtos\UserBaseDto.cs" />
+    <Compile Include="MgmtDtos\UserDto.cs" />
+    <Compile Include="MgmtDtos\UserWithFieldsDto.cs" />
+    <Compile Include="MgmtDtos\UserWithNodesDto.cs" />
+    <Compile Include="MgmtDtos\UserWithOwnersDto.cs" />
+    <Compile Include="MgmtDtos\UserWithPositionsDto.cs" />
+    <Compile Include="MgmtDtos\UserWithRelationshipsDto.cs" />
+    <Compile Include="MgmtDtos\UserWithRolesDto.cs" />
+    <Compile Include="MgmtServices\FxExtendService.cs" />
+    <Compile Include="MgmtServices\OrgChartService.cs" />
+    <Compile Include="MgmtServices\OrgChartServiceExtenstions.cs" />
+    <Compile Include="MgmtServices\PositionService.cs" />
+    <Compile Include="MgmtServices\RoleService.cs" />
+    <Compile Include="MgmtServices\UserService.cs" />
+    <Compile Include="OrgChart\OrgChartBO.cs" />
+    <Compile Include="OrgChart\OrgChartBOExtensions.cs" />
+    <Compile Include="Portal\PortalEnvironmentEntity.cs" />
+    <Compile Include="Portal\PortalManager.cs" />
+    <Compile Include="PositionProvider\PositionBO.cs" />
+    <Compile Include="ProcessForm\ActivityControlSetting.cs" />
+    <Compile Include="ProcessForm\ProcessFormCancel.cs" />
+    <Compile Include="ProcessForm\ProcessFormHeader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\FeedbackEntity.cs" />
+    <Compile Include="Report\FeedbackManager.cs" />
+    <Compile Include="Report\PredicateBuilder.cs" />
+    <Compile Include="Report\ReportCategoryEntity.cs" />
+    <Compile Include="Report\ReportCategoryManager.cs" />
+    <Compile Include="Report\ReportEditorEntity.cs" />
+    <Compile Include="Report\ReportFavouriteEntity.cs" />
+    <Compile Include="Report\ReportFavouriteManager.cs" />
+    <Compile Include="Report\ReportInfoEntity.cs" />
+    <Compile Include="Report\ReportInfoManager.cs" />
+    <Compile Include="Report\WorkflowReport1.cs" />
+    <Compile Include="Report\ReportDaoManager.cs" />
+    <Compile Include="Report\WorkflowReport2.cs" />
+    <Compile Include="Repositories\AbstractRepository.cs" />
+    <Compile Include="Repositories\KStarDbContext.cs" />
+    <Compile Include="Repositories\K2DBContext.cs" />
+    <Compile Include="Repositories\KStarFramekWorkDbContext.cs" />
+    <Compile Include="Repositories\KSTARServiceDBContext.cs" />
+    <Compile Include="Repositories\WidgetRepository.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="SchedulerService\ScheduleTaskService.cs" />
+    <Compile Include="SuperAdmin\SuperADEntity.cs" />
+    <Compile Include="SuperAdmin\SuperADManager.cs" />
+    <Compile Include="Template\TemplateService.cs" />
+    <Compile Include="UserManagement\NeowayUserAuthentication.cs" />
+    <Compile Include="UserManagement\RoleBO.cs" />
+    <Compile Include="UserManagement\TenantDbConfig.cs" />
+    <Compile Include="UserManagement\UserBO.cs" />
+    <Compile Include="UserManagement\UserBOExtension.cs" />
+    <Compile Include="UserManagement\UserDTOExtension.cs" />
+    <Compile Include="UserProfiles\CandidateEntity.cs" />
+    <Compile Include="UserProfiles\CandidateManager.cs" />
+    <Compile Include="UserProfiles\UserProfileEntity.cs" />
+    <Compile Include="UserProfiles\UserProfileManager.cs" />
+    <Compile Include="Version\VersionGetter.cs" />
+    <Compile Include="Widgets\WidgetEntity.cs" />
+    <Compile Include="Widgets\WidgetManager.cs" />
+    <Compile Include="WorkflowConfiguration\ConfigManager.cs" />
+    <Compile Include="WorkflowConfiguration\Configuration_ActivityDTO.cs" />
+    <Compile Include="WorkflowConfiguration\Configuration_CategoryDTO.cs" />
+    <Compile Include="WorkflowConfiguration\Configuration_ProcessSetDTO.cs" />
+    <Compile Include="WorkflowConfiguration\Configuration_ProcessVersionDTO.cs" />
+    <Compile Include="WorkflowConfiguration\Configuration_UserDTO.cs" />
+    <Compile Include="WorkflowConfiguration\Configuration_ProcessConfigDTO.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_User_ProcessSet.cs" />
+    <Compile Include="WorkflowConfiguration\Process_ControlSettingDTO.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_Activity.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_Category.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_ProcCommon.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_ProcessSet.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_ProcessVersion.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_RefActivity.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Configuration_User.cs" />
+    <Compile Include="WorkflowConfiguration\Models\Role_ProcessSet.cs" />
+    <Compile Include="WorkflowConfiguration\Role_ProcessSetDTO.cs" />
+    <Compile Include="WorkflowData\AbstractEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WorkflowData\ChangeLogEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WorkflowData\ConfigurationEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WorkflowData\FormStatus.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WorkflowData\FormType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Workflow\ViewFlowArgs.cs" />
+    <Compile Include="Workflow\ViewFlowUtil.cs" />
+    <Compile Include="Workflow\WorkflowClientServiceExtensions.cs" />
+    <Compile Include="Workflow\WorkflowEngineConfig.cs" />
+    <Compile Include="Workflow\BusinessDataBO.cs" />
+    <Compile Include="Workflow\DelegationService.cs" />
+    <Compile Include="Workflow\ProcessLogService.cs" />
+    <Compile Include="WorkflowData\RequestMainInfoEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Workflow\WorkflowClientService.cs" />
+    <Compile Include="WorkflowData\WorkflowDataManager.cs" />
+    <Compile Include="WorkflowData\WorkflowDataService.cs" />
+    <Compile Include="Workflow\WorkflowManagementService.cs" />
+    <Compile Include="Workflow\WorkflowTaskViewUrl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Authentication\ConfigurationSection.csd">
+      <Generator>CsdFileGenerator</Generator>
+      <LastGenOutput>ConfigurationSection1.csd.cs</LastGenOutput>
+    </None>
+    <None Include="Authentication\ConfigurationSection.csd.config">
+      <DependentUpon>ConfigurationSection.csd</DependentUpon>
+    </None>
+    <None Include="Authentication\ConfigurationSection.csd.diagram">
+      <DependentUpon>ConfigurationSection.csd</DependentUpon>
+    </None>
+    <None Include="Authentication\ConfigurationSection.csd.xsd">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConfigurationSection.csd</DependentUpon>
+    </None>
+    <None Include="MgmtDtos\DtosMaptoEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DtosMaptoEntities1.txt</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+    <Content Include="MgmtDtos\DtosMaptoEntities.txt" />
+    <Content Include="MgmtDtos\DtosMaptoEntities1.txt">
+      <DependentUpon>DtosMaptoEntities.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

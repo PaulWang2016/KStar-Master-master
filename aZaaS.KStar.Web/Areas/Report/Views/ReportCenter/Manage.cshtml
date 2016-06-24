@@ -1,0 +1,263 @@
+﻿@using aZaaS.KStar.Html;
+
+@model IEnumerable<aZaaS.KStar.Report.ReportFavouriteEntity>
+
+<link rel="stylesheet" href="@Url.Content("~/Content/report.css")" type="text/css" />
+<link href="@Url.Content("~/CSS/AeroWindow-Contextmenu.css")" rel="stylesheet" type="text/css" />
+
+<div id="CategoryContextMenu" style="top: 100px; left: 230px; display: none;">
+    @*<div class="m-split"></div>*@
+    <li style="display: normal;">
+        <a id="AddCategoryContextMenu" href="javascript:void(0)">
+            <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddCategory")</span></a></li>
+    <li style="display: normal;">
+        <a id="AddReportContextMenu" href="javascript:void(0)">
+            <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddReport")</span>
+        </a></li>
+    <li style="display: normal;">
+        <a id="ChangeNameMenu" href="javascript:void(0)">
+            <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("Changethename")</span>
+        </a></li>
+    <li style="display: normal;">
+        <a id="DelContextMenu" href="javascript:void(0)">
+            <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("Delete")</span>
+        </a></li>
+    @*<div class="m-split"></div>*@
+</div>
+
+<!--  Report Management Center  -->
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">@Html.CSHtmlResx("ReportManagementCenter")</div>
+    </div>
+    <div class="fullwidget">
+        <div id="layoutSplitter" class="well">
+            <div>
+                @*                <div class="top-toolbar">
+                    <a id="CategoryAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                </div>*@
+                <div id="PostionManageTreeView" style="position: absolute; width: 100%; overflow: hidden;"></div>
+            </div>
+            <div style="overflow-x: hidden;">
+                <div class="container-fluid">
+                    <ul class="controlsGroup">
+                        <li>
+                            <span class="k-textbox">
+                                <input id="keySearch" type="text" class="k-textbox" />
+                            </span>
+                        </li>
+                        <li>
+                            <input id="start" value="@DateTime.Now.AddYears(-1).ToShortDateString()" placeholder="yyyy/MM/dd"/>
+                        </li>
+                        <li>
+                            <input id="end" value="@DateTime.Now.ToShortDateString()" placeholder="yyyy/MM/dd"/>
+                        </li>
+                        <li>
+                            <input id="report_status" value="1" />
+                        </li>
+                        <li>
+                            <input id="report_level" value="1" />
+                        </li>
+                        <li>
+                            <button class="k-button k-primary" id="ChooseFilter">@Html.CSHtmlResx("Filter")</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="reportList"></div>
+
+                @*                <div id="reportViewContainer">
+                    <div id="reportListView"></div>
+                    <div id="reportListViewPager" class="k-pager-wrap"></div>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category-->
+<div id="AddCategoryWindow" style="display: none; width: 500px;">
+    <form>
+        <div class="form-group">
+            <label>@Html.CSHtmlResx("CategoryName")</label>
+            <input id="CategoryName" name="CategoryName" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label>@Html.CSHtmlResx("Comment")</label>
+            <textarea id="CategoryDesc" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="operabar">
+            <div class="operamask"></div>
+            <div class="operacontent">
+                <button type="button" class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+                <button type="button" class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--  Report  -->
+<div id="AddReportWindow" style="display: none; width: 580px; overflow-x: hidden;">
+    <form style="margin: 0px;">
+        <div class="form-group">
+            <label class="col-sm-2">@Html.CSHtmlResx("ReportName")</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="reportName" name="ReportName"
+                    required data-required-msg="报表名称为必填项!" />
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">@Html.CSHtmlResx("ReportUrl")</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="reportUrl" name="reportUrl"
+                    required data-required-msg="报表Url为必填项！" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">@Html.CSHtmlResx("ReportThumbnails")</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="file" name="fileField" id="fileField" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">@Html.CSHtmlResx("Responsibledepartments")</label>
+            <div class="col-sm-4 ">
+                <input class="form-control " style="width: 100%; cursor: pointer;" type="text" id="reportDepartment" name="reportDepartment"
+                    onclick="selectResponsibledepartments.apply(this)" required data-required-msg="责任部门为必选项！" />
+            </div>
+            <label class="col-sm-2">@Html.CSHtmlResx("DateAdded")</label>
+            <div class="col-sm-4">
+                <input id="reportDatepicker" style="width: 161px;" readonly name="Editordatepicker" placeholder="yyyy-MM-dd hh:mm" />
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-sm-2 ">@Html.CSHtmlResx("Type")</label>
+            <div class=" col-sm-4">
+                <input class="form-control" style="cursor: pointer;" readonly type="text" id="report_Category" name="reportCategory"
+                    required data-required-msg="报表分类为必选项！" />
+            </div>
+            <label class="col-sm-2 ">@Html.CSHtmlResx("Level")</label>
+            <div class=" col-sm-4 ">
+                <select id="reportLevel" style="width: 161px;" name="reportLevel" placeholder="请选择级别">
+                    <option>@Html.CSHtmlResx("Stafflevel")</option>
+                    <option>@Html.CSHtmlResx("Companylevel")</option>
+                    <option>@Html.CSHtmlResx("Departmental")</option>
+                </select>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">@Html.CSHtmlResx("Internalnumber")</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" id="reportCode" name="reportCode" />
+            </div>
+            <label class="col-sm-2">@Html.CSHtmlResx("Whethertheshelf")</label>
+            <div class="col-sm-4 " id="reportStatus">
+                <label class="radio-inline">
+                    <input type="radio" name="state" checked value="上架" />@Html.CSHtmlResx("Added")
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="state" value="下架" />@Html.CSHtmlResx("shelves")
+                </label>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">@Html.CSHtmlResx("ReportDescription")</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" name="reportComment" rows="1" id="reportComment"></textarea>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <span style="padding-left: 15px; padding-right: 23px;">报表权限：</span>
+                <a href='javascript:void(0)' id="addRole" class='k-button '><span class='glyphicon glyphicon-plus'></span></a>
+            </label>
+            <div style="padding-left: 108px;">
+                <div id="reportRoles" style="width: 96%;"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+
+
+        <div class="operabar">
+            <div class="operamask"></div>
+            <div class="operacontent">
+                <button style="float: left;" type="button" class="k-button windowConfirm">@Html.CSHtmlResx("Confirm")</button>
+                <button style="float: right;" type="button" class="k-button windowCancel">@Html.CSHtmlResx("Cancel")</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Popup Category TreeView -->
+<div id="popupCategoryTreeViewWindow" style="display: none;">
+    <div id="popupCategoryTreeView" style="width: 100%; overflow: hidden;"></div>
+
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button style="float: left;" type="button" class="k-button windowConfirm">@Html.CSHtmlResx("Confirm")</button>
+            <button style="float: right;" type="button" class="k-button windowCancel">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/JS/seajs/sea.js")"></script>
+<script src="@Url.Content("~/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaPosition")" type="text/javascript"></script>
+<script src="@Url.Content("~/JSResource/GetJavascriptResx?jsPageName=Report_SeaReportCenter")" type="text/javascript"></script>
+<script src="@Url.Content("~/JS/AjaxFileUploader2.1/ajaxfileupload.js")"></script>
+<script src="@Url.Content("~/JS/AeroWindow-Contextmenu.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    seajs.use('/JS/Report/SeaReportCenter', function (init) {
+        init();
+        $(window).resize();
+    });
+</script>
+
+<script type="text/x-kendo-tmpl" id="reportListViewTemplate">
+        <div class="product">
+            <img src="../content/web/foods/#:ProductID#.jpg" alt="#:ProductName# image" />
+            <h3>#:ProductName#</h3>
+        </div>
+</script>
+
+<script id="PostionManageTreeView-template" type="text/kendo-ui-template">   
+            # if(item.Type == "Category"){ #
+          
+            <span class="k-sprite folder"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #"  data-DisplayName= "#= item.DisplayName #"/>
+            # }else{ #
+      
+            <span class="k-sprite property"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #" data-DisplayName= "#= item.DisplayName #"/>
+            # } #
+           
+            
+            #if(item.DisplayName == '_ALL_'){#
+                   #: jsResxReport_SeaReportCenter.Categories #
+                #}else{#
+                    #: item.DisplayName #
+                #}#
+</script>
+

@@ -1,0 +1,38 @@
+﻿@using aZaaS.KStar.Html;
+@model bool
+<!--request_task -->
+<div class="section">
+    @if (Model)
+    {
+        <div class="selectbar1">
+            <span>@Html.CSHtmlResx("StartDateFrom")</span>
+            <span>
+                <input type="text" class="datepicker" name="StartDate" /></span>
+            <span>@Html.CSHtmlResx("To")</span>
+            <span>
+                <input type="text" class="datepicker" name="EndDate" /></span>
+            <span>
+                <a type="button" name="select"href="javascript:void(0)" class="k-button selectbtn"  >@Html.CSHtmlResx("select")</a></span>
+        </div>
+    }
+
+    <div id="myRequestTask" class="sectionGrid">
+    </div>
+</div>
+<!--/.request_task -->
+@if (Model)
+{
+    <script type="text/javascript">
+        title = "Request Tasks - Kendo UI";
+        $("#myRequestTask").prev().find(".selectbtn").click(function () {
+            var startDate = $("#myRequestTask").prev().find("input[name=StartDate]").val();
+            var endDate = $("#myRequestTask").prev().find("input[name=EndDate]").val();
+            $.post("/Dashboard/RequestTasks/Find", { StartDate: startDate, EndDate: endDate }, function (items) {
+                InitKendoExcelGrid("myRequestTask", TaskModel, requestcolumns, items, 20, "My Request Tasks", function () {
+                    bindAndLoad("myRequestTask");
+                    InitHistoryTooltip("myRequestTask");
+                });
+            })
+        }).click();
+    </script>
+}

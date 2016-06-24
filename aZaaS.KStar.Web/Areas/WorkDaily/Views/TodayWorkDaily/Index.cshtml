@@ -1,0 +1,434 @@
+﻿@using aZaaS.KStar.Form.Mvc
+@{
+    ViewBag.Title = "个人工作日报";
+}
+@model aZaaS.KStar.Web.Areas.WorkDaily.Models.WorkDailyModel
+ 
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align: center; font-size: 22px !important;">
+        <h2 class="panel-title" style="text-align: center; font-size: 22px !important;">
+            <span style="font-size:22px !important;"></span>
+            <a data-toggle="collapse" href="#_kstarform_customform_panel">
+                个人工作日报
+            </a> 
+        </h2>
+        <span style="text-align:center;font-size:14px;" data-bind="text:KStarForm.koHeaderModel.ActivityName()==null?'当前状态：草稿':'当前状态：'+KStarForm.koHeaderModel.ActivityName()"></span>
+    </div> 
+
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_customform_panel">
+                表单信息
+            </a>
+        </h4>
+    </div>
+
+    <form id="_kstarform_customform_panel" class="form-horizontal panel panel-default panel-collapse collapse in">
+        <div id="010_Node" class="kstar-control" title="010_填写日报">
+            <p class="bg-primary panel-title" style="padding: 5px;">
+                <span class="caret"></span>&nbsp;
+                <a data-toggle="collapse" href="#_kstarform_customform_panel010" style=" color:#fff;">
+                    <b>010_填写日报</b>
+                </a>
+            </p>
+            <div id="_kstarform_customform_panel010" class="panel-collapse collapse in">
+
+                @*<div class="form-group ">
+                   
+
+                    <label class="control-label col-sm-3"></label>
+                    <label class="control-label col-sm-3" style=" color: red;font-size: 12px; text-align: left;font-weight: 100;padding-right: 0px;">
+                        加载模板是指选择之前某天所写日报的明日计划作为本日工作计划，包括“其他”列表中的内容，加载后会覆盖已经填写的工作计划及总结，请谨慎选择！
+                    </label>
+                </div>*@
+
+                <div class="form-group " style="margin-top:20px;">
+                    <label class="control-label col-sm-2" style="font-size:24px;">日报日期:</label>
+                    <label class="control-label col-sm-2" data-bind="text:formatDate()" style="font-size:24px;"></label>
+                    <label class="control-label col-sm-2"></label>
+                    <div class="col-sm-3  text-center">
+                        <input type="button" class="btn btn-primary" data-bind="click:$root.LastDay" value="上一天" />
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        <input type="button" class="btn btn-primary" data-bind="click:$root.NextDay" value="下一天" />
+                    </div>
+                    @*<label class="control-label col-sm-2">加载模板</label>
+                    <div class="input-group date col-sm-3 " style="padding-left:15px;">
+
+                        <input type="text"
+                               class="form-control"  id="queryStartDate" name="StartDate" />
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>*@
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">姓名</label>
+                    <div class="col-sm-3 ">
+                        <input type="text" class="form-control" disabled="disabled" data-bind="value: UserInfo.Name" />
+                    </div>
+
+                    <label class="control-label col-sm-2">拟制日期</label>
+                    <div class="col-sm-3 ">
+                        <input type="text" disabled="disabled" class="form-control" data-bind="value:formatToDay(StateDate())" />
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">部门</label>
+                    <div class="col-sm-3 ">
+                        <input type="text" class="form-control" disabled="disabled" data-bind="value: DepartmentsFirst" />
+                    </div>
+                    <label class="control-label col-sm-2">科室</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" disabled="disabled" data-bind="value: Departments" />
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">岗位</label>
+                    <div class="col-sm-3 ">
+                        <input type="text" disabled="disabled" class="form-control" name="PostName" data-bind="value: PostName" />
+                    </div>
+
+                    <label class="control-label col-sm-2">导师</label>
+                    <div class="col-sm-3 has-feedback">
+                        <input type="text" class="form-control" readonly
+                               name="Advisor" id="Advisor" data-bind="value: Advisor.Name" />
+                        <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.Advisor" data-control="userpick" data-callback="userpickFillValue" data-target="Advisor" data-controltype="Person" data-options="{mutilselect:false}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">审核人<span style="color: red">*</span></label>
+                    <div class="col-sm-8 has-feedback">
+                        <input type="text" class="form-control" name="Verifier" readonly
+                               data-rule-required="true"
+                               data-msg-required="审核人不能为空" id="Verifier" data-bind="value: Verifier.Name" />
+                        <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.Verifier" data-control="userpick" data-callback="userpickFillValue" data-target="Verifier" data-controltype="Person" data-options="{mutilselect:false}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">抄送人</label>
+                    <div class="col-sm-8 has-feedback">
+                        <input type="text" class="form-control" readonly id="CCMan" data-bind="value: CCMan.Name" />
+                        <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.CCMan" data-control="userpick" data-target="CCMan" data-callback="userpickFillValue" data-controltype="Person,Position,Department"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="bg-primary" style="padding: 3px;height: 41px;">
+                        <span class="caret"></span>&nbsp;工作计划及总结
+                        <span class="btn btn-primary" style="float:right;" data-bind="click:function(){addModelObjectItem(WorkPlanList,$('#tbl_WorkPlanList'))}" title="添加">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            添加
+                        </span>
+                    </p>
+
+                    <table class="table table-hover" id="tbl_WorkPlanList">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-1" style="text-align:center;">&nbsp;序号</th>
+                                <th class="col-xs-3" style="text-align:center;">本日工作计划</th>
+                                <th class="col-xs-3" style="text-align:center;">本日工作总结</th>
+                                <th class="col-xs-3" style="text-align:center;">明日工作计划</th>
+                                <th class="col-xs-2" style="text-align:center;">任务等级<span style="color:red">*</span></th>
+                                <th class="col-xs-1" style="text-align:center;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:WorkPlanList">
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    &nbsp;&nbsp; <span class=" text-center" data-bind="text:(ID=$index).apply() +1"></span>
+
+                                </td>
+                                <td style="text-align:center">
+                                    <div class="col-sm-16">
+                                        <textarea rows="1"
+                                                  class="form-control" name="TodayDaily" data-bind="value: TodayDaily,attr:{disabled:$root.IsStartNode(IsRelate())}"></textarea>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <div class="col-sm-16">
+                                        <textarea rows="1"
+                                                  class="form-control" name="TodaySummary" data-bind="value: TodaySummary"></textarea>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <div class="col-sm-16">
+                                        <textarea rows="1"
+                                                  class="form-control" name="TomorrowDaily" data-bind="value: TomorrowDaily"></textarea>
+                                    </div>
+                                </td>
+                                <td style="vertical-align: middle">
+                                    <div class=" col-sm-12">
+                                        @Html.KStarDictionary("TaskLevel", "TaskLevel", null, new { @class = "form-control", id = "TaskLevel", data_bind = "value:TaskLevel,disabled:true" })
+                                    </div>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <div class="btn btn-default" data-bind="click:function(){ $root.removekoModelObjectItem($root.WorkPlanList,this) },attr:{disabled:$root.IsStartNode(IsRelate())}">
+                                        <span class="glyphicon glyphicon-minus-sign" title="删除"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <p class="bg-primary" style="padding: 3px;height: 41px;">
+                        <span class="caret"></span>&nbsp;其他
+                        <span class="btn btn-primary" style="float:right;" data-bind="click:function(){addModelObjectItem(OtherMessageList,$('#tbl_OtherMessageList'))}" title="添加">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            添加
+                        </span>
+                    </p>
+
+                    <table class="table table-hover" id="tbl_OtherMessageList">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-1" style="text-align:center;">序号</th>
+                                <th class="col-xs-6" style="text-align:center;">其他</th>
+                                <th class="col-xs-5" style="text-align:center;">所需支持</th>
+                                <th class="col-xs-1" style="text-align:center;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:OtherMessageList">
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <span class="text-center" data-bind="text:(ID=$index).apply() +1">1</span>
+                                </td>
+
+                                <td style="text-align:center">
+                                    <div class="col-sm-16">
+                                        <textarea rows="1"
+                                                  class="form-control" name="ClientName" data-bind="value: Content" placeholder="可填写遇到的问题、意见或建议"></textarea>
+                                    </div>
+                                </td>
+
+                                <td style="text-align:center">
+                                    <div class="col-sm-16">
+                                        <textarea rows="1"
+                                                  class="form-control" name="ClientName" data-bind="value: WantHelp"></textarea>
+                                    </div>
+                                </td>
+
+                                <td style="text-align: center; vertical-align: middle">
+                                    <div class="btn btn-default" data-bind="click:function(){$root.removekoModelObjectItem($root.OtherMessageList,this)}">
+                                        <span class="glyphicon glyphicon-minus-sign" title="删除"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+<script src="~/Scripts/jquery.autogrow-textarea.js"></script>
+<script src="~/Scripts/Workflow/formStyle.js"></script>
+<script src="~/Scripts/Workflow/form.uploader.js?v=@DateTime.Today.ToString("yyyyMMddHH")"></script>
+<script src="~/Scripts/Workflow/form.Utilsl.js"></script>
+ <script type="text/javascript">
+
+     @Html.RegisterContentModel(Model);
+
+     var workModel= '@Html.GetWorkMode()';
+     //清空实体
+     var clearKoModel = function (koModelObject) {
+         $.each(koModelObject, function (indexItem, item) {
+             if (indexItem == "ID") {
+                 item(0);
+             } else if (indexItem == "IsRelate") {
+                 item("false");
+             } else {
+                 item("");
+             }
+         });
+     } 
+     //扩展
+     KStarForm.extendModel = function (koModel) {
+                var model = KStarForm.toJsModel(koModel);
+                return KStarForm.toKoModel(model, {
+                    extend: {
+                        "{root}": function (self) {
+                            self.formatDate = function (day) {
+                                if (day == undefined) {
+                                    return moment(new Date(KStarForm.koContentModel.Date())).format("YYYY-MM-DD");
+                                } else {
+                                    var date = new Date(KStarForm.koContentModel.Date());
+                                    day = parseInt(day);
+                                    date.setDate(date.getDate() + day)
+                                    return moment(date).format("YYYY-MM-DD");
+                                }
+                            }
+
+                            self.formatToDay = function (data) {
+                                var dateTime = new Date(data);
+                                return moment(dateTime).format("YYYY-MM-DD");
+                            }
+
+                            //是否是发起状态
+                            self.IsStartNode = function (IsRelate) {
+                                if (KStarForm.koHeaderModel.ProcessFolio() == "" || KStarForm.koHeaderModel.ActivityName().indexOf('015') >= 0) {
+                                    if (EnumWorkMode.View == workModel) {
+                                        return true;
+                                    } else {
+                                        return (IsRelate == 'True');
+                                    } 
+                                } else {
+
+                                    return true;
+                                }
+                            }
+
+                            self.addModelObjectItem = function (koModelObject, targetObject) {
+                                if (targetObject == undefined) return;
+                                var targetStructure = targetObject.data('targetStructure');
+
+                                if (targetStructure == undefined && koModelObject().length <= 0) return;
+
+                                var newItem = null;
+                                if (targetStructure == undefined) {
+                                    //创建对象
+                                    var newItemString = '';
+                                    $.each(koModelObject()[0], function (indexItem, item) {
+                                        newItemString += indexItem + ':' + '\'\',';
+                                    });
+                                    newItemString = newItemString.substring(0, newItemString.length - 1)
+                                    newItem = eval('({' + newItemString + '})');
+                                    var cacheData = '{' + newItemString + '}';
+                                    targetObject.data('targetStructure', cacheData);
+
+                                } else {
+                                    newItem = eval('(' + targetStructure + ')');
+                                }
+
+                                if (newItem.ID != undefined) newItem.ID = koModelObject().length;
+                                if(newItem.IsRelate!=undefined)newItem.IsRelate='false';
+
+                                var koItem = KStarForm.toKoModel(newItem);
+
+                                koModelObject.push(koItem);
+
+                                $("textarea").autogrow();
+                            }
+
+                            self.removekoModelObjectItem = function (koModelObject, item) {
+                                if (koModelObject().length == 1) {
+                                    clearKoModel(koModelObject()[0]);
+                                    return;
+                                }
+                                koModelObject.remove(item);
+                            }
+
+                            //goto day function
+                            self.GetWorkDailyDate = function (IsLast) {
+                                $.getJSON('/WorkDaily/TodayWorkDaily/GetWorkDailyDate?date=' + encodeURIComponent(self.formatDate(IsLast)), null, function (data, textStatus, jqXHR) {
+                                    if (data.length > 0) {
+                                        var jsonData = data[0];
+                                        KStarForm.koContentModel.Date(new Date(jsonData));
+                                        KStarForm.koHeaderModel.FormSubject("个人工作日报" + moment(new Date(KStarForm.koContentModel.Date())).format("YYYYMMDD"));
+                                    }
+                                });
+                            }
+
+                            //上一天
+                            self.LastDay = function () { 
+                                if (KStarForm.koHeaderModel.ActivityName() != null && KStarForm.koHeaderModel.ActivityName().indexOf("015")>=0) {
+                                    var ops = {
+                                        msg: "撤回或被退回的申请单不支持修改日报日期，若需提交其他日期的日报，请新建日报！",
+                                        title: "系统提示",
+                                        btnok: "确定",
+                                        btncl: "取消"
+                                    };
+                                    KStar.Modaldialog.alert(ops);
+                                    return false;
+                                }
+                                self.GetWorkDailyDate(-1);
+
+                            };
+                            //下一天
+                            self.NextDay = function () {
+                                if (KStarForm.koHeaderModel.ActivityName() != null && KStarForm.koHeaderModel.ActivityName().indexOf("015")>=0) {
+                                    var ops = {
+                                        msg: "撤回或被退回的申请单不支持修改日报日期，若需提交其他日期的日报，请新建日报！",
+                                        title: "系统提示",
+                                        btnok: "确定",
+                                        btncl: "取消"
+                                    };
+                                    KStar.Modaldialog.alert(ops);
+                                    return false;
+                                }
+                                self.GetWorkDailyDate(+1);
+
+                            };
+                        }
+                    }
+                });
+            }
+
+     KStarForm.afterApplyData = function () {
+
+         if(KStarForm.koHeaderModel.ProcessFolio() == "" ){
+             KStarForm.koHeaderModel.FormSubject("个人工作日报" + moment(new Date(KStarForm.koContentModel.Date())).format("YYYYMMDD"));
+         }
+
+         var date = new Date();
+         date.setDate(date.getDate() -1)
+         $('#queryStartDate').datetimepicker({ format: 'YYYY-MM-DD', maxDate: date,pickTime:false}).on('dp.change', function (ev) {
+             var date = new Date(ev.date.format("YYYY-MM-DD"));
+             var currentTime = new Date(moment(new Date()).format("YYYY-MM-DD"));
+             if (date < currentTime) {
+                 date = moment(date).format("YYYY-MM-DD");
+                 $.getJSON('/WorkDaily/TodayWorkDaily/GetWorkDaily?date=' + encodeURIComponent(date), null, function (data, textStatus, jqXHR) {
+                     if (data.length == 2) {
+                         var workPlanList = data[0];
+                         var otherMessageList = data[1];
+                         KStarForm.koContentModel.WorkPlanList(KStarForm.toKoModel(workPlanList)());
+                         KStarForm.koContentModel.OtherMessageList(KStarForm.toKoModel(otherMessageList)());
+                     } else {
+                         var dataWork = KStarForm.koContentModel.WorkPlanList()[0];
+
+                         clearKoModel(dataWork);
+
+                         if (KStarForm.koContentModel.WorkPlanList().length > 1) {
+                             KStarForm.koContentModel.WorkPlanList.removeAll();
+                             KStarForm.koContentModel.WorkPlanList.push(dataWork);
+                         }
+
+                         var dateOther = KStarForm.koContentModel.OtherMessageList()[0];
+                         clearKoModel(dateOther);
+
+                         if (KStarForm.koContentModel.OtherMessageList().length > 1) {
+                             KStarForm.koContentModel.OtherMessageList.removeAll();
+                             KStarForm.koContentModel.OtherMessageList.push(dateOther);
+                         }
+                     }
+                 });
+             }
+         });
+         $('div[role="_kstarform_content"]').find('textarea').autogrow(); 
+     };
+
+     KStarForm.OnSubmitting = function () {
+         var d = KStarForm.koToolbarModel.ActionName();
+         if (d == "不同意") {
+             if (KStarForm.koToolbarModel.ActionComment().length == 0) {
+                 var ops = {
+                     msg: "请在\"意见说明\"中输入不同意的原因！",
+                     title: "系统提示",
+                     btnok: "确定",
+                     btncl: "取消"
+                 };
+                 KStar.Modaldialog.alert(ops);
+                 return false;
+             }
+         }
+         return true;
+     }
+      
+ </script>
+ }

@@ -1,0 +1,1941 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{321EF512-4E71-4F1E-8954-971FB14FC31D}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aZaaS.KStar.Web</RootNamespace>
+    <AssemblyName>aZaaS.KStar.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.5\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.Configuration.3.1.0\lib\net40\Autofac.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.ACS.Core, Version=1.0.0.31760, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.ACS.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Authentication, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Authentication.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Configuration, Version=0.9.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.EntityFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Execl">
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Execl.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Extend, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Extend.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Facade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Facade.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Organization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Organization.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.SchedulerService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.SchedulerService.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework.Workflow, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aZaaS.Framework\aZaaS.Framework.Workflow.dll</HintPath>
+    </Reference>
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Open XML SDK\V2.0\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NPOI.2.1.3\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.4.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\iTextSharp.5.5.4\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.4\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="K2.Framework.SSO.Base">
+      <HintPath>..\packages\K2.SSO\net45\mvc4.0.0\K2.Framework.SSO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.1.3.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NPOI.2.1.3\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.1.3.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NPOI.2.1.3\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.1.3.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NPOI.2.1.3\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.1.3.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NPOI.2.1.3\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccessDenied.aspx.cs">
+      <DependentUpon>AccessDenied.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccessDenied.aspx.designer.cs">
+      <DependentUpon>AccessDenied.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ActionFilters\KstarWebActionFilter.cs" />
+    <Compile Include="Api\Custom_BaseDataController.cs" />
+    <Compile Include="Api\Custom_MobileTaskController.cs" />
+    <Compile Include="Api\Custom_UploadController.cs" />
+    <Compile Include="Api\Custom_UtilitiesController.cs" />
+    <Compile Include="Api\KStarProcessController.cs" />
+    <Compile Include="App_Start\TransferHandler.cs" />
+    <Compile Include="App_Start\WFServiceConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FrameworkConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\BusinessTrip\BusinessTripAreaRegistration.cs" />
+    <Compile Include="Areas\BusinessTrip\Controllers\TravelController.cs" />
+    <Compile Include="Areas\BusinessTrip\Data\BusinessTripDBContext.cs" />
+    <Compile Include="Areas\BusinessTrip\Data\Mapping\ScheduleItemMap.cs" />
+    <Compile Include="Areas\BusinessTrip\Data\Mapping\TravelRequestMap.cs" />
+    <Compile Include="Areas\BusinessTrip\Data\ScheduleItem.cs" />
+    <Compile Include="Areas\BusinessTrip\Data\TravelRequest.cs" />
+    <Compile Include="Areas\BusinessTrip\Models\ScheduleItemModel.cs" />
+    <Compile Include="Areas\BusinessTrip\Models\TravelRequestModel.cs" />
+    <Compile Include="Areas\BusinessTrip\Services\BusinessTripDataService.cs" />
+    <Compile Include="Areas\CustomerManagement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\CustomerManagement\CustomerManagementAreaRegistration.cs" />
+    <Compile Include="Areas\CustomerManagement\Exceptions\CustomerNotFoundException.cs" />
+    <Compile Include="Areas\CustomerManagement\Exceptions\CustomerValidateFailException.cs" />
+    <Compile Include="Areas\CustomerManagement\Fakes\FakeDataSource.cs" />
+    <Compile Include="Areas\CustomerManagement\Models\CityModel.cs" />
+    <Compile Include="Areas\CustomerManagement\Models\CountryModel.cs" />
+    <Compile Include="Areas\CustomerManagement\Models\CustomerModel.cs" />
+    <Compile Include="Areas\CustomerManagement\Models\CustomerSearchCriteria.cs" />
+    <Compile Include="Areas\CustomerManagement\Models\GridViewCriteria.cs" />
+    <Compile Include="Areas\CustomerManagement\Models\GridViewDataResult.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\CompletedTasksController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\MyProcessInstanceController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\ProcessSuperviseController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\TransitTasksController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ActivityParticipantsController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\CommonReportMaitController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\CommonReportPermissionController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\FeaturePermissionController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\FlowThemeController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\LogRequestController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\DimissionRedirectController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\HaveReadController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\InsteadRequestController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\MyDraftsController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\OnGoingTasksController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\PendingTasksController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\RequestTasksController.cs" />
+    <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ProcessInstanceManageAddSignerController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\WaitReadController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ProcessSuperviseManageController.cs" />
+    <Compile Include="Areas\Production\Controllers\PlanProductionController.cs" />
+    <Compile Include="Areas\Production\Models\AdaptivePlanModel.cs" />
+    <Compile Include="Areas\Production\Models\AdaptiveSupplyModel.cs" />
+    <Compile Include="Areas\Production\Models\ConfigFile.cs" />
+    <Compile Include="Areas\Production\Models\MadeChange.cs" />
+    <Compile Include="Areas\Production\Models\PlanProduction.cs" />
+    <Compile Include="Areas\Production\Models\SMTPasterInfo.cs" />
+    <Compile Include="Areas\Production\Models\SoftInfo.cs" />
+    <Compile Include="Areas\Production\ProductionAreaRegistration.cs" />
+    <Compile Include="Areas\Report\Controllers\CommonReportController.cs" />
+    <Compile Include="Areas\Report\Controllers\ProcessApprovalConsumingSecondController.cs" />
+    <Compile Include="Areas\Report\Controllers\CompletionRateController.cs" />
+    <Compile Include="Areas\Report\Controllers\ProcDealDurationController.cs" />
+    <Compile Include="Areas\Report\Controllers\UseFrequencyController.cs" />
+    <Compile Include="Areas\WeeklyNewspapers\Controllers\WeeklyDailyController.cs" />
+    <Compile Include="Areas\WeeklyNewspapers\Models\WeeklyModel.cs" />
+    <Compile Include="Areas\WeeklyNewspapers\WeeklyNewspapersAreaRegistration.cs" />
+    <Compile Include="Areas\WorkDaily\Controllers\TodayWorkDailyController.cs" />
+    <Compile Include="Areas\WorkDaily\Models\WorkDailyModel.cs" />
+    <Compile Include="Areas\WorkDaily\WorkDailyAreaRegistration.cs" />
+    <Compile Include="Areas\WorkOvertimeApply\Controllers\WorkOvertimeApplyController.cs" />
+    <Compile Include="Areas\WorkOvertimeApply\Models\WorkOvertimeModel.cs" />
+    <Compile Include="Areas\WorkOvertimeApply\WorkOvertimeApplyAreaRegistration.cs" />
+    <Compile Include="AuthProviders\DevUserAuthProvider.cs" />
+    <Compile Include="AuthProviders\DomainUserAuthProvider.cs" />
+    <Compile Include="AuthProviders\K2UserAuthProvider.cs" />
+    <Compile Include="Confing\SystemCustomSettingUtilities.cs" />
+    <Compile Include="Confing\ConfingUtilities.cs" />
+    <Compile Include="Areas\Depository\Controllers\DepositController.cs" />
+    <Compile Include="Areas\Depository\DepositoryAreaRegistration.cs" />
+    <Compile Include="Areas\Depository\Models\DepositRequestModel.cs" />
+    <Compile Include="Areas\KstarMobile\Controllers\HomeController.cs" />
+    <Compile Include="Areas\KstarMobile\Controllers\MobileConfigController.cs" />
+    <Compile Include="Areas\KstarMobile\KstarMobileAreaRegistration.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\CategoryTemplateController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\MyFormCCController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ProcessPermissionController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\TenantController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\CustomRoleController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\DataDictionaryController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\FieldExtendController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\TDConfigController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ApplicationsController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\AppsController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\AuthorizationController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\DelegationsController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\DocumentsController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\EmailTpmlController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\PermissionController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\PortalController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\PositionController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ProcessController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ResourcePermissionController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\ScheduleController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\StaffController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\UserProfileController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\WFConfigController.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\WorklistController.cs" />
+    <Compile Include="Areas\Maintenance\MaintenanceAreaRegistration.cs" />
+    <Compile Include="Areas\Maintenance\Models\AuthorizationMatrices.cs" />
+    <Compile Include="Areas\Maintenance\Models\ResourcePermission.cs" />
+    <Compile Include="Areas\Maintenance\Models\UserAndRole.cs" />
+    <Compile Include="Areas\ProcessManagement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\ProcessManagement\ProcessManagementAreaRegistration.cs" />
+    <Compile Include="Areas\Report\Controllers\FeedbackController.cs" />
+    <Compile Include="Areas\Report\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Report\Controllers\ReportFavouriteController.cs" />
+    <Compile Include="Areas\Report\Controllers\WorkflowReport1Controller.cs" />
+    <Compile Include="Areas\Report\Controllers\WorkflowReport2Controller.cs" />
+    <Compile Include="Areas\Report\Controllers\ReportCenterController.cs" />
+    <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseMvcController.cs" />
+    <Compile Include="Controllers\CustomPeopleController.cs" />
+    <Compile Include="Controllers\CustomPersonController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
+    <Compile Include="Controllers\DynamicWidgetController.cs" />
+    <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\FormController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HtmlHelpers.cs" />
+    <Compile Include="Controllers\JSResourceController.cs" />
+    <Compile Include="AuthProviders\FormsUserAuthProvider.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\Chinese2Spell.cs" />
+    <Compile Include="Helper\EncryptHelper.cs" />
+    <Compile Include="Helper\EncryptUtility.cs" />
+    <Compile Include="Helper\ExcelHelper.cs" />
+    <Compile Include="Helper\Helper.cs" />
+    <Compile Include="Helper\HttpHelper.cs" />
+    <Compile Include="Helper\JsonToListHelper.cs" />
+    <Compile Include="Helper\PinyinHelper.cs" />
+    <Compile Include="Helper\ResourceExtensionHelper.cs" />
+    <Compile Include="Helper\StringExtension.cs" />
+    <Compile Include="Helper\UserHelper.cs" />
+    <Compile Include="Helper\UtilityHelper.cs" />
+    <Compile Include="Helper\XMLHelper.cs" />
+    <Compile Include="Models\BasisEntity\BasisEntity.Context1.cs">
+      <DependentUpon>BasisEntity.Context.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\BasisEntity\BasisEntity1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\BasisEntity1.Designer.cs">
+      <DependentUpon>BasisEntity.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\BasisEntity\CommonReportConfig_DisplayArea.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\CommonReportConfig_SearchArea.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\CommonReportPermission.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Custom_BaseData_Customer.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Custom_BaseData_labelTemplate.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Custom_BaseData_ModuleType.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Custom_BaseData_ProcessingVendor.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Custom_BaseData_ToolSoft.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Custom_Business_Daily.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Custom_Business_WeeklyDaily.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\DBLogEntry.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\EmailTransferConfig.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\EnumCollection.cs" />
+    <Compile Include="Models\BasisEntity\FormAttachment.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\NetworkRole.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\OrgNode.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\OrgNodeExtend.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Position.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\PositionCategory.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\PositionOrgNode.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\PositionUser.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessActivityParticipantSet.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessActivityParticipantSetEntry.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessFormApprovalDraft.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessFormCancel.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessFormCC.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessFormContent.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessFormHeader.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessFormSigner.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessLog.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessPrognosis.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessPrognosisDetail.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\ProcessPrognosisTask.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\QuartzCacheSendMail.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\QuartzSendMail.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\Role.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\RoleUser.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\SendErrorLog.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\SimpleUser.cs" />
+    <Compile Include="Models\BasisEntity\TempSupervision.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\User.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\UserEntire.cs" />
+    <Compile Include="Models\BasisEntity\UserOrgNode.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\view_ProcinstList.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BasisEntity\VW_ErrorLog.cs">
+      <DependentUpon>BasisEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CustomRoleModel.cs" />
+    <Compile Include="Models\DataDictionaryTreeItem.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\ExField\OrgExField.cs" />
+    <Compile Include="Models\FavouriteTreeItem.cs" />
+    <Compile Include="Models\KeyValueEntity.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MyFavouriteCategoryTreeItem.cs" />
+    <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Process.cs" />
+    <Compile Include="Models\ProcessTreeItem.cs" />
+    <Compile Include="Models\ReportItemModel.cs" />
+    <Compile Include="Models\ReportTreeItem.cs" />
+    <Compile Include="Models\ResetPasswordModel.cs" />
+    <Compile Include="Models\RoleTree.cs" />
+    <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\SourceSys.cs" />
+    <Compile Include="Models\SysRole.cs" />
+    <Compile Include="Models\TargetSys.cs" />
+    <Compile Include="Models\TreeModel.cs" />
+    <Compile Include="Models\TreeViews.cs" />
+    <Compile Include="Models\ViewModel\BDColumnView.cs" />
+    <Compile Include="Models\ViewModel\BDConfigView.cs" />
+    <Compile Include="Models\ViewModel\DelegationView.cs" />
+    <Compile Include="Models\ViewModel\EmailtpmlView.cs" />
+    <Compile Include="Models\ViewModel\HistoryView.cs" />
+    <Compile Include="Models\ViewModel\Report\ActInstSlotItemView.cs" />
+    <Compile Include="Models\ViewModel\Report\WorkflowReport1ItemView.cs" />
+    <Compile Include="Models\ViewModel\Report\WorkflowReport1View.cs" />
+    <Compile Include="Models\ViewModel\Report\WorkflowReport2ItemView.cs" />
+    <Compile Include="Models\ViewModel\Report\WorkflowReport2View.cs" />
+    <Compile Include="Models\ViewModel\Role.cs" />
+    <Compile Include="Models\ViewModel\ScheduleConfigView.cs" />
+    <Compile Include="Models\ViewModel\StaffView.cs" />
+    <Compile Include="Models\ViewModel\TaskView.cs" />
+    <Compile Include="Models\ViewModel\WorkView.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resx\Areas\KstarMobile\Views\MobileConfig_cshtml.en-US.Designer.cs" />
+    <Compile Include="Resx\Areas\KstarMobile\Views\MobileConfig_cshtml.zh-CN.Designer.cs" />
+    <Compile Include="Resx\Areas\ProcessManagement\Views\ProcessStart_cshtml.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProcessStart_cshtml.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resx\Common\MsgInfo.en-US.Designer.cs" />
+    <Compile Include="Resx\Common\MsgInfo.zh-CN.Designer.cs" />
+    <Compile Include="Resx\Views\Export\ImportfromExcel_cshtml.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImportfromExcel_cshtml.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resx\Views\Export\ImportfromExcel_cshtml.zh-CN.Designer.cs">
+      <DependentUpon>ImportfromExcel_cshtml.zh-CN.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Service References\ProcessServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TenantDbService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TenantManager\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\AD\ADHelper.cs" />
+    <Compile Include="Utilities\AD\ADUserFlag.cs" />
+    <Compile Include="Utilities\AD\ADUserProperty.cs" />
+    <Compile Include="Utilities\AD\ADUtility.cs" />
+    <Compile Include="Utilities\CacheHelper.cs" />
+    <Compile Include="Utilities\Caching\CacheManage.cs" />
+    <Compile Include="Utilities\Caching\LoginCheckCodetEntity.cs" />
+    <Compile Include="Utilities\Excel.cs" />
+    <Compile Include="Utilities\OuterNetwork\OuterNetworkUtilites.cs" />
+    <Compile Include="Utilities\RegexUtilities.cs" />
+    <Compile Include="Utilities\UserEntireUtilites.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AccessDenied.aspx" />
+    <Content Include="AccountUnavailable.html" />
+    <Content Include="Areas\CustomerManagement\Templates\ViewModelGenerator.js" />
+    <Content Include="Areas\CustomerManagement\Templates\ViewModelGenerator1.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewModelGenerator.tt</DependentUpon>
+    </Content>
+    <Content Include="Areas\Maintenance\Views\WFConfig\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Production\Views\PlanProduction\Index.cshtml" />
+    <Content Include="Areas\Production\Views\Shared\PDFTemplate.cshtml" />
+    <Content Include="Areas\Production\Views\Web.config" />
+    <Content Include="Confing\_SystemCustomSetting.xml" />
+    <Content Include="Content\adaptively.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-ie6.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ie.css" />
+    <Content Include="Content\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Content\jquery.bootgrid.css" />
+    <Content Include="Content\jquery.bootgrid.min.css" />
+    <Content Include="Content\report.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\site_custom.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="AccountInvalid.html" />
+    <Content Include="Content\uploader.css" />
+    <Content Include="Content\ztreeicon\diy\1_close.png" />
+    <Content Include="Content\ztreeicon\diy\1_open.png" />
+    <Content Include="Content\ztreeicon\diy\2.png" />
+    <Content Include="Content\ztreeicon\diy\3.png" />
+    <Content Include="Content\ztreeicon\diy\4.png" />
+    <Content Include="Content\ztreeicon\diy\5.png" />
+    <Content Include="Content\ztreeicon\diy\6.png" />
+    <Content Include="Content\ztreeicon\diy\7.png" />
+    <Content Include="Content\ztreeicon\diy\8.png" />
+    <Content Include="Content\ztreeicon\diy\9.png" />
+    <Content Include="Content\ztreeicon\line_conn.gif" />
+    <Content Include="Content\ztreeicon\line_conn.png" />
+    <Content Include="Content\ztreeicon\loading.gif" />
+    <Content Include="Content\ztreeicon\metro.gif" />
+    <Content Include="Content\ztreeicon\metro.png" />
+    <Content Include="CSS\AeroWindow-Contextmenu.css" />
+    <Content Include="CSS\bootstrap-theme.css" />
+    <Content Include="CSS\bootstrap-theme.min.css" />
+    <Content Include="CSS\bootstrap.css" />
+    <Content Include="CSS\bootstrap.min.css" />
+    <Content Include="CSS\jquery.contextMenu.css" />
+    <Content Include="CSS\kendoui\Custom.kendoui.css" />
+    <Content Include="CSS\kendoui\Default\editor.png" />
+    <Content Include="CSS\kendoui\Default\highlight.png" />
+    <Content Include="CSS\kendoui\Default\imagebrowser.png" />
+    <Content Include="CSS\kendoui\Default\loading-image.gif" />
+    <Content Include="CSS\kendoui\Default\loading.gif" />
+    <Content Include="CSS\kendoui\Default\loading_2x.gif" />
+    <Content Include="CSS\kendoui\Default\slider-h.gif" />
+    <Content Include="CSS\kendoui\Default\slider-v.gif" />
+    <Content Include="CSS\kendoui\Default\sprite.png" />
+    <Content Include="CSS\kendoui\Default\sprite_2x.png" />
+    <Content Include="CSS\kendoui\kendo.common.min.css" />
+    <Content Include="CSS\kendoui\kendo.default.min.css" />
+    <Content Include="CSS\KstarForm\jquery.bootgrid.css" />
+    <Content Include="CSS\KstarForm\kstarform.css" />
+    <Content Include="CSS\KstarForm\ztree.css" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\1_close.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\1_open.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\2.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\3.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\4.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\5.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\6.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\7.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\8.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\diy\9.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\line_conn.gif" />
+    <Content Include="CSS\KstarForm\ztreeicon\line_conn.png" />
+    <Content Include="CSS\KstarForm\ztreeicon\loading.gif" />
+    <Content Include="CSS\KstarForm\ztreeicon\metro.gif" />
+    <Content Include="CSS\KstarForm\ztreeicon\metro.png" />
+    <Content Include="CSS\oneclubIndex.css" />
+    <Content Include="CSS\signin.css" />
+    <Content Include="CSS\selectpersonwindow.css" />
+    <Content Include="CSS\star.css" />
+    <Content Include="CSS\star.png" />
+    <Content Include="CSS\styleForReport.css" />
+    <Content Include="CSS\stylemyfavourite.css" />
+    <Content Include="DataFilter.xml" />
+    <Content Include="favicon.ico" />
+    <Content Include="CSS\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Confing\_FeaturePermission.xml" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Helper\ChineseSpellData.xml" />
+    <Content Include="images\avi.png" />
+    <Content Include="images\Banner.jpg" />
+    <Content Include="images\bg_mainnav.png" />
+    <Content Include="images\bigLogo.jpg" />
+    <Content Include="images\bigLogo1.jpg" />
+    <Content Include="images\Body_bg_n.gif" />
+    <Content Include="images\Body_bg.gif" />
+    <Content Include="images\bth_handle.png" />
+    <Content Include="images\csv.jpg" />
+    <Content Include="images\csv.png" />
+    <Content Include="images\dic.gif" />
+    <Content Include="images\eForm\abcd.png" />
+    <Content Include="images\eForm\approve_gray.png" />
+    <Content Include="images\eForm\approve_white.png" />
+    <Content Include="images\eForm\back_gray.png" />
+    <Content Include="images\eForm\back_white.png" />
+    <Content Include="images\eForm\close_gray.png" />
+    <Content Include="images\eForm\close_white.png" />
+    <Content Include="images\eForm\confirm_gray.png" />
+    <Content Include="images\eForm\confirm_white.png" />
+    <Content Include="images\eForm\deletedraft_gray.png" />
+    <Content Include="images\eForm\deletedraft_white.png" />
+    <Content Include="images\eForm\eFrom_Ico.png" />
+    <Content Include="images\eForm\endorse_gray.png" />
+    <Content Include="images\eForm\endorse_white.png" />
+    <Content Include="images\eForm\home_gray.png" />
+    <Content Include="images\eForm\home_white.png" />
+    <Content Include="images\eForm\print_gray.png" />
+    <Content Include="images\eForm\print_white.png" />
+    <Content Include="images\eForm\reject_gray.png" />
+    <Content Include="images\eForm\reject_white.png" />
+    <Content Include="images\eForm\return_gray.png" />
+    <Content Include="images\eForm\return_white.png" />
+    <Content Include="images\eForm\savedraft_gray.png" />
+    <Content Include="images\eForm\savedraft_white.png" />
+    <Content Include="images\eForm\submit_gray.png" />
+    <Content Include="images\eForm\submit_white.png" />
+    <Content Include="images\eForm\withdraw_gray.png" />
+    <Content Include="images\eForm\withdraw_white.png" />
+    <Content Include="images\Excel-icon.png" />
+    <Content Include="images\flag-green.gif" />
+    <Content Include="images\flag-grey.gif" />
+    <Content Include="images\flag-red.gif" />
+    <Content Include="images\flag-yellow.gif" />
+    <Content Include="images\form.jpg" />
+    <Content Include="images\glyphicons-halflings-white.png" />
+    <Content Include="images\glyphicons-halflings.png" />
+    <Content Include="images\Icon\ico-flag-grey.png" />
+    <Content Include="images\Icon\ico-flag-yellow.png" />
+    <Content Include="images\Icon\ico-flag-red.png" />
+    <Content Include="images\Icon\icons.png" />
+    <Content Include="images\Icon\ico_ADMIN.png" />
+    <Content Include="images\Icon\ico_DATA.png" />
+    <Content Include="images\Icon\ico_DOCUMENT.png" />
+    <Content Include="images\Icon\ico_FORM.png" />
+    <Content Include="images\Icon\ico_MANAGEMENT.png" />
+    <Content Include="images\Icon\ico_OPERATIONS.png" />
+    <Content Include="images\Icon\ico_VIDEO.png" />
+    <Content Include="images\Icon\ico_WORKFLOW.png" />
+    <Content Include="images\Home_bg.jpg" />
+    <Content Include="images\image005.png" />
+    <Content Include="images\Imagine Logo.png" />
+    <Content Include="images\logo big.png" />
+    <Content Include="images\logo small.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\logo2.png" />
+    <Content Include="images\logo3.png" />
+    <Content Include="images\logo_aZaaS.png" />
+    <Content Include="images\mini_Helper2.png" />
+    <Content Include="images\key.png" />
+    <Content Include="images\logo.gif" />
+    <Content Include="images\logo_AMS.gif" />
+    <Content Include="images\logo_the_link.gif" />
+    <Content Include="images\mini-helper.png" />
+    <Content Include="images\mini_Helper.png" />
+    <Content Include="images\pdf.png" />
+    <Content Include="images\r-ico1.png" />
+    <Content Include="images\r-ico2.png" />
+    <Content Include="images\r-ico3.png" />
+    <Content Include="images\report\area.png" />
+    <Content Include="images\report\bar.png" />
+    <Content Include="images\report\bubble.png" />
+    <Content Include="images\report\donut.png" />
+    <Content Include="images\report\icon.gif" />
+    <Content Include="images\report\line.png" />
+    <Content Include="images\report\pie.png" />
+    <Content Include="images\report\radial-gauge.png" />
+    <Content Include="images\report\report3.jpg" />
+    <Content Include="images\report\scatter.png" />
+    <Content Include="images\report\star.png" />
+    <Content Include="images\report\stock.png" />
+    <Content Include="images\RightMenu_bg.gif" />
+    <Content Include="images\RightMenu_li.png" />
+    <Content Include="images\StaffIcons\female.png" />
+    <Content Include="images\StaffIcons\male.png" />
+    <Content Include="images\top_title.png" />
+    <Content Include="images\tree_folder-open.gif" />
+    <Content Include="images\tree_folder.gif" />
+    <Content Include="images\tree_leaf.gif" />
+    <Content Include="images\ui-bg_glass.png" />
+    <Content Include="images\ui-bg_inset-hard_active.png" />
+    <Content Include="images\ui-bg_inset-hard_default.png" />
+    <Content Include="images\ViewFlow.gif" />
+    <Content Include="images\widget.png" />
+    <Content Include="images_custom\bg.png" />
+    <Content Include="images_custom\btn_bg.png" />
+    <Content Include="images_custom\calendar.png" />
+    <Content Include="images_custom\close.png" />
+    <Content Include="images_custom\excel_focus.png" />
+    <Content Include="images_custom\excel_unfocus.png" />
+    <Content Include="images_custom\exit.png" />
+    <Content Include="images_custom\form-number.png" />
+    <Content Include="images_custom\home.png" />
+    <Content Include="images_custom\left.png" />
+    <Content Include="images_custom\line_1.png" />
+    <Content Include="images_custom\line_2.png" />
+    <Content Include="images_custom\line_3.png" />
+    <Content Include="images_custom\logo.png" />
+    <Content Include="images_custom\customLogin.css" />
+    <Content Include="images_custom\open.png" />
+    <Content Include="images_custom\operation-business.png" />
+    <Content Include="images_custom\operation-center.png" />
+    <Content Include="images_custom\operation-data-center.png" />
+    <Content Include="images_custom\page_down.png" />
+    <Content Include="images_custom\people.png" />
+    <Content Include="images_custom\personal-settings.png" />
+    <Content Include="images_custom\point_1.png" />
+    <Content Include="images_custom\point_2.png" />
+    <Content Include="images_custom\process-analysis.png" />
+    <Content Include="images_custom\process-center.png" />
+    <Content Include="images_custom\process-map.png" />
+    <Content Include="images_custom\process-monitoring.png" />
+    <Content Include="images_custom\remark_1.png" />
+    <Content Include="images_custom\remark_2.png" />
+    <Content Include="images_custom\report-center.png" />
+    <Content Include="images_custom\report-query.png" />
+    <Content Include="images_custom\search.png" />
+    <Content Include="images_custom\user.png" />
+    <Content Include="JS\AeroWindow-Contextmenu.js" />
+    <Content Include="JS\AjaxFileUploader2.1\ajaxfileupload.css" />
+    <Content Include="JS\AjaxFileUploader2.1\ajaxfileupload.js" />
+    <Content Include="JS\base.js" />
+    <Content Include="JS\baseInitView.js" />
+    <Content Include="JS\bootbox.js" />
+    <Content Include="JS\bootbox.min.js" />
+    <Content Include="JS\bootstrap.js" />
+    <Content Include="JS\bootstrap.min.js" />
+    <Content Include="JS\Columns.js" />
+    <Content Include="JS\CustomerManagement\Sea_CustomerManagement.js" />
+    <Content Include="JS\DateTimeFormat.js" />
+    <Content Include="JS\Filters.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\adapters\standalone-framework.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\adapters\standalone-framework.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\highcharts-3d.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\highcharts-3d.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\highcharts-all.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\highcharts-more.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\highcharts-more.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\highcharts.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\highcharts.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\canvas-tools.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\canvas-tools.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\data.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\data.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\drilldown.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\drilldown.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\exporting.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\exporting.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\funnel.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\funnel.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\heatmap.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\heatmap.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\no-data-to-display.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\no-data-to-display.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\solid-gauge.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\modules\solid-gauge.src.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\dark-blue.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\dark-green.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\dark-unica.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\gray.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\grid-light.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\grid.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\sand-signika.js" />
+    <Content Include="JS\Highcharts-4.0.3\js\themes\skies.js" />
+    <Content Include="JS\html5shiv.js" />
+    <Content Include="JS\InitMenuTip.js" />
+    <Content Include="JS\iscroll.js" />
+    <Content Include="JS\jquery.cookie.js" />
+    <Content Include="JS\jquery.cookies.min.js" />
+    <Content Include="JS\jquery.min.js" />
+    <Content Include="JS\jquery.tabSlideOut.v1.3.js" />
+    <Content Include="JS\JsMsg.js" />
+    <Content Include="JS\kendo.all.min.js" />
+    <Content Include="JS\kendoExcelGrid.js" />
+    <Content Include="Areas\Maintenance\Views\WFConfig\ControlSetting.cshtml" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="JS\KstarMobile\MobileConfig.js" />
+    <Content Include="JS\Maintenance\AdminDelegation.js" />
+    <Content Include="JS\Maintenance\Applicaiton.js" />
+    <Content Include="JS\Maintenance\Sea_CommonReportMait.js" />
+    <Content Include="JS\Maintenance\Sea_MoreParticipantSigner.js" />
+    <Content Include="JS\Maintenance\_Sea_CommonReportSearchMait.js" />
+    <Content Include="JS\Maintenance\_Sea_HaveRead.js" />
+    <Content Include="JS\Maintenance\_Sea_MyDrafts.js" />
+    <Content Include="JS\Maintenance\_Sea_MyFormCC.js" />
+    <Content Include="JS\Maintenance\_Sea_WaitRead.js" />
+    <Content Include="JS\Maintenance\_Sea_CommonReportPermission.js" />
+    <Content Include="JS\Maintenance\_Sea__ProcessPermission.js" />
+    <Content Include="JS\Maintenance\_Sea_ControlSetting.js" />
+    <Content Include="JS\Maintenance\_Sea_CategoryTemplate.js" />
+    <Content Include="JS\Maintenance\_Sea_ControlTemplate.js" />
+    <Content Include="JS\Maintenance\_Sea_Tenant.js" />
+    <Content Include="JS\Maintenance\_Sea_CustomRole.js" />
+    <Content Include="JS\Maintenance\_Sea_FieldExtend.js" />
+    <Content Include="JS\Maintenance\Delegation.js" />
+    <Content Include="JS\Maintenance\EmailTpml.js" />
+    <Content Include="JS\Maintenance\Master.js" />
+    <Content Include="JS\Maintenance\Organization.js" />
+    <Content Include="JS\Maintenance\Position.js" />
+    <Content Include="JS\Maintenance\Role.js" />
+    <Content Include="JS\Maintenance\Schedule.js" />
+    <Content Include="JS\Maintenance\Staff.js" />
+    <Content Include="JS\Maintenance\Permission.js" />
+    <Content Include="JS\Maintenance\Worklist.js" />
+    <Content Include="JS\Maintenance\WorklistData.js" />
+    <Content Include="JS\Maintenance\_Sea_TDConfig.js" />
+    <Content Include="JS\Maintenance\_Sea_Portal.js" />
+    <Content Include="JS\Maintenance\_Sea_Position.js" />
+    <Content Include="JS\Maintenance\_Sea_Organization.js" />
+    <Content Include="JS\Maintenance\_Sea_EmailTpml.js" />
+    <Content Include="JS\Maintenance\_Sea_Worklist.js" />
+    <Content Include="JS\Maintenance\_Sea_WorklistData.js" />
+    <Content Include="JS\Maintenance\_Sea_Schedule.js" />
+    <Content Include="JS\Maintenance\_Sea_Staff.js" />
+    <Content Include="JS\Maintenance\_Sea_AdminDelegation.js" />
+    <Content Include="JS\Maintenance\_Sea_Applicaiton.js" />
+    <Content Include="JS\Maintenance\_Sea_Delegation.js" />
+    <Content Include="JS\Maintenance\_Sea__DataDictionary.js" />
+    <Content Include="JS\Maintenance\_Sea__RoleManagement.js" />
+    <Content Include="JS\Maintenance\_Sea__PermissionManagement.js" />
+    <Content Include="JS\Maintenance\_Sea__DocumentManagement.js" />
+    <Content Include="JS\Maintenance\_Sea__WidgetManagement.js" />
+    <Content Include="JS\Maintenance\_Sea__MenuManagementent.js" />
+    <Content Include="JS\Maintenance\_Sea_ApplicationDetail.js" />
+    <Content Include="JS\models.js" />
+    <Content Include="JS\Report\CommonReport.js" />
+    <Content Include="JS\Report\SeaCompletionRate.js" />
+    <Content Include="JS\Report\SeaProcDealDuration.js" />
+    <Content Include="JS\Report\SeaProcessApprovalConsumingSecond.js" />
+    <Content Include="JS\Report\SeaUseFrequency.js" />
+    <Content Include="JS\Report\SeaWorkflowReport1.js" />
+    <Content Include="JS\Report\SeaWorkflowReport2.js" />
+    <Content Include="JS\Report\SeaReportCenter.js" />
+    <Content Include="JS\Report\TempFunction.js" />
+    <Content Include="JS\respond.min.js" />
+    <Content Include="JS\seajs\sea-debug.js" />
+    <Content Include="JS\seajs\sea.js" />
+    <Content Include="JS\widget-manager.js" />
+    <Content Include="JS\modernizr-2.5.3.js" />
+    <Content Include="Areas\Maintenance\Views\Parts\_TDConfig.cshtml" />
+    <Content Include="Areas\Report\Views\Parts\_WorkflowReport1.cshtml" />
+    <Content Include="Areas\Report\Views\Parts\_WorkflowReport2.cshtml" />
+    <Content Include="Areas\Report\Views\ReportFavourite\GetReportList.cshtml" />
+    <Content Include="Areas\Report\Views\ReportFavourite\Index.cshtml" />
+    <Content Include="Areas\Report\Views\ReportInfo\GetReportList.cshtml" />
+    <Content Include="Areas\Report\Views\ReportInfo\Index.cshtml" />
+    <Content Include="Areas\Report\Views\Web.config" />
+    <Content Include="Areas\Report\Views\ReportCenter\Myfavorites.cshtml" />
+    <Content Include="Areas\Report\Views\ReportCenter\Index.cshtml" />
+    <Content Include="Areas\KstarMobile\Views\MobileConfig.cshtml" />
+    <Content Include="Areas\KstarMobile\Views\Web.config" />
+    <Content Include="Areas\Maintenance\Views\Parts\_FieldExtendManagement.cshtml" />
+    <Content Include="Areas\ProcessManagement\Views\ProcessStart.cshtml" />
+    <Content Include="Areas\ProcessManagement\Views\Web.config" />
+    <Content Include="Areas\Dashboard\Views\Shared\_History.cshtml" />
+    <Content Include="Areas\Maintenance\Views\WFConfig\FlowPartial.cshtml" />
+    <Content Include="Areas\Maintenance\Views\WFConfig\SegmentPartial.cshtml" />
+    <Content Include="Areas\Maintenance\Views\WFConfig\InitilizationPartial.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_CustomRoleView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_DataDictionaryView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_TenantView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_ControlTemplateView.cshtml" />
+    <Content Include="Areas\Depository\Views\Web.config" />
+    <Content Include="Areas\Depository\Views\Deposit\Index.cshtml" />
+    <EntityDeploy Include="Models\BasisEntity\BasisEntity.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BasisEntity1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="KStarFormAuditInvalid.html" />
+    <Content Include="KStarFormInvalid.html" />
+    <Content Include="Models\BasisEntity\BasisEntity.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BasisEntity.Context1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BasisEntity\BasisEntity.edmx.diagram">
+      <DependentUpon>BasisEntity.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\BasisEntity\BasisEntity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BasisEntity1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Maintenance\Views\Parts\_ProcessPermission.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\WorkDaily\Views\TodayWorkDaily\Index.cshtml" />
+    <Content Include="Areas\WorkDaily\Views\Web.config" />
+    <Content Include="Areas\WeeklyNewspapers\Views\WeeklyDaily\Index.cshtml" />
+    <Content Include="Areas\WeeklyNewspapers\Views\Web.config" />
+    <Content Include="Areas\Dashboard\Views\SIMList\Index.cshtml" />
+    <Content Include="Plugins\bootbox\bootbox.js" />
+    <Content Include="Plugins\bootbox\bootbox.min.js" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Areas\Dashboard\Views\ProcessSupervise\Index.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_HaveReadView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_MyDraftsView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_MyFormCCView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_WaitReadView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_InsteadRequestView.cshtml" />
+    <Content Include="Areas\Report\Views\Parts\_CompletionRate.cshtml" />
+    <Content Include="Areas\Report\Views\Parts\_ProcDealDuration.cshtml" />
+    <Content Include="Areas\Report\Views\Parts\_UseFrequency.cshtml" />
+    <Content Include="Areas\Report\Views\Parts\_ProcessApprovalConsumingSecond.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_LogRequestView.cshtml" />
+    <Content Include="log4net.config" />
+    <Content Include="Areas\Maintenance\Views\Parts\_FeaturePermission.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_FlowThemeManage.cshtml" />
+    <Content Include="Areas\WorkOvertimeApply\Views\Web.config" />
+    <Content Include="Areas\WorkOvertimeApply\Views\WorkOvertimeApply\Index.cshtml" />
+    <Content Include="Areas\Report\Views\Parts\_CommonReport.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Areas\BusinessTrip\Views\Travel\Index.cshtml" />
+    <Content Include="Areas\BusinessTrip\Views\Travel\SampleDynamiclView.cshtml" />
+    <Content Include="Areas\BusinessTrip\Views\Web.config" />
+    <Content Include="Areas\CustomerManagement\Templates\ViewModelGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ViewModelGenerator1.js</LastGenOutput>
+    </Content>
+    <Content Include="Areas\CustomerManagement\Views\Home\Index.cshtml" />
+    <Content Include="Areas\CustomerManagement\Views\Web.config" />
+    <Content Include="K2DB.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Maintenance\Views\CommonReportMait\Index.cshtml" />
+    <Content Include="Areas\Maintenance\Views\ProcessSuperviseManage\Index.cshtml" />
+    <Content Include="Areas\Report\Views\ReportCenter\Manage.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_CommonReportPermission.cshtml" />
+    <Content Include="Areas\Maintenance\Views\WFConfig\MoreParticipantSet.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\CommonReportSearchConfig.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Maintenance\Views\Shared\CommonReprotMaitenance.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Shared\AddParticipants.cshtml" />
+    <Content Include="Areas\Maintenance\Views\WFConfig\LineRuleSetting.cshtml" />
+    <Content Include="Areas\Maintenance\Views\ProcessInstanceManageAddSigner\_ManageInstance.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Shared\_ProcessInstanceManage.cshtml" />
+    <None Include="Properties\PublishProfiles\KStar.pubxml" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Plugins\bootstrap\css\bootstrap.css" />
+    <Content Include="Plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Plugins\bootstrap\js\npm.js" />
+    <Content Include="Scripts\base.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-ie.js" />
+    <Content Include="Content\bootstrap-table.css" />
+    <Content Include="Scripts\bootstrap-table.js" />
+    <Content Include="Scripts\bootstrap.chart.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dmuploader.js" />
+    <Content Include="Scripts\dmuploader.min.js" />
+    <Content Include="Areas\Dashboard\Views\MyProcessInstance\Index.cshtml" />
+    <Content Include="Areas\Maintenance\Views\DimissionRedirect\Index.cshtml" />
+    <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="Scripts\handlebars-v4.0.2.js" />
+    <Content Include="Scripts\iscroll.js" />
+    <Content Include="Scripts\jquery-1.11.2.min.js" />
+    <Content Include="Scripts\jquery-1.9.0.js" />
+    <Content Include="Scripts\jquery-1.9.0.min.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="Scripts\jquery.autogrow-textarea.js" />
+    <Content Include="Scripts\jquery.bootgrid.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.fileupload-process.js" />
+    <Content Include="Scripts\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\jquery.fileupload.js" />
+    <Content Include="Scripts\jquery.iframe-transport.js" />
+    <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.messages_zh.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.ztree.js" />
+    <Content Include="Scripts\knockout-3.2.0.debug.js" />
+    <Content Include="Scripts\knockout-3.2.0.js" />
+    <Content Include="Scripts\knockout.viewmodel.2.0.3.js" />
+    <Content Include="Scripts\knockout.viewmodel.2.0.3.min.js" />
+    <Content Include="Scripts\kstarform.dropdowntree.js" />
+    <Content Include="Scripts\kstarform.js" />
+    <Content Include="Scripts\kstarform.knockout.js" />
+    <Content Include="Scripts\kstarform.mask.js" />
+    <Content Include="Scripts\kstarform.userpick.js" />
+    <Content Include="Scripts\kstarform.validate.js" />
+    <Content Include="Scripts\kstar_base.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\workflow.ClientPicks.js" />
+    <Content Include="Scripts\Workflow\form.dynamic.userpick.js" />
+    <Content Include="Scripts\Workflow\form.Utilsl.js" />
+    <Content Include="Scripts\Workflow\form.uploader.js" />
+    <Content Include="Scripts\Workflow\formStyle.js" />
+    <Content Include="Scripts\Workflow\html2canvas.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\Workflow\form.Import.js" />
+    <Content Include="Service References\ProcessServiceReference\aZaaS.KStar.Web.ProcessServiceReference.ProcessLogData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProcessServiceReference\aZaaS.KStar.Web.ProcessServiceReference.ProcessSetInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\ProcessServiceReference\ProcessService.disco" />
+    <None Include="Service References\ProcessServiceReference\configuration91.svcinfo" />
+    <None Include="Service References\ProcessServiceReference\configuration.svcinfo" />
+    <None Include="Service References\ProcessServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Service References\TenantDbService\TenantDatabaseService.disco" />
+    <Content Include="Service References\TenantDbService\configuration91.svcinfo" />
+    <Content Include="Service References\TenantDbService\configuration.svcinfo" />
+    <Content Include="Service References\TenantDbService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Service References\ProcessServiceReference\ProcessService.wsdl" />
+    <None Include="Service References\ProcessServiceReference\ProcessService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProcessServiceReference\ProcessService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProcessServiceReference\ProcessService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProcessServiceReference\ProcessService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ProcessServiceReference\ProcessService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TenantManager\TenantManager.disco" />
+    <None Include="Service References\TenantManager\configuration91.svcinfo" />
+    <None Include="Service References\TenantManager\configuration.svcinfo" />
+    <None Include="Service References\TenantManager\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="version.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_DocumentBar.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Service References\TenantDbService\TenantDatabaseService.wsdl" />
+    <None Include="Service References\TenantDbService\TenantDatabaseService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TenantDbService\TenantDatabaseService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TenantDbService\TenantDatabaseService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TenantManager\TenantManager.wsdl" />
+    <None Include="Service References\TenantManager\TenantManager.xsd" />
+    <None Include="Service References\TenantManager\TenantManager1.xsd" />
+    <None Include="Service References\TenantManager\TenantManager2.xsd" />
+    <Content Include="Views\Shared\CustomPersonTool.cshtml" />
+    <Content Include="Views\Shared\_KStarForm_Attachment_Part.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_KStarForm_Footer_Part.cshtml" />
+    <Content Include="Views\Shared\_KStarForm_Header_Part.cshtml" />
+    <Content Include="Views\Shared\_KStarForm_Master_Layout.cshtml" />
+    <Content Include="Views\Shared\_KStarForm_Navigation_Part.cshtml" />
+    <Content Include="Views\Shared\_KStarForm_ProcessLog_Part.cshtml" />
+    <Content Include="Views\Shared\_KStarForm_Toolbar_Part.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\kstarform.selectcustomerwindow.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_Form_Master_Layout.cshtml" />
+    <Content Include="Views\Shared\_Form_Toolbar_Part.cshtml" />
+    <Content Include="Views\Shared\_FormData.cshtml" />
+    <Content Include="Views\Shared\_LayoutAll_Custom.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome_Custom.cshtml" />
+    <Content Include="Views\Shared\_MenuBar_Custom.cshtml" />
+    <Content Include="Views\Parts\_Header_Custom.cshtml" />
+    <Content Include="Views\Parts\_LeftRight_Custom.cshtml" />
+    <Content Include="Views\Parts\_Navgation_Custom.cshtml" />
+    <Content Include="SQLQuery.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\AddSignerParticipant.cshtml" />
+    <Content Include="Views\Shared\_LayoutAll.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\Identity.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\BusinessTrip\Views\Shared\" />
+    <Folder Include="Areas\CustomerManagement\Views\Shared\" />
+    <Folder Include="Areas\Dashboard\Models\" />
+    <Folder Include="Areas\Depository\Views\Shared\" />
+    <Folder Include="Areas\Report\Models\" />
+    <Folder Include="Areas\WeeklyNewspapers\Views\Shared\" />
+    <Folder Include="Areas\WorkDaily\Views\Shared\" />
+    <Folder Include="Areas\WorkOvertimeApply\Views\Shared\" />
+    <Folder Include="Cache\" />
+    <Folder Include="JS\Dashboard\" />
+    <Folder Include="Resx\Areas\Maintenance\Views\Shared\" />
+    <Folder Include="Resx\Database\" />
+    <Folder Include="Template\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_IndexPage.cshtml" />
+    <Content Include="Views\Shared\_LayoutMore.cshtml" />
+    <Content Include="Views\Shared\_TopBar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Parts\_Helper.cshtml" />
+    <Content Include="Views\Parts\_Left.cshtml" />
+    <Content Include="Views\Parts\_Right.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\RenderWidget.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Dashboard\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Dashboard\Views\Parts\_CompletedTasks.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Parts\_DashboardView.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Parts\_OnGoingTasks.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Parts\_PendingTasks.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Parts\_RequestTasks.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_AdminDelegationView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_AppBar.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_DelegationView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_Document.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_EmailTemplate.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_Library.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_MasterView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_MenuBar.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_MenuView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_OrganizationView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_Portal.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_PositionView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_RoleView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_ScheduleView.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_StaffView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_Authorization.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_Permissions.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_ResourcePermissions.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_EditResourcePermission.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_EditAuthorization.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_CreateAuthorization.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_CreateResourcePermission.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Maintenance\Views\Parts\_ApplicationManagement.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_ApplicationDetail.cshtml" />
+    <Content Include="CSS\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="CSS\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Areas\Maintenance\Views\PanelParts\_MenuManagement.cshtml" />
+    <Content Include="Areas\Maintenance\Views\PanelParts\_DocumentManagement.cshtml" />
+    <Content Include="Areas\Maintenance\Views\PanelParts\_WidgetManagement.cshtml" />
+    <Content Include="CSS\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Areas\Maintenance\Views\Parts\_Worklist.cshtml" />
+    <Content Include="Areas\Maintenance\Views\Parts\_WorklistData.cshtml" />
+    <Content Include="JS\seajs\sea.js.map" />
+    <Content Include="Areas\Maintenance\Views\PanelParts\_DelegationManagement.cshtml" />
+    <Content Include="Areas\Maintenance\Views\PanelParts\_RoleManagement.cshtml" />
+    <Content Include="Areas\Maintenance\Views\PanelParts\_PermissionManagement.cshtml" />
+    <Content Include="JS\Maintenance\_Sea__DelegationManagement.js" />
+    <Content Include="Views\Shared\_SingPage.cshtml" />
+    <Content Include="Views\Export\ImportfromExcel.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Utilities\ResourceTips\ResourceTips.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_OnGoingTasks_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_OnGoingTasks_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_PendingTasks_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_PendingTasks_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_RequestTasks_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_RequestTasks_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\KstarMobile\Views\MobileConfig_cshtml.en-US.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\Areas\KstarMobile\Views\MobileConfig_cshtml.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_DelegationManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_DelegationManagement_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_DocumentManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_DocumentManagement_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_MenuManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_MenuManagement_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_WidgetManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_WidgetManagement_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_AdminDelegationView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_AdminDelegationView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ApplicationDetail_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ApplicationDetail_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ApplicationManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ApplicationManagement_cshtml.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_DelegationView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_DelegationView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_EmailTemplate_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_EmailTemplate_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_MasterView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_MasterView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_OrganizationView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_OrganizationView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_Portal_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_Portal_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_PositionView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_PositionView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ScheduleView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ScheduleView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_StaffView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_StaffView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_WorklistData_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_WorklistData_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_Worklist_cshtml.en-US.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_Worklist_cshtml.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\Areas\Report\Views\Parts\_WorkflowReport1_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Report\Views\Parts\_WorkflowReport1_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Report\Views\Parts\_WorkflowReport2_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Report\Views\Parts\_WorkflowReport2_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportFavourite\GetReportList_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportFavourite\GetReportList_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportInfo\GetReportList_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportInfo\GetReportList_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportCenter\Myfavorites_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportCenter\Myfavorites_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportCenter\Index_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportCenter\Index_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Common\MsgInfo.en-US.resx" />
+    <Content Include="Resx\Common\MsgInfo.zh-CN.resx" />
+    <Content Include="Resx\JS\baseInitView_js.en-US.resx" />
+    <Content Include="Resx\JS\baseInitView_js.zh-CN.resx" />
+    <Content Include="Resx\JS\base_js.en-US.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\JS\base_js.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\JS\Columns_js.en-US.resx" />
+    <Content Include="Resx\JS\Columns_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\CompletedTasks_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\CompletedTasks_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\DashboardView_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\DashboardView_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\DetailReport_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\DetailReport_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\Draft_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\Draft_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\ManagementReport_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\ManagementReport_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\OnGoingTasks_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\OnGoingTasks_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\PendingTasks_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\PendingTasks_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\PorcessLogs_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\PorcessLogs_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\RequestTasks_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\RequestTasks_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\TenantReport_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\TenantReport_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\TestHistory_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\TestHistory_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\WidgetDemo_js.en-US.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\WidgetDemo_js.zh-CN.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\DetailView_js.en-US.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\DetailView_js.zh-CN.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\DraftView_js.en-US.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\DraftView_js.zh-CN.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\TenantView_js.en-US.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\TenantView_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Home\Index_js.en-US.resx" />
+    <Content Include="Resx\JS\KstarMobile\MobileConfig_js.en-US.resx" />
+    <Content Include="Resx\JS\KstarMobile\MobileConfig_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\AdminDelegation_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\AdminDelegation_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\Delegation_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Delegation_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\EmailTemplate_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Master_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Master_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaAdminDelegation_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaAdminDelegation_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaApplicaiton_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaApplicaiton_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDelegation_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDelegation_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaEmailTpml_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaEmailTpml_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaOrganization_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaOrganization_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaPortal_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaPortal_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaPosition_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaPosition_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaSchedule_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaSchedule_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaStaff_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaStaff_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWorklistData_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWorklistData_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWorklist_js.en-US.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\JS\Maintenance\SeaWorklist_js.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\DelegationManagement_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\DelegationManagement_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\DocumentManagement_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\DocumentManagement_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\MenuManagement_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\MenuManagement_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\WidgetManagement_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\WidgetManagement_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\Parts\ApplicationDetail_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\Parts\ApplicationDetail_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Report\SeaWorkflowReport1_js.en-US.resx" />
+    <Content Include="Resx\JS\Report\SeaWorkflowReport1_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Report\SeaWorkflowReport2_js.en-US.resx" />
+    <Content Include="Resx\JS\Report\SeaWorkflowReport2_js.zh-CN.resx" />
+    <Content Include="Resx\Namespace\aZaaS.KStar.Menus.MenuEntity.en-US.resx" />
+    <Content Include="Resx\Namespace\aZaaS.KStar.Menus.MenuEntity.zh-CN.resx" />
+    <Content Include="Resx\Views\Home\Index_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Home\Localization_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Home\Localization_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Parts\_Header_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Parts\_Header_cshtml.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\Views\Parts\_Helper_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Parts\_Helper_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Parts\_Left_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Parts\_Left_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Parts\_Right_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Parts\_Right_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Shared\_IndexPage_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Shared\_IndexPage_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Shared\_LayoutHome_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Shared\_LayoutHome_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Shared\_TopBar_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Shared\_TopBar_cshtml.zh-CN.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\aZaaS.KStar.Form\aZaaS.KStar.Form.Mvc\aZaaS.KStar.Form.Mvc.csproj">
+      <Project>{f1b2b109-f244-43f7-9fb9-0d7df60af7ff}</Project>
+      <Name>aZaaS.KStar.Form.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aZaaS.KStar.Form\aZaaS.KStar.Form\aZaaS.KStar.Form.csproj">
+      <Project>{f876470b-e2c8-457d-96fd-35a703c573ad}</Project>
+      <Name>aZaaS.KStar.Form</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aZaaS.KStar\aZaaS.KStar.csproj">
+      <Project>{0ac4d700-8155-44ab-a5bd-d97e7c34bcee}</Project>
+      <Name>aZaaS.KStar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aZaas.Kstar.DAL\aZaaS.Kstar.DAL.csproj">
+      <Project>{b1612f59-9e34-4bc5-a610-e76167654780}</Project>
+      <Name>aZaaS.Kstar.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resx\Areas\Dashboard\Views\Shared\_History_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Shared\_History_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_PermissionManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_PermissionManagement_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_RoleManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_RoleManagement_cshtml.zh-CN.resx" />
+    <Content Include="Resx\JS\JsMsg_js.en-US.resx" />
+    <Content Include="Resx\JS\JsMsg_js.zh-CN.resx" />
+    <Content Include="Resx\JS\kendoExcelGrid_js.en-US.resx" />
+    <Content Include="Resx\JS\kendoExcelGrid_js.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_TenantView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_TenantView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_DataDictionaryView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_CustomRoleView_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_CustomRoleView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_DataDictionaryView_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\FlowPartial_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\FlowPartial_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\Index_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\Index_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\InitilizationPartial_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\InitilizationPartial_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\SegmentPartial_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\SegmentPartial_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_FieldExtendManagement_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_FieldExtendManagement_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\ProcessManagement\Views\ProcessStart_cshtml.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProcessStart_cshtml.en-US.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="Resx\Areas\ProcessManagement\Views\ProcessStart_cshtml.zh-CN.resx" />
+    <Content Include="Resx\JS\JsMsg_js.en-US.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\JS\JsMsg_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaFieldExtend_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaFieldExtend_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaTenant_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaTenant_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDataDictionary_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaCustomRole_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaCustomRole_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDataDictionary_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDocumentManagement_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDocumentManagement_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaMenuManagementent_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaMenuManagementent_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaRolManagement_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaRolManagement_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWidgetManagement_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWidgetManagement_js.zh-CN.resx" />
+    <Content Include="Resx\Views\Account\Login_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Account\Login_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Account\ResetPassword_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Account\ResetPassword_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Views\Account\ResetPassword_js.en-US.resx" />
+    <Content Include="Resx\Views\Account\ResetPassword_js.zh-CN.resx" />
+    <Content Include="Resx\Views\Export\ImportfromExcel_cshtml.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImportfromExcel_cshtml.en-US.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="Resx\Views\Export\ImportfromExcel_cshtml.zh-CN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImportfromExcel_cshtml.zh-CN.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="Resx\Views\Parts\_LeftRight_cshtml.en-US.resx" />
+    <Content Include="Resx\Views\Parts\_LeftRight_cshtml.zh-CN.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ProcessServiceReference\" />
+    <WCFMetadataStorage Include="Service References\TenantDbService\" />
+    <WCFMetadataStorage Include="Service References\TenantManager\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_OnGoingTasks_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_PendingTasks_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Parts\_RequestTasks_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Dashboard\Views\Shared\_History_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\KstarMobile\Views\MobileConfig_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_DelegationManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_DocumentManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_MenuManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_PermissionManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_RoleManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\PanelParts\_WidgetManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_AdminDelegationView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ApplicationDetail_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ApplicationManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_CustomRoleView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_DataDictionaryView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_DelegationView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_EmailTemplate_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_FieldExtendManagement_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_MasterView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_OrganizationView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_Portal_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_PositionView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_ScheduleView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_StaffView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_TenantView_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_WorklistData_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\Parts\_Worklist_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\ControlSetting_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\ControlSetting_cshtml.zh-CN.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\ControlSetting_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\FlowPartial_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\Index_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\InitilizationPartial_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Maintenance\Views\WFConfig\SegmentPartial_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\ProcessManagement\Views\ProcessStart_cshtml.zh-TW.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resx\Areas\Report\Views\Parts\_WorkflowReport1_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Report\Views\Parts\_WorkflowReport2_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportCenter\Index_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportCenter\Myfavorites_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportFavourite\GetReportList_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Report\Views\ReportInfo\GetReportList_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Common\MsgInfo.zh-TW.resx" />
+    <Content Include="Resx\JS\baseInitView_js.zh-TW.resx" />
+    <Content Include="Resx\JS\base_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Columns_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\CompletedTasks_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\DashboardView_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\DetailReport_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\Draft_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\ManagementReport_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\OnGoingTasks_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\PendingTasks_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\PorcessLogs_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\RequestTasks_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\TenantReport_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\TestHistory_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Dashboard\Parts\WidgetDemo_js.zh-TW.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\DetailView_js.zh-TW.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\DraftView_js.zh-TW.resx" />
+    <Content Include="Resx\JS\eForm\Views\Parts\TenantView_js.zh-TW.resx" />
+    <Content Include="Resx\JS\JsMsg_js.zh-TW.resx" />
+    <Content Include="Resx\JS\kendoExcelGrid_js.zh-TW.resx" />
+    <Content Include="Resx\JS\KstarMobile\MobileConfig_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\AdminDelegation_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\Delegation_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\Master_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaAdminDelegation_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaApplicaiton_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaCustomRole_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDataDictionary_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDelegation_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaDocumentManagement_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaEmailTpml_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaFieldExtend_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaMenuManagementent_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaOrganization_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaPortal_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaRolManagement_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaSchedule_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaStaff_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaTenant_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWFConfig_js.en-US.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWFConfig_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWFConfig_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWidgetManagement_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWorklistData_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaWorklist_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\DelegationManagement_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\DocumentManagement_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\MenuManagement_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\PanelParts\WidgetManagement_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\Views\Parts\ApplicationDetail_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Report\SeaWorkflowReport1_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Report\SeaWorkflowReport2_js.zh-TW.resx" />
+    <Content Include="Resx\Namespace\aZaaS.KStar.Menus.MenuEntity.zh-TW.resx" />
+    <Content Include="Resx\Views\Account\Login_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Account\ResetPassword_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Account\ResetPassword_js.zh-TW.resx" />
+    <Content Include="Resx\Views\Export\ImportfromExcel_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Home\Localization_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Parts\_Header_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Parts\_Helper_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Parts\_LeftRight_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Parts\_Left_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Parts\_Right_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Shared\_IndexPage_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Shared\_LayoutHome_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Views\Shared\_TopBar_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_HaveReadView_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_HaveReadView_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_HaveReadView_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_MyFormCCView_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_MyFormCCView_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_MyFormCCView_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_ProcessPermission_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_ProcessPermission_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_ProcessPermission_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_WaitReadView_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_WaitReadView_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Maintenance\Views\Parts\_WaitReadView_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\Parts\_ProcDealDuration_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\Parts\_ProcDealDuration_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\Parts\_ProcDealDuration_cshtml.zh-TW.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resx\Areas\Report\Views\Parts\_UseFrequency_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\Parts\_UseFrequency_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\Parts\_UseFrequency_cshtml.zh-TW.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="Resx\Areas\Report\Views\Parts\_ProcessApprovalConsumingSecond_cshtml.zh-TW.resx" />
+    <Content Include="Resx\Areas\Report\Views\Parts\_ProcessApprovalConsumingSecond_cshtml.en-US.resx" />
+    <Content Include="Resx\Areas\Report\Views\Parts\_ProcessApprovalConsumingSecond_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\ReportCenter\Manage_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\ReportCenter\Manage_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Areas\Report\Views\ReportCenter\Manage_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Dashboard\Parts\ProcessSupervise_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Dashboard\Parts\ProcessSupervise_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Dashboard\Parts\ProcessSupervise_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\LogRequest_js.zh-CN.resx" />
+    <Content Include="Resx\JS\Maintenance\LogRequest_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\LogRequest_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaHaveRead_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaHaveRead_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaHaveRead_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaMyDrafts_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaMyDrafts_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaMyDrafts_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaMyFormCC_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaMyFormCC_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaMyFormCC_js.zh-TW.resx" />
+    <Content Include="Resx\JS\Maintenance\SeaPosition_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaProcessPermission_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaProcessPermission_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaProcessPermission_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaWaitRead_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaWaitRead_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Maintenance\SeaWaitRead_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaProcDealDuration_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaProcDealDuration_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaProcDealDuration_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaReportCenter_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaReportCenter_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaReportCenter_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaUseFrequency_js.en-US.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaUseFrequency_js.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\JS\Report\SeaUseFrequency_js.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Attachment_Part_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Attachment_Part_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Attachment_Part_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Footer_Part_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Footer_Part_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Footer_Part_cshtml.zh_TW.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Header_Part_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Header_Part_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Header_Part_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Master_Layout_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Master_Layout_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Master_Layout_cshtml.zh_CN.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Navigation_Part_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Navigation_Part_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Navigation_Part_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_ProcessLog_Part_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_ProcessLog_Part_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_ProcessLog_Part_cshtml.zh-TW.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Toolbar_Part_cshtml.en-US.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Toolbar_Part_cshtml.zh-CN.resx" />
+    <EmbeddedResource Include="Resx\Views\Shared\_KStarForm_Toolbar_Part_cshtml.zh-TW.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52349</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:52349/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>http://localhost:84</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>del "$(ProjectDir)bin\SourceCode.HostClientAPI.dll"
+del "$(ProjectDir)bin\SourceCode.SmartObjects.Services.ServiceSDK.dll"
+del "$(ProjectDir)bin\SourceCode.Workflow.Client.dll"
+copy "$(SolutionDir)packages\K2\K2Worklist.dll" "$(ProjectDir)bin\"
+copy "$(SolutionDir)packages\K2\SourceCode.HostServerInterfaces.dll" "$(ProjectDir)bin\"
+copy "$(SolutionDir)packages\K2\SourceCode.Logging.dll" "$(ProjectDir)bin\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

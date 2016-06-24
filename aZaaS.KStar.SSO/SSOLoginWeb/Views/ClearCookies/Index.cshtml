@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "退出";
+}
+@{
+    Layout = null;
+}
+@Html.Raw(@ViewBag.extraJS)
+<script type="text/javascript">
+
+    window.location.href = "@Html.Raw(@ViewBag.backURL)";
+</script> 

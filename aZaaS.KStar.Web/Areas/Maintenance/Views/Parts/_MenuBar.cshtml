@@ -1,0 +1,245 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>Menu Management</div>
+    </div>
+    <div class="top-toolbar">
+        <a class="k-button" onclick="AddCate()">AddCate</a>
+        <a class="k-button" href="javascript:void(0)" onclick="Add()"><span class="glyphicon glyphicon-plus"></span></a>
+        <a class="k-button" href="javascript:void(0)" onclick="Edit()"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="k-button" href="javascript:void(0)" onclick="Del()"><span class="glyphicon glyphicon-remove"></span></a>
+        <a href="/#widget=/Maintenance/App">Back</a>
+    </div>
+    <div id="TreeView"></div>
+</div>
+
+<div id="AddMenuWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Display Name:</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Hyper link:</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox Hyperlink" style="width: 100%;" placeholder="Hyper link" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Target:</td>
+                <td colspan="3">
+                    <input type="text" id="MenuBarTarget" style="width: 100%;" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Icon Key:</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox IconKey" style="width: 100%;" placeholder="IconKey" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var key = "@ViewBag.key";
+    var dataSource = new kendo.data.HierarchicalDataSource({
+        schema: {
+            model: {
+                id: "Id",
+                hasChildren: function () {
+                    return this.Kind == 1 ? true : false;
+                },
+                ReportsTo: "ParentId",
+                fields: {
+                    Id: { type: "string" },
+                    DisplayName: { type: "string" },
+                    Hyperlink: { type: "string" },
+                    IconKey: { type: "string" },
+                    Kind: { type: "number" },
+                    ParentId: { type: "string" }
+                }
+            }
+        },
+        transport: {
+            read: {
+                url: "/Maintenance/Apps/GetMenuItem?key=" + key,
+                dataType: "json"
+            }
+        }
+    });
+
+    var InitTreeView = function () {
+        $("#TreeView").kendoTreeView({
+            template: kendo.template($("#TreeView-template").html()),
+            dataSource: dataSource,
+            select: function (e) {
+                $("#TreeView").find("input").prop("checked", false);
+                $("#TreeView_tv_active").find("input").first().prop("checked", true);  //利用 #treeview_tv_active 获取当前选中对象 查找 隐藏的 input 对象 提取隐藏信息
+                var id = $("#TreeView_tv_active").find("input").val();
+
+                var item = dataSource.get(id);
+                //$("#itemId").val(item.PositionID);
+                //$("#itemName").val(item.DisplayName);
+                //$("#itemParentID").val(item.ParentID)
+                //$("#TreeView").siblings().last().children().show();
+                //$.getJSON("/Maintenance/GetEmployee", { id: item.PositionID }, function (items) {
+                //    InitBaseKendoGrid("employeeList", StaffModel, employeecolumns, items, function () {
+                //        bindGridCheckbox("employeeList")
+                //    });
+                //})
+            },
+            collapse: function (e) {
+                $("#TreeView_tv_active").find(".k-sprite").first().removeClass("on");
+            },
+            expand: function (e) {
+                $("#TreeView_tv_active").find(".k-sprite").first().addClass("on");
+            },
+            dataBound: function (e) {
+                var clickevent = { "click": checkboxUnChange, "dblclick": checkboxUnChange };
+                $("#TreeView").find(":checkbox").unbind(clickevent).bind(clickevent);
+            }
+        });
+        TreeView = $("#TreeView").data("kendoTreeView");
+    }
+    var resetWindow = function () {
+        $("#AddMenuWindow .k-textbox").val("");//清除输入框
+        $("#MenuBarTarget").data("kendoDropDownList").select(0);
+        $("#Key").attr("disabled", false);
+    }
+    var Cancel = function () {
+        $("#AddMenuWindow").data("kendoWindow").close()
+    }
+    var Confirm = function () {
+        var url = $(this).attr("data-url");
+        var data = {
+            Id: $(this).attr("data-id"),
+            DisplayName: $("#AddMenuWindow .DisplayName").val(),
+            Hyperlink: $("#AddMenuWindow .Hyperlink").val(),
+            IconKey: $("#AddMenuWindow .IconKey").val(),
+            Kind: $(this).attr("data-Kind"),
+            Target: $("#MenuBarTarget").data("kendoDropDownList").value(),
+            menuKey: key,
+            ParentId: $(this).attr("data-ParentId")
+        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {
+                var model = dataSource.get(item.Id);
+                if (model) {
+                    for (var key in item) {
+                        model.set(key, item[key]);
+                    }
+                    var template = kendo.template($("#TreeView-template").html())
+                    var target = $("#TreeView_tv_active .k-state-selected");
+                    target.html(template({ item: item }));
+                }
+                else {
+                    if (item.Kind != 1) {
+                        var treeview = $("#TreeView").data("kendoTreeView");
+                        treeview.append(item, treeview.select());
+                    }
+                    else {
+                        dataSource.add(item);
+                    }
+                }
+                $("#AddMenuWindow").data("kendoWindow").close();
+            }
+        })
+    }
+    var AddCate = function () {
+        $("#AddMenuWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Apps/CreateMenuItem").attr("data-id", "").attr("data-Kind", "1");
+        $("#AddMenuWindow").data("kendoWindow").title("Add Node").center().open();
+    }
+    var Add = function () {
+        var key = $("#TreeView").find(":checked").first().val();
+        if (!key) {
+            return;
+        }
+        var item = dataSource.get(key);
+        if (!item || item.Kind != 1) {
+            return;
+        }
+        $("#AddMenuWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Apps/CreateMenuItem").attr("data-id", "").attr("data-Kind", "0").attr("data-ParentId", item.Id);
+        $("#AddMenuWindow").data("kendoWindow").title("Add Node").center().open();
+    }
+    var Edit = function () {
+        var key = $("#TreeView").find(":checked").first().val();
+        if (key) {
+            var item = dataSource.get(key);
+            $("#AddMenuWindow .DisplayName").val(item.DisplayName);
+            $("#AddMenuWindow .Hyperlink").val(item.Hyperlink);
+            $("#AddMenuWindow .IconKey").val(item.IconKey);
+            $("#MenuBarTarget").data("kendoDropDownList").value(item.Target);
+            $("#AddMenuWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Apps/UpdateMenuItem").attr("data-id", item.id).attr("data-Kind", item.Kind).attr("data-ParentId", item.ParentId);
+            $("#AddMenuWindow").data("kendoWindow").title("Edit Node").center().open();
+        }
+    }
+    var Del = function () {
+        var id = $("#TreeView_tv_active").find("input").val();
+        if (id) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Apps/DelMenuItem",
+                        type: "POST",
+                        data: { id: id },
+                        traditional: true,
+                        success: function () {
+                            dataSource.remove(dataSource.get(id));
+                        },
+                        dataType: "json"
+                    })
+                }
+            });
+        }
+    }
+    $(function () {
+        var TreeView;
+        InitTreeView();
+
+        $("#MenuBarTarget").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [{ text: "PopUp", value: "PopUp" }, { text: "Redirect", value: "Redirect" }, { text: "Panel", value: "Panel" }],
+            optionLabel: "--Select Status--"
+        });
+        $("#AddMenuWindow").kendoWindow({
+            width: "800px",
+            title: "Add Node",
+            actions: [
+                "Close"
+            ],
+            open: function (e) {
+                $("#AddMenuWindow .windowCancel").bind("click", Cancel)
+                $("#AddMenuWindow .windowConfirm").bind("click", Confirm)
+            },
+            close: function (e) {
+                resetWindow();
+                $("#AddMenuWindow .windowCancel").unbind("click", Cancel)
+                $("#AddMenuWindow .windowConfirm").unbind("click", Confirm)
+            },
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddMenuWindow").data("kendoWindow"));
+
+    })
+</script>
+<script id="TreeView-template" type="text/kendo-ui-template">   
+            # if(item.ParentId != null){ #
+            <span class="k-sprite property"></span>
+            # }else{ #
+            <span class="k-sprite folder"></span>
+            # } #  
+            <input type="checkbox" value="#= item.Id #"/>
+            #: item.DisplayName #
+</script>

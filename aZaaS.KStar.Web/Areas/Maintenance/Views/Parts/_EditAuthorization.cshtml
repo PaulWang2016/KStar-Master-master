@@ -1,0 +1,255 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>@ViewBag.Title</div>
+    </div>
+</div>
+
+<div id="OperateAuthorization">
+    <div>
+        <table>
+            <tr>
+                <td>UserOrRole <a href="#" class="k-icon k-i-search searchUserOrRole">&nbsp;</a>:</td>
+                <td>
+                    <input type="text" class="k-textbox UserOrRole" data-value="" readonly="true" /></td>
+            </tr>
+            <tr>
+                <td>ResourcePermission <a href="#" class="k-icon k-i-search searchResourcePermission">&nbsp;</a>:</td>
+                <td>
+                    <input type="text" class="k-textbox ResourcePermission" readonly="true" /></td>
+            </tr>
+            <tr>
+                <td><span>
+                    <input id="granted" type="checkbox" />  Granted</span></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-top: 30px;">
+        <div style="margin: 0 auto;">
+            <button class="k-button Confirm"onclick="Confirm()" data-id="@ViewBag.ID">Confirm</button>
+            <button class="k-button Cancel" onclick="Cancel()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="AddAuthorizationWindows" style="display: none">
+    <div>
+        <div>
+            <span style="margin: 3px;">
+                <input type="text" class="k-textbox AuthorizationInput" /></span>
+            <span style="margin: 3px;">
+                <a id="AuthorizationSearch" class="k-button" href="javascript:void(0)"  type="button" >Search</a></span>
+        </div>
+        <div class="ListGridUserOrRole" style="margin-top: 7px;"></div>
+        <div class="ListGridResourcePermission" style="margin-top: 7px;"></div>
+
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" data-type="" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var UserAndRoleModel = kendo.data.Model.define({
+        id: "Id",
+        fields: {
+            Id: { type: "string" },
+            Displayname: { type: "string" },
+            Type: { type: "string" }
+        }
+    });
+    var UserAndRolecolumns = [
+    {
+        title: "Checked", width: 35, template: "<input type='checkbox' value='#= Id #' />",
+        headerTemplate: "<input type='checkbox' />"
+    },
+    { field: "Displayname", title: "Displayname" },
+    { field: "Type", title: "Type" }
+    ]
+    var model = kendo.data.Model.define({
+        id: "SysId",
+        fields: {
+            SysId: { type: "string" },
+            ResourceId: { type: "string" },
+            ResourceType: { type: "string" },
+            Resource: { type: "string" },
+            Permission: { type: "string" },
+            PermissionSysId: { type: "string" }
+        }
+    });
+    var columns = [
+        {
+            title: "Checked", width: 35, template: function (item) {
+                return "<input type='checkbox' value='" + item.SysId + "' />";
+            }, headerTemplate: "<input type='checkbox' />", filterable: false
+        },
+        //{
+        //    field: "SysId", title: "ID", template: function (item) {
+        //        return "<a href='#pane=Dashboard&widget=/Maintenance/EditResourcePermission/" + item.SysId + "'> " + item.SysId + "</a>";
+        //    }, filterable: false
+        //},
+        { field: "Resource", title: "Resource", filterable: false },
+        { field: "Permission", title: "Permission", filterable: false },
+        { field: "ResourceType", title: "ResourceType", filterable: false },
+    ]
+</script>
+
+<script>
+    var Cancel = function () {
+        window.location.href = "#pane=Dashboard&widget=/Maintenance/Authorization";
+    }
+    var Confirm = function () {
+        var UserOrRoleId = $("#OperateAuthorization .UserOrRole").attr("data-value");
+        var ResourcePermissionID = $("#OperateAuthorization .ResourcePermission").val();
+        var AuthorizationSysId = $("#OperateAuthorization .Confirm").attr("data-id");
+        var granted = $("#granted").is(":checked") ? true : false;
+        if (AuthorizationSysId) { //edit
+            $.ajax({
+                url: "/Maintenance/Authorization/UpdateAuthorization",
+                type: "POST",
+                data: { SysId: AuthorizationSysId, AuthorityId: UserOrRoleId, Granted: granted, ResourcePermissionSysId: ResourcePermissionID },
+                traditional: true,
+                success: function (items) {
+                    Cancel();
+                },
+                dataType: "json"
+            })
+        }
+        else { //add
+            $.ajax({
+                url: "/Maintenance/Authorization/CreateAuthorization",
+                type: "POST",
+                data: { AuthorityId: UserOrRoleId, Granted: granted, ResourcePermissionSysId: ResourcePermissionID },
+                traditional: true,
+                success: function (items) {
+                    Cancel();
+                },
+                dataType: "json"
+            })
+        }
+
+    }
+    var searchPermission = function () {
+
+        $("#AddAuthorizationWindows").data("kendoWindow").title("Search Permission").center().open();
+        $("#AddAuthorizationWindows .windowConfirm").attr("data-type", "Permission");
+        $("#AddAuthorizationWindows .ListGridResourcePermission").hide();
+        $("#AddAuthorizationWindows .ListGridUserOrRole").show();
+        $.get("/Maintenance/Authorization/GetUserAndRole", function (items) {
+            $("#AddAuthorizationWindows .AuthorizationInput").val("");
+
+            InitBaseKendoGrid("AddAuthorizationWindows .ListGridUserOrRole", UserAndRoleModel, UserAndRolecolumns, items, function () {
+                bindGridCheckbox("AddAuthorizationWindows .ListGridUserOrRole");
+                $("#AddAuthorizationWindows .ListGridUserOrRole .k-grid-content").css("height", "190px")
+            });
+        })
+    }
+
+    var searchResource = function () {
+        $("#AddAuthorizationWindows").data("kendoWindow").title("Search Resource").center().open();
+        $("#AddAuthorizationWindows .windowConfirm").attr("data-type", "Resource");
+        $("#AddAuthorizationWindows .ListGridResourcePermission").show();
+        $("#AddAuthorizationWindows .ListGridUserOrRole").hide();
+        $.get("/Maintenance/ResourcePermission/GetAllResourcePermission", function (items) {
+            $("#AddAuthorizationWindows .OtherInput").val("");
+            InitBaseKendoGrid("AddAuthorizationWindows .ListGridResourcePermission", model, columns, items, function () {
+                bindGridCheckbox("AddAuthorizationWindows .ListGridResourcePermission");
+                $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").find(":checkbox").click(function () {
+                    $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").find(":checkbox").prop("checked", false);
+                    $(this).prop("checked", true);
+                });
+                $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").css("height", "190px")
+            });
+        })
+    }
+
+    var AuthorizationSearch = function () {
+        var input = $("#AddAuthorizationWindows .AuthorizationInput").val();
+
+        if ($("#AddAuthorizationWindows .windowConfirm").attr("data-type") != "Resource") {
+            $.post("/Maintenance/Authorization/FindUserAndRole", { input: input }, function (items) {
+                InitBaseKendoGrid("AddAuthorizationWindows .ListGridUserOrRole", UserAndRoleModel, UserAndRolecolumns, items, function () {
+                    bindGridCheckbox("AddAuthorizationWindows .ListGridUserOrRole");
+                    $("#AddAuthorizationWindows .ListGridUserOrRole .k-grid-content").css("height", "190px")
+                });
+            })
+        }
+        else {
+            $.post("/Maintenance/Authorization/FindResourcePermission", { input: input }, function (items) {
+
+                InitBaseKendoGrid("AddAuthorizationWindows .ListGridResourcePermission", model, columns, items, function () {
+                    bindGridCheckbox("AddAuthorizationWindows .ListGridResourcePermission");
+                    $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").find(":checkbox").click(function () {
+                        $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").find(":checkbox").prop("checked", false);
+                        $(this).prop("checked", true);
+                    });
+                    $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").css("height", "190px")
+                });
+            })
+        }
+    }
+
+    var winCancel = function () {
+        $("#AddAuthorizationWindows").data("kendoWindow").close()
+    }
+
+    var winConfirm = function () {
+        if ($("#AddAuthorizationWindows .windowConfirm").attr("data-type") == "Resource") {
+            var text = $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").find(":checked").first().parent().next().text();
+            var value = $("#AddAuthorizationWindows .ListGridResourcePermission .k-grid-content").find(":checked").first().val();
+            if (text == "") return;
+            $("#OperateAuthorization .ResourcePermission").val(text);
+            //$("#OperateAuthorization .ResourcePermission").attr("data-value", value);
+        }
+        else if ($("#AddAuthorizationWindows .windowConfirm").attr("data-type") == "Permission") {
+            var text = $("#AddAuthorizationWindows .ListGridUserOrRole .k-grid-content").find(":checked").first().parent().next().text();
+            var value = $("#AddAuthorizationWindows .ListGridUserOrRole .k-grid-content").find(":checked").first().val();
+            if (text == "") return;
+            $("#OperateAuthorization .UserOrRole").val(text);
+            $("#OperateAuthorization .UserOrRole").attr("data-value", value);
+        }
+        $("#AddAuthorizationWindows").data("kendoWindow").close();
+    }
+
+
+
+
+
+    $(function () {
+
+        $("#AddAuthorizationWindows").kendoWindow({
+            width: "500px",
+            height: "380px",
+            actions: [
+                "Close"
+            ],
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddAuthorizationWindows").data("kendoWindow"));
+
+        if ($("#OperateAuthorization .Confirm").attr("data-id")) {
+            $.getJSON("/Maintenance/Authorization/GetAuthorization",
+                { id: $("#OperateAuthorization .Confirm").attr("data-id") }, function (item) {
+                    $("#OperateAuthorization .UserOrRole").attr("data-value", item.AuthorityId);
+                    $("#OperateAuthorization .UserOrRole").val(item.UserOrRole);
+                    $("#OperateAuthorization .ResourcePermission").val(item.ResourcePermissionID);
+                    item.Granted == true ? $("#granted").prop("checked", true) : $("#granted").prop("checked", false);
+                });
+        }
+        else {
+            $("#OperateAuthorization  .searchUserOrRole").click(searchPermission);
+            $("#OperateAuthorization  .searchResourcePermission").click(searchResource);
+            $("#AuthorizationSearch").click(AuthorizationSearch);
+            $("#AddAuthorizationWindows .windowCancel").click(winCancel)
+            $("#AddAuthorizationWindows .windowConfirm").click(winConfirm)
+        }
+    });
+
+
+</script>

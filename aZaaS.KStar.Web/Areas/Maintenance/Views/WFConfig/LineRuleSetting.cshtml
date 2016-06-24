@@ -1,0 +1,97 @@
+﻿<div class="section">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                
+                <th class="col-xs-1">节点名称</th>
+                <th class="col-xs-1">连线规则运算方法</th>
+            </tr>
+        </thead>
+        <tbody id="tableList"></tbody>
+
+    </table>
+    <div style="text-align: center;">
+        <button type="button" class="btn btn-default" id="btnSave">保 存</button> 
+        <div class="tips" style="color: green; visibility: hidden">保存成功</div></div>
+    
+    <div class="operamask"></div>
+</div>
+<script id="table-template" type="text/x-handlebars-template">
+
+    {{#each data}}
+   
+    <tr attr="dataSource" style="background-color: #ffffff">
+        <td><span class="text-center">{{TargetActivityName}}</span></td>
+        <td>
+            <textarea type="text" name="LineRule" class="text" style="width:95%" >{{RuleString}}</textarea>
+            
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script src="~/Scripts/handlebars-v4.0.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#SkipSigner").kendoDropDownList();
+        InitSigner();
+       
+    });
+    function InitSigner() {
+       // debugger;
+        var select = GetSelectTreeItem();
+        var ProcSetID = select.parentNode().parentNode().ProcessSetNo;
+        var dataParam = { procSetID: ProcSetID, actID: select.ActivityID, fullName: currentProcessFullName, actName: select.Name };
+        $getJSON("/ActivityParticipants/GetRouteActivityNameList", dataParam, function (items) {
+           // debugger;
+            //if (items.data.length > 0) {
+            //    if (items.data[0].Preinstall == 1) {
+            //        $("#NewSigner").hide();
+            //    }
+            //    else {
+            //        $("#NewSigner").show();
+            //    }
+            //}
+            var myTemplate = Handlebars.compile($("#table-template").html());
+
+            //将json对象用刚刚注册的Handlebars模版封装，得到最终的html，插入到基础table中。
+            $('#tableList').html(myTemplate(items));
+        });
+    }
+    $("#btnSave").bind("click", function () {
+        SaveSetting();
+    });
+    function SaveSetting()
+    {
+        //debugger;
+        var select = GetSelectTreeItem();
+        var ProcSetID = select.parentNode().parentNode().ProcessSetNo;
+        var arry = [];
+        var items = $("#tableList tr");
+        if (items.length == 0) { return;}
+        for (var i = 0; i < items.length; i++) {
+            var actName = $(items[i]).find(".text-center").text();
+            var Line = $(items[i]).find(".text").val();
+            if (Line == "") { KStar.Modaldialog.alert({ msg: "请对" + actName + "环节配置连线规则运算方法" }).on(function () { return;}) }
+            arry.push({ SysID:"00000000-0000-0000-0000-000000000000",FullName: currentProcessFullName, SourceActivityName: select.Name, RuleString: Line,TargetActivityName:actName })
+        }
+        var json = JSON.stringify(arry);
+        $.ajax({
+            url: "/ActivityParticipants/SaveLineRuleSetting",
+            type: "POST",
+            data: { strJson: json },
+            traditional: true,
+            success: function (item) {
+                //debugger;
+
+                $(".tips").css("visibility", "visible");
+               // ShowTip(item);
+
+            },
+            dataType: "json"
+        }).fail(function (e) {
+            $(".tips").css("visibility", "hidden");
+        })
+    }
+
+</script>
+ 

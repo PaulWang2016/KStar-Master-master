@@ -1,0 +1,46 @@
+﻿@using aZaaS.KStar.Html;
+@model bool
+<!--pending_task -->
+<div class="section">
+    @if (Model)
+    {
+        <div class="selectbar1">
+            <span>@Html.CSHtmlResx("StartDateFrom")</span>
+            <span>
+                <input type="text" class="datepicker" name="StartDate" /></span>
+            <span>@Html.CSHtmlResx("To")</span>
+            <span>
+                <input type="text" class="datepicker" name="EndDate" /></span>
+            <span>
+                <a type="button" name="select" href="javascript:void(0)" class="k-button selectbtn">@Html.CSHtmlResx("select")</a></span>
+        </div>
+    }
+    <div id="workList" class="sectionGrid"></div>
+</div>
+<!--/.pending_task -->
+@if (Model)
+{
+    <script type="text/javascript">
+        title = "Pending Tasks - Kendo UI";
+        $("#workList").prev().find(".selectbtn").click(function () {
+            var startdp = $("#workList").prev().find("input[name=StartDate]").data("kendoDatePicker");
+            var enddp = $("#workList").prev().find("input[name=EndDate]").data("kendoDatePicker");
+            var startDate = startdp == null ? null : startdp.value();
+            var endDate = enddp == null ? null : enddp.value();
+            console.log(startDate);
+            console.log(endDate);
+            $.post("/Dashboard/PendingTasks/Find", {
+                start: startDate == null ? null : startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate(),
+                end: endDate == null ? null : endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
+            },
+		function (items) {
+		    var workInfo = getWorkInfo(items);
+		    InitKendoExcelGrid("workList", workInfo.model, workInfo.columns, items, 15, jsResxDashboard_Parts_PendingTasks.MyPendingTasks,
+			function () {
+			    bindAndLoad("workList")
+			})
+		})
+        }).click();
+    </script>
+}
+

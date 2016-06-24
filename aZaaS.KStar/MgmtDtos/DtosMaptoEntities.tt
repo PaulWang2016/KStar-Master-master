@@ -1,0 +1,32 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+<# 
+string assemblyName = @"E:\TheLinkDebug\aZaaS.KStar.Web\aZaaS.KStar\bin\Debug\aZaaS.KStar.dll";
+string namespacePrefix = "aZaaS.KStar.MgmtDtos";
+Assembly assembly = Assembly.LoadFrom(assemblyName);
+List<Type> types = assembly.GetTypes().Where(t => t.Name.EndsWith("Dto") 
+                                                && !t.Name.StartsWith("Base")
+                                                && !t.Name.Equals("ExtensionFieldDto")).ToList();
+foreach (var type in types)
+{
+   string typeName = type.Name;
+   string entityName = string.Empty;
+   if (typeName.Contains("Base"))
+   {
+       entityName = typeName.Split(new string[] { "Base" }, StringSplitOptions.RemoveEmptyEntries)[0];
+   }
+   if (typeName.Contains("With"))
+   {
+       entityName = typeName.Split(new string[] { "With" }, StringSplitOptions.RemoveEmptyEntries)[0];
+   }
+	#>				
+<#= string.Format("Mapper.CreateMap<{0}, {1}>();",entityName,typeName) #>
+<#= string.Format("Mapper.CreateMap<{0}, {1}>();",typeName,entityName) #>
+<#
+           }
+ #>

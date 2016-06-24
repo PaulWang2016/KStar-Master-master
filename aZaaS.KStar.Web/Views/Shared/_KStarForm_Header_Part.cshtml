@@ -1,0 +1,141 @@
+﻿<!-- #kstarform header panel -->
+<div class="panel panel-default" id="_kstarform_apply_component">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_header_panel">@Html.CSHtmlResx("ApplyInfo")
+            </a>
+        </h4>
+    </div>
+    <div id="_kstarform_header_panel" class="panel-collapse collapse in">
+        <div class="panel-body">
+
+            <!-- #kstarform header -->
+            <form id="_kstarform_header_form" class="form-horizontal">
+
+                <div class="form-group "> 
+                    <label class="control-label col-sm-2 kstar-control" id="lbl_FormSubject" title="@Html.CSHtmlResx("FormSubjectTitle")">@Html.CSHtmlResx("FormSubject")</label>
+                    <div class="col-sm-10">
+                        <input id="txt_FormSubject" type="text"
+                            data-rule-required="true"
+                            data-msg-required="@Html.CSHtmlResx("InputFormSubjectErrMsg")"
+                            class="form-control kstar-control" title="@Html.CSHtmlResx("FormSubjectTitle")" data-bind="value: FormSubject, uniqueName: true" placeholder="@Html.CSHtmlResx("phFormSubject")" />
+                    </div>
+                </div>
+
+                <div class="form-group  ">
+                    <label class="col-sm-2 control-label kstar-control" id="lbl_ProcessFolio" title="@Html.CSHtmlResx("ApplyBillNoTitle")">@Html.CSHtmlResx("ApplyBillNo")</label>
+                    <div class="col-sm-4">
+                        <input id="txt_ProcessFolio" type="text"
+                            data-bind="value: ProcessFolio"
+                            class="form-control kstar-control" title="@Html.CSHtmlResx("ApplyBillNoTitle")" readonly="readonly" placeholder="@Html.CSHtmlResx("phApplyBillNo")" />
+
+                    </div>
+
+                    <label class="control-label col-sm-2 kstar-control" id="lbl_Priority" title="@Html.CSHtmlResx("PriorityTitile")">@Html.CSHtmlResx("Folio")</label>
+                    <div class="col-sm-4">
+                        <select class="form-control kstar-control" id="drop_Priority" title="@Html.CSHtmlResx("PriorityTitile")" data-bind="value: Priority">
+                            <option value="1">@Html.CSHtmlResx("Low")</option>
+                            <option value="2">@Html.CSHtmlResx("Middle")</option>
+                            <option value="3">@Html.CSHtmlResx("High")</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label kstar-control" id="lbl_SubmitterAccount" title="@Html.CSHtmlResx("SubmitterAccountTitle")">@Html.CSHtmlResx("SubmitterAccount")</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control kstar-control" id="txt_SubmitterAccount" title="@Html.CSHtmlResx("SubmitterAccountTitle")" data-bind="value: SubmitterAccount, uniqueName: true" readonly="readonly" placeholder="@Html.CSHtmlResx("phSubmitterAccount")" />
+                    </div>
+
+                    <label class="control-label col-sm-2 kstar-control" id="lbl_SubmitterDisplayName" title="@Html.CSHtmlResx("SubmitterDisplayNameTitle")">@Html.CSHtmlResx("SubmitterDisplayName")</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control kstar-control" id="txt_SubmitterDisplayName" title="@Html.CSHtmlResx("SubmitterDisplayNameTitle")" data-bind="value: SubmitterDisplayName, uniqueName: true" readonly="readonly" placeholder="@Html.CSHtmlResx("phSubmitterDisplayName")" />
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label kstar-control" id="lbl_ApplicantAccount" title="@Html.CSHtmlResx("ApplicantAccountTitle")">@Html.CSHtmlResx("ApplicantAccount")</label>
+                    <div class="col-sm-4 has-feedback">
+                        <input type="text"
+                            class="form-control kstar-control"
+                            id="_kstarform_input_applyAccount"
+                            title="@Html.CSHtmlResx("ApplicantAccountTitle")"
+                            data-rule-required="true"
+                            data-msg-required="@Html.CSHtmlResx("reqApplicantAccount")"
+                            data-bind="value: ApplicantAccount, uniqueName: true"
+                            placeholder="@Html.CSHtmlResx("phApplicantAccount")" />
+                        <span class="glyphicon glyphicon-search form-control-feedback kstar-button" data-control="userpick" data-options="{mutilselect:false}" data-target="_kstarform_input_applyAccount" data-callback="KStarForm.chooseApplyAccountCallback" id="_kstarform_btn_chooseperson" title="@Html.CSHtmlResx("ApplicantAccountChooseButtonTitle")"></span>
+                    </div>
+
+                    <label class="control-label col-sm-2 kstar-control" id="lbl_ApplicantDisplayName" title="@Html.CSHtmlResx("ApplicantDisplayNameTitle")">@Html.CSHtmlResx("ApplicantDisplayName")</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control kstar-control" id="txt_ApplicantDisplayName" title="@Html.CSHtmlResx("ApplicantDisplayNameTitle")" data-bind="value: ApplicantDisplayName, uniqueName: true" placeholder="@Html.CSHtmlResx("phApplicantDisplayName")" />
+
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label kstar-control" id="lbl_ApplicantTelNo" title="@Html.CSHtmlResx("ApplicantTelNoTitle")" for="exampleInputEmail1">@Html.CSHtmlResx("ApplicantTelNo")</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control kstar-control" id="txt_ApplicantTelNo" title="@Html.CSHtmlResx("ApplicantTelNoTitle")" data-bind="value: ApplicantTelNo, uniqueName: true" placeholder="@Html.CSHtmlResx("phApplicantTelNo")" />
+                    </div>
+
+                    <label class="control-label col-sm-2 kstar-control" id="lbl_ApplicantEmail" title="@Html.CSHtmlResx("ApplicantEmailTitle")">@Html.CSHtmlResx("ApplicantEmail")</label>
+                    <div class="col-sm-4">
+                        <input type="text"
+                            data-rule-minlength="6"
+                            data-msg-minlength="@Html.CSHtmlResx("reqLenApplicantEmail")"
+                            data-rule-email="true"
+                            data-msg-email="@Html.CSHtmlResx("reqApplicantEmail")"
+                            class="form-control kstar-control" id="txt_ApplicantEmail" title="@Html.CSHtmlResx("ApplicantEmailTitle")" data-bind="value: ApplicantEmail, uniqueName: true" placeholder="@Html.CSHtmlResx("phApplicantEmail")" />
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label kstar-control" id="lbl_ApplicantPosition" title="@Html.CSHtmlResx("ApplicantPositionTitle")">@Html.CSHtmlResx("ApplicantPosition")</label>
+                    <div class="col-sm-4">
+                        <select class="form-control kstar-control" id="drop_ApplicantPosition" title="@Html.CSHtmlResx("ApplicantPositionTitle")"
+                            data-bind='uniqueName: true,
+                                            value: ApplicantPositionID,
+                                            options: Positions,
+                                            selectedText:ApplicantPositionName,
+                                            optionsValue:"SysID",
+											optionsText: "Name"'>
+                        </select>
+                    </div>
+
+                    <label class="control-label col-sm-2 kstar-control" id="lbl_ApplicantOrgNode" title="@Html.CSHtmlResx("ApplicantOrgNodeTitle")">@Html.CSHtmlResx("ApplicantOrgNode")</label>
+                    <div class="col-sm-4">
+                        <select class="form-control kstar-control" id="drop_ApplicantOrgNode" title="@Html.CSHtmlResx("ApplicantOrgNodeTitle")"
+                            data-bind='uniqueName: true,
+                                            value: ApplicantOrgNodeID,
+                                            selectedText: ApplicantOrgNodeName,
+                                            options: Departments,
+                                            optionsValue: "SysID",
+											optionsText: "Name"'>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label kstar-control" id="lbl_SubmitDate" title="@Html.CSHtmlResx("SubmitDateTitle")">@Html.CSHtmlResx("SubmitDate")</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control kstar-control" id="txt_SubmitDate" title="@Html.CSHtmlResx("SubmitDateTitle")" readonly="readonly" data-bind="value: moment(SubmitDate()).format('YYYY-MM-DD HH:mm:ss'), uniqueName: true" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2 kstar-control" id="lbl_SubmitComment" title="@Html.CSHtmlResx("SubmitCommentTitle")">@Html.CSHtmlResx("SubmitComment")</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control kstar-control" id="txt_SubmitComment" title="@Html.CSHtmlResx("SubmitCommentTitle")" rows="3" data-bind="value: SubmitComment, uniqueName: true" placeholder="@Html.CSHtmlResx("phSubmitComment")"></textarea>
+                    </div>
+                </div>
+
+            </form>
+            <!-- ./kstar form header -->
+
+        </div>
+    </div>
+</div>
+<!-- ./kstarform header panel -->

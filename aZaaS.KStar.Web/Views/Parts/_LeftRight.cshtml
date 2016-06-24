@@ -1,0 +1,12 @@
+﻿@model String
+@{
+    string CurrentUser = ViewBag.CurrentUser;
+}
+
+<div id="Left">
+    @Html.MenuBar(Model, CurrentUser, false)
+    <div class="title"><a href="JavaScript:void(0)" class="Home">@Html.CSHtmlResx("Home")</a></div>
+</div>
+<div id="Right">
+    @Html.DocumentBar(Model, CurrentUser)
+</div>

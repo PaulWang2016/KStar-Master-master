@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "_FeaturePermission";
+}
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">功能权限配置</div>
+    </div>
+    <div class="fullwidget">
+        <div id="ProcessPermissionSplitter" style="position: relative; height: 100%;">
+            <div id="left-pane-FeatureRoleType">
+                <div class="pane-content" id="FeatureRoleType">
+
+                </div>
+            </div> 
+            <div id="right-pane-FeatureTypeList" style="height: 600px; width: 150px; overflow: auto; -webkit-overflow-scrolling: touch;">
+                <div class="pane-content" style="display:none"> 
+                   <div id="FeatureRoleList"></div>  
+                    <div class="operabar" style="text-align: center;">
+                        <button id="leftFeatureRoleList_Role_Save" style="width: 80px;"> 保 存 </button>
+                        <div class="tips" style="display:none;"></div>
+                    </div>
+                </div>
+        </div> 
+    </div>
+    </div> 
+</div>
+<script type="text/javascript">
+   
+    var FeatureRoleModel = kendo.data.Model.define({
+        id: "key",
+        fields: {
+            key: { type: "string" },
+            value: { type: "string" }
+        }
+    });
+
+   var FeatureRolecolumns = [
+     {
+       title: jsResxColumns.Checked, width: 35, template: "<input type='checkbox' value='#= key #'/>",
+       headerTemplate: "<input type='checkbox' style='display:none'/>"
+      },
+     { field: "value", title: "功能" }
+    ];
+
+    var FeatureRoleListModel = kendo.data.Model.define({
+        id: "Guid",
+        fields: {
+            Guid: { type: "string" },
+            Name: { type: "string" },
+            Checked: { type: 'string' }
+        }
+    });
+
+    var FeatureRoleListcolumns = [
+    {
+        title: jsResxColumns.Checked, width: 35, template: "<input type='checkbox' value='#= Guid #' data-checked='#= Checked #'  #:Checked #/>",
+        headerTemplate: "<input type='checkbox' />"
+    },
+    { field: "Name", title: jsResxColumns.Role }
+    ];
+
+
+  var InitRoleType = function () {
+       showOperaMask();
+       $.getJSON("/Maintenance/FeaturePermission/GetFeatureTypeList", { _t: new Date() }, function (items) {
+           InitBaseKendoGrid("FeatureRoleType", FeatureRoleModel, FeatureRolecolumns, items, function () {
+              hideOperaMask();
+              bindGridCheckbox("FeatureRoleType");
+              InitRoleTypeEven();
+          });
+      })
+  }
+
+  var InitLeftRoleList = function (featureType,$this) {
+      showOperaMask();
+      $.getJSON("/Maintenance/FeaturePermission/GetFeatureList", { type: featureType, _t: new Date() }, function (items) {
+          InitBaseKendoGrid("FeatureRoleList", FeatureRoleListModel, FeatureRoleListcolumns, items, function () {
+              hideOperaMask();
+              bindGridCheckbox("FeatureRoleList");
+              InitRoleListEven();
+          });
+      })
+  }
+ 
+  var InitRoleTypeEven = function () {
+      $("#FeatureRoleType .k-grid-content").on("click", ":checkbox", function () {
+          $("#FeatureRoleType").find(":checkbox").prop("checked", false);
+          $("#FeatureRoleType").find(":checkbox").removeAttr("checked");
+          $(this).prop("checked", true);
+          $(this).attr("checked", "checked");
+          InitLeftRoleList($(this).val(), $(this));
+          $("#FeatureRoleList").data("change",false);
+          $(".tips").html("");
+          $(".tips").hide();
+          $('#right-pane-FeatureTypeList').find('.pane-content').show();
+      });
+  };
+
+  var InitRoleListEven = function () {
+      $("#FeatureRoleList").on("click", ":checkbox", function () {
+          var roleListCheckBox = $("#FeatureRoleList").find(":checkbox");
+          $.each(roleListCheckBox, function (index, checkBox) {
+              var checked = $(checkBox).data("checked");
+              if (checked == "checked") {
+                  if (checkBox.checked != true) {
+                      $("#FeatureRoleList").data("change", true);
+                      return;
+                  }
+              } else {
+                  if (checkBox.checked == true) {
+                      $("#FeatureRoleList").data("change", true);
+                      return;
+                  }
+              }
+          }); 
+      });
+  }
+
+  $(document).ready(function () {
+      $("#ProcessPermissionSplitter").kendoSplitter({
+          panes: [
+              { collapsible: false, size: "400px", min: "250px", max: "600px", resizable: true },
+              { collapsible: false, resizable: true }
+          ]
+      });
+      $(window).resize();
+      InitRoleType();
+      $('#leftFeatureRoleList_Role_Save').click(function () {
+          var change = $("#FeatureRoleList").data("change");
+          if (change != true) return;
+          showOperaMask();
+          var roleListCheckBox = $("#FeatureRoleList").find(":checkbox");
+          var featureRoleListString = "";
+          $.each(roleListCheckBox, function (index, checkBox) {
+              if (checkBox.checked == true && $(checkBox).data("checked")!=undefined) {
+                      if (featureRoleListString == "") {
+                          featureRoleListString = checkBox.value;
+                      } else {
+                          featureRoleListString += "," + checkBox.value;
+                      }
+                  }
+          });
+  
+          var featureRoleTypes = $("#FeatureRoleType").find(":checkbox[checked]");
+          if (featureRoleTypes.length > 0) {
+              var featureRoleType = featureRoleTypes[0].value;
+             
+              $.post("/Maintenance/FeaturePermission/PostUpdateFeatureList", { featureList: featureRoleListString, type: featureRoleType }, function (data, textStatus, jqXHR) {
+                  var jsonData = JSON.parse(data);
+                  if (jsonData.succeed) {
+                      $(".tips").html("保存成功。");
+                      $(".tips").css("color", "green");
+                  } else {
+                      $(".tips").html("保存失败。");
+                      $(".tips").css("color", "red");
+                     
+                  }
+                  $(".tips").show();
+                  hideOperaMask();
+              }, "json").error(function () {
+                  hideOperaMask();
+              });
+              
+          }
+        
+       
+      });
+     
+  });
+
+
+</script>

@@ -1,0 +1,57 @@
+﻿<!--  WorklistData Configuration  -->
+@using aZaaS.KStar.Html;
+<div class="section">
+    <div id="WorklistDataView" class="sectionGrid"></div>
+</div>
+<!--  /.WorklistData Configuration  -->
+<div id="AddWorklistDataWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("ColumnName")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" class="k-textbox ColumnName" style="width: 100%;" />
+            </div>
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("DisplayName")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" class="k-textbox DisplayName" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("ValueType")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" id="ColumnValueType" style="width: 100%;" />
+            </div>
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("IsVisible")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" id="ColumnIsVisible" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("Description")</div>
+            <div class="col-lg-10 col-md-10  col-sm-10">
+                <input type="text" class="k-textbox Description" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--  /.AddWorklistDataWindow Configuration  -->
+@*<script src="~/JS/Maintenance/WorklistData.js"></script>
+<script type="text/javascript">
+    $(function () {
+        LoadWorklistDataView("@ViewBag.key");
+    })
+</script>*@
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaWorklistData" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_WorklistData", function (init) {
+        init("@ViewBag.key");
+    });
+</script>

@@ -1,0 +1,43 @@
+﻿@model List<aZaaS.KStar.Menu>
+@if (Model.Count > 0)
+        {
+            foreach (var mi in Model)
+            {
+            <div id="@("widget-" + mi.Key)" data-pane="@mi.Key" data-default="@mi.DefaultPage" pane-title="@mi.DisplayName" class="widget-container">
+                Pending...
+            </div>
+            }
+        }
+        else
+        {
+            <div id="@("widget-Dashboard")" data-pane="Dashboard" data-default="/Home/NoPermission" pane-title="Dashboard" class="widget-container">
+                Pending...
+            </div>
+        }
+@*@{  
+    var width = 874 * Model.Count();
+}
+<div id="wrapper" class="">
+  
+        @if (Model.Count > 0)
+        {
+            foreach (var mi in Model)
+            {
+            <div id="@("widget-" + mi.Key)" data-pane="@mi.Key" data-default="@mi.DefaultPage" pane-title="@mi.DisplayName" class="pane">
+                <div class="sub-pane">
+                    Pending...
+                </div>
+            </div>
+            }
+        }
+        else
+        {
+            <div id="@("widget-Dashboard")" data-pane="Dashboard" data-default="/Home/NoPermission" pane-title="Dashboard" class="pane">
+                <div class="sub-pane">
+                    Pending...
+                </div>
+            </div>
+        }
+    
+</div>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Columns" type="text/javascript"></script>*@

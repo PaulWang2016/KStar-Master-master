@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutHome_Custom.cshtml";
+    string currentUser = ViewBag.CurrentUser;
+}
+@Html.IndexPage(currentUser)
+
+ @*<div id="widget-Dashboard" class="widget-container" data-default="/DynamicWidget/PendingTasks">
+   <div class="nav-breadcrumb">
+            <ol class="breadcrumb breadcrumb-label">
+                <li>当前位置:</li>
+            </ol>
+            <ol class="breadcrumb">
+                <li>流程中心门户</li>
+                <li>流程中心</li>
+                <li class="active">我的待办</li>
+            </ol>
+        </div>
+        <div class="clearfix search-bar">
+            <div>
+                <span class="input-label">流程编号:</span>
+                <span>
+                    <input type="text" /></span>
+            </div>
+            <div>
+                <span class="input-label">申&nbsp;&nbsp;请&nbsp;&nbsp;人:</span>
+                <span>
+                    <input type="text" /></span>
+            </div>
+            <div>
+                <span class="input-label">申请时间:</span>
+                <span>
+                    <input id="start" style="width: 160px" value="01/01/2015" />
+                    <span style="margin: 4px;">--</span>
+                    <input id="end" style="width: 160px" value="10/01/2015" />
+                </span>
+            </div>
+            <div>
+                <span class="input-label">流程名称:</span>
+                <span>
+                    <input type="text" /></span>
+            </div>
+            <div style="width: 90px;">
+                <button type="button" class="btn search-btn"><span class="glyphicon glyphicon-search"></span>搜索</button>
+            </div>
+        </div>
+        <div id="grid"></div>
+</div>*@

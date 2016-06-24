@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TenantManager" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://192.168.1.20:8999/TenantManager?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.1.20:8999/TenantManager?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.1.20:8999/TenantManager?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/aZaaS.Workflow.WcfService.Model" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITenantManager_ActiveKstarAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActiveKstarAccount" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_ActiveKstarAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActiveKstarAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_ActiveAzaaSAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActiveAzaaSAccount" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_ActiveAzaaSAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActiveAzaaSAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_DestroyKstarAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyKstarAccount" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_DestroyKstarAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyKstarAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_DestroyAzaaSAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyAzaaSAccount" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_DestroyAzaaSAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyAzaaSAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoQuery_InputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoQuery" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoQuery_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoAllQuery_InputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoAllQuery" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoAllQuery_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoAllQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoAdd_InputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoAdd" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoAdd_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoAddResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoModify_InputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoModify" />
+  </wsdl:message>
+  <wsdl:message name="ITenantManager_TenantInfoModify_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TenantInfoModifyResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITenantManager">
+    <wsdl:operation name="ActiveKstarAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/ActiveKstarAccount" message="tns:ITenantManager_ActiveKstarAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/ActiveKstarAccountResponse" message="tns:ITenantManager_ActiveKstarAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActiveAzaaSAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/ActiveAzaaSAccount" message="tns:ITenantManager_ActiveAzaaSAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/ActiveAzaaSAccountResponse" message="tns:ITenantManager_ActiveAzaaSAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DestroyKstarAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/DestroyKstarAccount" message="tns:ITenantManager_DestroyKstarAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/DestroyKstarAccountResponse" message="tns:ITenantManager_DestroyKstarAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DestroyAzaaSAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/DestroyAzaaSAccount" message="tns:ITenantManager_DestroyAzaaSAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/DestroyAzaaSAccountResponse" message="tns:ITenantManager_DestroyAzaaSAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoQuery">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoQuery" message="tns:ITenantManager_TenantInfoQuery_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoQueryResponse" message="tns:ITenantManager_TenantInfoQuery_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoAllQuery">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoAllQuery" message="tns:ITenantManager_TenantInfoAllQuery_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoAllQueryResponse" message="tns:ITenantManager_TenantInfoAllQuery_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoAdd">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoAdd" message="tns:ITenantManager_TenantInfoAdd_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoAddResponse" message="tns:ITenantManager_TenantInfoAdd_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoModify">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoModify" message="tns:ITenantManager_TenantInfoModify_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITenantManager/TenantInfoModifyResponse" message="tns:ITenantManager_TenantInfoModify_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ITenantManager" type="tns:ITenantManager">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ActiveKstarAccount">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/ActiveKstarAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActiveAzaaSAccount">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/ActiveAzaaSAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DestroyKstarAccount">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/DestroyKstarAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DestroyAzaaSAccount">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/DestroyAzaaSAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoQuery">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/TenantInfoQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoAllQuery">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/TenantInfoAllQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoAdd">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/TenantInfoAdd" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TenantInfoModify">
+      <soap:operation soapAction="http://tempuri.org/ITenantManager/TenantInfoModify" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TenantManager">
+    <wsdl:port name="BasicHttpBinding_ITenantManager" binding="tns:BasicHttpBinding_ITenantManager">
+      <soap:address location="http://192.168.1.20:8999/TenantManager" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

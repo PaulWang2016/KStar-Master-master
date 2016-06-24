@@ -1,0 +1,131 @@
+﻿@using aZaaS.KStar.Html;
+@{    
+    ViewBag.Title = "ControlSetting";    
+}
+
+<div id="ControlSettingWindow" class="container" style="width:99%;" requsetUrl="@Url.Content("~/Maintenance/WFConfig/")">    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#QuickSettings">@Html.CSHtmlResx("QuickSettings")
+                </a>
+            </h4>
+        </div>
+        <div id="QuickSettings" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div id="_controlSetting_error_placement"></div>
+                <div class="row">        
+                    @if (ViewData["type"] == "active")
+                    {
+                    <div class="col-md-4" style="">
+                        <select id="selectMode" class="form-control" style="width:150px;vertical-align: sub; margin-top:-6px; display:inline">
+                            <option value="View">@Html.CSHtmlResx("View")</option>
+                            <option value="Approve">@Html.CSHtmlResx("Approve")</option>
+                        </select>
+                        <label for="selectMode" style="cursor: pointer;font-weight: normal">@Html.CSHtmlResx("Mode")</label>                        
+                    </div>
+                    <div class="col-md-4" style="">
+                        <input id="alldisabled" type="checkbox" value="" style="vertical-align: sub;" /><label for="alldisabled" style="cursor: pointer;font-weight: normal">@Html.CSHtmlResx("AllDisabled")</label>
+                    </div>
+                    <div class="col-md-4" style="">
+                        <input id="allcustom" type="checkbox" requsetUrl="@Url.Content("~/Maintenance/CategoryTemplate/GetCategoryTree")" value="" style="vertical-align: sub;" /><label for="allcustom" style="cursor: pointer;font-weight: normal">@Html.CSHtmlResx("AllCustom")</label>
+                    </div>
+                    }
+                    else
+                    {                   
+                    <div class="col-md-6" style="">
+                        <input id="alldisabled" type="checkbox" value="" style="vertical-align: sub;" /><label for="alldisabled" style="cursor: pointer;font-weight: normal">@Html.CSHtmlResx("AllDisabled")</label>
+                    </div>
+                    <div class="col-md-6" style="">
+                        <input id="allcustom" type="checkbox" requsetUrl="@Url.Content("~/Maintenance/CategoryTemplate/GetCategoryTree")" value="" style="vertical-align: sub;" /><label for="allcustom" style="cursor: pointer;font-weight: normal">@Html.CSHtmlResx("AllCustom")</label>
+                    </div>
+                    }
+                    
+                </div>
+                <div class="row">                
+                    <div class="col-md-12 center" style="margin-top:5px;text-align: right;"> 
+                        <button id="saveControlSetting" type="button" class="btn btn-primary"data-toggle="button">  
+                            @Html.CSHtmlResx("Save")                          
+                        </button>                         
+                    </div>                
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ControlContainer">
+    </div>    
+</div>
+
+<script type="text/javascript">
+    $(function () {
+            @{
+                string type = string.Empty;    
+            }
+        @if (ViewData["type"] == "active")
+            {
+                type = "View";
+            }
+            else
+            {
+                type = "Start";
+            }
+        if (startUrl == undefined || startUrl == null) {
+            ControlSettingWindow.AlertWarning(ControlSettingWindow.MessageType.Warning, ControlSettingWindow.Message.formInvalidStartUrlMsg, 10000);
+            ControlSettingWindow.DisableButton("saveControlSetting", true);
+            return;
+        }
+        else {
+            LoadControlTemplate(selectActivityIdForControlSetting, selectProcessIdForControlSetting, "@type");
+        }       
+        $("#selectMode").change(function () {
+            var flag = true;
+            var mode = $(this).val();
+            switch (mode) {
+                case "View":
+                    if (viewUrl == undefined || viewUrl == null) {
+                        flag = false;
+                        ControlSettingWindow.DisableButton("saveControlSetting", true);
+                        ControlSettingWindow.AlertWarning(ControlSettingWindow.MessageType.Warning, ControlSettingWindow.Message.formInvalidViewUrlMsg, 10000);
+                    }
+                    break;
+                case "Approve":
+                    if (approveUrl == undefined || approveUrl == null) {
+                        flag = false;
+                        ControlSettingWindow.DisableButton("saveControlSetting", true);
+                        ControlSettingWindow.AlertWarning(ControlSettingWindow.MessageType.Warning, ControlSettingWindow.Message.formInvalidApproveUrlMsg, 10000);
+                    }
+                    break;
+            }
+            if (flag) {
+                LoadControlTemplate(selectActivityIdForControlSetting, selectProcessIdForControlSetting, mode);
+            }
+        });         
+    });
+
+    function LoadControlTemplate(activityId, processId, type)
+    {
+        $("#ControlContainer").load("/Maintenance/WFConfig/RenderKStarFormControlSettings", { activityId: activityId, processId: processId, type: type }, function () {
+            ControlSettingWindow.initButtons();
+
+            $(".dropdowntree").initDropdownTree({
+                requestUrl: "@Url.Content("~/Maintenance/CategoryTemplate/GetCategoryTree")", callback: function (obj, v, d) {
+                    initDropdownTreecallback(obj, v, d);
+                }
+            });
+
+                ControlSettingWindow.bindCustomtreeClick("chkcustomtree");
+                ControlSettingWindow.bindCustomtreeClick("chkcustomcontroltree");
+
+                ControlSettingWindow.initDropdownTreeEvent("chkcustomcontroltree");
+                ControlSettingWindow.initDropdownTreeEvent("chkcustomtree");
+
+                ControlSettingWindow.initCheckAndLabel();
+            });
+    }
+
+    function initDropdownTreecallback(obj,v, d)
+    {     
+        $(obj).change();
+        $(obj).parent().find("input[type='hidden']").val(d).change();
+    }
+</script>

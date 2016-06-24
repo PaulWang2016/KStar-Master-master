@@ -1,0 +1,141 @@
+﻿body {
+    background-color: #f5f5f5;
+   
+}
+header div{
+    float:left; margin-left:33px; margin-top:22px;
+}
+header div img{
+    float:left;
+}
+.header-div-line {
+    width: 14px;
+      height: 50px;
+    margin: 6px 6px;
+    border-right-width: 2px;
+    float: left;
+    border-right-style: solid;
+}
+.header-div-explain {
+    float: left;
+    margin-top: 5px;
+    font-size: 36px;
+    color: #595757;
+}
+
+.contextpanel {
+    margin-right: 8%;
+    margin-top: 8%;
+    width: 318px;
+    float: right;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+    .contextpanel .headPeople img {
+        position: relative;
+        top: -48px;
+        margin: auto;
+    }
+    .contextpanel .div-welcome {
+        top: -22px;
+        position: relative;
+        font-size: 18px;
+        color: #595757;
+        font-weight: 700;
+    }
+    .contextpanel .userName {
+        margin: 0px 20px 22px 20px;
+    }
+        .contextpanel .userName input {
+            padding-left: 10px;
+            height: 42px;
+        }
+    .contextpanel .password {
+      margin:0px 20px 22px 20px;
+    }
+        .contextpanel .password input {
+            padding-left: 10px;
+            height: 42px;
+        }
+    .contextpanel .setting {
+        margin: 0px 20px 20px 20px;
+        text-align: left;
+    }
+   .contextpanel .ValidateCode{
+      height: 42px;
+         margin: 0px 20px 0px 20px;
+   }
+    .contextpanel .radio-inline {
+        padding-left: 0px !important;
+        margin-right: 18px;
+    }
+     
+    .contextpanel .btnEnter {
+        margin: 0px 20px 30px 20px;
+        text-align: left;
+    }
+        .contextpanel .btnEnter button {
+            width: 100%;
+            background-color: #85cc00;
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+.radio-inline a {
+    text-decoration: none;
+    color: black;
+}
+
+  footer {
+        position: fixed;
+        height: 47px;
+        text-align: center;
+        width: 100%;
+        bottom: 0px;
+        padding-top: 10px;
+        color: rgb(124, 129, 113);
+    }
+  .contextleft {
+        width: 863px;
+        height: 496px;
+        margin-left: 22px;
+        background-image: url(bg.png);
+    }
+ 
+@media (max-width:420px){
+ body{ 
+     min-width:420px;
+     min-height: 570px;
+ }
+ .contextpanel {
+     margin-top:50px !important;
+ }
+}
+@media (max-height:570px){
+    footer {
+        position: absolute;
+    }
+    body {
+        min-height: 570px;
+    }
+   
+}
+
+@media (min-width:570px){
+    .contextleft {
+        z-index: 1;
+        position: absolute;
+        bottom: 47px;
+        width: 863px;
+        height: 496px;
+        margin-left: 22px;
+        background-image: url(bg.png);
+    }
+}
+
+@media (min-width:1370px){
+    .contextpanel {
+        margin-right:20%; 
+    }
+}

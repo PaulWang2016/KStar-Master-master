@@ -1,0 +1,1546 @@
+﻿@using aZaaS.KStar.Form.Mvc
+@{
+    ViewBag.Title = "IoT生产计划单审批流程";
+}
+@model   aZaaS.KStar.Web.Areas.Production.Models.AdaptivePlanModel
+
+<style>
+    red {
+        color: red;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align: center; font-size:22px ">
+        <h2 class="panel-title" style="text-align: center; font-size: 22px">
+            <span style="font-size:22px !important;"></span>
+            <b>IoT生产计划单审批流程</b>
+        </h2>
+        <span style="text-align:center;font-size:14px;" data-bind="text:KStarForm.koHeaderModel.ActivityName()==null?'当前状态：草稿':'当前状态：'+KStarForm.koHeaderModel.ActivityName()"></span>
+    </div>
+
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_customform_panel">
+                表单信息
+            </a>
+        </h4>
+    </div>
+
+    <form id="deposit_request_form" class="form-horizontal">
+        <div id="_kstarform_customform_panel" class="panel-collapse collapse in">
+            <div id="010Control" class="kstar-control" title="发起审批" style=" margin-bottom:10px;">
+
+                <p class="bg-primary panel-title" style="padding: 5px;">
+                    <span class="caret"></span>&nbsp;
+                    <a data-toggle="collapse" href="#_kstarform_customform_panel010" style=" color:#fff;">
+                        <b>010_发起申请</b>
+                    </a>
+                </p>
+
+                <div id="_kstarform_customform_panel010" class="panel-collapse collapse in">
+                    <div class="form-group" style="margin-top:30px;">
+                        <label class="control-label col-sm-2">计划单类型:<red>*</red></label>
+                        <div class="col-sm-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="PlanType2" 
+                                       data-ride-autofill="true" data-ride_bind="{koModelvalue:true,koModelProperty:'PlanProduction.PlanType'}">
+                                正常生产
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="PlanType2"
+                                       data-ride-autofill="true" data-ride_bind="{koModelvalue:false,koModelProperty:'PlanProduction.PlanType'}">
+                                改造
+                            </label>
+                        </div>
+                        <label class="control-label col-sm-2">创建时间:</label>
+                        <div class="col-sm-4" title="创建时间">
+                            <div class="input-group date">
+                                <input type="text" disabled="disabled"
+                                       class="form-control" name="StartDate" data-bind="datepicker:PlanProduction.StartDate, datepickerOptions: { format: 'YYYY-MM-DD HH:mm:ss', pickTime: false }" />
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-bind="visible:PlanProduction.PlanType">
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">任务来源部门:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="SourceDepartment" id="SourceDepartment"
+                                       data-rule-required="true"
+                                       data-msg-required="任务来源部门为必填项！" readonly
+                                       data-bind="value:PlanProduction.SourceDepartment.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.PlanProduction.SourceDepartment" data-callback="userpickFillValue" data-control="userpick" data-options="{mutilselect:false}" data-target="SourceDepartment" data-controltype="Department"></span>
+                            </div>
+
+                            <label class="control-label col-sm-2">生产计划单号:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       data-rule-required="true"
+                                       data-msg-required="生产计划单为必填项！"
+                                       class="form-control" name="PlanNumber" data-bind="value:PlanProduction.PlanNumber" />
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">计划人:</label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       data-rule-required="true" disabled="disabled"
+                                       data-msg-required="计划人为必填项！"
+                                       class="form-control" name="PlannerMan" data-bind="value:PlanProduction.PlannerMan" />
+                            </div>
+
+                            <label class="control-label col-sm-2">加工厂商:</label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="ProcessingVendor"
+                                       data-rule-required="true"
+                                       data-msg-required="加工厂商为必填项！" readonly="readonly"
+                                       data-bind="value:PlanProduction.ProcessingVendor">
+                                <span class="glyphicon glyphicon-search form-control-feedback" onclick="CommonSelectWindow(event,ProcessingVendorSetting)"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">REV版本:</label>
+                            <div class="col-sm-4">
+                                <input type="text" 
+                                       class="form-control" name="REVVersion" data-bind="value:PlanProduction.REVVersion" />
+                            </div>
+
+                            <label class="control-label col-sm-2">型号:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="Model"
+                                       data-rule-required="true" readonly="readonly"
+                                       data-msg-required="型号为必填项！"
+                                       data-bind="value: PlanProduction.Model">
+                                <span class="glyphicon glyphicon-search form-control-feedback" onclick="CommonSelectWindow(event, ModuleTypesSetting)"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">总加工数:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <input type="number"
+                                       data-rule-required="true"
+                                       data-msg-required="总加工数为必填项！"
+                                       class="form-control" name="TotalWorkHour" data-bind="value:PlanProduction.TotalWorkHour" />
+                            </div>
+
+                            <label class="control-label col-sm-2">计划完成时间:<red>*</red></label>
+                            <div class="col-sm-4" id="txt_startdate" title="创建时间">
+                                <div class="input-group date">
+                                    <input type="text"
+                                           class="form-control" name="PlanFinishDate" data-bind="datepicker:PlanProduction.PlanFinishDate, datepickerOptions: { format: 'YYYY-MM-DD', pickTime: false }" />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="schedule_item">
+                            <p class="bg-primary  btn-info" style="padding: 10px;">
+                                <span class="caret"></span>&nbsp;
+                                <b>生产信息</b>
+                            </p>
+                            <table id="tbl_schedule_item" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="col-xs-2">产品代码<red>*</red></th>
+                                        <th class="col-xs-2">产品名称<red>*</red></th>
+                                        <th class="col-xs-2">软件版本<red>*</red></th>
+                                        <th class="col-xs-3">客户名称</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      data-rule-required="true"
+                                                      data-msg-required="产品代码必填项！"
+                                                      name="ProductionCode" data-bind="value:PlanProduction.ProductionCode"></textarea>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      data-rule-required="true"
+                                                      data-msg-required="产品名称必填项！"
+                                                      name="ProductionName" data-bind="value:PlanProduction.ProductionName"></textarea>
+
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      data-rule-required="true"
+                                                      data-msg-required="软件版本必填项！"
+                                                      name="SoftVersion" data-bind="value:PlanProduction.SoftVersion"></textarea>
+                                        </td>
+                                        <td>
+                                            <div class="has-feedback">
+                                                <input type="text" readonly="readonly"
+                                                       class="form-control pdfCustomer" name="processingVendor" data-bind="value:PlanProduction.Clientele" />
+                                                <span class="glyphicon glyphicon-search form-control-feedback" onclick="CommonSelectWindow(event, CustomerSetting)"></span>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="control-label col-sm-2">是否为客户定制产品:<red>*</red></label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsCustomProduction"
+                                           data-rule-required="true"
+                                           data-ride-autofill="true" data-ride_bind="{koModelvalue:true,koModelProperty:'PlanProduction.IsCustomProduction'}" />
+                                    客户定制
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsCustomProduction" data-ride_bind="{koModelvalue:false,koModelProperty:'PlanProduction.IsCustomProduction'}" />
+                                    非客户定制
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group " data-bind="visible:PlanProduction.IsCustomProduction">
+                            <label class="control-label col-sm-2">定制版本客户确认书:</label>
+                            <div class="col-sm-10" data-workflow-uploader="PlanProduction.CustomFile"></div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="control-label col-sm-2">是否定制标签:<red>*</red></label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsCustom"
+                                           data-rule-required="true"
+                                           data-ride_bind="{koModelvalue:true,koModelProperty:'PlanProduction.IsCustom'}" />
+                                    定制标签
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsCustom" data-ride_bind="{koModelvalue:false,koModelProperty:'PlanProduction.IsCustom'}" />
+                                    非定制标签
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group " data-bind="visible:PlanProduction.IsCustom">
+                            <label class="control-label col-sm-2">标贴要求说明:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" type="text" rows="1"
+                                          name="CustomProductionTextarea" data-bind="value:PlanProduction.CustomProductionTextarea"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="control-label col-sm-2">波特率:<red>*</red></label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" data-rule-required="true" name="BaudRate" data-bind="checked:PlanProduction.BaudRate" value="9600" />
+                                    9600
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" data-rule-required="true" name="BaudRate" data-bind="checked:PlanProduction.BaudRate" value="19200" />
+                                    19200
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" data-rule-required="true" name="BaudRate" data-bind="checked:PlanProduction.BaudRate" value="38400" />
+                                    38400
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" data-rule-required="true" name="BaudRate" data-bind="checked:PlanProduction.BaudRate" value="57600" />
+                                    57600
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" data-rule-required="true" name="BaudRate" data-bind="checked:PlanProduction.BaudRate" value="115200" />
+                                    115200
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" data-rule-required="true" name="BaudRate" data-bind="checked:PlanProduction.BaudRate" value="自适应" />
+                                    自适应
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="control-label col-sm-2">是否批量质检:<red>*</red></label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="QualityTesting"
+                                           data-rule-required="true" data-ride-autofill="true"
+                                           data-ride_bind="{koModelvalue:true,koModelProperty:'PlanProduction.QualityTesting'}" />
+                                    是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="QualityTesting"
+                                           data-ride_bind="{koModelvalue:false,koModelProperty:'PlanProduction.QualityTesting'}" />
+                                    否
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">号段(IMEI/MEID/MAC):<red>*</red></label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       data-rule-required="true"
+                                       data-msg-required="号段(IMEI/MEID/MAC)*为必填项！"
+                                       class="form-control" name="PlanProduction_Dnseg" data-bind="value:PlanProduction.Dnseg" />
+                            </div>
+                        </div>
+
+                        <div class="panel panel-info" style="margin: 10px 50px;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">标贴打印信息</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">标贴代码:</label>
+                                    <div class="col-sm-4">
+                                        <input type="text"
+                                               class="form-control" name="DecalsCode" data-bind="value:PlanProduction.DecalsCode" />
+                                    </div>
+                                    <label class="control-label col-sm-2">碳带代码:</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" name="TTRCode" data-bind="value:PlanProduction.TTRCode" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">备注:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" type="text" rows="1" name="Description" data-bind="value:PlanProduction.Description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">软件经理:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="SoftManager" id="SoftManager"
+                                       data-rule-required="true"
+                                       data-msg-required="软件经理为必填项！" readonly
+                                       data-bind="value:PlanProduction.SoftManager.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.PlanProduction.SoftManager" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:false}" data-target="SoftManager" data-controltype="Person"></span>
+                            </div>
+
+                            <label class="control-label col-sm-2">生产技术工程师:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="EngineerMan" id="EngineerMan"
+                                       data-rule-required="true"
+                                       data-msg-required="生产技术工程师为必填项！" readonly
+                                       data-bind="value:PlanProduction.EngineerMan.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.PlanProduction.EngineerMan" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:false}" data-target="EngineerMan" data-controltype="Person"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">配置文件提供人:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="ConfigurationMan" id="ConfigurationMan"
+                                       data-rule-required="true"
+                                       data-msg-required="配置文件提供人为必填项！" readonly
+                                       data-bind="value:PlanProduction.ConfigurationMan.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.PlanProduction.ConfigurationMan" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:false}" data-target="ConfigurationMan" data-controltype="Person"></span>
+                            </div>
+
+                            <label class="control-label col-sm-2">项目经理:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="ProjectManager" id="ProjectManager"
+                                       data-rule-required="true"
+                                       data-msg-required="项目经理为必填项！" readonly
+                                       data-bind="value:ProjectManager.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.ProjectManager" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:false}" data-target="ProjectManager" data-controltype="Person"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">发放人员:<red>*</red></label>
+
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="IssueMan" id="IssueMan"
+                                       data-rule-required="true"
+                                       data-msg-required="发放人员为必填项！" readonly
+                                       data-bind="value: PlanProduction.IssueMan.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.PlanProduction.IssueMan" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:true}" data-target="IssueMan" data-controltype="Person"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div data-bind="visible:PlanProduction.PlanType()==false">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">客户名称:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control pdfCustomer" type="text" name="Clientele" id="MadeChanges_Clientele"
+                                       data-rule-required="true" readonly="readonly"
+                                       data-msg-required="客户名称为必填项！"
+                                       data-bind="value:MadeChanges.Clientele">
+                                <span class="glyphicon glyphicon-search form-control-feedback" onclick="CommonSelectWindow(event, CustomerSetting)"></span>
+                            </div>
+
+                            <label class="control-label col-sm-2">型号:<red>*</red></label>
+                            <div class="col-sm-4  has-feedback">
+                                <input type="text"
+                                       data-rule-required="true"
+                                       data-msg-required="型号为必填项！" readonly="readonly"
+                                       class="form-control" name="Model" data-bind="value: MadeChanges.Model" />
+                                <span class="glyphicon glyphicon-search form-control-feedback" onclick="CommonSelectWindow(event, ModuleTypesSetting)"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">计划人:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       data-rule-required="true"
+                                       data-msg-required="计划人为必填项！" disabled="disabled"
+                                       class="form-control" name="MadeChanges_PlannerMan" data-bind="value:MadeChanges.PlannerMan" />
+                            </div>
+
+                            <label class="control-label col-sm-2">数量:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="number" name="MadeChanges_Amount"
+                                       data-rule-required="true"
+                                       data-msg-required="数量为必填项！"
+                                       data-bind="value:MadeChanges.Amount">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">生产计划单号:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       data-rule-required="true"
+                                       data-msg-required="计划生产单号为必填项！"
+                                       class="form-control" name="PlannerMan" data-bind="value:MadeChanges.PlanNumber" />
+                            </div>
+
+                            <label class="control-label col-sm-2">要求完成日期:<red>*</red></label>
+                            <div class="col-sm-4" title="创建时间">
+                                <div class="input-group date">
+                                    <input type="text"
+                                           class="form-control" name="MadeChanges_PlanFinishDate" data-bind="datepicker:MadeChanges.PlanFinishDate, datepickerOptions: { format: 'YYYY-MM-DD', pickTime: false }" />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">改造前成品代码:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       data-rule-required="true"
+                                       data-msg-required="改造前成品代码为必填项！"
+                                       class="form-control" name="ProductionCode" data-bind="value:MadeChanges.ProductionCode" />
+
+
+                            </div>
+                            <label class="control-label col-sm-2">改造后成品代码:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       data-rule-required="true"
+                                       data-msg-required="改造后成品代码为必填项！"
+                                       class="form-control" name="ChangeProductionCode" data-bind="value:MadeChanges.ChangeProductionCode" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="control-label col-sm-2">改造前成品名称:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <textarea class="form-control" type="text" rows="1" data-rule-required="true" data-msg-required="改造前成品名称为必填项！" name="ProductionName" data-bind="value:MadeChanges.ProductionName"></textarea>
+                            </div>
+                            <label class="control-label col-sm-2">改造后成品名称:</label>
+                            <div class="col-sm-4 has-feedback">
+                                <textarea class="form-control" type="text" rows="1"
+                                          name="ChangeProductionName"
+                                          data-bind="value:MadeChanges.ChangeProductionName"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="control-label col-sm-2">标贴类型:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="DecalsType"
+                                           data-rule-required="true" data-ride_bind="{koModelvalue:true,koModelProperty:'MadeChanges.DecalsType'}" />
+                                    定制
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="DecalsType" data-ride_bind="{koModelvalue:false,koModelProperty:'MadeChanges.DecalsType'}" />
+                                    非定制
+                                </label>
+                            </div>
+
+                            <label class="control-label col-sm-2">改造原因:<red>*</red></label>
+                            <div class="col-sm-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="TransformCause"
+                                           data-rule-required="true" data-ride_bind="{koModelvalue:true,koModelProperty:'MadeChanges.TransformCause'}" />
+                                    正常改造
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="TransformCause" data-ride_bind="{koModelvalue:false,koModelProperty:'MadeChanges.TransformCause'}" />
+                                    客退改造
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="control-label col-sm-2">是否升级软件:<red>*</red></label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsUpgradeSoft"
+                                           data-rule-required="true" data-ride_bind="{koModelvalue:true,koModelProperty:'MadeChanges.IsUpgradeSoft'}" />
+                                    是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsUpgradeSoft" data-ride_bind="{koModelvalue:false,koModelProperty:'MadeChanges.IsUpgradeSoft'}" />
+                                    否
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">升级前软件版本:<red data-bind="if:MadeChanges.IsUpgradeSoft">*</red></label>
+                            <div class="col-sm-4">
+                                <textarea class="form-control" type="text" rows="1" data-msg-required="升级前软件版本为必填项！"
+                                          name="BeforeSoftVersion" data-bind="value:MadeChanges.BeforeSoftVersion,attr:{'data-rule-required':MadeChanges.IsUpgradeSoft}"></textarea>
+                            </div>
+
+                            <label class="control-label col-sm-2">升级后软件版本:<red data-bind="if:MadeChanges.IsUpgradeSoft">*</red></label>
+                            <div class="col-sm-4 has-feedback">
+
+                                <textarea class="form-control" type="text" rows="1" name="AfterSoftVersion"
+                                          data-rule-required="true"
+                                          data-msg-required="升级后软件版本为必填项！"
+                                          data-bind="value:MadeChanges.AfterSoftVersion,attr:{'data-rule-required':MadeChanges.IsUpgradeSoft}"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="control-label col-sm-2">是否修改波特率:<red>*</red></label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsUpdateBaudRate"
+                                           data-rule-required="true" data-ride_bind="{koModelvalue:true,koModelProperty:'MadeChanges.IsUpdateBaudRate'}" />
+                                    是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsUpdateBaudRate" data-ride_bind="{koModelvalue:false,koModelProperty:'MadeChanges.IsUpdateBaudRate'}" />
+                                    否
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">修改前波特率:<red data-bind="if:MadeChanges.IsUpdateBaudRate">*</red></label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       data-msg-required="修改前波特率为必填项！"
+                                       class="form-control" name="BeforeBaudRate" data-bind="value:MadeChanges.BeforeBaudRate,attr:{'data-rule-required':MadeChanges.IsUpdateBaudRate}" />
+                            </div>
+
+                            <label class="control-label col-sm-2">修改后波特率:<red data-bind="if:MadeChanges.IsUpdateBaudRate">*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="AfterBaudRate"
+                                       data-rule-required="true"
+                                       data-msg-required="修改后波特率为必填项！"
+                                       data-bind="value:MadeChanges.AfterBaudRate,attr:{'data-rule-required':MadeChanges.IsUpdateBaudRate}">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">备注:</label>
+
+                            <div class="col-sm-10">
+                                <textarea class="form-control" type="text" rows="1" name="MadeChanges_Description" data-bind="value:MadeChanges.Description"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">项目经理:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="ProjectManager" id="MadeChanges_ProjectManager"
+                                       data-rule-required="true"
+                                       data-msg-required="项目经理为必填项" readonly
+                                       data-bind="value:ProjectManager.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.ProjectManager" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:false}" data-target="MadeChanges_ProjectManager" data-controltype="Person"></span>
+                            </div>
+
+                            <label class="control-label col-sm-2">改造人员:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="ChangeMan" id="MadeChanges_ChangeMan"
+                                       data-rule-required="true"
+                                       data-msg-required="改造人为必填项！" readonly
+                                       data-bind="value:MadeChanges.ChangeMan.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.MadeChanges.ChangeMan" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:false}" data-target="MadeChanges_ChangeMan" data-controltype="Person"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">发放人员:<red>*</red></label>
+                            <div class="col-sm-4 has-feedback">
+                                <input class="form-control" type="text" name="IssueMan" id="MadeChanges_IssueMan"
+                                       data-rule-required="true"
+                                       data-msg-required="发放人员为必填项！" readonly
+                                       data-bind="value:MadeChanges.IssueMan.Name">
+                                <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.MadeChanges.IssueMan" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:true}" data-target="MadeChanges_IssueMan" data-controltype="Person"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div data-bind="if:(!('@Html.GetActivityName()'=='' &&  KStarForm.koHeaderModel.ProcessFolio()==''))" id="PlanContentDetail">
+
+                <div data-bind="if:PlanProduction.PlanType">
+
+                    <div id="020control" class="kstar-control" title="020软件经理审核" style=" margin-bottom:10px;">
+
+                        <p class="bg-primary panel-title" style="padding: 5px;">
+                            <span class="caret"></span>&nbsp;
+                            <a data-toggle="collapse" href="#_kstarform_customform_panel020" style=" color:#fff;">
+                                <b>020_软件经理审核</b>
+                            </a>
+                        </p>
+
+                        <div id="_kstarform_customform_panel020" class="panel-collapse collapse in">
+                            <div class="form-group" style="margin-top:20px;">
+                                <label class="control-label col-sm-2">软件版本全称:<red>*</red></label>
+                                <div class="col-sm-10 has-feedback">
+                                    <input class="form-control" type="text"
+                                           data-rule-required="true"
+                                           data-msg-required="软件版本全称为必填项！" data-bind="value:SoftwareVersionfullName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="030Control" class="panel panel-default kstar-control" title="030提供配置文件" style=" margin-bottom:10px;">
+
+                        <p class="bg-primary panel-title" style="padding: 5px;">
+                            <span class="caret"></span>&nbsp;
+                            <a data-toggle="collapse" href="#_kstarform_customform_panel_030Control" style=" color:#fff;">
+                                <b>030_提供配置文件</b>
+                            </a>
+                        </p>
+                        <div id="_kstarform_customform_panel_030Control" class="panel-collapse collapse in">
+                            <table id="tbl_ConfigFiles" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="col-xs-2">名称</th>
+                                        <th class="col-xs-3">发布时间</th>
+                                        <th class="col-xs-2">大小</th>
+                                        <th class="col-xs-3">配置文件</th>
+                                        <th class="col-xs-2">备注</th>
+                                        <th class="col-xs-1">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach:ConfigFiles">
+                                    <tr>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                       data-bind="value:Name" 
+                                                      name="ConfigFiles_Name"></textarea> 
+                                        </td>
+                                        <td>
+                                            <div id="txt_startdate" title="发布时间">
+                                                <div class="input-group date">
+                                                    <input type="text"
+                                                           class="form-control" name="IssueDate" data-bind="datepicker:IssueDate, datepickerOptions: { format: 'YYYY-MM-DD HH:mm:ss', pickTime: true,useMinutes:true}" />
+                                                    <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" disabled="disabled" 
+                                                       class="form-control" name="Size" data-bind="value:Size" />
+                                                <span class="input-group-addon">&nbsp;KB</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div data-bind="attr:{index:$index}" data-workflow-uploader="ConfigFiles.FileDate" data-callback="configFileSelectFileEvent" data-before-delete="" data-after-delete="configFile_SelectFile_AfterDeleteEvent" data-workflow-uploader-type="foreach"></div>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      name="ConfigFiles_Description" data-bind="value:Description"></textarea>
+                                        </td>
+                                        <td>
+                                            <button onsubmit="return false;" href="#" class="btn btn-default" data-bind="click:function(){ $root.removekoModelObjectItem($root.ConfigFiles,this,'FileDate',$('#tbl_ConfigFiles')) }" title="删除">
+                                                <span class="glyphicon glyphicon-minus-sign"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6">
+                                            <button class="btn btn-primary" data-bind="click:function(){ addModelObjectItem(ConfigFiles,$('#tbl_ConfigFiles'));addformUploaderTable($('#tbl_ConfigFiles'));}">
+                                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                                新增
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="040Control" class="panel panel-default kstar-control" title="040提供生产技术信息" style=" margin-bottom:10px;">
+
+                        <p class="bg-primary panel-title" style="padding: 5px;">
+                            <span class="caret"></span>&nbsp;
+                            <a data-toggle="collapse" href="#_kstarform_customform_panel_040Control" style=" color:#fff;">
+                                <b> 040_提供生产技术信息</b>
+                            </a>
+                        </p>
+
+                        <div id="_kstarform_customform_panel_040Control" class="panel-collapse collapse in">
+                            <p class="bg-primary" style=" background-color:#92D050; padding:5px; margin:0px; color:#000000; text-align:center">
+                                &nbsp;SMT贴片信息
+                            </p>
+
+                            <table id="tbl_AdaptiveSupplyModels_SMTPasterInfos" class="table table-hover">
+                                <thead>
+                                    <tr style="background-color:#B6DDE8"> 
+                                        <th class="col-xs-3">PCBA代码<red>*</red></th>
+                                        <th class="col-xs-4">硬件版本<red>*</red></th>
+                                        <th class="col-xs-3">光绘贴片文件<red>*</red></th>
+                                        <th class="col-xs-3">备注</th>
+                                        <th class="col-xs-1">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach:AdaptiveSupplyModels.SMTPasterInfos">
+                                    <tr> 
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      data-rule-required="true"
+                                                      data-msg-required="PCBA代码为必填项！"
+                                                      name="AdaptiveSupplyModels_SMTPasterInfos_Code" data-bind="value:Code"></textarea>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      data-rule-required="true"
+                                                      data-msg-required="硬件版本为必填项！"
+                                                      name="Version" data-bind="value:Version"></textarea>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      data-rule-required="true"
+                                                      data-msg-required="光绘贴片文件为必填项！"
+                                                      name="AdaptiveSupplyModels_SMTPasterInfos_FileDate" data-bind="value:FileDate"></textarea>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      name="AdaptiveSupplyModels_SMTPasterInfos_Description" data-bind="value:Description"></textarea>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-default" data-bind="click:function(){ $root.removekoModelObjectItem($root.AdaptiveSupplyModels.SMTPasterInfos,this) }" title="删除">
+                                                <span class="glyphicon glyphicon-minus-sign"></span>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <button class="btn btn-primary" data-bind="click:function(){ addModelObjectItem(AdaptiveSupplyModels.SMTPasterInfos,$('#tbl_AdaptiveSupplyModels_SMTPasterInfos'))}">
+                                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                                新增
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <p class="bg-primary" style=" background-color:#92D050; padding:5px; margin:0px; color:#000000; text-align:center">
+                                &nbsp;软件信息
+                            </p>
+
+                            <table id="tbl_AdaptiveSupplyModels_SoftInfos" class="table table-hover">
+                                <thead>
+                                    <tr style="background-color:#B6DDE8">
+                                        <th class="col-xs-1">软件分类</th>
+                                        <th class="col-xs-2">工具类型<red>*</red></th>
+                                        <th class="col-xs-2">版本/文件名<red>*</red></th>
+                                        <th class="col-xs-2">大小<red>*</red></th>
+                                        <th class="col-xs-3">发布时间</th>
+                                        <th class="col-xs-3">备注</th>
+                                        <th class="col-xs-3">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach:AdaptiveSupplyModels.SoftInfos">
+                                    <tr>
+                                        <td style="width: 120px;display: block;">
+                                            <input type="text" class="form-control" name="ToolType" data-bind="value:Category,attr:{disabled:$index()<=1}" style="font-weight:600;" />
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                                   data-rule-required="true"
+                                                   data-msg-required="工具类型为必填项！"
+                                                   class="form-control" name="ToolType" data-bind="value:ToolType" />
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1" cols="30"
+                                                      data-rule-required="true"
+                                                      data-msg-required="版本/文件名为必填项！"
+                                                      name="FileName" data-bind="value:FileName"></textarea>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number"
+                                                       data-rule-required="true"
+                                                       data-msg-required="大小为必填项！"
+                                                       class="form-control" name="Size" data-bind="value:Size" />
+                                                <span class="input-group-addon">&nbsp;KB</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div title="发布时间">
+                                                <div class="input-group date">
+                                                    <input type="text"
+                                                           class="form-control" name="IssueDate" data-bind="datepicker:IssueDate, datepickerOptions: { format: 'YYYY-MM-DD' }" />
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      name="AdaptiveSupplyModels_SoftInfos_description" data-bind="value:Description"></textarea>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-default" data-bind="click:function(){ $root.removekoModelObjectItem($root.AdaptiveSupplyModels.SoftInfos,this) },attr:{disabled:$index()<=1}" title="删除">
+                                                <span class="glyphicon glyphicon-minus-sign"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="7">
+                                            <button class="btn btn-primary" data-bind="click:function(){ addModelObjectItem(AdaptiveSupplyModels.SoftInfos,$('#tbl_AdaptiveSupplyModels_SoftInfos'))}" title="新增">
+                                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                                新增
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <p class="bg-primary" style=" background-color:#92D050; padding:5px; margin:0px; color:#000000; text-align:center">
+                                &nbsp;工具软件信息
+                            </p>
+
+                            <table id="tbl_AdaptiveSupplyModels_ToolSoftInfos" class="table table-hover">
+                                <thead>
+                                    <tr style="background-color:#B6DDE8;"> 
+                                        <th class="col-xs-2">工具类型</th>
+                                        <th class="col-xs-3">版本/文件名</th>
+                                        <th class="col-xs-2">大小</th>
+                                        <th class="col-xs-3">发布时间</th>
+                                        <th class="col-xs-3">备注</th>
+                                        <th class="col-xs-1">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: AdaptiveSupplyModels.ToolSoftInfos">
+                                    <tr> 
+                                        <td>
+                                            <input type="text"
+                                                   data-rule-required="true"
+                                                   data-msg-required="工具类型必填项！"
+                                                   class="form-control" name="ToolType" data-bind="value:ToolType" />
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      data-rule-required="true"
+                                                      data-msg-required="版本/文件名为必填项！"
+                                                      name="FileName" data-bind="value:FileName"></textarea>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number"
+                                                       data-rule-required="true"
+                                                       data-msg-required="大小为必填项！"
+                                                       class="form-control" name="Size" data-bind="value:Size" />
+                                                <span class="input-group-addon">&nbsp;KB</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div title="发布时间">
+                                                <div class="input-group date">
+                                                    <input type="text"
+                                                           class="form-control" name="IssueDate" data-bind="datepicker:IssueDate, datepickerOptions: {  format:  'YYYY-MM-DD' }" />
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" type="text" rows="1"
+                                                      name="AdaptiveSupplyModels_ToolSoftInfos_Description" data-bind="value:Description"></textarea>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-default" data-bind="click:function(){ $root.removekoModelObjectItem($root.AdaptiveSupplyModels.ToolSoftInfos,this) }" title="删除">
+                                                <span class="glyphicon glyphicon-minus-sign"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6">
+                                            <button class="btn btn-primary" data-bind="click:function(){ addToolSoftToTable(event,AdaptiveSupplyModels.ToolSoftInfos)}">
+                                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                                新增
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">生产工序:<red>*</red></label>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="checkbox" name="Procedure" value="SMT" data-bind="checked:AdaptiveSupplyModels.Procedure" data-rule-required="true" />
+                                        SMT
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="checkbox" name="Procedure" value="升级" data-bind="checked:AdaptiveSupplyModels.Procedure" data-rule-required="true" />
+                                        升级
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="checkbox" name="Procedure" value="装配" data-bind="checked:AdaptiveSupplyModels.Procedure" data-rule-required="true" />
+                                        装配
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="checkbox" name="Procedure" value="测试" data-bind="checked:AdaptiveSupplyModels.Procedure" data-rule-required="true" />
+                                        测试
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="checkbox" name="Procedure" value="包装" data-bind="checked:AdaptiveSupplyModels.Procedure" data-rule-required="true" />
+                                        包装
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="checkbox" name="Procedure" value="其他" data-bind="checked:AdaptiveSupplyModels.Procedure" data-rule-required="true" />
+                                        其他
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">是否是返工生产计划:<red>*</red></label>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="IsReturnPlan"
+                                               data-rule-required="true"
+                                               id="inlineRadio1" data-ride_bind="{koModelvalue:true,koModelProperty:'AdaptiveSupplyModels.IsReturnPlan'}" />
+                                        是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="IsReturnPlan"
+                                               data-rule-required="true"
+                                               id="inlineRadio1" data-ride_bind="{koModelvalue:false,koModelProperty:'AdaptiveSupplyModels.IsReturnPlan'}" />
+                                        否
+                                    </label>
+                                </div> 
+                            </div> 
+                            <div class="form-group" data-bind="visible:AdaptiveSupplyModels.IsReturnPlan">
+                                <label class="control-label col-sm-2">返工原因/返工流程:<red>*</red></label>
+                                <div class="col-sm-10">
+                                    <textarea cols="4"
+                                              data-rule-required="true"
+                                              data-msg-required="返工原因/返工流程为必填项！"
+                                              class="form-control" name="ReturnCause" data-bind="value:AdaptiveSupplyModels.ReturnCause"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">变更信息 :</label>
+                                <div class="col-sm-10">
+                                    <textarea cols="1" class="form-control" name="ChangeCause" data-bind="value:AdaptiveSupplyModels.ChangeCause"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">是否复检:<red>*</red></label>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Review"
+                                               data-rule-required="true"
+                                               id="inlineRadio1" data-ride_bind="{koModelvalue:true,koModelProperty:'AdaptiveSupplyModels.Review'}" />
+                                        是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Review"
+                                               data-rule-required="true"
+                                               id="inlineRadio1" data-ride_bind="{koModelvalue:false,koModelProperty:'AdaptiveSupplyModels.Review'}" />
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">生产注意事项:<red>*</red></label>
+                                <div class="col-sm-10">
+                                    <textarea rows="5" name="AdaptiveSupplyModels_Description"
+                                              data-rule-required="true"
+                                              data-msg-required="生产注意事项为必填项！"
+                                              class="form-control" data-bind="value:AdaptiveSupplyModels.Description"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="050Control" class="kstar-control" title="050项目经理审核" style=" margin-bottom:10px;">
+                    <p class="bg-primary panel-title" style="padding: 5px;">
+                        <span class="caret"></span>&nbsp;
+                        <a data-toggle="collapse" href="#_kstarform_customform_panel050" style=" color:#fff;">
+                            <b>050_项目经理审核</b>
+                        </a>
+                    </p>
+
+                    <div id="_kstarform_customform_panel050" class="panel-collapse collapse in">
+                        <div data-bind="visible:PlanProduction.PlanType()==false">
+                            <div class="form-group" style="margin-top:20px;">
+                                <label class="control-label col-sm-2">改造流程<red>*</red>:</label>
+                                <div class="col-sm-10 has-feedback">
+                                    <textarea cols="4" class="form-control" type="text"
+                                              data-rule-required="true"
+                                              data-msg-required="改造流程为必填项！" data-bind="value:MadeChanges.ManagerReview.TransformProcess"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">是否更换标贴<red>*</red>:</label>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="ManagerReview_IsReplaceLabel"
+                                               data-rule-required="true"
+                                               data-ride_bind="{koModelvalue:true,koModelProperty:'MadeChanges.ManagerReview.IsReplaceLabel'}" />
+                                        是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="ManagerReview_IsReplaceLabel"
+                                               data-rule-required="true"
+                                               data-ride_bind="{koModelvalue:false,koModelProperty:'MadeChanges.ManagerReview.IsReplaceLabel'}" />
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top:20px;" data-bind="if:MadeChanges.ManagerReview.IsReplaceLabel ">
+                                <label class="control-label col-sm-2">标贴模板<red>*</red>:</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <div class="input-group">
+                                        <input type="text"
+                                               data-rule-required="true"
+                                               data-msg-required="标贴模板为必填项！"
+                                               class="form-control" name="ManagerReview_Labeltemplate" data-bind="value:MadeChanges.ManagerReview.Labeltemplate" />
+                                        <span class="input-group-btn">
+                                            <span data-bind=""></span>
+                                            <input type="button" class="btn btn-primary" title="浏览" value="浏览" onclick="CommonSelectWindow(event, labelTemplateSetting, labelTemplateSetting_Callback)" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="input-group" id="labelTemplate_Picture" data-bind="visible:MadeChanges.ManagerReview.LabeltemplateNumber">
+                                    <img data-bind="attr:{src:'/api/Custom_BaseData/GetlabelTemplatePicture?Number='+MadeChanges.ManagerReview.LabeltemplateNumber()}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-bind="visible:PlanProduction.PlanType">
+                            <div class="form-group" style="margin-top:20px;">
+                                <label class="control-label col-sm-2">生产技术状态<red>*</red>:</label>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="PlanProduction_ManagerReview_IsReplaceLabel" data-bind="checked:PlanProduction.ManagerReview.ProductionState"
+                                               data-rule-required="true" value="试产" />
+                                        试产
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="PlanProduction_ManagerReview_IsReplaceLabel"
+                                               data-rule-required="true" value="正常批量" data-bind="checked:PlanProduction.ManagerReview.ProductionState" />
+                                        正常批量
+
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="PlanProduction_ManagerReview_IsReplaceLabel" data-bind="checked:PlanProduction.ManagerReview.ProductionState"
+                                               data-rule-required="true" value="工装夹具变更(批量)" />
+                                        工装夹具变更(批量)
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="PlanProduction_ManagerReview_IsReplaceLabel" data-bind="checked:PlanProduction.ManagerReview.ProductionState"
+                                               data-rule-required="true" value="首量" />
+                                        首量
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="PlanProduction_ManagerReview_IsReplaceLabel" data-bind="checked:PlanProduction.ManagerReview.ProductionState"
+                                               data-rule-required="true" value=" 测试流程或方法变更(批量)" />
+                                        测试流程或方法变更(批量)
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top:20px;" data-bind="visible:PlanProduction.ManagerReview.ProductionState()!='正常批量'">
+                                <label class="control-label col-sm-2">可行性生产报告<red>*</red>:</label>
+                                <div class="col-sm-4" data-rule-required="true" data-msg-required="可行性生产报告为必填项！" data-workflow-uploader="PlanProduction.ManagerReview.ProductionReport"></div>
+                            </div>
+
+                            <div class="form-group" style="margin-top:20px;">
+                                <label class="control-label col-sm-2">标贴模板<red>*</red>:</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <input id="labelTemplateSetting_PlanType" class="form-control" type="text" name="PlanProduction_ManagerReview_Labeltemplate"
+                                           data-rule-required="true" data-msg-required="标贴模板为必填项！" data-bind="value:PlanProduction.ManagerReview.Labeltemplate">
+                                    <span class="glyphicon glyphicon-search form-control-feedback" onclick=" CommonSelectWindow(event, labelTemplateSetting, labelTemplateSetting_PlanType_Callback)"></span>
+                                </div>
+                                <div class="col-sm-4 has-feedback" id="labelTemplate_PlanType_Picture" data-bind="visible:PlanProduction.ManagerReview.LabeltemplateNumber">
+                                    <img data-bind="attr:{src:'/api/Custom_BaseData/GetlabelTemplatePicture?Number='+GetPlanProductionLabeltemplateNumber()}" />
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top:20px;" data-bind="visible:PlanProduction.ManagerReview.ProductionState()=='首量'">
+                                <label class="control-label col-sm-2">指派跟线工程师:</label>
+                                <div class="col-sm-4 has-feedback">
+                                    <input class="form-control" type="text" name="PlanProduction_ManagerReview_EngineerMan" readonly
+                                           id="PlanProduction_ManagerReview_EngineerMan" data-bind="value:PlanProduction.ManagerReview.EngineerMan.Name" />
+                                    <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.PlanProduction.ManagerReview.EngineerMan" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:false}" data-target="PlanProduction_ManagerReview_EngineerMan" data-controltype="Person"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div data-bind="ifnot:PlanProduction.PlanType">
+
+                    <div id="060Control" class="kstar-control" title="060改造人员审核" style=" margin-bottom:10px;">
+                        <p class="bg-primary panel-title" style="padding: 5px;">
+                            <span class="caret"></span>&nbsp;
+                            <a data-toggle="collapse" href="#_kstarform_customform_panel060" style=" color:#fff;">
+                                <b>060_改造人员审核</b>
+                            </a>
+                        </p>
+
+                        <div id="_kstarform_customform_panel060" class="panel-collapse collapse in">
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">是否检测通过<red>*</red>:</label>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="PassDetection" data-ride_bind="{koModelvalue:true,koModelProperty:'DetectionPass'}"
+                                               data-rule-required="true" />
+                                        是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="PassDetection" data-ride_bind="{koModelvalue:false,koModelProperty:'DetectionPass'}"
+                                               data-rule-required="true" />
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top:20px;">
+                                <label class="control-label col-sm-2">号段(IMEI/MEID/MAC):<red>*</red>:</label>
+                                <div data-rule-required="true" data-msg-required="号段(IMEI/MEID/MAC)为必填项！" class="col-sm-4 has-feedback" data-workflow-uploader="Dnsegdocument"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="070Control" class="kstar-control" title="070QC检测" style=" margin-bottom:10px;">
+                        <p class="bg-primary panel-title" style="padding: 5px;">
+                            <span class="caret"></span>&nbsp;
+                            <a data-toggle="collapse" href="#_kstarform_customform_panel070" style=" color:#fff;">
+                                <b>070_QC检测</b>
+                            </a>
+                        </p>
+                        <div id="_kstarform_customform_panel070" class="panel-collapse collapse in">
+                            <div class="form-group ">
+                                <label class="control-label col-sm-2">是否检测通过<red>*</red>:</label>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="QCDetectionPass" data-ride_bind="{koModelvalue:true,koModelProperty:'QCDetectionPass'}"
+                                               data-rule-required="true" />
+                                        是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="QCDetectionPass" data-ride_bind="{koModelvalue:false,koModelProperty:'QCDetectionPass'}"
+                                               data-rule-required="true" />
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    @{
+        Html.RenderPartial("kstarform.selectcustomerwindow");
+    }
+</div>
+
+<div data-bind="if:KStarForm.koHeaderModel.ActivityName()=='结束'">
+    <button id="exportPdf" class="btn btn-primary" data-bind="attr:{disabled:false}" style="float: right;margin-right: 30px;margin-bottom: 10px;">  导出 PDF  </button>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery.autogrow-textarea.js"></script>
+    <script src="~/Scripts/Workflow/formStyle.js"></script>
+    <script src="~/Scripts/Workflow/form.uploader.js?v=@DateTime.Today.ToString("yyyyMMddHH")"></script>
+    <script src="~/Scripts/Workflow/form.Utilsl.js"></script>
+    <script src="~/Scripts/Workflow/html2canvas.min.js"></script>
+    <script type="text/javascript"> 
+        var ProcessingVendorSetting = {
+            method: 'get',
+            url: '/api/Custom_BaseData/GetBaseData',
+            data: { filterStr: []},
+            title: '加工厂商选择',
+            big: true,
+            radio: true,
+            tableName: 'ProcessingVendor',
+            hideFields: 'ID' 
+        }
+
+        var ModuleTypesSetting = {
+            method: 'get',
+            url: '/api/Custom_BaseData/GetBaseData',
+            data: { filterStr: [] },
+            radio: true,
+            title: '模块型号选择',
+            tableName: 'ModuleType',
+            hideFields: 'ID,PMCCharge'
+        }
+
+        var labelTemplateSetting = {
+            url: "/api/Custom_BaseData/GetlabelTemplate",
+            method: 'get',
+            data: '',
+            title: '贴片模板选择',
+            big: true,
+            radio: true
+        } 
+        var CustomerSetting = {
+            method: 'get',
+            url: '/api/Custom_BaseData/GetBaseData',
+            data: { filterStr: [] },
+            big: true,
+            radio: true,
+            title: '客户选择',
+            tableName: 'Customer',
+            hideFields: 'ID'
+        }
+
+        var ToolSoftSetting = {
+            method: 'get',
+            url: '/api/Custom_BaseData/GetBaseData',
+            data: { filterStr: [] },
+            big: true,
+            radio: false,
+            title: '工具软件选择',
+            tableName: 'ToolSoft',
+            hideFields: 'ID'
+        } 
+        var ProcessingVendorSettingGeneral = function () {
+
+        };
+
+        var labelTemplateSetting_Callback = function (data) {
+            $("#labelTemplate_Picture").html('<img src="data:;base64,' + data[0].Picture + '" />')
+            //$("#labelTemplate_Name").val(data[0].Name);
+            KStarForm.koContentModel.MadeChanges.ManagerReview.LabeltemplateNumber(data[0].Number);
+            KStarForm.koContentModel.MadeChanges.ManagerReview.Labeltemplate(data[0].Name);
+        }
+
+        var labelTemplateSetting_PlanType_Callback = function (data) {
+            $("#labelTemplate_PlanType_Picture").html('<img src="data:;base64,' + data[0].Picture + '" />');
+            KStarForm.koContentModel.PlanProduction.ManagerReview.LabeltemplateNumber(data[0].Number);
+            KStarForm.koContentModel.PlanProduction.ManagerReview.Labeltemplate(data[0].Name);
+            $('#labelTemplateSetting_PlanType').valid();
+        }
+
+
+        var configFileSelectFileEvent = function (e, data) {
+            if (data == null || data == undefined) return;
+            var configFilesIndex = e.attr("index");
+            var entity = KStarForm.koContentModel.ConfigFiles()[configFilesIndex];
+
+            entity.Name(data.NewFileName + data.FileExtension);
+            entity.IssueDate(data.UploadedDate);
+
+            entity.Size(Math.round(data.FileBytes / 1024));
+
+        }
+
+        var configFile_SelectFile_AfterDeleteEvent = function (e, data) {
+            data.Name("");
+            data.Size("0");
+        };
+
+        var configFile_SelectFile_BeforeDeleteEvent = function (e) {
+
+        };
+
+        var GetPlanProductionLabeltemplateNumber = function () {
+
+            var labeltemplateNumber = "";
+            try {
+                labeltemplateNumber = KStarForm.koContentModel.PlanProduction.ManagerReview.LabeltemplateNumber();
+            } catch (e) {
+
+            }
+            return labeltemplateNumber;
+        };
+
+        @Html.RegisterContentModel(Model);
+
+        //Extend the exists model
+        //TODO:Add item properties & attch model events
+        KStarForm.extendModel = function (koModel) {
+            var model = KStarForm.toJsModel(koModel);
+            return KStarForm.toKoModel(model, {
+                extend: {
+                    "{root}": function (self) {
+
+                        Workflow.utils.ride.init();
+                        //Check is Normal type
+
+                        self.addModelObjectItem = function (koModelObject, targetObject) {
+                            if (targetObject == undefined) return;
+                            var targetStructure = targetObject.data('targetStructure');
+
+                            if (targetStructure == undefined && koModelObject().length <= 0) return;
+
+                            var newItem = null;
+                            if (targetStructure == undefined) {
+                                //创建对象
+                                var newItemString = '';
+                                $.each(koModelObject()[0], function (indexItem, item) {
+                                    newItemString += indexItem + ':' + '\'\',';
+                                });
+                                newItemString = newItemString.substring(0, newItemString.length - 1)
+                                newItem = eval('({' + newItemString + '})');
+                                var cacheData = '{' + newItemString + '}';
+                                targetObject.data('targetStructure', cacheData);
+
+                            } else {
+                                newItem = eval('(' + targetStructure + ')');
+                            }
+
+                            if (newItem.ID != undefined) newItem.ID = koModelObject().length;
+
+                            var koItem = KStarForm.toKoModel(newItem);
+
+                            koModelObject.push(koItem);
+                            $("textarea").autogrow();
+                        }
+
+                        self.removekoModelObjectItem = function (koModelObject, item, fileField, targetObject) {
+
+                            var fileFieldModel = item[fileField];//一个实体保存一个文件位置
+                            if (fileFieldModel != null && fileFieldModel != undefined) {
+                                var fileGuid = fileFieldModel();
+                                Workflow.utils.attachment.remove(fileGuid);
+                            }
+                            if (koModelObject().length == 1) {
+                                self.addModelObjectItem(koModelObject, targetObject);
+                                if (fileFieldModel != null && fileFieldModel != undefined) {
+                                    self.addformUploaderTable(targetObject);
+                                }
+                            }
+                            koModelObject.remove(item);
+                        }
+
+                        //添加formUploader 到Table 的事件
+                        self.addformUploaderTable = function (targetObject) {
+                            var tr = targetObject.find("tbody").find("tr:last-child");
+                            var items = tr.find("div[data-workflow-uploader]");
+                            items.formuploader();
+                        }
+
+                        self.addToolSoftToTable = function (event, koModelObject) {
+                            CommonSelectWindow(event, ToolSoftSetting, function (choiceData) {
+                                if (choiceData == null) return;
+                                var item = koModelObject;
+                                var koEntity = koModelObject()[0];
+                                var toolSoftModelObject = koModelObject();
+                                var isExist = function (entity) {
+                                    var isEqual = false;
+                                    $.each(toolSoftModelObject, function (index, item) {
+                                        if (item.ToolType() == entity.ToolType && item.FileName() == entity.FileName) {
+                                            isEqual = true;
+                                        }
+                                    });
+                                    return isEqual;
+                                };
+                                $.each(choiceData, function (index, item) {
+                                    if (!isExist(item)) {
+                                        if (index == 0 && koModelObject().length == 1 && koEntity.FileName() == null) {
+                                            for (var element in koEntity) {
+                                                koEntity[element](item[element]);
+                                            }
+                                        } else {
+                                            var koItem = KStarForm.toKoModel(item);
+                                            koModelObject.push(koItem);
+                                        }
+                                    }
+                                });
+
+                            })
+                        };
+                    }
+                }
+            });
+        };
+
+        KStarForm.OnSubmitting = function () {
+            var d = KStarForm.koToolbarModel.ActionName();
+            if (d == "不同意") {
+                if (KStarForm.koToolbarModel.ActionComment().length == 0) {
+                    var ops = {
+                        msg: "请在\"意见说明\"中输入不同意的原因！",
+                        title: "系统提示",
+                        btnok: "确定",
+                        btncl: "取消"
+                    };
+                    KStar.Modaldialog.alert(ops);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        KStarForm.afterApplyData = function () {
+            if (KStarForm.koHeaderModel.ProcessFolio() == "") {
+                KStarForm.koHeaderModel.FormSubject("IoT生产计划单审批流程");
+            } else {
+                //050 环境 回退没有
+                if (KStarForm.koHeaderModel.ActivityName() != null && KStarForm.koHeaderModel.ActivityName().indexOf('050') >= 0) {
+                    if (!KStarForm.koContentModel.PlanProduction.PlanType())
+                        $('#_kstarform_btn_backTo').remove();
+                } else if (KStarForm.koHeaderModel.ActivityName() != null && KStarForm.koHeaderModel.ActivityName().indexOf('015') >= 0) {
+                    $(':radio[name="PlanType2"]').attr("disabled", "disabled");
+                         
+                }
+            }
+            $(':radio[name="PlanType2"]').click(function (e) {
+                if (KStarForm.koContentModel.PlanProduction.PlanType()) {
+                    KStarForm.koContentModel.MadeChanges.Model("");
+                    KStarForm.koContentModel.MadeChanges.Amount(0);
+                } else {
+                    KStarForm.koContentModel.PlanProduction.Model("");
+                    KStarForm.koContentModel.PlanProduction.TotalWorkHour("");
+                }
+            })
+            $.each($("textarea"), function (index, item) {
+                item.value = autobreakStr(item.value, $(item));
+            }); 
+            $('div[role="_kstarform_content"]').find('textarea').autogrow();
+            $('#exportPdf').click(function () {
+                var documentDIV = document.body;
+                $(documentDIV).find("#_kstarform_apply_component").hide();
+                $("#_kstarform_attachment_component").hide();
+                $(documentDIV).find(".text-center").hide();
+                $(documentDIV).find(".placeholderDIV").hide();
+                $('.container').css("width", "100%");
+                $('.container').css("padding", "50px")
+                $('.pdfCustomer').hide();
+                $('#exportPdf').hide();
+                $('body').css("font-size", "24px");
+                $('body').css("font-weight", "600"); 
+                $("#_kstarform_customform_panel").find("input").css("padding", "0px");
+                $('textarea').css("font-size", "24px");
+                $('b').css("font-size", "24px"); 
+                $('div[role="_kstarform_content"]').find('textarea').autogrow();
+                html2canvas(documentDIV, {
+                    allowTaint: true,
+                    taintTest: false,
+                    onrendered: function (canvas) {
+                        var myImage = canvas.toDataURL("image/jpeg");
+                        $(documentDIV).find("#_kstarform_apply_component").show();
+                        $("#_kstarform_attachment_component").show();
+                        $(documentDIV).find(".text-center").show();
+                        $(documentDIV).find(".placeholderDIV").show();
+                        $('#exportPdf').show();
+                        $('.container').css("width", "");
+                        $('.container').css("padding", "");
+                        $('.pdfCustomer').show();
+                        $('body').css("font-size", "");
+                        $('body').css("font-weight", "");
+                        $("#_kstarform_customform_panel").find("input").css("padding", "");
+                        $('textarea').css("font-size", "");
+                        $('b').css("font-size", ""); 
+                        $('div[role="_kstarform_content"]').find('textarea').autogrow();
+                        $.post("/api/Custom_Upload/exportPdf", { "": myImage }, function (data, textStatus) {
+                            var json = JSON.parse(data);
+                            if (json.isOK) {
+                                var anchor = document.createElement("a");
+                                anchor.href = json.url;
+                                anchor.download = "IoT生产计划单审批流程.pdf";
+                                anchor.click(); 
+                            }
+                        });
+                    }
+                }); 
+            });
+            $('input[readonly]').css("cursor", "default");
+        }
+
+        //自动拆分字符串
+        var autobreakStr = function (str, $self) {
+            var breakStr = "";
+
+            var temstr = "";
+            for (var i = 0; i < str.length; i++) {
+                temstr += str.charAt(i);
+
+                if (textWidth(temstr, $self) < $self.outerWidth() && textWidth(temstr + str.charAt(i + 1), $self) >= $self.outerWidth()) {
+                    breakStr += temstr + " ";
+                    temstr = '';
+                }
+            }
+            return breakStr + temstr;
+
+        }
+
+        //获取文本宽度
+        var textWidth = function (text, $self) {
+            var sensor = $('<pre>' + text + '</pre>').css({ display: 'none' });
+            sensor.css("font-size", $self.css("font-size"));
+            sensor.css("padding", $self.css("padding"));
+            sensor.css("border", $self.css("border"));
+            sensor.css("font", $self.css("font"));
+            $('body').append(sensor);
+            var width = sensor.outerWidth();
+            sensor.remove();
+            return width;
+        };
+    </script>
+}
+
+

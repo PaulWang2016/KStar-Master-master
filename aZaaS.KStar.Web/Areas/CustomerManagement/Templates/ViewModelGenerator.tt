@@ -1,0 +1,69 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".js" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="System.Windows.Forms" #>
+<#@ assembly name="$(SolutionDir)\aZaaS.KStar.Web\bin\aZaaS.KStar.Web.dll"  #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #> 
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="aZaaS.KStar.Web.Areas.CustomerManagement.Models" #>
+
+<#
+    var i = 0;
+	var type = typeof(aZaaS.KStar.Web.Areas.CustomerManagement.Models.CustomerModel);
+	var propCount = type.GetProperties().Count();
+#>
+<#= type.Name #>ViewModel={
+
+<#
+    foreach (var prop in type.GetProperties())
+    {
+		   i ++;   
+#>
+	<#= prop.Name #> :ko.observable(''),
+<#
+ }
+ #>
+
+	reset:function(){	//Resets viewmodel properties
+
+<# 
+	i = 0;
+    foreach (var prop in type.GetProperties())
+    {
+		   i ++;   
+#>
+		<#= prop.Name #>  = ko.observable('');
+<#
+
+}
+#>
+	},
+
+	extend:function(){	//Extends viewmodel properties & functions dynamically
+	
+	},
+
+	 unmap: function () {	//Removes dynamic viewmodel properties
+
+     },
+     toModel: function () {	//Converts viewmodel to javascript plain object
+
+         return ko.viewmodel.toModel(this)
+     },
+
+     fromData: function (data) {	//Transforms json data object to viewmodel
+
+         var viewModel = ko.viewmodel.fromModel(data);
+         <#= type.Name #>ViewModel = $.extend({}, this, viewModel);
+     }
+ }
+
+<#+
+  // Insert any template procedures here
+  void foo(){}
+#>

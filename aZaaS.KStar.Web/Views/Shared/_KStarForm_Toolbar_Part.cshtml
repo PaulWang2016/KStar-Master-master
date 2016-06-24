@@ -1,0 +1,196 @@
+﻿@using aZaaS.KStar.Form;
+@using aZaaS.KStar.Form.Mvc;
+
+<!-- ./kstarform toolbar panel -->
+<div class="panel panel-default" id="_kstarform_toolbar_component">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_toolbar_panel">@Html.CSHtmlResx("OperOption")
+            </a>
+        </h4>
+    </div>
+    <div id="_kstarform_toolbar_panel" class="panel-collapse collapse in">
+        <div class="panel-body">
+
+            <div id="_kstarform_error_placement">
+            </div>
+
+            <form id="_kstarform_toolbar_form" class="form-horizontal">
+
+                @* Only on Approval mode to show below comment textbox and approval actions *@
+                @if (Html.GetWorkMode() == WorkMode.Approval || Html.IsControlSetting())
+                {
+
+                    <div class="form-group" @*data-bind="visible:Posts().length>1"*@>
+                        <label class="control-label col-sm-2">@Html.CSHtmlResx("Post"):</label>
+
+
+                        <div class="col-sm-5">
+                            <select class="form-control" data-bind="options:Posts,optionsText:'Name',optionsValue:'SysID',value:PostSysID"></select>
+
+                            @*<select data-bind="foreach: Posts" class="form-control">
+                                <option data-bind="text:Name"></option>
+                            </select>*@
+                        </div>
+                    </div>
+                    <div class="form-group" data-bind="visible:TaskActions().length>1">
+                        <label class="control-label col-sm-2 kstar-control" id="lbl_ApprovalAction" title="@Html.CSHtmlResx("ApprovalActionTitle")">@Html.CSHtmlResx("ApprovalAction")</label>
+
+                        <div class="col-sm-10 kstar-control" data-bind="foreach: TaskActions" id="rbl_ApprovalAction" title="@Html.CSHtmlResx("ApprovalActionTitle")">
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions"
+                                    data-rule-required="true"
+                                    data-msg-required="请选择审批意见！"
+                                    data-bind="value: $data,checked: $root.ActionName" />
+                                <span data-bind="text:$data"></span>
+                            </label>
+                        </div>
+
+                        @*<div class="col-sm-10" data-bind="foreach: TaskActions">
+                            <!-- ko if:($index()===0) -->
+                            <label class="radio-inline active">
+                                <input type="radio" name="Action"
+                                    data-rule-required="true"
+                                    data-msg-required="请选择审批动作！"
+                                    data-bind="value: $data, checked: $root.ActionName" />
+                                <span data-bind="text: $data"></span>
+                            </label>
+                            <!-- /ko -->
+                            <!-- ko ifnot:($index()===0) -->
+                            <label class="radio-inline">
+                                <input type="radio" name="Action" data-bind="value: $data,checked: $root.ActionName" />
+                                <span data-bind="text: $data"></span>
+                            </label>
+                            <!-- /ko -->
+                        </div>*@
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 kstar-control" id="lbl_ApprovalMemo" title="@Html.CSHtmlResx("ApprovalMemoTitle")">@Html.CSHtmlResx("ApprovalMemo")</label>
+                        <div class="col-sm-10 kstar-control" id="txt_ApprovalMemo" title="@Html.CSHtmlResx("ApprovalMemoTitle")">
+                            <textarea class="form-control" data-bind="value: ActionComment" rows="3" placeholder="@Html.CSHtmlResx("phApprovalMemo")"></textarea>
+                        </div>
+                    </div>
+                }
+
+                @if (Html.GetWorkMode() == WorkMode.Review)
+                {
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">@Html.CSHtmlResx("ReviewMemo")</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" data-bind="value: ReviewComment" rows="3" placeholder="@Html.CSHtmlResx("phReviewMemo")"></textarea>
+                        </div>
+                    </div>
+                }
+
+                <div class="text-center">
+                    @* On Approval mode below action button group would be display *@
+                    @if ((!Html.IsControlSetting() && Html.GetWorkMode() == WorkMode.Approval) || (Html.IsControlSetting() && Html.ControlSettingMode() == WorkMode.Approval))
+                    {
+                        <input type="button" id="_kstarform_btn_countersign" data-bind="visible: IsEnableSign"  title="@Html.CSHtmlResx("countersign")" value="编辑加签"  data-url="@Url.Action("_AddSigner", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                        <input type="button" id="_kstarform_btn_redirect" title="@Html.CSHtmlResx("redirect")" value="@Html.CSHtmlResx("redirect")"  data-url="@Url.Action("_Redirect", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button"  />
+                        <input type="button" id="_kstarform_btn_delegate"  title="@Html.CSHtmlResx("delegate")" value="@Html.CSHtmlResx("delegate")"  data-url="@Url.Action("_Delegate", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                        <div class="input-group-btn kstar-button" value="@Html.CSHtmlResx("backTo")" data-bind="visible: ReworkActivitys().length>0" data-url="@Url.Action("_GotoActivity", Html.ViewContext.RouteData.Values)" id="_kstarform_btn_backTo" title="@Html.CSHtmlResx("backTo")" style="display: inline; margin-right: 5px;">
+                            <button type="button" data-toggle="dropdown" class="btn btn-primary btn-lg dropdown-toggle">
+                                @Html.CSHtmlResx("backTo")
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" data-bind="foreach: ReworkActivitys">
+                                <li><a class="btn"><span data-bind="text: Name"></span></a></li>
+                            </ul>
+                        </div>
+                        <input type="button" id="_kstarform_btn_carbonCopy" title="@Html.CSHtmlResx("carbonCopy")" value="@Html.CSHtmlResx("carbonCopy")"  data-url="@Url.Action("_CarbonCopy", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" style="display:none" />
+                        <input type="button" id="_kstarform_btn_save" title="@Html.CSHtmlResx("save")" value="@Html.CSHtmlResx("save")"  data-url="@Url.Action("_Save", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                        <input type="button" id="_kstarform_btn_submit" title="@Html.CSHtmlResx("submit")" value="@Html.CSHtmlResx("submit")"  data-url="@Url.Action("_Submit", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                        <input type="button" id="_kstarform_btn_delete" title="@Html.CSHtmlResx("delete")" value="@Html.CSHtmlResx("delete")"  data-url="@Url.Action("_DeleteProess", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                    }
+
+@* On Startup or Draft mode below action button group would be display *@
+                    @if ((!Html.IsControlSetting() && (Html.GetWorkMode() == WorkMode.Draft || Html.GetWorkMode() == WorkMode.Startup)) || (Html.IsControlSetting() && Html.ControlSettingMode() == WorkMode.Startup))
+                    {
+                        <input type="button" id="_kstarform_btn_draft" title="@Html.CSHtmlResx("draft")" value="@Html.CSHtmlResx("draft")"  data-url="@Url.Action("_Draft", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                        <input type="button" id="_kstarform_btn_submit" title="@Html.CSHtmlResx("submit")" value="@Html.CSHtmlResx("submit")"  data-url="@Url.Action("_Submit", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                    }
+
+                    @if (Html.GetWorkMode() == WorkMode.Review)
+                    {
+                        <input type="button" id="_kstarform_btn_Review" title="@Html.CSHtmlResx("Review")" value="@Html.CSHtmlResx("Review")"  data-url="@Url.Action("_Review", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                    }
+                    @if (Html.GetWorkMode() == WorkMode.View)
+                    {
+                        <input type="button" id="_kstarform_btn_Undo" title="@Html.CSHtmlResx("undo")" value="@Html.CSHtmlResx("undo")"  data-url="@Url.Action("_Undo", Html.ViewContext.RouteData.Values)" class="btn btn-primary btn-lg kstar-button" />
+                    }
+                    @if ((!Html.IsControlSetting()&&Html.GetWorkMode() != WorkMode.Startup && Html.GetWorkMode() != WorkMode.Draft)||(Html.IsControlSetting()))
+                    {
+                        <input type="button" id="_kstarform_btn_ViewFlow" title="@Html.CSHtmlResx("viewProc")" value="@Html.CSHtmlResx("viewProc")" data-bind="click:ViewFlow" class="btn btn-primary btn-lg kstar-button" />
+                        <input type="button" id="_kstarform_btn_seer" data-bind="visible: IsPredict" value="查看流程处理人预判" class="btn btn-primary btn-lg kstar-button" />
+
+                    }
+
+@* Below action button group would be display always *@
+                    <input type="button" id="_kstarform_btn_close" title="@Html.CSHtmlResx("close")" value="@Html.CSHtmlResx("close")" class="btn btn-default btn-lg kstar-button" />
+                    <input type="button" id="_kstarform_btn_print" title="@Html.CSHtmlResx("print")" value="@Html.CSHtmlResx("print")" class="btn btn-default btn-lg kstar-button" style="display:none" />
+
+                    <span style="color: white;float: right;width: 350px;overflow: hidden;">@Html.Raw(Html.GetProcessDescription())</span>
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script id="table-Prognosis" type="text/x-handlebars-template">
+    <div class="modal fade" data-backdrop="static"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
+                    <h4 class="modal-title">系统提示</h4>
+                </div>
+                <div class="modal-body"> 
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>执行顺序</th>
+                                <th>节点名称</th>
+                                <th>处理人预判</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            {{#each this}} 
+                            <tr>
+                                <th scope="row">{{addOne @@index}}</th> 
+                                <td colspan="2" style=" padding: 0px; border-bottom:0px; border-top:0px;">
+                                    <table style="width:100%; height:100%;margin-bottom: 0px;" class="table">
+                                        <tbody>
+
+                                            {{#each this}}
+                                            <tr>
+                                                <td style=" width:50%; height:100%">{{Name}}</td>
+                                                <td style=" width:50%; height:100%">{{UserNames}}</td>
+                                            </tr>
+                                            {{/each}} 
+                                        </tbody>
+
+                                    </table>
+
+
+                                </td> 
+                            </tr> 
+                            {{/each}} 
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div> 
+    </div>
+</script>
+
+<!-- ./kstarform toolbar panel -->
+
+
+

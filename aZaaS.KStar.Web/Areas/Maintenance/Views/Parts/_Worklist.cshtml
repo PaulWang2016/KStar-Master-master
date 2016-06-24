@@ -1,0 +1,65 @@
+﻿<!--  Worklist Configuration  -->
+@using aZaaS.KStar.Html;
+<div class="section">
+    <div id="WorklistConfigView" class="sectionGrid"></div>
+</div>
+<!--  /.Worklist Configuration  -->
+<div id="AddWorklistWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("ApplicationName")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" class="k-textbox ApplicationName" style="width: 100%;" />
+            </div>
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("Process")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" id="worklistProcess" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("ConnectionString")</div>
+            <div class="col-lg-10 col-md-10  col-sm-10">
+                <textarea class="k-textbox ConnectionString" style="width: 100%;"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("DataTable")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" class="k-textbox DataTable" style="width: 100%;" />
+            </div>
+            <div class="col-lg-2 col-md-2  col-sm-2">@Html.CSHtmlResx("WhereQuery")</div>
+            <div class="col-lg-4 col-md-4  col-sm-4">
+                <input type="text" class="k-textbox WhereQuery" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12  col-sm-12">
+                <div style="height: 200px; position: relative">
+                    <div class="top-toolbar"><a href="javascript:void(0)" class="k-button" id="FetchField">@Html.CSHtmlResx("Fetch")</a></div>
+                    <div id="ConfigFieldListView"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--  /.AddWorklistWindow Configuration  -->
+@*<script src="~/JS/Maintenance/Worklist.js"></script>
+<script type="text/javascript">
+    $(function () {
+        LoadWorklistView();
+    })
+</script>*@
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaWorklist" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_Worklist", function (init) {
+        init();
+    });
+</script>

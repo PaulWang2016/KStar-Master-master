@@ -1,0 +1,58 @@
+﻿@using aZaaS.KStar.Html;
+<style>
+    #WorkflowReport1View th
+    {
+        position:relative;
+    }
+</style>
+<div class="section">
+    <div>
+        <h2 style="text-align:center;"><b>@Html.CSHtmlResx("Statisticsofthetotalflow")</b>
+        </h2>
+    </div>
+    <div id="WorkflowReport1View" class="sectionGrid" style="overflow-y: auto;">
+    </div>
+</div>
+<div  id="chart">
+
+</div>
+
+<script type="text/x-kendo-template" id="template">
+    <div class="container" style="display:none;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="title col-md-4" style="height:29px; line-height:29px; float:left;">@Html.CSHtmlResx("Processname")</div>
+                <span class="k-textbox k-space-right col-md-8" style="float:left;">
+                    <input type="text" name="selectInput" id="process_full_name" value="" placeholder="text" />
+                    <a class="k-icon k-i-search selectbtn">&nbsp;</a>
+                </span>
+            </div>
+            <div class="col-md-3">
+                <div class="title col-md-6" style="height:29px; line-height:29px; text-align:right;">@Html.CSHtmlResx("Starttime")</div>  
+                <div style="k-textbox k-space-right col-md-6">
+                    <input id="datepicker1" value="" style="width:120px;" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="title col-md-6" style="height:29px; line-height:29px; text-align:right;">@Html.CSHtmlResx("Endtime")</div>  
+                <div style="k-textbox k-space-right col-md-6">
+                <input id="datepicker2" value="" style="width:120px;" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            <div>
+                 <button type="button" id="search_form">@Html.CSHtmlResx("Inquiry")</button>
+            </div>      
+    </div>
+</div>
+    
+</script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Report_SeaWorkflowReport1" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+
+   
+    seajs.use("/JS/Report/SeaWorkflowReport1", function (init) {
+        init();
+    });
+</script>

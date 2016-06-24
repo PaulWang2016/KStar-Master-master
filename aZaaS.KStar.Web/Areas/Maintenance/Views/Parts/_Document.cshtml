@@ -1,0 +1,191 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>Document Management</div>
+    </div>
+    <div class="top-toolbar">
+        <a class="more k-button" href="javascript:void(0)" onclick="Add()"><span class="glyphicon glyphicon-plus"></span></a>
+        <a class="more k-button" href="javascript:void(0)" onclick="Del()"><span class="glyphicon glyphicon-remove"></span></a>
+        <a href="/#pane=Dashboard&widget=/Maintenance/Library">Back</a>
+    </div>
+    <div id="GridView"></div>
+</div>
+
+<div id="AddDocumentWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>Key:</td>
+                <td style="width: 300px;">
+                    <input type="text" class="k-textbox Key" style="width: 100%;" placeholder="Key" disabled="disabled" /></td>
+                <td style="width: 50px;"></td>
+                <td>Display Name:</td>
+                <td>
+                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Icon Path:</td>
+                <td colspan="3">
+                    <input type="text" id="IconPath" class="k-textbox" style="width: 100%;" placeholder="Icon Path" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Storage Uri:</td>
+                <td colspan="3">
+                    <input type="text" id="StorageUri" class="k-textbox" style="width: 100%;" placeholder="Storage Uri" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var key;
+    var model = kendo.data.Model.define({
+        id: "Id",
+        fields: {
+
+            Id: { type: "string" },
+            DisplayName: { type: "string" },
+            IconPath: { type: "string" },
+            StorageUri: { type: "string" }
+        }
+    });
+    var columns = [
+        {
+            title: "Checked", width: 35, template: function (item) {
+                return "<input type='checkbox' value='" + item.Id + "' />";
+            }, headerTemplate: "<input type='checkbox' />", filterable: false
+        },
+        { field: "DisplayName", title: "Display Name", filterable: false },
+        { field: "IconPath", title: "Icon Path", filterable: false },
+        { field: "StorageUri", title: "Storage Uri", filterable: false },
+        { command: [{ name: "edit", template: "<a  href='javascript:void(0)' class='k-button k-button-icontext k-grid-edit'><span class='glyphicon glyphicon-pencil'></span></a>", text: "", click: function (e) { var tr = $(e.target).closest("tr"); var data = this.dataItem(tr); EditDocument(data.Id) } }], width: 58 }
+    ]
+
+    var resetWindow = function () {
+        $("#AddDocumentWindow .k-textbox").val("");//清除输入框
+    }
+    var Cancel = function () {
+        $("#AddDocumentWindow").data("kendoWindow").close()
+    }
+    var Confirm = function () {
+        var url = $(this).attr("data-url");
+        var data = {
+            id: $(this).attr("data-id"),
+            DisplayName: $("#AddDocumentWindow .DisplayName").val(),
+            IconPath: $("#IconPath").val(),
+            StorageUri: $("#StorageUri").val(),
+            DocumentLibraryID: "@ViewBag.DocumentLibraryID"
+        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {
+                var grid = getKendoGrid("GridView");
+                var model = grid.dataSource.get(item.Id);
+                if (model) {
+                    for (var key in item) {
+                        model.set(key, item[key]);
+                    }
+                }
+                else {
+                    grid.dataSource.add(item)
+                }
+                $("#AddDocumentWindow").data("kendoWindow").close();
+            }
+        })
+    }
+
+    var Add = function () {
+        $("#AddDocumentWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Documents/CreateDocumentItem").attr("data-id", "0");
+        $("#AddDocumentWindow").data("kendoWindow").title("Add Document Item").center().open();
+    }
+    //var Edit = function () {
+    //    var id = $("#GridView .k-grid-content").find(":checked").first().val();
+    //    EditDocument(id);
+    //}
+    var EditDocument = function (id) {
+        if (id) {
+            var item = getKendoGrid("GridView").dataSource.get(id);
+
+            $("#AddDocumentWindow .Key").val(key);
+            $("#AddDocumentWindow .DisplayName").val(item.DisplayName);
+            $("#IconPath").val(item.IconPath);
+            $("#StorageUri").val(item.StorageUri);
+
+            $("#AddDocumentWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Documents/UpdateDocumentItem").attr("data-id", item.id);
+            $("#AddDocumentWindow").data("kendoWindow").title("Edit Document Item").center().open();
+        }
+    }
+    var Del = function () {
+        var idList = new Array();
+        $("#GridView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Documents/DelDocumentItem",
+                        type: "POST",
+                        data: { idlist: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("GridView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                grid.dataSource.remove(item);
+                            }
+                        },
+                        dataType: "json"
+                    })
+                }
+            });
+        }
+    }
+    $(function () {
+        $.getJSON("/Maintenance/Documents/GetLibrary", { DocumentLibraryID: "@ViewBag.DocumentLibraryID", _t: new Date() }, function (lib) {
+            key = lib.Key;
+
+            InitBaseKendoGrid("GridView", model, columns, lib.Items, function () {
+
+                //bindAndLoad("delegationList");
+                bindGridCheckbox("GridView");
+
+                //$("#delegationList .k-toolbar").append("<a id='delegationAdd' class='k-button'><span class='glyphicon glyphicon-plus'></span></a>")
+                //.append("<a id='delegationDisable' class='k-button'><span class='glyphicon glyphicon-ban-circle'></span></a>");
+
+                //$("#delegationAdd").click(AddDelegation)
+                //$("#delegationDisable").click(DisableDelegation)
+            });
+        });
+
+        $("#AddDocumentWindow").kendoWindow({
+            width: "800px",
+            title: "Add Dynamic Widget",
+            actions: [
+                "Close"
+            ],
+            open: function (e) {
+                $("#AddDocumentWindow .windowCancel").bind("click", Cancel)
+                $("#AddDocumentWindow .windowConfirm").bind("click", Confirm)
+            },
+            close: function (e) {
+                resetWindow();
+                $("#AddDocumentWindow .windowCancel").unbind("click", Cancel)
+                $("#AddDocumentWindow .windowConfirm").unbind("click", Confirm)
+            },
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddDocumentWindow").data("kendoWindow"));
+
+    })
+</script>

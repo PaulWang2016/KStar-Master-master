@@ -1,0 +1,106 @@
+﻿<div id="headercontainer" style="float: left; width: 100%; display: block;">
+    <div class="login hidden-xs">
+
+        @{
+            var versionInfo = aZaaS.KStar.VersionGetter.GetPublishVersionInfo();
+            var versionNumber = versionInfo.Version;
+            var versionPublishDate = versionInfo.PublishDate.ToString(aZaaS.KStar.Facades.PortalEnvironment.DateTimeFormat);    
+        }
+        <span style="color: yellow; font-weight: bold; left: 5px; position: absolute;">
+            @Html.CSHtmlResx("Version_Number"): @versionNumber &nbsp;&nbsp;  @Html.CSHtmlResx("Version_PublishDate"): @versionPublishDate
+
+        </span>
+
+        @Html.CSHtmlResx("Welcome")
+
+        <span>@Context.CurrentRequester()</span>&nbsp;&nbsp;|&nbsp;&nbsp;<a id="LogOut" data-auth-type="@Context.CurrentAuthType()" href="javascript:void(0)">@Html.CSHtmlResx("LogOut")</a>
+        @{
+        
+            var lang = Request.Cookies["LANG"].Value;
+
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            list = aZaaS.KStar.Facades.PortalEnvironment.GetLanguageList().ToList();
+
+            //if (lang == "zh-CN")
+            //{
+            //    list.Add(new SelectListItem { Text = "简体中文", Value = "zh-CN", Selected = true });
+            //    list.Add(new SelectListItem { Text = "English", Value = "en-US" });
+            //}
+            //else
+            //{
+            //    list.Add(new SelectListItem { Text = "简体中文", Value = "zh-CN" });
+            //    list.Add(new SelectListItem { Text = "English", Value = "en-US", Selected = true });
+            //}
+            list.Where(p => p.Value == lang).FirstOrDefault().Selected = true;
+
+            @Html.DropDownList("state", list, new Dictionary<string, object>
+                      {
+                         {"class", "myCssClass"}, 
+                         {"onchange", "return langSet(this)"}
+                      })
+        }
+
+    </div>
+     @if (@aZaaS.KStar.Facades.PortalEnvironment.IsLogoHeader)
+    {
+        <div class="top-menu hidden-xs">
+            <div class="AMC-logo">
+                @if (!string.IsNullOrEmpty(aZaaS.KStar.Facades.PortalEnvironment.LogoImageUrl))
+                {
+                @*<img src="/images/logo_AMS.gif" border="0"></div>*@
+                <a href="/">
+                    <img src="@aZaaS.KStar.Facades.PortalEnvironment.LogoImageUrl"  border="0" style="height:40px;width:76px;" />
+                </a>
+                }
+                <span style="font-size: 14pt;">&nbsp;&nbsp;&nbsp;&nbsp;@aZaaS.KStar.Facades.PortalEnvironment.LogoTitle</span>
+
+            </div>
+            <div class="The-Link-logo">
+                @*<img src="/images/logo_the_link.gif" border="0">*@
+                @if (!string.IsNullOrEmpty(aZaaS.KStar.Facades.PortalEnvironment.SubLogoImageUrl))
+                {
+                    <img src="@aZaaS.KStar.Facades.PortalEnvironment.SubLogoImageUrl"  border="0"  style="height:44px;width:80px;"/>
+                }
+            </div>
+            <div class="top-menu-link">
+                @Html.TopBar(@User.Identity.Name)
+            </div>
+
+        </div>
+     }
+    @if (@aZaaS.KStar.Facades.PortalEnvironment.IsBannerImage)
+    {
+        <div class="top-photo hidden-xs">
+            @*<img src="/images/Banner.jpg" border="0">*@
+            <img src="@aZaaS.KStar.Facades.PortalEnvironment.BannerImageUrl"  border="0" />
+        </div>
+}
+</div>
+<script src="~/JS/jquery.min.js"></script>
+<script type="text/javascript">
+
+    //$("#state").kendoComboBox({
+    //    animation: false
+    //});
+
+    function langSet(obj) {
+
+        $.ajax({
+            url: "/Home/LangSet",
+            data: { "lang": obj.value },
+            type: "GET",
+            success: function (data, textStatus) {
+
+                window.location.reload(true);
+            },
+            error: function () {
+
+            }
+        });
+
+
+    }
+
+
+</script>

@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAll.cshtml";
+}
+<div id="container" style="padding: 0 5px;">
+    @*    @RenderBody()*@
+</div>
+@section scripts{
+    <link href="~/CSS/oneclubIndex.css" rel="stylesheet" />
+    <script src="~/JS/jquery.tabSlideOut.v1.3.js"></script>
+    <script src="~/JS/bootbox.js"></script>
+    <script src="~/JS/JsMsg.js"></script>
+    <script src="~/JS/base.js"></script>
+    @RenderSection("scripts", required: false)
+    <script src="~/JS/jquery.cookies.min.js"></script>
+    <script src="~/JS/baseInitView.js"></script>
+    <script src="~/JS/Filters.js"></script>
+    <script src="~/JS/Columns.js"></script>
+    <script src="~/JS/models.js"></script>
+}

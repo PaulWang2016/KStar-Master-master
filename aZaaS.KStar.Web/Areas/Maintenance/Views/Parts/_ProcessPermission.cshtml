@@ -1,0 +1,32 @@
+﻿@using aZaaS.KStar.Html;
+@{
+    ViewBag.Title = "_ProcessPermission";       
+}
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">@Html.CSHtmlResx("ProcessPermission")</div>
+    </div>
+    <div class="fullwidget">
+        <div id="ProcessPermissionSplitter" style="position: relative; height: 100%;">
+            <div id="RoleTab">
+                <div id="RoleList"></div>
+            </div>
+            <div id="ProcessTab" style=" visibility:hidden;height: 600px; width: 150px; overflow: auto; -webkit-overflow-scrolling: touch;">
+                <div id="ProcessList"></div>
+                <div class="operabar">
+                    <div class="operamask"></div>
+                    <button id="Process_Role_Save" class="k-button operacontent" style="width: 80px; text-align: center; display: block;">@Html.CSHtmlResx("Save")</button>
+                    <div class="tips" style="color: green; text-align: center; visibility: hidden; display: block;">@Html.CSHtmlResx("Savedsuccessfully")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaProcessPermission" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script>
+    seajs.use("/JS/Maintenance/_Sea__ProcessPermission", function (init) {
+        init();
+        $(window).resize();
+    });
+</script>

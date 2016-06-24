@@ -1,0 +1,102 @@
+﻿
+.section .top-heading { border-color: #c5c5c5; border-width: 1px; border-style: solid; background: white; padding: .22em .2em .28em; cursor: default; display: block; margin-bottom: 2px; }
+    .section .top-heading.top-toolbar { text-align: right; }
+    .section .top-heading > div.top-title { height: 29px; line-height: 30px; padding: 0 11px 0 5px; font-size: 16px; font-weight: bold; color: #FE9301; }
+    .section .top-heading.top-toolbar > div.top-title { float: left; }
+.section .fullwidget .top-toolbar { margin: 5px; }
+.section { margin: 10px 0 0; }
+
+/* kendogrid中导出图标*/
+.csv-ico { width: 16px; height: 20px; background: url(/images/csv.png) no-repeat center center; }
+.excel-ico { width: 16px; height: 20px; background: url(/images/Excel-icon.png) no-repeat center center; }
+
+.modal-backdrop.onloading { background-image: url(/CSS/kendoui/Default/loading_2x.gif); background-position: center; background-repeat: no-repeat; z-index: 9999; }
+
+
+/*  Widget  */
+
+.selectbar1 { margin: 5px; }
+
+
+.k-grid-content td .k-button { vertical-align: top; width: 30px; height: 28px; /*padding: .1em .4em .3em;*/ display: block; margin: auto; min-width: 0px; }
+.k-window-titlebar .k-window-title { padding-bottom: 0.1em; }
+
+div.fullwidget { /*position: absolute; top: 60px; left: 20px; right: 20px; bottom: 2px;*/ width: 100%; }
+    div.fullwidget > div.well { padding: 0; height: 100%; }
+
+div.fullgrid > div { position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; }
+
+.k-treeview span.k-in > input { margin: 3px 0.5ex; }
+
+.folder { background-image: url("/images/tree_folder.gif"); }
+
+    .folder.on { background-image: url("/images/tree_folder-open.gif"); }
+
+.property { background-image: url("/images/tree_leaf.gif"); }
+
+/*#staffOtherTab { height: 230px; }
+
+#staffOtherTab .k-content { position: absolute; left: 25px; right: 25px; bottom: 76px; top: 94px; }
+
+#staffOtherTab .k-content > div { position: absolute; top: 35px; bottom: 5px; right: 5px; left: 5px; }
+
+#staffOtherTab .k-content .k-grid-content { position: absolute; bottom: 0; top: 30px; }*/
+#staffTab > ul,
+#staffOtherTab > ul,
+#scheduleTab > ul,
+#Details > ul { margin-bottom: 10px; }
+    #staffTab > ul > li > div,
+    #staffOtherTab > ul > li > div,
+    #scheduleTab > li > div,
+    #Details > ul > li > div { padding: 10px 15px 10px 15px; }
+#staffOtherTab .top-toolbar, #AddWorklistWindow .top-toolbar { margin: 5px; text-align: right; }
+#MenuLeftTab { position: absolute; top: 0; right: 0; left: 0; bottom: 0; border: 0; }
+
+    #MenuLeftTab > div.fullgrid { position: absolute; right: 0px; left: 0px; bottom: 0px; top: 40px; }
+
+.fullgrid > div { position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; }
+.fullgrid .k-grid-content { position: absolute; top: 30px; right: 0; left: 0; bottom: 0; }
+
+.k-grid a { color: #FE9301; }
+
+.k-panelbar > li > .k-state-selected { color: #2e2e2e; }
+.k-button-icontext.k-grid-edit .k-icon { margin: 0; }
+div.k-pane > ul.k-panelbar { margin: 5px; }
+    div.k-pane > ul.k-panelbar div.k-content { padding: 5px 1em; }
+
+/*.k-grid-title { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }*/
+
+
+.sectionGrid.k-grid > .k-grid-content, .k-grid > .k-grid-content { overflow-y: auto; }
+
+
+#Information .k-textbox, #AddInfo .k-textbox { width: 100%; }
+
+.bootbox { overflow-y: auto; }
+
+
+.k-window > .k-window-content.overflowhidden { overflow: hidden !important; }
+.k-content .row { margin-bottom: 5px; line-height: 27px; }
+
+
+.operabar { width: 100%; display: block; position: relative; height: 45px; padding-top: 10px; }
+    .operabar .operamask { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: black; opacity: 0.6; background-image: url(/CSS/kendoui/Default/loading_2x.gif); background-position: center; background-repeat: no-repeat; visibility: hidden; }
+    .operabar .operacontent { max-width: 150px; margin: 0 auto; }
+
+.loading { width: 50px; height: 50px; margin: 50px auto; background-image: url(/CSS/kendoui/Default/loading_2x.gif); background-position: center; background-repeat: no-repeat; }
+
+/*.modal-backdrop { z-index: 20030; }*/
+.modal { z-index: 20040; }
+
+.ErrorBox, .ErrorBox .close { color: #d2322d; }
+    .ErrorBox .modal-title:before { position: absolute; left: 12px; font-size: 36px; top: 10px; display: inline-block; font-family: 'Glyphicons Halflings'; -webkit-font-smoothing: antialiased; font-style: normal; font-weight: normal; line-height: 1; -moz-osx-font-smoothing: grayscale; content: "\e107"; }
+    .ErrorBox .modal-title { padding-left: 48px; }
+
+.portalDetail label { height: 28px; line-height: 28px; }
+.portalDetail .k-widget.k-upload { margin-top: 0; border-width: 0; background: 0; }
+    .portalDetail .k-widget.k-upload em,
+    .portalDetail .k-widget.k-upload strong { display: none; }
+    .portalDetail .k-widget.k-upload .k-dropzone { padding: 0; }
+    ul.dropdown-menu{
+	top:52px\9;
+}

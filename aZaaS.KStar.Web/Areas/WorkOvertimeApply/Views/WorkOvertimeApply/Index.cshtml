@@ -1,0 +1,452 @@
+﻿
+@using aZaaS.KStar.Form.Mvc 
+
+@{
+    ViewBag.Title = "加班申请流程";
+}
+@model aZaaS.KStar.Web.Areas.WorkOvertimeApply.Models.WorkOvertimeModel
+
+<style>
+   red{
+       color:red;
+   }
+   .WorkOvertime{
+       width:150px !important;
+   }
+    #tbl_WorkOvertime_item tbody select{
+       width:65px;
+   }
+      #tbl_WorkOvertime_item tbody textarea{
+       width:120px;
+   }
+   
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align: center; font-size:22px ">
+        <h2 class="panel-title" style="text-align: center; font-size: 22px">
+            <span style="font-size:22px !important;"></span>
+            <b>加班申请流程</b>
+        </h2>
+        <span style="text-align:center;font-size:14px;" data-bind="text:KStarForm.koHeaderModel.ActivityName()==null?'当前状态：草稿':'当前状态：'+KStarForm.koHeaderModel.ActivityName()"></span>
+    </div>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_customform_panel">
+                表单信息
+            </a>
+        </h4>
+    </div>
+    <form id="WorkOvertimeApply_form" class="form-horizontal" >
+        <div id="_kstarform_customform_panel" class="panel-collapse collapse in">
+            <div id="010Control" class="kstar-control" title="提出加班申请" style=" margin-bottom:10px;">
+                <p class="bg-primary panel-title" style="padding: 5px;">
+                    <span class="caret"></span>&nbsp;
+                    <a data-toggle="collapse" href="#_kstarform_customform_panel010" style=" color:#fff;">
+                        <b>010_发起申请</b>
+                    </a>
+                </p>
+                <div id="_kstarform_customform_panel010" class="panel-collapse collapse in">
+                    <div class="form-group" style=" margin-top:20px;">
+                        <label class="control-label col-sm-2">加班单号:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" readonly="readonly"  name="BillNO"   data-bind="value:BillNO" />
+                        </div>
+                        <label class="control-label col-sm-2">提单日期:<red>*</red></label>
+                        <div class="col-sm-4" title="提单日期">
+                            <div class="input-group date">
+                                <input type="text" disabled="disabled"
+                                       class="form-control" name="StartDate" data-bind="datepicker:CreateTime, datepickerOptions: { format: 'YYYY-MM-DD', pickTime: false }" />
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class=" bg-primary" style="padding: 3px;height: 41px;">
+                        &nbsp; &nbsp;
+                        <b style="margin:10px;">加班申请明细</b>
+                        <span class="btn btn-primary" style="float:right;" title="添加" data-bind="click:function(){addModelObjectItem(Detail,$('#tbl_WorkOvertime_item'));}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            添加
+                        </span> 
+                    </p>
+
+                    <div class="form-group" style="margin: 0px;overflow-x:scroll;">  
+                        <table id="tbl_WorkOvertime_item" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"/></th>
+                                    <th class="col-xs-1">工号<red>*</red></th>
+                                    <th class="col-xs-1">姓名</th>
+                                    <th class="col-xs-1">部门</th>
+                                    <th class="col-xs-1">科室</th>
+                                    <th class="col-xs-1">级别</th>
+                                    <th class="col-xs-2">开始日期<red>*</red></th>
+                                    <th class="col-xs-2">结束日期<red>*</red></th>
+                                    <th class="col-xs-2">开始时间<red>*</red></th>
+                                    <th class="col-xs-2">结束时间<red>*</red></th>
+                                    <th class="col-xs-2">每天重复<red>*</red></th>
+                                    <th class="col-xs-2">事由说明<red>*</red></th>
+                                    <td>
+                                        操作
+                                    </td>
+                                </tr>
+                            </thead>
+
+                            <tbody data-bind="foreach:Detail">
+                                <tr>
+                                    <td><input type="checkbox" style="margin: 10px 0;" /></td>
+                                    <td> 
+                                        <div class="has-feedback">
+                                            <input class="form-control WorkOvertime" type="text" 
+                                                   data-rule-required="true"
+                                                   data-msg-required="工号为必填！" readonly
+                                                   data-bind="value:UserId,attr:{name:'UserId'+$index()}">
+                                            <span class="glyphicon glyphicon-search form-control-feedback" data-bind="attr:{'data-index':$index}" data-callback="dynamicUserpickFillValue" data-control="dynamicUserpick" data-options="{mutilselect:false}" data-controltype="Person"></span>
+                                        </div>
+                                    
+                                    </td>
+                                    <td><input type="text" readonly="readonly" class="form-control WorkOvertime" name="RealName" data-bind="value:RealName" /></td>
+                                    <td><input type="text" readonly="readonly" class="form-control WorkOvertime" name="Department" data-bind="value:Department" /></td>
+                                    <td><input type="text" readonly="readonly" class="form-control WorkOvertime" name="AOTOffices" data-bind="value:AOTOffices" /></td>
+                                    <td><input type="text" readonly="readonly" class="form-control WorkOvertime" name="Level" data-bind="value:Level" /></td>
+                                    <td>
+                                        <div class="input-group date">
+                                            <input type="text" data-rule-required="true" data-msg-required="结束日期为必填！"
+                                                   class="form-control WorkOvertime" data-bind="value:BeginDate,datepicker: moment(BeginDate()).format('YYYY-MM-DD HH:mm:ss'), datepickerOptions: { format: 'YYYY-MM-DD' ,changeCallBack:beginDateCallBack,callBackParameter:EndDate}" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="input-group date">
+                                            <input type="text"
+                                                   data-rule-required="true" data-msg-required="结束日期为必填！"
+                                                   class="form-control WorkOvertime" data-bind="value:EndDate,datepicker: moment(EndDate()).format('YYYY-MM-DD HH:mm:ss'), datepickerOptions: { format: 'YYYY-MM-DD',minDate:BeginDate }" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="input-group date">
+                                            <input type="text" data-rule-required="true" data-msg-required="开始时间为必填！"
+                                                   class="form-control WorkOvertime" data-bind="value:BeginTime,datepicker: moment(BeginTime()).format('HH:mm'), datepickerOptions: { format: 'HH:mm' , pickTime: true,useMinutes:true,changeCallBack:beginTimeCallBack,callBackParameter:[EndTime,BeginDate,EndDate],sideBySide:true,pickDate:false}" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="input-group date">
+                                            <input type="text" data-rule-required="true" data-msg-required="结束时间为必填！"
+                                                   class="form-control WorkOvertime" data-bind="value:EndTime,datepicker: moment(EndTime()).format('HH:mm'), datepickerOptions: { format: 'HH:mm', pickTime: true,useMinutes:true,changeCallBack:endTimeCallBack,callBackParameter:[BeginTime,BeginDate,EndDate],sideBySide:true,pickDate:false}" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <select class="form-control" data-bind="value:IsRepeater">
+                                            <option>是</option>
+                                        </select> 
+                                    
+                                    <td>
+                                        <textarea class="form-control" type="text" rows="1"
+                                                  data-rule-required="true"
+                                                  data-msg-required="事由说明为必填！"
+                                                  data-bind="value:Description,attr:{name:'Description'+$index()}"></textarea>
+                                    </td> 
+                                    <td>
+                                        <span class="btn btn-default" data-bind="click:function(){ $root.removekoModelObjectItem($root.Detail,this,$('#tbl_WorkOvertime_item')) }" title="删除">
+                                            <span class="glyphicon glyphicon-minus-sign"></span>
+                                        </span>
+                                    </td> 
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="form-group" style="margin-top:20px;"> 
+                        <label class="control-label col-sm-2">抄送人:</label>
+
+                        <div class="col-sm-10 has-feedback">
+                            <input class="form-control" type="text" name="CCManName" id="CCManName"  readonly data-bind="value:CCMan.Name">
+                            <span class="glyphicon glyphicon-search form-control-feedback" data-komodel="KStarForm.koContentModel.CCMan" data-control="userpick" data-callback="userpickFillValue" data-options="{mutilselect:true}" data-target="CCManName" data-controltype="Person"></span>
+                        </div>
+                    </div>
+               </div>
+              
+            </div>
+        </div>
+    </form>
+</div> 
+
+@section scripts{
+<script src="~/Scripts/jquery.autogrow-textarea.js"></script>
+<script src="~/Scripts/Workflow/formStyle.js"></script>
+<script src="~/Scripts/Workflow/form.dynamic.userpick.js"></script>
+<script src="~/Scripts/Workflow/form.Utilsl.js"></script>
+<script type="text/javascript">
+    @Html.RegisterContentModel(Model);
+
+    var beginDateCallBack = function (currentObservable, callBackParameter, value) {
+        if (value > moment(callBackParameter())) {
+            callBackParameter(value.format("YYYY-MM-DD"));
+        }
+
+    }
+
+    var endTimeCallBack = function (currentObservable, callBackParameter, value) {
+        
+        if (moment(callBackParameter[1]()).format("YYYY-MM-DD") == moment(callBackParameter[2]()).format("YYYY-MM-DD")) {
+
+            var beginTime = moment(callBackParameter[0](), "HH:mm");
+            var endTime = value;
+
+            if (beginTime.hour() > endTime.hour()) {
+                currentObservable(beginTime);
+            } else if (beginTime.hour() == endTime.hour() && beginTime.minute() > endTime.minute()) {
+                currentObservable(beginTime);
+            }
+        }
+    };
+
+    var beginTimeCallBack = function (currentObservable, callBackParameter, value) {
+        if (moment(callBackParameter[1]()).format("YYYY-MM-DD") == moment(callBackParameter[2]()).format("YYYY-MM-DD")) {
+            var endTime = moment(callBackParameter[0](), "HH:mm");
+            if (value.hours() > endTime.hours()) {
+                callBackParameter[0](value);
+            } else if (value.hours() == endTime.hours() && value.minutes() > endTime.minutes()) {
+                callBackParameter[0](value);
+            }
+        }
+    };
+
+    var dynamicUserpickFillValue = function (json, e) {
+        var userName = json.Root.Users.Item[0].UserName;
+        var currrentIndex = e.target.data("index");
+        var detail = KStarForm.koContentModel.Detail();
+        var isEqual = false;
+        $.each(detail, function (index, item) {
+            if (currrentIndex != index && item.UserName() == userName) {
+                isEqual = true;
+            }  
+        });
+
+        if (isEqual == true) { 
+            return;
+        } 
+        try { 
+            var currentObject = KStarForm.koContentModel.Detail()[currrentIndex];
+
+            $.post("/WorkOvertimeApply/WorkOvertimeApply/GetSimpleUserInfo", { "userName": userName }, function (data, textStatus, jqXHR) {
+                if (data.success) {
+                    currentObject.UserId(data.UserID);
+                    currentObject.UserName(data.UserName);
+                    currentObject.RealName(data.RealName);
+                    currentObject.Department(data.Department)
+                    currentObject.AOTOffices(data.AOTOffices);
+                    currentObject.Level(data.UserLevel)
+                }
+            }); 
+        }catch(e){
+
+        } 
+      
+    }
+
+    //Extend the exists model
+    //TODO:Add item properties & attch model events
+    KStarForm.extendModel = function (koModel) {
+        var model = KStarForm.toJsModel(koModel);
+        return KStarForm.toKoModel(model, {
+            extend: {
+                "{root}": function (self) {
+
+                    self.addModelObjectItem = function (koModelObject, targetObject) {
+                        if (targetObject == undefined) return;
+                        var targetStructure = targetObject.data('targetStructure');
+
+                        if (targetStructure == undefined && koModelObject().length <= 0) return;
+
+                        var newItem = null;
+                        if (targetStructure == undefined) {
+                            //创建对象
+                            var newItemString = '';
+                            $.each(koModelObject()[0], function (indexItem, item) {
+                                newItemString += indexItem + ':' + '\'\',';
+                            });
+                            newItemString = newItemString.substring(0, newItemString.length - 1)
+                            newItem = eval('({' + newItemString + '})');
+                            var cacheData = '{' + newItemString + '}';
+                            targetObject.data('targetStructure', cacheData);
+
+                        } else {
+                            newItem = eval('(' + targetStructure + ')');
+                        }
+
+                        if (newItem.ID != undefined) newItem.ID = koModelObject().length;
+                        if (koModelObject().length > 0) {
+                            var firstObject = koModelObject()[0];
+
+                            var beginDate = firstObject["BeginDate"];
+                            if (beginDate != null) {
+                                newItem["BeginDate"] = beginDate().format("YYYY-MM-DD HH:mm:ss");
+                            }
+
+                            var beginTime = firstObject["BeginTime"];
+                            if (beginTime != null) {
+                                newItem["BeginTime"] = beginTime().format("HH:mm");
+                            }
+
+                            var endDate = firstObject["EndDate"];
+                            if (endDate != null) {
+                                newItem["EndDate"] = endDate().format("YYYY-MM-DD HH:mm:ss");
+                            }
+
+                            var endTime = firstObject["EndTime"];
+                            if (endTime != null) {
+                                newItem["EndTime"] = endTime().format("HH:mm");
+                            }
+
+                            var description = firstObject["Description"];
+                            if (description != null) {
+                                newItem["Description"] = description();
+                            }
+
+                            var isSave = firstObject["IsSave"];
+                            if (isSave != null) {
+                                newItem["IsSave"] = isSave();
+                            }
+                        } 
+
+                        var koItem = KStarForm.toKoModel(newItem);
+
+                        koModelObject.push(koItem); 
+                    }
+
+                    self.removekoModelObjectItem = function (koModelObject, item, targetObject) {
+
+                       
+                        if (koModelObject().length == 1) {
+                            self.addModelObjectItem(koModelObject, targetObject);
+                           
+                        }
+                        koModelObject.remove(item);
+                    }
+                    self.valuechange=function(){
+
+                        var e=0;
+                    } 
+                }
+            }
+        });
+    };
+
+
+    KStarForm.afterApplyData = function () {
+
+        if (KStarForm.koHeaderModel.ProcessFolio() == "") {
+            KStarForm.koHeaderModel.FormSubject("加班申请流程");
+            KStarForm.koContentModel.Detail()[0].BeginTime( moment(  moment(new Date()).format("YYYY-MM-DD") + " 08:00:00").format("HH:mm"));
+         
+            KStarForm.koContentModel.Detail()[0].EndTime(moment(moment(new Date()).format("YYYY-MM-DD") + " 17:30:00").format("HH:mm"))
+        }
+        $('div[role="_kstarform_content"]').find('textarea').autogrow();
+    };
+
+    KStarForm.OnSubmitting = function () {
+
+        var d = KStarForm.koToolbarModel.ActionName();
+        if (d == "不同意") {
+            if (KStarForm.koToolbarModel.ActionComment().length == 0) {
+                var ops = {
+                    msg: "请在\"意见说明\"中输入不同意的原因！",
+                    title: "系统提示",
+                    btnok: "确定",
+                    btncl: "取消"
+                };
+                KStar.Modaldialog.alert(ops);
+                return false;
+            }
+        }
+        //只有发起的时候没有Folio
+        if (KStarForm.koHeaderModel.ProcessFolio() == "") {
+
+            if (KStarForm.isValid()==false)
+            {
+                $alertWarning('warning', KStarMessage.formInvalidDefaultMsg);
+                return false;
+            }
+            var ops = {
+                msg: "",
+                title: "系统提示",
+                btnok: "确定",
+                btncl: "取消"
+            };
+            var isOKCheck = true;
+            var isLeader = false;
+            var success = false;
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/WorkOvertimeApply/WorkOvertimeApply/IsLeader",
+                data: null,
+                dataType:"json",
+                success: function (data, textStatus, jqXHR) {
+                    success = data.success;
+                    if (data.success) {
+                        //部门负责人
+                        if (data.IsLeader) {
+                            var orgName = KStarForm.koHeaderModel.ApplicantOrgNodeName();
+                            $.each(KStarForm.koContentModel.Detail(), function (index, Item) {
+                                if (Item.Department() == "" && orgName != Item.AOTOffices()) { 
+                                        isOKCheck = false; 
+                                   
+                                } else if (Item.Department() != "" && orgName != Item.Department()) {
+                                    isOKCheck = false;
+                                }
+                            });
+                        } else {
+                            if (KStarForm.koContentModel.Detail().length > 0) {
+                                var department = KStarForm.koContentModel.Detail()[0].Department();
+                                var aOTOffices = KStarForm.koContentModel.Detail()[0].AOTOffices();
+                                $.each(KStarForm.koContentModel.Detail(), function (index, Item) {
+
+                                    if (department != null && department != "") {
+                                        if (department != Item.Department()) {
+                                            isOKCheck = false;
+                                        }
+                                    } else {
+                                        if (aOTOffices != Item.AOTOffices()) {
+                                            isOKCheck = false;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        isLeader = data.IsLeader;
+                    } else {
+                        ops.msg = data.message;
+                        KStar.Modaldialog.alert(ops);
+                    }
+                }
+            });
+            if (success) { 
+                if (isOKCheck == false) {
+                    if (isLeader) {
+                        ops.msg = "部门负责人提报加班，则加班人和部门负责人必须在同一个部门!";
+                        KStar.Modaldialog.alert(ops);
+                    } else {
+                        ops.msg = "您所选择的加班人员不同在同一个部门，无法成功提交，请重新选择加班人员！";
+                        KStar.Modaldialog.alert(ops);
+                    }
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    };
+</script> 
+}

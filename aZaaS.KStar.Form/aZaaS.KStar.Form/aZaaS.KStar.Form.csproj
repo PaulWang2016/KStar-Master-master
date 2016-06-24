@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F876470B-E2C8-457D-96FD-35A703C573AD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aZaaS.KStar.Form</RootNamespace>
+    <AssemblyName>aZaaS.KStar.Form</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="aZaaS.Framework">
+      <HintPath>..\..\packages\aZaaS.Framework\aZaaS.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="CsQuery">
+      <HintPath>..\..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ControlTmplProvider.cs" />
+    <Compile Include="ControlType.cs" />
+    <Compile Include="Infrastructure\IFormMessageProvider.cs" />
+    <Compile Include="KStarFormMessageProvider.cs" />
+    <Compile Include="Models\Mapping\ProcessFormApprovalDraftMap.cs" />
+    <Compile Include="Models\Mapping\ProcessFormFlowThemeMap.cs" />
+    <Compile Include="Models\Mapping\ProcessFormCancelMap.cs" />
+    <Compile Include="Models\ProcessFormApprovalDraft.cs" />
+    <Compile Include="Models\ProcessFormCancel.cs" />
+    <Compile Include="Repositories\FlowThemeRepository.cs" />
+    <Compile Include="ViewModels\AttachmentModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\CacheFileModel.cs" />
+    <Compile Include="Infrastructure\FileUploadContext.cs" />
+    <Compile Include="Helpers\PathFormatter.cs" />
+    <Compile Include="Helpers\UploaderOptions.cs" />
+    <Compile Include="HtmlFilter\HtmlControlFilter.cs" />
+    <Compile Include="Infrastructure\ContextBase.cs" />
+    <Compile Include="Infrastructure\IFormCCProvider.cs" />
+    <Compile Include="Infrastructure\IFormFileStorage.cs" />
+    <Compile Include="Infrastructure\IFormSettingProvider.cs" />
+    <Compile Include="Infrastructure\IFormControlFilter.cs" />
+    <Compile Include="Infrastructure\IControlTmplProvider.cs" />
+    <Compile Include="Infrastructure\IExecutionBehavior.cs" />
+    <Compile Include="Infrastructure\IFormSignerProvider.cs" />
+    <Compile Include="Infrastructure\IOrganizationService.cs" />
+    <Compile Include="Infrastructure\IStorageBehavior.cs" />
+    <Compile Include="Infrastructure\IStorageProvider.cs" />
+    <Compile Include="Infrastructure\IDataHandler.cs" />
+    <Compile Include="Infrastructure\IStorageService.cs" />
+    <Compile Include="Infrastructure\IDataValidator.cs" />
+    <Compile Include="Infrastructure\IWorkflowService.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Infrastructure\StorageContext.cs" />
+    <Compile Include="Infrastructure\WorkflowTaskContext.cs" />
+    <Compile Include="KStarFormCCProvider.cs" />
+    <Compile Include="KStarFormFileStorage.cs" />
+    <Compile Include="KStarFormSettingProvider.cs" />
+    <Compile Include="KStarFormSignerProvider.cs" />
+    <Compile Include="KStarFormStorageProvider.cs" />
+    <Compile Include="KStarFormOrganizationService.cs" />
+    <Compile Include="KStarFormStorageService.cs" />
+    <Compile Include="DataError.cs" />
+    <Compile Include="KStarFormWorkflowService.cs" />
+    <Compile Include="ModelMapperConfig.cs" />
+    <Compile Include="Models\ActivityControlSetting.cs" />
+    <Compile Include="Models\ProcessFormSigner.cs" />
+    <Compile Include="Models\ControlRenderTemplate.cs" />
+    <Compile Include="Models\ControlTemplateCategory.cs" />
+    <Compile Include="Models\Mapping\ActivityControlSettingMap.cs" />
+    <Compile Include="Models\Mapping\ProcessFormSignerMap.cs" />
+    <Compile Include="Models\Mapping\ControlRenderTemplateMap.cs" />
+    <Compile Include="Models\Mapping\ControlTemplateCategoryMap.cs" />
+    <Compile Include="Models\Mapping\ProcessFormCCMap.cs" />
+    <Compile Include="Models\ProcessFormCC.cs" />
+    <Compile Include="Repositories\AttachmentRepository.cs" />
+    <Compile Include="Repositories\FormCCRepository.cs" />
+    <Compile Include="Repositories\SignerRepository.cs" />
+    <Compile Include="Repositories\aZaaSKStarFormContext.cs" />
+    <Compile Include="Models\ComboxContext.cs" />
+    <Compile Include="Models\FormAttachment.cs" />
+    <Compile Include="Models\Mapping\FormAttachmentMap.cs" />
+    <Compile Include="Models\Mapping\ProcessFormContentMap.cs" />
+    <Compile Include="Models\Mapping\ProcessFormHeaderMap.cs" />
+    <Compile Include="Models\ProcessFormContent.cs" />
+    <Compile Include="Models\ProcessFormHeader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ControlTmplRepository.cs" />
+    <Compile Include="Repositories\FormSettingRepository.cs" />
+    <Compile Include="ViewModels\CotnrolSettingModel.cs" />
+    <Compile Include="ViewModels\ControlTemplateModel.cs" />
+    <Compile Include="ViewModels\FormCCModel.cs" />
+    <Compile Include="ViewModels\MyDraftModel.cs" />
+    <Compile Include="Models\ProcessFormFlowTheme.cs" />
+    <Compile Include="ViewModels\ResultMessage.cs" />
+    <Compile Include="ViewModels\ToolbarActionModel.cs" />
+    <Compile Include="ViewModels\KStarFormModel.cs" />
+    <Compile Include="ViewModels\ProcessLogModel.cs" />
+    <Compile Include="ViewModels\TemplateCagetoryModel.cs" />
+    <Compile Include="ViewModels\UserModel.cs" />
+    <Compile Include="ViewModels\WorkflowTaskModel.cs" />
+    <Compile Include="WorkMode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Handlers\" />
+    <Folder Include="Validators\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\aZaaS.KStar\aZaaS.KStar.csproj">
+      <Project>{0ac4d700-8155-44ab-a5bd-d97e7c34bcee}</Project>
+      <Name>aZaaS.KStar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

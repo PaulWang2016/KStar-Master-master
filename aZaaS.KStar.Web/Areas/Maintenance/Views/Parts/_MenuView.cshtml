@@ -1,0 +1,468 @@
+﻿<!--  Menu Configuration  -->
+<div class="section">
+    <div class="top-heading">
+        <div>Menu Configuration</div>
+    </div>
+
+    <!--  /.Menu Configuration  -->
+    <!--  MenuView   -->
+    <div class="fullwidget">
+        <div id="MenuView" class="well">
+            <div id="MenuLeft">
+                <div id="MenuLeftTab">
+                    @* <button class="k-button Delete" style="float: right; margin: 10px 10px 0px 0px;">Delete</button>
+                <button class="k-button Edit" style="float: right; margin: 10px 10px 0px 0px;">Edit</button>
+                <button class="k-button Add" style="float: right; margin: 10px 10px 0px 0px;">Add</button>*@
+                    <div class="top-toolbar">
+                        <a class="k-button Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a class="k-button Edit" href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="k-button Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                    <div class="fullgrid">
+                        <div id="RoleList"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="MenuRight" style="display: none">
+                @*<button class="k-button Delete" style="float: right; margin: 3px 10px 0px 0px; display: none;">Delete</button>
+            <button class="k-button Edit" style="float: right; margin: 3px 10px 0px 0px; display: none;">Edit</button>
+            <button class="k-button Add" style="float: right; margin: 3px 10px 0px 0px; display: none;">Add</button>*@
+                <div class="top-toolbar" style="text-align: right;">
+                    <a class="k-button k-grid-export" title="Export to Excel">
+                        <div class="k-grid-export-image k-icon"></div>
+                    </a>
+                    <a class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="k-button Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="k-button Edit" href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="k-button Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+                <div class="well" style="position: absolute; right: 5px; left: 5px; bottom: 5px; top: 40px; overflow: auto; margin-bottom: 0;">
+                    <div id="MenuTree" style="overflow: visible"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  /.MenuView   -->
+</div>
+<!--/.AddRoleWindow-->
+<div id="AddRoleWindow" style="display: none">
+    <div id="AddRole">
+        Role Name：<input type="text" id="DropDownRoleList" class="k-textbox" />
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" data-url="" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+<!--/.AddRoleWindow-->
+<!--/.AddMenuPermissionWindow-->
+<div id="AddMenuPermissionWindow" style="display: none">
+    <table style="width: 100%;">
+        <tr>
+            <td>Menu Name:</td>
+            <td>
+                <input type="text" class="k-textbox" /></td>
+        </tr>
+        <tr id="Link" style="display: none;">
+            <td>Menu Link:</td>
+            <td>
+                <input type="text" class="k-textbox" /></td>
+        </tr>
+        <tr id="Target">
+            <td>Menu Target:</td>
+            <td>
+                <input type="text" id="MenuTarget" />
+            </td>
+        </tr>
+        <tr id="Type" style="display: none;">
+            <td>Type</td>
+            <td>
+                <input type="text" id="MenuType" />
+            </td>
+        </tr>
+    </table>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" data-url="" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+<!--/.AddMenuPermissionWindow-->
+
+<script id="MenuTree-template" type="text/kendo-ui-template">
+            # if(item.ParentID!= null){ #
+            <span class="k-sprite property"></span>
+            # }else{ #
+
+        <span class="k-sprite folder"></span>
+            # } #  
+            # if(item.Status == true) {#
+
+            <input type="checkbox"checked ="true" value="#= item.ID #"  />
+            # } else{#
+            <input type="checkbox"value="#= item.ID #"  />
+            # } #
+        #: item.Name #
+</script>
+
+<script type="text/javascript">
+
+    var ListIDMenuTree;
+
+    function MenuTreeDatas() {
+        var TypeMenuTree = CurrentApp.pane;
+
+        return new kendo.data.HierarchicalDataSource({
+            transport: {
+                read: {
+                    url: function (options) {
+                        return kendo.format("/Maintenance/Menu/GetMenus?RoleID={0}&Type={1}&_t={2}", ListIDMenuTree, TypeMenuTree, new Date().toJSON());
+                    },
+                    dataType: "json"
+                }
+            },
+            schema: {
+                id: "ID",
+                model: {
+                    id: "ID",
+                    hasChildren: "HasChildren",
+                    ReportsTo: "ReportsTo"
+                }
+            }
+        });
+    }
+    function InitMenuTree() {
+
+        var MenuTreeKendo = $("#MenuTree").data("kendoTreeView");
+        if (!MenuTreeKendo) {
+            $("#MenuTree").kendoTreeView({
+                template: kendo.template($("#MenuTree-template").html()),
+                dataSource: MenuTreeDatas(),
+                collapse: function (e) {
+                    $("#MenuTree_tv_active").find(".k-sprite").first().removeClass("on");
+                },
+                expand: function (e) {
+                    $("#MenuTree_tv_active").find(".k-sprite").first().addClass("on");
+                },
+                dataBound: function (e) {
+
+                    //$("#MenuTree_tv_active").find(":checkbox").click()
+                    //$("#MenuTree_tv_active").dblclick()
+                }
+            });
+            MenuTreeKendo = $("#MenuTree").data("kendoTreeView");
+            $("#MenuTree").on("click", "#MenuTree_tv_active :checkbox", function () {
+                var temp = $("#MenuTree_tv_active").find(":checkbox").first().val();
+                if (!temp) return;
+                var item = $("#MenuTree").data("kendoTreeView").dataSource.get(temp);
+                $.post("/Maintenance/Menu/SaveConfiguration", {
+                    RoleID: ListIDMenuTree,
+                    Name: "",
+                    Link: "",
+                    ID: item.ID,
+                    HasChildren: item.HasChildren,
+                    ParentID: item.ParentID,
+                    Status: $("#MenuTree_tv_active").find("input").first().prop("checked"),
+                    Type: item.Type
+                }, function (data) {
+                    var status = $("#MenuTree_tv_active").find("input").prop("checked");
+                    if (status)
+                        //$("#MenuTree_tv_active").find("input").prop("checked", status);
+                        $("#MenuTree_tv_active").find(":checkbox").first().prop("checked", status);
+                    else
+                        //$("#MenuTree_tv_active").find("input").prop("checked", status);
+                        $("#MenuTree_tv_active").find(":checkbox").first().prop("checked", status);
+
+                });
+
+            })
+            .on("dblclick", "#MenuTree_tv_active", function (e) { e.stopPropagation(); });
+        }
+        else {
+            MenuTreeKendo.setDataSource(MenuTreeDatas());
+        }
+    }
+    function ChangeMenuTree(IdName) {
+        $("#" + IdName + " .k-grid-content").find("input").click(function () {
+            $("#MenuLeft").find(":checkbox").prop("checked", false);
+            $(this).prop("checked", true);
+            ListIDMenuTree = $(this).val();
+
+            InitMenuTree();
+            $("#MenuRight").show();
+            $("#MenuRight .k-button").show();
+        });
+    }
+
+    $(function () {
+        $(window).resize();
+
+        title = "Menu Management - Kendo UI";
+        $("#MenuView").kendoSplitter({
+            panes: [
+                { collapsible: false, size: "250px", min: "250px", max: "350px", resizable: true },
+                { collapsible: false, resizable: true }
+            ]
+        });
+
+        $.getJSON("/Maintenance/Menu/GetRelevanceRoleList", { pane: CurrentApp.pane, "_t": new Date() }, function (items) {
+            InitBaseKendoGrid("RoleList", RoleModel, rolecolumns, items, function () {
+                bindGridCheckbox("RoleList");
+                ChangeMenuTree("RoleList");
+            });
+        })
+
+        $("#AddRoleWindow").kendoWindow({
+            width: "250px",
+            actions: [
+                "Close"
+            ],
+            open: function (e) {
+                $("#AddRoleWindow .windowCancel").bind("click", RoleCancel);
+                $("#AddRoleWindow .windowConfirm").bind("click", RoleConfirm);
+            },
+            close: function () {
+                $("#AddRoleWindow").find("input").val("");
+                $("#AddRoleWindow .windowCancel").unbind("click", RoleCancel);
+                $("#AddRoleWindow .windowConfirm").unbind("click", RoleConfirm);
+            },
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddRoleWindow").data("kendoWindow"));
+
+        RoleCancel = function () {
+            $("#AddRoleWindow").data("kendoWindow").close();
+        }
+        RoleConfirm = function () {
+            $.post($(this).attr("data-url"), { ID: $("#MenuLeft .k-grid-content").find(":checked").first().val(), Name: $("#DropDownRoleList").val(), Pane: CurrentApp.pane }, function (item) {
+                var grid = $("#RoleList").data("kendoGrid");
+                if (grid.dataSource.get(item.RoleID)) {
+                    grid.dataSource.remove(grid.dataSource.get(item.RoleID));
+                }
+                grid.dataSource.add(item);
+
+                bindGridCheckbox("RoleList");
+                ChangeMenuTree("RoleList");  //隐藏
+
+                $("#AddRoleWindow").data("kendoWindow").close();
+            })
+        }
+
+        $("#AddMenuPermissionWindow").kendoWindow({
+            width: "255px",
+            actions: [
+                "Close"
+            ],
+            open: function (e) {
+                $("#AddMenuPermissionWindow .windowCancel").bind("click", MenuCancel);
+                $("#AddMenuPermissionWindow .windowConfirm").bind("click", MenuConfirm)
+            },
+            close: function () {
+                $("#AddMenuPermissionWindow").find("input").val("");
+                $("#MenuTarget").data("kendoDropDownList").select(0);
+                $("#AddMenuPermissionWindow .windowCancel").unbind("click", MenuCancel);
+                $("#AddMenuPermissionWindow .windowConfirm").unbind("click", MenuConfirm)
+            },
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddMenuPermissionWindow").data("kendoWindow"));
+
+        MenuCancel = function () { $("#AddMenuPermissionWindow").data("kendoWindow").close() }
+        MenuConfirm = function () {
+            var id = $(this).attr("data-id");
+            var type = $("#MenuTree").data("kendoTreeView").dataSource.get($("#MenuTree_tv_active").find("input").val()).Type;
+            if (type == "DocumentLibrary")
+                type = "DocumentItem";
+            var test = $("MenuType").val();
+
+            if ($("MenuType").val() != null)
+                type = $("MenuType").val();
+            $.post($(this).attr("data-url"),
+                {
+                    ID: id,
+                    Name: $("#AddMenuPermissionWindow .k-textbox").first().val(),
+                    Link: $("#AddMenuPermissionWindow .k-textbox").last().val(),
+                    Target: $("#MenuTarget").data("kendoDropDownList").value(),
+                    ParentID: $("#MenuTree_tv_active").find("input").val(),
+                    Type: type
+                }
+                , function (item) {
+                    if (id == "") {
+                        var MenuTreeView = $("#MenuTree").data("kendoTreeView");
+                        var selectNode = MenuTreeView.select();
+                        if (selectNode.length == 0) {
+                            selectNode = null;
+                        }
+                        MenuTreeView.append(item, selectNode);
+                    }
+                    else {
+                        var template = kendo.template($("#MenuTree-template").html())
+                        var target = $("#MenuTree_tv_active .k-state-selected");
+                        target.html(template({ item: item }));
+                        if (target.parent().parent().attr("aria-expanded")) {
+                            target.find(".k-sprite").first().addClass("on");
+                        }
+                        var itemSource = $("#MenuTree").data("kendoTreeView").dataSource.get(item.ID);
+                        if (itemSource) {
+                            itemSource.set("Link", item.Link);
+                            itemSource.set("Target", item.Target);
+                            itemSource.set("Name", item.Name);
+                        }
+                    }
+                    $("#AddMenuPermissionWindow").data("kendoWindow").close();
+                })
+        }
+
+        $("#MenuLeftTab .Add").click(function () {
+            //$.getJSON("/Maintenance/Menu/GetRoleList", function (items) {
+            //    $("#DropDownRoleList").kendoDropDownList({
+            //        dataTextField: "DisplayName",
+            //        dataValueField: "RoleID",
+            //        dataSource: {
+            //            data: items,
+            //            schema: {
+            //                model: {
+            //                    id: "RoleID",
+            //                    fields: {
+            //                        RoleID: { type: "String" },
+            //                        DisplayName: { type: "String" }
+            //                    }
+            //                }
+            //            }
+            //        },
+            //        optionLabel: "--Select Process--"
+            //    });
+            //});
+            $("#AddRoleWindow").data("kendoWindow").center().title("Add Role").open();
+            $("#AddRoleWindow .windowConfirm").attr("data-url", "/Maintenance/Menu/AddRole")
+        });
+        $("#MenuLeftTab .Edit").click(function () {
+            if ($("#RoleList .k-grid-content").find(":checked").first().val() == null) {
+                ShowTip("Please select role!");
+                return;
+            }
+            $("#AddRoleWindow").data("kendoWindow").center().title("Edit Role").open();
+            $("#AddRoleWindow .windowConfirm").attr("data-url", "/Maintenance/Menu/EditRole");
+            $("#AddRoleWindow .k-textbox").val($("#RoleList").find(":checked").first().parent().next().text());
+        });
+        $("#MenuLeftTab .Delete").click(function () {
+            var list = new Array();
+            $("#RoleList").find(":checked").each(function () {
+                if ($(this).val() == "on") return;
+                list.push($(this).val());
+            })
+            if (list.length > 0) {
+                bootbox.confirm("Are you sure?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/Maintenance/Menu/DeleteRole",
+                            type: "POST",
+                            data: { ListID: list, Pane: CurrentApp.pane },
+                            traditional: true,
+                            success: function (data) {
+                                var grid = $("#RoleList").data("kendoGrid");
+                                grid.dataSource.data(data);
+                                $("#MenuRight").hide();
+                                bindGridCheckbox("RoleList");
+                                ChangeMenuTree("RoleList");  //隐藏
+                            },
+                            dataType: "json"
+                        })
+                    }
+                });
+            }
+            else {
+                ShowTip("Please select role!", "error");
+            }
+        });
+
+        $("#MenuRight .Add").click(function () {
+            $("#Link").hide();
+            var Type = $("#MenuTree").data("kendoTreeView").dataSource.get($("#MenuTree_tv_active").find("input").val()).Type;
+            if (Type == "Menu") {
+                $("#Type").show();
+            }
+            else {
+                $("#Type").hide();
+                $("#Link").show();
+
+            }
+            $("#AddMenuPermissionWindow").data("kendoWindow").center().title("Add Menu").open();
+            $("#AddMenuPermissionWindow .windowConfirm").attr("data-url", "/Maintenance/Menu/AddMenu").attr("data-id", "");
+
+            //$('input:radio[name=type]').change(function () {})
+        });
+        $("#AddMenuPermissionWindow").on("change", "#MenuType", function () {
+
+            var tes = $("#MenuType").val();
+            if ("DocumentLibrary" == $("#MenuType").val()) {
+                $("#Link").hide();
+            }
+            else { $("#Link").show(); }
+        })
+
+        $("#MenuRight .Edit").click(function () {
+            $("#Type").hide();
+            var target = $("#MenuTree_tv_active").find("input");
+            var Type = $("#MenuTree").data("kendoTreeView").dataSource.get($("#MenuTree_tv_active").find("input").val()).Type;
+            if (Type == "DocumentLibrary" || Type == "Menu") {
+                $("#Link").hide();
+                $("#Target").hide();
+            }
+            else { $("#Link").show(); $("#Target").show(); }
+            var id = target.val();
+            if (id) {
+                var item = $("#MenuTree").data("kendoTreeView").dataSource.get(id);
+                $("#AddMenuPermissionWindow").find(".k-textbox").first().val(item.Name);
+                $("#AddMenuPermissionWindow").find(".k-textbox").last().val(item.Link);
+                $("#MenuTarget").data("kendoDropDownList").value(item.Target);
+                $("#AddMenuPermissionWindow").data("kendoWindow").center().title("Edit Menu").open();
+                $("#AddMenuPermissionWindow .windowConfirm").attr("data-url", "/Maintenance/Menu/EditMenu").attr("data-id", id);
+            }
+            else {
+                ShowTip("Please select manu!");
+            }
+        });
+        $("#MenuRight .Delete").click(function () {
+            var target = $("#MenuTree_tv_active").find("input");
+            var id = target.val();
+            if (id) {
+                $.ajax({
+                    url: "/Maintenance/Menu/DeleteMenu",
+                    type: "POST",
+                    data: { ListID: [id] },
+                    traditional: true,
+                    success: function (idlist) {
+                        var MenuTreeView = $("#MenuTree").data("kendoTreeView");
+                        var selectNode = MenuTreeView.select();
+                        MenuTreeView.remove(selectNode);
+                    },
+                    dataType: "json"
+                })
+            }
+            else {
+                ShowTip("Please select menu!", "error");
+            }
+        })
+
+        $("#MenuType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [{ text: "Right", value: "DocumentLibrary" }, { text: "Left", value: "MenuItem" }],
+            optionLabel: "--Select Status--"
+        });
+        $("#MenuTarget").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [{ text: "PopUp", value: "PopUp" }, { text: "Redirect", value: "Redirect" }, { text: "Panel", value: "Panel" }],
+            optionLabel: "--Select Status--"
+        });
+    })
+</script>

@@ -1,0 +1,32 @@
+
+.WincontextMenu ul { padding: 0px; margin: 0px; list-style: none; }
+
+.WincontextMenu li { margin: 0px; padding: 1px; background-repeat: no-repeat; }
+
+.WincontextMenu a.cmDisable { opacity: 0.3; -moz-opacity: 0.3; filter: alpha(opacity=30); }
+
+.WincontextMenu li a { position: relative; display: block; padding: 3px 3px 3px 3px; color: ButtonText; text-decoration: none; margin: 1px; }
+
+    .WincontextMenu li a img { position: absolute; border: 0px; left: 3px; margin-top: -2px; width: 16px; height: 16px; }
+/*.WincontextMenu li a:hover {*/
+/*border: 1px solid #fffbff;*/
+/*border: 1px solid #09F;*/
+/*outline: 1px solid #b5d3ff;*/
+/*border-radius:2px;*/
+/*margin: 0;*/
+/*background-color: #39F;*/
+/*background: -moz-linear-gradient(top, rgba(239,239,255,0.5) 0%, rgba(223,223,255,0.5) 100%);*/ /* FF3.6+ */
+/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(239,239,255,0.5)), color-stop(100%,rgba(223,223,255,0.5)));*/ /* Chrome,Safari4+ */
+/*background: -webkit-linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%);*/ /* Chrome10+,Safari5.1+ */
+/*background: -o-linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%);*/ /* Opera11.10+ */
+/*background: -ms-linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%);*/ /* IE10+ */
+/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80efefff', endColorstr='#80dfdfff',GradientType=0 );*/ /* IE6-9 */
+/*background: linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%);*/ /* W3C */
+/*cursor: default;*/
+/*}*/
+
+.WincontextMenu .m-split { height: 6px; background: url(contextmenu/m_splitLine.gif) center repeat-x; font-size: 0px; margin: 0 2px; }
+
+.WincontextMenu li:hover { cursor: pointer; background-color: #39F;border-radius: 4px; -moz-border-radius: 4px; /* Old Firefox */ }
+
+.context-menu-list { margin: 0; padding: 0; min-width: 80px; max-width: 200px; display: inline-block; position: absolute; list-style-type: none; border: 1px solid #DDD; background: #EEE; -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); border-radius: 4px; -moz-border-radius: 4px; /* Old Firefox */ }

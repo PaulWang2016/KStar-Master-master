@@ -1,0 +1,149 @@
+﻿@using aZaaS.KStar.Html;
+@{
+    IHtmlString SpecialCharTip = new HtmlString(@Html.CSHtmlResx("SpecialCharTip"));   
+ }
+
+<div id="RoleManagementSplitter" style="position: relative; height: 100%;">
+    <div id="RoleTab">
+        <div class="top-toolbar">
+            <a class="k-button Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+           @* <a class="k-button Edit" href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a class="k-button Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>*@
+        </div>        
+        <div id="RoleList"></div>
+    </div>
+    <div id="UserTab" style="visibility: hidden; height: 600px; width: 150px; overflow: auto; -webkit-overflow-scrolling: touch;">
+        @*display: none; *@
+        <div class="top-toolbar">
+            <a class="k-button Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+            <a class="k-button Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+        <div id="UserList"></div>
+        <div class="operabar">
+            <div class="operamask"></div>
+            <button id="User_Role_Save" class="k-button operacontent" style="width: 80px; text-align: center; display: block;">@Html.CSHtmlResx("Save")</button>
+            <div class="tips" style="color: green; text-align: center; visibility: hidden; display: block;">@Html.CSHtmlResx("Savedsuccessfully")</div>
+        </div>
+    </div>
+</div>
+
+
+<div id="AddRoleEmployeeWindow" style="display: none">
+    <div>
+        <div>
+            <span style="margin: 3px;">
+                <input type="text" id="RoleEmployeeInput" class="k-textbox" />
+            </span>
+            <span style="margin: 3px;">
+                <a class="k-button" id="RoleEmployeeSelect">@Html.CSHtmlResx("select")</a>
+            </span>
+        </div>
+        <div id="RoleStaffList" style="margin-top: 7px;"></div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--/.AddRoleEmployeeWindow-->
+
+<!--/.AddRoleWindow-->
+<div id="AddRoleWindow" style="display: none" class="overflowhidden">
+    <div id="AddRole" class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4">@Html.CSHtmlResx("RoleName")</div>
+        <div class="col-xs-8 col-sm-8 col-md-8">
+            <input type="text" id="DropDownRoleList" name="RoleName" style="width: 100%;" required="required" />
+            <script type="text/javascript">
+                $(function () {
+                    var itemform = $("#AddRoleWindow");
+                    kendo.init(itemform);
+                    itemform.kendoValidator({
+                        validateOnBlur: true,
+                        messages: {
+                            RoleName: @SpecialCharTip
+                             },
+                         rules: {
+                             RoleName: function (input) {
+                                 if (input.is("[name='RoleName']")) {
+                                     var flag = true;
+                                     var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                     return regx.test(input.val());                                    
+                                 }
+                                 else {
+                                     return true;
+                                 }
+                             }
+                         }
+                     });
+                 });
+            </script>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" data-url="" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<!--/.AddRoleCategoryWindow-->
+<div id="AddRoleCategoryWindow" style="display: none" class="overflowhidden">
+    <div id="AddRoleCategory" class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4">@Html.CSHtmlResx("RoleCategoryName")</div>
+        <div class="col-xs-8 col-sm-8 col-md-8">
+            <input type="text" id="RoleCategory" name="RoleCategoryName" style="width: 100%;" required="required" />
+            <script type="text/javascript">
+                $(function () {
+                    var itemform = $("#AddRoleCategoryWindow");
+                    kendo.init(itemform);
+                    itemform.kendoValidator({
+                        validateOnBlur: true,
+                        messages: {
+                            RoleCategoryName: @SpecialCharTip
+                            },
+                        rules: {
+                            RoleCategoryName: function (input) {
+                                if (input.is("[name='RoleCategoryName']")) {
+                                    var flag = true;
+                                    var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                    return regx.test(input.val());                                    
+                                }
+                                else {
+                                    return true;
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" data-url="" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<script id="RoleManageTreeView-template" type="text/kendo-ui-template">   
+            # if(item.Type == "Category"){ #
+          
+            <span class="k-sprite folder"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #"  data-DisplayName= "#= item.DisplayName #"/>
+            # }else{ #
+      
+            <span class="k-sprite property"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #" data-DisplayName= "#= item.DisplayName #"/>
+            # } #
+           
+            #: item.DisplayName #
+</script>
+<!--/.AddRoleWindow-->
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaRolManagement" type="text/javascript"></script>

@@ -1,0 +1,23 @@
+﻿@media (max-width: 767px) {
+    #right nav a { width: 46px; }
+}
+
+@media (min-width: 768px) {
+    #right nav a { width: 80px; line-height: 22px; font-size: 11px; }
+        #right nav a span.nav-icon { margin: 6px 27px 0; }
+        #right nav a span.nav-txt { width: 80px; }
+        #right nav > a + a:before { margin-left: -2px; }
+}
+
+@media (min-width: 992px) {
+    #right nav a { width: 100px; line-height: 22px; font-size: 11px; }
+        #right nav a span.nav-icon { margin: 6px 37px 0; }
+        #right nav a span.nav-txt { width: 100px; }
+}
+
+@media (min-width: 1200px) {
+    #right nav a { width: 155px; line-height: 54px; font-size: 16px; }
+        #right nav a span.nav-icon { margin: 16px 10px 0; }
+        #right nav a span.nav-txt { width: initial; }
+        #right nav > a + a:before { margin-left: -3px; }
+}

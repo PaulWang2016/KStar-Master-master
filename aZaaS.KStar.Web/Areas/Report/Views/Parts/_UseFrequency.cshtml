@@ -1,0 +1,68 @@
+﻿@using aZaaS.KStar.Html;
+<script src="~/Scripts/kstarform.userpick.js"></script>
+<style type="text/css">
+    .selectbar1 .texttd { float: left;width: 240px;}
+    .selectbar1 .tdbtn { float: left;width: 60px;}
+    .selectbar1 .texttd div { float: left;}
+    .selectbar1 .texttd .texttd-label { line-height: 26px;}
+    #WorkflowReport1View .k-grid-content {overflow-x: hidden;overflow-y: scroll;}
+</style>
+<div>
+    <h3 style="text-align:center;">
+        <b>@Html.CSHtmlResx("Statements2Processforapprovalinformationstatistics")</b>
+    </h3>
+</div>
+<div class="section k-toolbar k-grid-toolbar" style="background-color: #f5f5f5; margin-bottom:20px">
+    <div class="selectbar1">
+        <div class="texttd">
+            开始时间:
+            <span>
+                <input name="txtStartDate" type="text" id="txtStartDate" />
+            </span>
+        </div>
+        <div class="texttd">
+            结束时间:
+            <span>
+                <input name="txtFinishDate" type="text" id="txtFinishDate" />
+            </span>
+        </div>
+        <div class="texttd">
+            归属:
+            <span>
+                <input class="k-textbox" name="ProcessCategory" type="text" id="ProcessCategory" />
+            </span>
+        </div>
+        <div class="texttd">
+            <div class="texttd-label">部门/科室:</div>
+            <div data-control='userpick' style="width:170px;" data-target='txtDeptName' data-options="{mutilselect:false}" data-controltype='Department' class="col-sm-5 has-feedback">
+                <input type="text"
+                       class="form-control" id="txtDeptName" style="height: 28px;" data-bind="value: txtDeptName" placeholder="部门/科室" />
+                <span class="glyphicon glyphicon-search form-control-feedback" style="text-align:left;" id="txtDeptName1"></span>
+            </div>
+        </div>
+        <div class="tdbtn">
+            <span>
+                <input class="k-button" id="btnQuery" type="button" value="查询" />
+            </span>
+        </div>
+        <div class="tdbtn">
+            <span>
+                <input class="k-button" id="btnReset" type="button" value="重置" />
+            </span>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div style="margin:0 auto;">
+        <div id="WorkflowReport1View" class="sectionGrid" style="margin:0 auto;width:100%">
+        </div>
+    </div>
+</div>
+
+    <script src="/JSResource/GetJavascriptResx?jsPageName=Report_SeaUseFrequency" type="text/javascript"></script>
+    <script src="~/JS/seajs/sea.js"></script>
+    <script type="text/javascript">
+        seajs.use("/JS/Report/SeaUseFrequency", function (init) {
+            init();
+        });
+    </script>

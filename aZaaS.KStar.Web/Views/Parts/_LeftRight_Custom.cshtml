@@ -1,0 +1,11 @@
+﻿@model String
+@{
+    string CurrentUser = ViewBag.CurrentUser;
+}
+
+<div id="Left">
+    <div class="title"><a href="JavaScript:void(0)" class="Home">流程中心门户</a></div>
+</div>
+<div id="Right">
+    @Html.DocumentBar(Model, CurrentUser)
+</div>

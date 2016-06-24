@@ -1,0 +1,77 @@
+﻿@using aZaaS.KStar.Form;
+@using aZaaS.KStar.Form.Mvc;
+
+<!-- ./kstarform attachment panel -->
+<div class="panel panel-default" id="_kstarform_attachment_component">
+    <div class="panel-heading"> 
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#_kstarform_attachment_panel">附件信息
+            </a>
+        </h4>
+    </div>
+    <div id="_kstarform_attachment_panel" class="panel-collapse collapse in well uploader">
+        <div id="_kstarform_attachment_zone" class="browser kstar-control" title="附件上传按钮">
+            <label>
+                <span class="btn btn-primary \">上&nbsp;传</span>
+                <input type="file" name="files[]" multiple="multiple" title='Click to add Files'>
+            </label>
+        </div>
+        @*<div id="progress">
+            <div class="bar" style="width: 0%; height: 18px; background: blue;"></div>
+        </div>*@
+        <div id="_kstarform_attachment_list" class="kstar-control" title="附件上传明细">
+            <table class="table table-hover">
+                <thead id="tbl_upload_list">
+                    <tr>
+                        <th class="col-sm-3">文件名称</th>
+                        <th class="col-sm-2">上传人名称</th>
+                        <th class="col-sm-2">上传时间</th>
+                        <th class="col-sm-2">节点名称</th>
+                        <th class="col-sm-2">备&nbsp;&nbsp;&nbsp;&nbsp;注</th>
+                        <th class="col-sm-1">操&nbsp;&nbsp;&nbsp;&nbsp;作</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: AttachmentModel">
+                    <tr>
+                        <td>
+                            <div class="input-group" data-bind="visible:FileOwner">
+                                <input type="text" class="form-control" data-bind="value:NewFileName">
+                                <span class="input-group-addon" data-bind="text:FileExtension"></span>
+                            </div>
+
+                            <a data-bind='text: NewFileName()+FileExtension(),attr: { href: DownloadUrl },visible:!FileOwner()' class="glyphicon glyphicon-download-alt" target="_self">
+                            </a>
+
+                            <div>
+                                <a data-bind='text:+(FileBytes() / 1024.00 ).toFixed(2)+"/KB",attr: { href: DownloadUrl },visible:FileOwner' class="glyphicon glyphicon-download-alt" target="_self">
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <span data-bind="text: UploaderName"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: moment(UploadedDate()).format('YYYY-MM-DD hh:mm:ss')"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: ActivityName"></span>
+                        </td>
+                        <td>
+                            <textarea class="form-control" data-bind="value: FileComment,visible:FileOwner" rows="2"> </textarea>
+                            <div data-bind="text: FileComment,visible:!FileOwner()"></div>
+                        </td>
+                        <td>
+                            <span data-bind=""></span>
+                            <button type="button" id="btn_remove"
+                                data-bind="click:$root.removeItem,visible:FileOwner"
+                                class="btn btn-default" aria-label="Left Align">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- ./kstarform attachment panel -->

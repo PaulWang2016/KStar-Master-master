@@ -1,0 +1,462 @@
+﻿ 
+<div class="modal fade" id="modal_SelectCustomerWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="modal_SelectCustomerWindow_dialog" style="overflow-x:hidden;">
+        <div class="modal-content">
+            <div class="modal-header" style=" padding:0px;">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <p class="bg-primary" style="padding: 10px;">
+                    <span class="caret"></span>&nbsp; <b id="modal_SelectCustomerWindow_title"></b>
+                </p>
+            </div>
+            <div class="modal-body">
+                <label class="control-label col-sm-2" style="width:70px;margin-bottom: 20px;">查询:</label>
+
+                <div class="input-group col-sm-10 has-feedback">
+                    <input type="text" class="form-control" onkeydown="CommonSelectInputEnteyEvent(event)" placeholder="请填写检索内容">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="EnterSelectEvent(0,event)">Go!</button>
+                    </span>
+                </div>
+
+                <table class="table" style="margin-bottom:0px;">
+                    <thead class="modal_SelectCustomerWindow_thead">
+                    </thead>
+                </table>
+
+                <table class="table">
+                    <tbody id="modal_SelectCustomerWindow_body"></tbody>
+                </table>
+
+                <nav>
+                    <ul class="pager" style=" margin:0px;" id="modal_SelectCustomerWindow_pager" data-page="1" data-mode="0">
+                        <li class="previous"><a href="#" onclick="Previous_SelectCustomerWindow_Event(event)">&larr; 上一页</a></li>
+                        <li class="next"><a href="#" onclick="Next_SelectCustomerWindow_Event(event)">下一页 &rarr;</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Selectcustomerwindow.ChoiceEvent(event)">确定</button>
+            </div>
+        </div>
+    </div>
+</div> 
+<style>
+  #modal_SelectCustomerWindow_body tr{
+      cursor:default;
+
+  }
+    #modal_SelectCustomerWindow_body tr:hover{
+      cursor:default;
+      background-color:#d6e9c6;
+
+  }
+    #modal_SelectCustomerWindow_body input {
+        cursor: default;
+    } 
+</style>
+ <script type="text/javascript">
+     var SelectCustomerWindow_Size = 10;
+    //Event CallBack Function
+    var ChoiceEventCallback = null;
+    // Fill Field
+    var SelectCustomerWindow_fillField = null;
+    //Fill Input  
+    var SelectCustomerWindow_input = null;
+    //select value
+    var SelectCustomerWindow_SelectValue = null;
+    //SettingIng
+    var SelectCustomerWindow_Setting = {
+        url: '',//请求url
+        method: '',//请求方法
+        data: '',//数据
+        big: false,//是否大显示框
+        radio: true,//是否单选
+        title: '',//显示标题
+        tableName: '',//请求表
+        hideFields: undefined //隐藏字段
+    }
+
+    var SelectCustomerWindow_GetEventTarget = null;
+      
+    //open Model
+    var CommonSelectWindow = function (event,setting, choiceEventCallback) {
+        ChoiceEventCallback = choiceEventCallback; 
+        SelectCustomerWindow_Setting.url = setting.url;
+        SelectCustomerWindow_Setting.method = setting.method;
+        SelectCustomerWindow_Setting.data = setting.data;
+        SelectCustomerWindow_Setting.big = setting.big == undefined ? false : setting.big;
+        SelectCustomerWindow_Setting.radio = setting.radio == undefined ? true : setting.radio;
+        SelectCustomerWindow_Setting.title = setting.title;
+        SelectCustomerWindow_Setting.tableName = setting.tableName;
+        SelectCustomerWindow_Setting.hideFields = setting.hideFields == undefined ? "ID" : setting.hideFields
+        Selectcustomerwindow.SetCurrentPage(0);// open  one page
+        //The validation rules
+        if (SelectCustomerWindow_Setting.url == undefined && SelectCustomerWindow_Setting.method == undefined) return;
+        SelectCustomerWindow_GetEventTarget = event;
+        SelectCustomerWindow_input = SelectCustomerWindow_GetEventTarget.target;//Event Input
+
+        if ($(SelectCustomerWindow_input).data("bind") == undefined) {
+            SelectCustomerWindow_input = $(SelectCustomerWindow_input).prev(); 
+        }
+
+        // method  Action
+        if (SelectCustomerWindow_Setting.method.toUpperCase() == "GET") {
+            if (SelectCustomerWindow_Setting.tableName == undefined || SelectCustomerWindow_Setting.tableName == null || $.trim(SelectCustomerWindow_Setting.tableName) == '') {
+                $.getJSON(SelectCustomerWindow_Setting.url + "?pageIndex=0&paramString=" + SelectCustomerWindow_Setting.data, null, function (data) {
+                    SelectCustomerWindowFileData(data);
+                });
+
+            } else {
+                $.getJSON('/api/Custom_BaseData/GetBaseData' + "?tableName=" + SelectCustomerWindow_Setting.tableName + "&pageIndex=" + 0 + (SelectCustomerWindow_SelectValue == null ? "" : "&searchString=" + encodeURIComponent(SelectCustomerWindow_SelectValue)), SelectCustomerWindow_Setting.data, function (data) {
+                    SelectCustomerWindowFileData(data);
+                });
+            
+            }
+        } else if (SelectCustomerWindow_Setting.method.toUpperCase() == "POST") {
+
+        }
+    }
+
+    var CommonSelectInputEnteyEvent = function (event) {
+        if (event.keyCode == 13) {
+            event.stopPropagation();
+            EnterSelectEvent(0, event);
+        }
+    }
+    //Select Event
+    var EnterSelectEvent = function (page, event) {
+      
+        var targetObject = event.target;
+        if (targetObject.tagName == "INPUT") {
+            SelectCustomerWindow_SelectValue = targetObject.tagName == "A" ? SelectCustomerWindow_SelectValue : targetObject.value;
+        } else if (targetObject.tagName == "BUTTON") {
+            SelectCustomerWindow_SelectValue = targetObject.parentElement.previousElementSibling.value;
+            Selectcustomerwindow.ClearCheckData();
+        } else if (targetObject.tagName == "A") {
+            SelectCustomerWindow_SelectValue = SelectCustomerWindow_SelectValue;
+        }
+        else {
+            SelectCustomerWindow_SelectValue = "";
+        }
+
+        if (SelectCustomerWindow_Setting.method.toUpperCase() == "GET") {
+            if (SelectCustomerWindow_Setting.tableName == undefined || SelectCustomerWindow_Setting.tableName == null || $.trim(SelectCustomerWindow_Setting.tableName) == '') {
+
+                $.getJSON(SelectCustomerWindow_Setting.url + "?pageIndex=" + page + "&paramString=" + SelectCustomerWindow_Setting.data + (SelectCustomerWindow_SelectValue == null ? "" : "&searchString=" + encodeURIComponent(SelectCustomerWindow_SelectValue)), null, function (data) {
+                    SelectCustomerWindowFileData(data);
+                });
+
+            } else {
+
+                $.getJSON('/api/Custom_BaseData/GetBaseData' + "?tableName=" + SelectCustomerWindow_Setting.tableName + "&pageIndex=" + page + (SelectCustomerWindow_SelectValue == null ? "" : "&searchString=" + encodeURIComponent(SelectCustomerWindow_SelectValue)), SelectCustomerWindow_Setting.data, function (data) {
+                    SelectCustomerWindowFileData(data);
+                });
+            }
+        } else if (SelectCustomerWindow_Setting.method.toUpperCase() == "POST") {
+            $.post(SelectCustomerWindow_Setting.url, SelectCustomerWindow_Setting.data, function (data, textStatus, jqXHR) {
+
+            });
+        }
+        
+    };
+
+    //上翻页
+    var Previous_SelectCustomerWindow_Event = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        var index = Selectcustomerwindow.GetCurrentPage();
+        $("#modal_SelectCustomerWindow_pager").data("mode", 0);//action 1 Next，0  Previous，-1  NO data
+        if (index <= 0) return;
+        EnterSelectEvent(--index, event);
+    }
+
+    //Next Page Event
+    var Next_SelectCustomerWindow_Event = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        var mode = $("#modal_SelectCustomerWindow_pager").data("mode");//action 1 Next，0  Previous，-1  NO data
+        var index = Selectcustomerwindow.GetCurrentPage();//Page
+        if (index <= 0) { index = 0; Selectcustomerwindow.SetCurrentPage(0);}
+        // is no record 
+        if (mode == -1) {
+            return;
+        }
+        // next judge
+        var tempData = Selectcustomerwindow.CurrentPageJsonDate();
+       
+        if (tempData.length < SelectCustomerWindow_Size + 1) {
+            $("#modal_SelectCustomerWindow_pager").data("mode", -1);
+            return;
+        } 
+        $("#modal_SelectCustomerWindow_pager").data("mode", 1);
+        EnterSelectEvent(++index, event);
+    }
+     
+    //Fill the forms data and display the form
+    var SelectCustomerWindowFileData = function (data) {
+        if (data.length==1) {
+            $("#modal_SelectCustomerWindow_pager").data("mode", -1) 
+        }
+     
+        //The Data from Save to tbody node
+        Selectcustomerwindow.SetCurrentPageJsonDate(data);
+
+        var bodyHtml = "";
+        var headHtml = "";
+        var $index = 0;
+        var hideFields = SelectCustomerWindow_Setting.hideFields;
+        hideFields = hideFields.split(',');
+        for (itemdate in data) {
+
+            if ($index == 0) {
+                for (attr in data[0]) {
+                    if ( $.inArray(attr, hideFields) < 0) {
+                        if (attr == "id" || attr == "_id") {
+                            headHtml += "<th style=\"width:7%;\">序号</th>";
+                        } else {
+                            headHtml += "<th class=\"col-xs-2\"> " + (data[0][attr] == null ? attr : data[0][attr]) + "</th>";
+                        }
+                    }
+                }
+            } else {
+                bodyHtml += "<tr  onclick=' Selectcustomerwindow.ClickRowEvent(this)'>";
+                for (attr in data[itemdate]) {
+                    if ($.inArray(attr, hideFields) < 0) {
+                        if (attr == "id" || attr == "_id") {
+                            if (SelectCustomerWindow_Setting.radio) {
+                                bodyHtml += "<td style=\"width:7%;\"><input type=\"radio\" name='modal_SelectCustomerWindow_body_td" + attr + "' value=" + $index + " /> " + data[itemdate][attr] + "</td>";
+                            }
+                            else {
+                                bodyHtml += "<td style=\"width:7%;\"><input type=\"checkbox\" disabled='disabled' value=" + $index + " /> " + data[itemdate][attr] + "</td>";
+                            }
+                        } else {
+                            if (SelectCustomerWindow_fillField == null) { SelectCustomerWindow_fillField = attr; }
+                            if (attr == "Picture") {
+                                bodyHtml += "<td class=\"col-xs-2\">" + '<img style=\" width:120px;\" src="data:;base64,' + data[itemdate][attr] + '" />' + "</td>";
+                            } else {
+                                bodyHtml += "<td class=\"col-xs-2\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""+ data[itemdate][attr] +"\"><div> " + data[itemdate][attr] + "</div></td>";
+                            } 
+                        }
+                    }
+                }
+                headHtml += "</tr>";
+            }
+            $index++;
+        }
+        //Fill thead
+        $('.modal_SelectCustomerWindow_thead').html("<tr>" + headHtml + "</tr>");
+        //Fill Body
+        $('#modal_SelectCustomerWindow_body').html(bodyHtml);
+        //Fill Title
+        $('#modal_SelectCustomerWindow_title').text(SelectCustomerWindow_Setting.title);
+        //Show dialog Setting
+        if (SelectCustomerWindow_Setting.big == true) {
+            $('#modal_SelectCustomerWindow_dialog').addClass("modal-lg");
+        } else {
+            $('#modal_SelectCustomerWindow_dialog').removeClass("modal-lg");
+        }
+
+        //hide clear Data
+        $('#modal_SelectCustomerWindow').on('hidden.bs.modal', function (e) {
+            SelectCustomerWindow_SelectValue = null;
+            $("#modal_SelectCustomerWindow_pager").data("mode", 0);
+            ChoiceEventCallback = null;
+            SelectCustomerWindow_fillField = null;
+            SelectCustomerWindow_fieldLabelID = null;
+            SelectCustomerWindow_SelectValue = null;
+            $('#modal_SelectCustomerWindow_dialog').find(".modal-content >.modal-body").find('input:text').val('');
+            Selectcustomerwindow.ClearCheckData();
+        });
+        $('#modal_SelectCustomerWindow').on('shown.bs.modal', function (e) {
+             e.stopImmediatePropagation();
+            var table = $('#modal_SelectCustomerWindow').find("tbody").parent();
+            var height =table.height();
+            if (height >= 340) {
+                table.css("overflow-y", "scroll");
+                table.css("display", "block");
+                table.css("max-height", "340px");
+            } else {
+                table.removeAttr("style");
+            }
+        });
+        var index = Selectcustomerwindow.GetCurrentPage();
+        var mode = $("#modal_SelectCustomerWindow_pager").data("mode")
+        index = (mode == 0 ? --index : ++index);
+        Selectcustomerwindow.SetCurrentPage(index < 0 ? 0 : index);
+        $('#modal_SelectCustomerWindow').modal('show');
+        Selectcustomerwindow.DefaultCheckRow();
+    }
+      
+    //填充 knockout 绑定控件的值   targetObject 目标控件对象， value   试用范围 koContentModel
+    function FillKoValue(targetObject, value) {
+        //获取bind 的value
+        var bindInfo = targetObject.data('bind');
+        
+        try {
+            //过滤出绑定的字段信息
+            bindInfo = bindInfo.split(',')[0].split(':')[1];
+        } catch (ex) {
+            //错误 直接给界面信息
+            targetObject.val(value);
+        }
+
+        var koModelProperty = bindInfo;
+        var splitkoModelProperty = koModelProperty.split('.');
+        var koObject = null;
+        //循环找出对于ko 实体对应对象
+        $.each(splitkoModelProperty, function (splitName, splitValue) {
+            splitValue = $.trim(splitValue);
+            if (koObject == null) {
+                koObject = (KStarForm.koContentModel[splitValue] || KStarForm.koAttachmentModel[splitValue] || KStarForm.koHeaderModel[splitValue] || KStarForm.koProcessLogModel[splitValue] || KStarForm.koToolbarModel[splitValue]);
+            } else {
+                koObject = koObject[splitValue];
+            }
+        });
+        koObject(value);//执行
+
+        $(SelectCustomerWindow_input).valid();
+    }
+      
+    var Selectcustomerwindow = {
+        //获取当前页json
+        CurrentPageJsonDate: function () { return $('#modal_SelectCustomerWindow_body').data("jsonData"); },
+        //设置当前页数据
+        SetCurrentPageJsonDate: function (jsonData) {
+            $('#modal_SelectCustomerWindow_body').data("jsonData", jsonData)
+        },
+        //check 的jsonData
+        CheckJsonData: function () { return $('#modal_SelectCustomerWindow_body').data("checkData"); },
+        SetCheckJsonData: function (jsonData) {
+
+            $('#modal_SelectCustomerWindow_body').data("checkData", jsonData);
+        },
+        //清除选择的数据
+        ClearCheckData: function () {
+            Selectcustomerwindow.SetCheckJsonData('')
+        },
+        //获取当前页面行数据
+        GetCurrentPageRowData: function (index) {
+            var jsonData = Selectcustomerwindow.CurrentPageJsonDate(); 
+            return jsonData[index];
+        },
+        //获取当前行
+        GetCurrentPage: function () {
+            return $("#modal_SelectCustomerWindow_pager").data("page");
+        },
+        SetCurrentPage: function (pageIndex) {
+            return $("#modal_SelectCustomerWindow_pager").data("page", pageIndex);
+        },
+        ClickRowEvent: function (eventTarget) {
+            var checkBox = eventTarget.getElementsByTagName('input')[0];
+            if (SelectCustomerWindow_Setting.radio) {
+                checkBox.checked = true;
+                var jsonData = this.GetCurrentPageRowData(checkBox.value);
+                this.SetCheckJsonData(jsonData);
+            } else {
+                //多选
+                checkBox.checked = !checkBox.checked; 
+                var jsonData = this.GetCurrentPageRowData(checkBox.value); 
+                var ClickCheckEvent = function (row) {
+                    var checkData = Selectcustomerwindow.CheckJsonData();//选择check 数据
+                    var page =Selectcustomerwindow.GetCurrentPage();
+                    if (typeof checkData != "object") {
+                        var initArray = new Array();
+                        initArray.push(row);
+                        checkData = {};
+                        checkData[page] = initArray;
+                        Selectcustomerwindow.SetCheckJsonData(checkData);
+                    } else {
+                        var currentPageCheckData = checkData[page];
+                        var resultCheckData = new Array();
+                        var isExist = false;
+                        if (currentPageCheckData != undefined) {
+                            //循环当前页选择的json 
+                            $.each(currentPageCheckData, function (index, item) {
+                                if (row != item) {
+                                    resultCheckData.push(item);
+                                } else {
+                                    isExist = true;
+                                }
+                            });
+                        } 
+                        if (!isExist) {
+                            resultCheckData.push(row);
+                        }
+
+                        checkData[page] = resultCheckData;
+                        //保存数据
+                        Selectcustomerwindow.SetCheckJsonData(checkData);
+                    }
+                }
+                ClickCheckEvent(jsonData);
+                //check change backGround Color
+                if (checkBox.checked) {
+                    eventTarget.style.backgroundColor = "#e8e8e8"
+                } else {
+                    eventTarget.style.backgroundColor = "";
+                }
+            }
+        },
+        //CallBack Event
+        ChoiceEvent: function (event) {
+            var choiceData = [];
+            if (SelectCustomerWindow_Setting.radio) {
+                choiceData.push(this.CheckJsonData());
+            } else {
+                var checkData = Selectcustomerwindow.CheckJsonData();//选择check 数据
+
+                $.each(checkData, function (attr, item) {
+                    $.each(item, function (i, json) {
+                        choiceData.push(json);
+                    })
+                });
+            } 
+            if (choiceData.length <= 0) return;
+            if (SelectCustomerWindow_fillField == null && ChoiceEventCallback == null) {
+                return;
+            }
+            if (typeof ChoiceEventCallback == "function") {
+                ChoiceEventCallback(choiceData)
+            } else if (ChoiceEventCallback == null) {
+                FillKoValue($(SelectCustomerWindow_input), choiceData[0][SelectCustomerWindow_fillField]);
+            }
+        },
+        DefaultCheckRow: function () {
+            if (!SelectCustomerWindow_Setting.radio) {
+                var page = this.GetCurrentPage();
+                var checkData = this.CheckJsonData();//选择check 数据
+                if (typeof checkData == "object") {
+                    var pageCheckData = checkData[page];
+                    if (pageCheckData != undefined) {
+                       var checkBoxList= $('#modal_SelectCustomerWindow_body').find('input');
+                       
+                       $.each(checkBoxList, function (attr, checkBox) {
+                           var row = Selectcustomerwindow.GetCurrentPageRowData(checkBox.value);
+                           $.each(pageCheckData, function (index, item) {
+                               var id = item.id;
+                               var _id = item._id;
+
+                               if (id != undefined) {
+                                   if (row.id == item.id) {
+                                       checkBox.checked = true;
+                                       checkBox.parentElement.parentElement.style.backgroundColor = "#e8e8e8"
+                                   }
+                               }
+
+                               if (_id != undefined) {
+                                   if (row._id == item._id) {
+                                       checkBox.checked = true;
+                                       checkBox.parentElement.parentElement.style.backgroundColor = "#e8e8e8"
+                                   }
+                               } 
+                           });
+
+                       });
+                }
+                }
+            }
+        } 
+    };
+
+</script> 

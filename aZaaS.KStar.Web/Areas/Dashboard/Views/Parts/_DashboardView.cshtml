@@ -1,0 +1,32 @@
+﻿@Html.Partial("~/Areas/Dashboard/Views/Parts/_PendingTasks.cshtml", false)
+@Html.Partial("~/Areas/Dashboard/Views/Parts/_RequestTasks.cshtml", false)
+@Html.Partial("~/Areas/Dashboard/Views/Parts/_OnGoingTasks.cshtml", false)
+@Html.Partial("~/Areas/Dashboard/Views/Parts/_CompletedTasks.cshtml", false)
+<script type="text/javascript">
+    var isInited = false;
+    title = "Portal Site Page - Kendo UI";
+    $.getJSON("/Dashboard/PendingTasks/Get", { "_t": new Date() }, function (items) {
+        var workInfo = getWorkInfo(items);
+        InitKendoExcelGrid("workList", workInfo.model, workInfo.columns, items, 5, "My Pending Tasks", function () {
+            bindAndLoad("workList");
+        });
+    })
+    $.getJSON("/Dashboard/RequestTasks/Get", { "_t": new Date() }, function (items) {
+        InitKendoExcelGrid("myRequestTask", TaskModel, requestcolumns, items, 5, "My Request Tasks", function () {
+            bindAndLoad("myRequestTask");
+            InitHistoryTooltip("myRequestTask");
+        });
+    })
+    $.getJSON("/Dashboard/OnGoingTasks/Get", { "_t": new Date() }, function (items) {
+        InitKendoExcelGrid("onGoingTask", TaskModel, onGoingcolumns, items, 5, "On-Going Tasks", function () {
+            bindAndLoad("onGoingTask");
+            InitHistoryTooltip("onGoingTask");
+        });
+    })
+    $.getJSON("/Dashboard/CompletedTasks/Get", { "_t": new Date() }, function (items) {
+        InitKendoExcelGrid("completedTask", TaskModel, completedcolumns, items, 5, "Completed Tasks", function () {
+            bindAndLoad("completedTask");
+            InitHistoryTooltip("completedTask");
+        });
+    })
+</script>

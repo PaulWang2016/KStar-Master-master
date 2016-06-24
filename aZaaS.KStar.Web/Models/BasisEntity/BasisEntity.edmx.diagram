@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ca2a0347901a4cc8bea5d2f06dae61ca" Name="Diagram1" ZoomLevel="75" >
+        <EntityTypeShape EntityType="BasisEntity.Custom_BaseData_ProcessingVendor" Width="1.5" PointX="7.25" PointY="0.75" />
+        <EntityTypeShape EntityType="BasisEntity.Custom_BaseData_Customer" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BasisEntity.Custom_BaseData_labelTemplate" Width="1.5" PointX="4" PointY="0.75" />
+        <EntityTypeShape EntityType="BasisEntity.Custom_BaseData_ToolSoft" Width="1.5" PointX="5.625" PointY="0.75" />
+        <EntityTypeShape EntityType="BasisEntity.QuartzCacheSendMail" Width="1.5" PointX="8.875" PointY="0.75" />
+        <EntityTypeShape EntityType="BasisEntity.Custom_Business_Daily" Width="1.5" PointX="0.75" PointY="1.875" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessFormContent" Width="1.5" PointX="2.375" PointY="1.875" />
+        <EntityTypeShape EntityType="BasisEntity.OrgNode" Width="1.5" PointX="0.75" PointY="3" />
+        <EntityTypeShape EntityType="BasisEntity.User" Width="1.5" PointX="5.625" PointY="1.875" />
+        <EntityTypeShape EntityType="BasisEntity.UserOrgNode" Width="1.5" PointX="4" PointY="1.875" />
+        <EntityTypeShape EntityType="BasisEntity.PositionUser" Width="1.5" PointX="7.25" PointY="1.875" />
+        <EntityTypeShape EntityType="BasisEntity.Position" Width="1.5" PointX="8.875" PointY="1.875" />
+        <EntityTypeShape EntityType="BasisEntity.Custom_Business_WeeklyDaily" Width="1.5" PointX="2.375" PointY="3" />
+        <EntityTypeShape EntityType="BasisEntity.OrgNodeExtend" Width="1.5" PointX="4" PointY="3" />
+        <EntityTypeShape EntityType="BasisEntity.PositionCategory" Width="1.5" PointX="5.625" PointY="3" />
+        <EntityTypeShape EntityType="BasisEntity.Role" Width="1.5" PointX="2.375" PointY="4" />
+        <EntityTypeShape EntityType="BasisEntity.RoleUser" Width="1.5" PointX="4" PointY="4" />
+        <EntityTypeShape EntityType="BasisEntity.PositionOrgNode" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="BasisEntity.SendErrorLog" Width="1.5" PointX="7.25" PointY="4" />
+        <EntityTypeShape EntityType="BasisEntity.VW_ErrorLog" Width="1.5" PointX="8.875" PointY="3.375" />
+        <EntityTypeShape EntityType="BasisEntity.TempSupervision" Width="1.5" PointX="0.75" PointY="5.5" />
+        <EntityTypeShape EntityType="BasisEntity.EmailTransferConfig" Width="1.5" PointX="4" PointY="5.375" />
+        <EntityTypeShape EntityType="BasisEntity.QuartzSendMail" Width="1.5" PointX="5.75" PointY="6" />
+        <EntityTypeShape EntityType="BasisEntity.FormAttachment" Width="1.5" PointX="4" PointY="7.125" />
+        <EntityTypeShape EntityType="BasisEntity.NetworkRole" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="BasisEntity.CommonReportConfig_DisplayArea" Width="1.5" PointX="7" PointY="8.5" />
+        <EntityTypeShape EntityType="BasisEntity.CommonReportConfig_SearchArea" Width="1.5" PointX="10" PointY="7.5" />
+        <EntityTypeShape EntityType="BasisEntity.Custom_BaseData_ModuleType" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="BasisEntity.view_ProcinstList" Width="1.5" PointX="14.375" PointY="9.5" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessLog" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessFormCancel" Width="1.5" PointX="3.375" PointY="12.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessActivityParticipantSet" Width="1.5" PointX="12.75" PointY="5.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessActivityParticipantSetEntry" Width="1.5" PointX="5.75" PointY="12.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessFormCC" Width="1.5" PointX="7.75" PointY="12.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessFormHeader" Width="1.5" PointX="9.75" PointY="12.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessPrognosis" Width="1.5" PointX="12.75" PointY="10.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessPrognosisDetail" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessPrognosisTask" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessFormApprovalDraft" Width="1.5" PointX="14.75" PointY="3.75" />
+        <EntityTypeShape EntityType="BasisEntity.ProcessFormSigner" Width="1.5" PointX="14.75" PointY="6.75" />
+        <EntityTypeShape EntityType="BasisEntity.DBLogEntry" Width="1.5" PointX="12.375" PointY="14.75" />
+        <EntityTypeShape EntityType="BasisEntity.CommonReportPermission" Width="1.5" PointX="14.375" PointY="14.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,64 @@
+﻿@using aZaaS.KStar.Html;
+@model IEnumerable<aZaaS.KStar.Web.Models.ViewModel.HistoryView>
+@{
+    bool isAsyn = ViewBag.isAsyn == null ? false : ViewBag.isAsyn;
+    if (isAsyn)
+    {
+        Layout = "~/Views/Shared/_LayoutAll_Custom.cshtml";
+    }
+    IHtmlString ActionTaker = new HtmlString(@Html.CSHtmlResx("ActionTaker"));
+    IHtmlString Stage = new HtmlString(@Html.CSHtmlResx("Stage"));
+    IHtmlString Date = new HtmlString(@Html.CSHtmlResx("Date"));
+    IHtmlString Action = new HtmlString(@Html.CSHtmlResx("Action"));
+    IHtmlString TaskOwner = new HtmlString(@Html.CSHtmlResx("TaskOwner"));
+    IHtmlString Comment = new HtmlString(@Html.CSHtmlResx("Comment"));
+}
+<div style="margin: 2px">
+    <table id="ApprovalHistory" class="ApprovalHistory">
+        @*<tr class="tb-header">
+            <th>@Html.CSHtmlResx("ActionTaker")</th>
+            <th>@Html.CSHtmlResx("Stage")</th>
+            <th>@Html.CSHtmlResx("Date")</th>
+            <th>@Html.CSHtmlResx("Action")</th>
+            <th>@Html.CSHtmlResx("TaskOwner")</th>
+            <th>@Html.CSHtmlResx("Comment")</th>
+        </tr>*@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Stage</td>
+                <td>@item.TaskOwner</td>
+                <td>@item.Name</td>
+                <td>@item.Action</td>
+                @if (item.Comment.Length > 35)
+                {
+                    <td><a href="javascript:void(0)" title="@item.Comment">@string.Format("{0}...", item.Comment.Substring(0, 35))</a></td>
+                }
+                else
+                {
+                    <td>@item.Comment</td>
+                }
+                <td>@item.Date</td>
+            </tr>
+        }
+    </table>
+</div>
+@section scripts{
+    <script>
+        $("#ApprovalHistory").kendoGrid({
+            columns: [
+    		{ field: "Stage", title: @Stage},
+            { field: "TaskOwner", title: @TaskOwner },
+            { field: "ActionTaker", title: @ActionTaker},
+	    	{ field: "Action", title: @Action },
+	    	{ field: "Comment", title: @Comment },
+            { field: "Date", title: @Date },	    		    		    	
+            ],
+            sortable: false, scrollable: true, resizable: false, columnMenu: false, height: 144
+        });
+
+        $("body").find(".k-grid-header").css("padding-right", "16px");
+        $("body").find(".k-grid-content").css("height", "115px");
+        $("body").css("padding-bottom", "0");
+    </script>
+}

@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "同步登录中...";
+}
+@{
+    Layout = null;
+}
+
+   @Html.Raw(@ViewBag.extraJS)
+<script type="text/javascript">
+
+    window.location.href ="@Html.Raw(@ViewBag.returnUrl)";
+</script> 

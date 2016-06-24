@@ -1,0 +1,7 @@
+﻿@model String
+@{
+    string CurrentUser = ViewBag.CurrentUser;
+}
+@Html.MenuBar(Model, CurrentUser, false)
+<div class="title"><a href="JavaScript:window.location.href=kendo.format('#pane={0}&widget={1}',CurrentApp.pane,$('#pane-wrapper-'+CurrentApp.pane).data('default'))">@Html.CSHtmlResx("Home")</a></div>
+

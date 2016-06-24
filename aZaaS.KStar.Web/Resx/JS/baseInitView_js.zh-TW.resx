@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="gb2312"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Choosecolumns" xml:space="preserve">
+    選擇列
+  </data>
+  <data name="dataitemsperpage" xml:space="preserve">
+    每頁數據項
+  </data>
+  <data name="Dropcolumnshere" xml:space="preserve">
+    拖拽表頭到這里，可進行分組顯示
+  </data>
+  <data name="SelectValue" xml:space="preserve">
+    - 選擇值 -
+  </data>
+  <data name="Sortasc" xml:space="preserve">
+    排序（升序）
+  </data>
+  <data name="Sortdesc" xml:space="preserve">
+    排序（降序）
+  </data>
+  <data name="Contains" xml:space="preserve">
+    包含
+  </data>
+  <data name="Doesnotcontain" xml:space="preserve">
+    不包含
+  </data>
+  <data name="Endswith" xml:space="preserve">
+    結果為
+  </data>
+  <data name="Filter" xml:space="preserve">
+    排除
+  </data>
+  <data name="Isequalto" xml:space="preserve">
+    等于
+  </data>
+  <data name="Isnotequalto" xml:space="preserve">
+    不等于
+  </data>
+  <data name="Showitemswithvaluethat" xml:space="preserve">
+    顯示項目與值：
+  </data>
+  <data name="Startswith" xml:space="preserve">
+    開始于
+  </data>
+  <data name="After" xml:space="preserve">
+    后
+  </data>
+  <data name="Afterorequalto" xml:space="preserve">
+    后或等于
+  </data>
+  <data name="Before" xml:space="preserve">
+    前
+  </data>
+  <data name="Beforeorequalto" xml:space="preserve">
+    前或等于
+  </data>
+  <data name="Clear" xml:space="preserve">
+    清除
+  </data>
+  <data name="Equal" xml:space="preserve">
+    等于
+  </data>
+  <data name="Equalto" xml:space="preserve">
+    等于
+  </data>
+  <data name="Greaterthan" xml:space="preserve">
+    大于
+  </data>
+  <data name="Greaterthanorequalto" xml:space="preserve">
+    大于或等于
+  </data>
+  <data name="Lessthan" xml:space="preserve">
+    小于
+  </data>
+  <data name="Lessthanorequalto" xml:space="preserve">
+    小于或等于
+  </data>
+  <data name="Notequal" xml:space="preserve">
+    不等于
+  </data>
+  <data name="Notequalto" xml:space="preserve">
+    不等于
+  </data>
+  <data name="Noitemstodisplay" xml:space="preserve">
+    無記錄
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    取消
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    確認
+  </data>
+  <data name="SelectPersonWindowTitle" xml:space="preserve">
+    選人通用窗口
+  </data>
+  <data name="Donotchooseanyitem" xml:space="preserve">
+    沒有選擇任何項。
+  </data>
+  <data name="datadisplay" xml:space="preserve">
+    顯示{0}-{1}的{2}項數據
+  </data>
+  <data name="CustomRoles" xml:space="preserve">
+    自定義角色 
+  </data>
+  <data name="Department" xml:space="preserve">
+    部門
+  </data>
+  <data name="Person" xml:space="preserve">
+    人員
+  </data>
+  <data name="Pleasefillinthekeyword" xml:space="preserve">
+    關鍵字
+  </data>
+  <data name="Position" xml:space="preserve">
+    職位
+  </data>
+  <data name="Reelect" xml:space="preserve">
+    重選
+  </data>
+  <data name="Areyousuredeletecustompersondata" xml:space="preserve">
+    您是否確定要清空所選人員信息？
+  </data>
+  <data name="Deletecustompersondatafailed" xml:space="preserve">
+    清空人員信息失敗.
+  </data>
+  <data name="Deletecustompersondatasuccessfully" xml:space="preserve">
+    已成功清空人員信息.
+  </data>
+  <data name="Savecustompersondatafailed" xml:space="preserve">
+    保存人員信息失敗.
+  </data>
+  <data name="Savecustompersondatasuccessfully" xml:space="preserve">
+    已成功保存人員信息.
+  </data>
+  <data name="SystemRoles" xml:space="preserve">
+    系統角色
+  </data>
+  <data name="SelectConnectionWindowTitle" xml:space="preserve">
+    連接字符串配置
+  </data>
+  <data name="SelectMappingWindowTitle" xml:space="preserve">
+    數據映射配置
+  </data>
+  <data name="SQLDataBase" xml:space="preserve">
+    數據庫
+  </data>
+  <data name="SQLPassWord" xml:space="preserve">
+    密碼
+  </data>
+  <data name="SQLServer" xml:space="preserve">
+    服務器
+  </data>
+  <data name="SQLUserName" xml:space="preserve">
+    用戶名
+  </data>
+  <data name="MappingField" xml:space="preserve">
+    數據映射
+  </data>
+  <data name="More" xml:space="preserve">
+    更多
+  </data>
+  <data name="Company" xml:space="preserve">
+    公司
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    姓名
+  </data>
+  <data name="LastName" xml:space="preserve">
+    姓氏
+  </data>
+  <data name="UserName" xml:space="preserve">
+    用戶
+  </data>
+  <data name="Loading" xml:space="preserve">
+    加載中....
+  </data>
+</root>

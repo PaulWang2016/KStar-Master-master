@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMore.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        var splitters = [];
+        var myScrolls;
+        window.DateTimeFormat = "@aZaaS.KStar.Facades.PortalEnvironment.DateTimeFormat";
+        var LoadContent = function (url) {
+            $.each(splitters, function () {
+                this.destroy();
+            })
+            var subPane = $("#container");
+            subPane.html("<div class='loading'></div>")
+            $.post(url, { isAjax: true }, function (partialView) {
+                subPane.html(partialView).find(".datepicker").kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    max: new Date(9999, 11, 31)
+                });
+                //document.title = title;
+                //refreshCurrentScrolls(true);
+            }).fail(function (e) {
+                LoadContent(url);
+            });
+        }
+        $(window).resize(function () {
+            $(".fullwidget").height($(window).height() - 60);
+        }).resize();
+        LoadContent("@Request.Url.AbsolutePath");
+    </script>
+}

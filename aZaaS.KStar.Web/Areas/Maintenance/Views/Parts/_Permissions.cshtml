@@ -1,0 +1,51 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>Permission Management</div>
+    </div>
+    <div class="top-toolbar">
+        @*<button onclick="Add()">Add</button>
+        <button onclick="Edit()">Edit</button>
+        <button onclick="Del()">Del</button>*@
+        <a class="more k-button" href="javascript:void(0)" onclick="Add()"><span class="glyphicon glyphicon-plus"></span></a>
+        @*<a class="more k-button" href="javascript:void(0)" onclick="Edit()"><span class="glyphicon glyphicon-pencil"></span></a>*@
+        <a class="more k-button" href="javascript:void(0)" onclick="Del()"><span class="glyphicon glyphicon-remove"></span></a>
+    </div>
+    <div id="PermissionView"></div>
+</div>
+
+
+<div id="AddPermissionWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input type="text" class="k-textbox Name" style="width: 100%;" placeholder="Name" /></td>
+            </tr>
+            <tr>
+                <td>Code:</td>
+                <td>
+                    <input type="text" class="k-textbox Code" style="width: 100%;" placeholder="Code" /></td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td>
+                    <input type="text" class="k-textbox Description" style="width: 100%;" placeholder="Description" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+<script src="~/JS/Maintenance/Permission.js"></script>
+<script>
+    $(function () {
+
+        LoadPermissionManagement();
+    });
+</script>

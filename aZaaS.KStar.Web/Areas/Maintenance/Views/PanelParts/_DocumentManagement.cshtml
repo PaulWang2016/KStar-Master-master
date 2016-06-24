@@ -1,0 +1,91 @@
+﻿@using aZaaS.KStar.Html;
+<div style="height: 600px;">
+    <div id="DocManagementSplitter" style="position: relative; height: 100%;">
+        <div id="DocManagementTreeView"></div>
+        <div id="Doc_Information" style="visibility: hidden; height: 600px; overflow: auto; -webkit-overflow-scrolling: touch;">@*display: none; *@
+            <ul>
+                <li class="k-state-active">
+               <a href="#">@Html.CSHtmlResx("BasicInformation")</a>
+                    <div>
+                        <div id="Doc_BasicInformation">
+                            <div class="row">
+                               <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("DisplayName")</div>
+                                <div class="col-lg-9 col-md-9">
+                                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                        <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("IconPath")</div>
+                                <div class="col-lg-9 col-md-9">
+                                    <input type="text" class="k-textbox IconPath" style="width: 100%;" placeholder="Icon Path" />
+                                </div>
+                            </div>
+                            <div class="row documentItem" style="display: none">
+                                 <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("StorageUri")</div>
+                                <div class="col-lg-9 col-md-9">
+                                    <input type="text" class="k-textbox StorageUri" style="width: 100%;" />
+                                </div>
+                            </div>
+                            <div class="row documentLibrary" style="display: none">
+                                 <div class="col-lg-3 col-md-3">@Html.CSHtmlResx("Key")</div>
+                                <div class="col-lg-9 col-md-9">
+                                    <input type="text" class="k-textbox Key" style="width: 100%;" placeholder="Key" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="operabar">
+               <div class="operamask"></div>
+                <button id="Doc_Information_Save" class="k-button operacontent" style="width: 80px; text-align: center; display: block;">@Html.CSHtmlResx("Save")</button>
+                <div class="tips" style="color: green; text-align: center; visibility: hidden; display: block;">@Html.CSHtmlResx("Savedsuccessfully")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddDocWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("DisplayName")</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("IconPath")</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox IconPath:</" style="width: 100%;" placeholder="Icon Path" /></td>
+            </tr>
+            <tr class="documentItem" style="display: none">
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("StorageUri")</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox StorageUri" style="width: 100%;" /></td>
+            </tr>
+            <tr class="documentLibrary" style="display: none">
+                <td style="vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Key")</td>
+                <td colspan="3">
+                    <input type="text" class="k-textbox Key" style="width: 100%;" placeholder="Key" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaDocumentManagement" type="text/javascript"></script>
+<script id="DocManagementTreeView-template" type="text/kendo-ui-template">
+            # if(item.ParentID!= null){ #
+            <span class="k-sprite property"></span>
+            # }else{ #
+
+        <span class="k-sprite folder"></span>
+            # } # 
+            <input type="checkbox"value="#= item.ID #"  />
+        #: item.Name #
+</script>

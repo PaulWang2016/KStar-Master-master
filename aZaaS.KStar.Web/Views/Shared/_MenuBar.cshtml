@@ -1,0 +1,82 @@
+﻿@model aZaaS.KStar.Menu
+
+<div id="sidebar-nav" class="sidebar-nav">
+    <ul class="accordion">
+        @foreach (var mi in Model.Items.Where(m => m.Parent == null))
+        {
+            <li class="@mi.IconKey">
+                <a class="sub-head" href="@(string.IsNullOrWhiteSpace(mi.Hyperlink) ? "javascript:void(0)" : mi.Hyperlink)">@Html.Raw(Html.DBResxFor_aZaaSKStar_MenuBar_DisplayName(mi.DisplayName))</a>
+                <ul class="sub-menu">
+                    @foreach (var child in Model.Items.Where(m => m.Parent == mi))
+                    {                        
+                        <li>
+                            <a href="@child.Hyperlink" data-Scope="@Model.Key" data-target="@child.Target.ToString()" data-url="@child.Hyperlink">
+                                @Html.Raw(Html.DBResxFor_aZaaSKStar_MenuBar_DisplayName(child.DisplayName))
+                                @switch (child.Hyperlink)
+                                {                                      
+                                    case "/Maintenance/MyDrafts":
+                                        <span class="badge" style="padding:3px 7px;vertical-align: middle; color:white;">@TaskListCountProvider.GetMyDrafts(TastListType.Total)</span>
+                                        break;
+                                    case "/Maintenance/Delegation":
+                                        <span class="badge" style="padding:3px 7px;vertical-align: middle;color:white;">@TaskListCountProvider.GetDelegation(TastListType.Notexpired,"Dashboard")</span>
+                                        break;
+                                    case "/DynamicWidget/PendingTasks":
+                                        <span class="badge" style="padding:3px 7px;vertical-align: middle;color:white;">@TaskListCountProvider.GetPendingTasks(TastListType.Total)</span>
+                                        break;
+                                    default:                                        
+                                        break;
+                                }
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+
+        @*<li>
+            <a href="javascript:void(0)" class="nav-header"><img src="http://placehold.it/30x30" width="30" height="30">Forms</a>
+            <ul class="nav">
+                <li><a href="/eForm/RequestForm">Tenant Database Request Form</a></li>
+                <li><a href="/eForm/CancelRequest">Tenant Database Change Form</a></li>
+                <li><a href="#pane=@pane&widget=/Dashboard/Draft">My Drafts</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="nav-header"><img src="http://placehold.it/30x30" width="30" height="30">Task</a>
+            <ul class="nav">
+                <li><a href="#pane=@pane&widget=/Dashboard/PendingTasks">My Pending Tasks</a></li>
+                <li><a href="#pane=@pane&widget=/Dashboard/RequestTasks">My Request Tasks</a></li>
+                <li><a href="#pane=@pane&widget=/Dashboard/OnGoingTasks">On-Going Tasks</a></li>
+                <li><a href="#pane=@pane&widget=/Dashboard/CompletedTasks">Completed Tasks</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="nav-header"><img src="http://placehold.it/30x30" width="30" height="30">Report</a>
+            <ul class="nav">
+                <li><a href="#pane=@pane&widget=/eForm/TenantReport">Tenant Database Report(All)</a></li>
+                <li><a href="#pane=@pane&widget=/eForm/DetailReport">Tenant Database Report(Detail)</a></li>
+                <li><a href="#pane=@pane&widget=/eForm/ManagementReport">Tenant Database Management Report</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="nav-header"><img src="http://placehold.it/30x30" width="30" height="30">Maintenance</a>
+            <ul class="nav">
+                <li><a href="#pane=@pane&widget=/Dashboard/Delegation">My Delegation</a></li>
+                <li><a href="#pane=@pane&widget=/Dashboard/SaveProfile">Save Profile to Server</a></li>
+                <li><a href="#pane=@pane&widget=/Dashboard/LoadProfile">Load Profile from Server</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="nav-header"><img src="http://placehold.it/30x30" width="30" height="30">Maintenance (Admin Only)</a>
+            <ul class="nav">
+                <li><a href="#pane=@pane&widget=/Maintenance/Organization">Organization Management</a></li>
+                <li><a href="#pane=@pane&widget=/Maintenance/Position">Position Management</a></li>
+                <li><a href="#pane=@pane&widget=/Maintenance/Staff">User Management</a></li>
+                <li><a href="#pane=@pane&widget=/Maintenance/Master">Master Management</a></li>
+                <li><a href="#pane=@pane&widget=/Maintenance/Menu">Menu Configuration</a></li>
+                <li><a href="#pane=@pane&widget=/Maintenance/Schedule">Schedule Configuration</a></li>
+                <li><a href="#pane=@pane&widget=/Maintenance/EmailTmpl">Email Template</a></li>
+            </ul>
+        </li>*@
+    </ul>
+</div>

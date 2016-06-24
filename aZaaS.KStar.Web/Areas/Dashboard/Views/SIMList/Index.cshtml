@@ -1,0 +1,376 @@
+﻿@using aZaaS.KStar.Form.Mvc
+@{
+    ViewBag.Title = "流程督办";
+}
+@using aZaaS.KStar.Web.Controllers;
+
+<script type="text/javascript">
+    document.createElement("lang");
+    //debugger;
+    var isSIMManager = '@Html.IsSIMManagement()'
+    var OperatorsList = [];
+    //alert(isSIMManager == 'True');
+</script>
+
+<div class="section">
+    <div class="selectbar1">
+
+        借出时间从:		<span>
+            <input name="StartDate" type="text" id="txtStartDate" />
+        </span>
+        借出时间至:
+        <span>
+            <input name="EndDate" type="text" id="txtFinishDate" />
+        </span>
+        长号:
+        <span>
+            <input class="k-textbox" name="Folio" type="text" id="txtLongNumber" />
+        </span>
+        @*运营商:
+        <span>
+            @{
+                var OperatorsList = new List<SelectListItem>();
+
+                new aZaaS.KStar.Facades.DataDictionaryFacade().GetDataDictionaryByCode("Operators").ToList().ForEach(
+                    item =>
+                    {
+                        OperatorsList.Add(new SelectListItem() { Text = item.Name, Value = item.Value });
+                    });
+
+                @Html.DropDownList("Operators", OperatorsList, null, new Dictionary<string, object>
+                      {
+                         {"class", "form-control"},
+                         {"onchange", "return langSet(this)"}
+                      });
+            }
+        </span>*@
+        借用人:		<span>
+            <input class="k-textbox" name="Orginator" type="text" id="txtStartUser" />
+        </span>
+        <span>
+            <input class="k-button selectbtn" name="select" type="button" value="查询SIM卡" />
+        </span>
+        @if (Html.IsSIMManagement())
+        {
+            <span>
+                <input class="k-button" id="btnAdd" name="select" type="button" value="新增SIM卡" />
+            </span>
+        }
+        <span>
+            <input class="k-button" id="btnPurchase" name="select" type="button" value="申购SIM卡" />
+        </span>
+    </div><div class="sectionGrid" id="SIMList"></div>
+</div>
+
+<script type="text/javascript">
+    function OperatorEvent() {
+        var parentid = $("input[name='Operators']:checked").attr("id");
+        var index = 0;
+        for (var i = 0; i < KStarForm.koContentModel.OperatorsList().length; i++) {
+            if (typeof (KStarForm.koContentModel.OperatorsList()[i].Id) == "function") {
+                if (KStarForm.koContentModel.OperatorsList()[i].Id() == parentid) {
+                    index = i;
+                    break;
+                }
+            }
+            else {
+                if (KStarForm.koContentModel.OperatorsList()[i].Id == parentid) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        KStarForm.koContentModel.OperatorTypeList.removeAll();
+        var Items = [];
+        if (typeof (KStarForm.koContentModel.OperatorsList()[index].Childs) == "function") {
+            Items = KStarForm.koContentModel.OperatorsList()[index].Childs();
+        } else {
+            Items = KStarForm.koContentModel.OperatorsList()[index].Childs;
+        }
+        for (var i = 0; i < Items.length; i++) {
+            if (typeof (Items[i].Id) == "function") {
+                var newItem = {
+                    Id: Items[i].Id(),
+                    Value: Items[i].Value(),
+                    Name: Items[i].Name(),
+                    Code: Items[i].Code()
+                };
+                var koItem = KStarForm.toKoModel(newItem);
+                KStarForm.koContentModel.OperatorTypeList.push(koItem);
+            }
+            else {
+                var newItem = {
+                    Id: Items[i].Id,
+                    Value: Items[i].Value,
+                    Name: Items[i].Name,
+                    Code: Items[i].Code
+                };
+                var koItem = KStarForm.toKoModel(newItem);
+                KStarForm.koContentModel.OperatorTypeList.push(koItem);
+            }
+        }
+    }
+    $(function () {
+        $("#txtStartDate").kendoDatePicker({ format: "yyyy-MM-dd" });
+        $("#txtFinishDate").kendoDatePicker({ format: "yyyy-MM-dd" });
+        //OperatorEvent();
+    });
+    $("#SIMList").prev().find(".selectbtn").click(function () {
+        var title = "SIM卡列表信息";
+        var startDate = $("#txtStartDate").val();
+        var endDate = $("#txtFinishDate").val();
+        var longNumber = $("#txtLongNumber").val();
+        var borrower = $("#txtStartUser").val();
+
+        function NeowayInitKendoExcelGrid(target, viewModel, columns, pageSize, title, callBack) {
+            columns = InitializeColumnResize(columns, target);
+
+            if (!pageSize) {
+                pageSize = 5;
+            }
+            if (pageSize != 5 && pageSize != 10 && pageSize != 20) {
+                pageSize = 20;
+            }
+
+            var grid = $("#" + target).data("kendoExcelGrid");
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        //以下其实就是$.ajax的参数
+                        type: "POST",
+                        url: "/Dashboard/SIMList/Find",
+                        dataType: "json",
+
+                        data: {
+                            startDate: startDate != "" ? new Date(startDate).Format("yyyy-MM-dd") : startDate,
+                            endDate: endDate != "" ? new Date(endDate).Format("yyyy-MM-dd") : endDate,
+                            LongNumber: longNumber,
+                            Borrower: borrower
+                        }
+                    }
+                },
+                schema: {
+                    //取出数据数组
+                    data: function (d) { return d.data; },
+                    //取出数据总笔数(计算页数用)
+                    total: function (d) { return d.total; },
+                    model: ProcessInfo.model
+
+                },
+
+                pageSize: 10,
+                serverPaging: true,
+                serverSorting: true
+
+            });
+
+            if (grid) {
+                grid.setDataSource(dataSource);
+            }
+            else {
+                $("#" + target).kendoExcelGrid({
+
+                    dataSource: dataSource,
+                    groupable: {
+                        messages: {
+                            empty: jsResxbaseInitView.Dropcolumnshere
+                        }
+                    },
+                    //toolbar: kendo.template($("#template").html()),
+                    selectable: false,
+                    sortable: true,
+                    //scrollable: false,
+                    columnMenu: {
+                        messages: {
+                            sortAscending: jsResxbaseInitView.Sortasc,
+                            sortDescending: jsResxbaseInitView.Sortdesc,
+                            columns: jsResxbaseInitView.Choosecolumns,
+                            filter: jsResxbaseInitView.Filter,
+                        }
+                    },
+                    pageable: {
+                        pageSizes: true,
+                        messages: {
+                            itemsPerPage: jsResxbaseInitView.dataitemsperpage,
+                            display: jsResxbaseInitView.datadisplay,
+                            empty: jsResxbaseInitView.Noitemstodisplay
+                        }
+                    },
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            info: jsResxbaseInitView.Showitemswithvaluethat,
+                            clear: jsResxbaseInitView.Clear,
+                            filter: jsResxbaseInitView.Filter
+                        },
+                        operators: {
+                            string: {
+                                eq: jsResxbaseInitView.Isequalto,
+                                neq: jsResxbaseInitView.Isnotequalto,
+                                startswith: jsResxbaseInitView.Startswith,
+                                contains: jsResxbaseInitView.Contains,
+                                doesnotcontain: jsResxbaseInitView.Doesnotcontain,
+                                endswith: jsResxbaseInitView.Endswith
+                            },
+                        }
+                    },
+                    reorderable: true,
+                    resizable: true,
+                    columns: columns,
+                    dataBound: function () {
+
+                        refreshCurrentScrolls();//数据绑定完成  刷新滚动条
+
+                        HideGridVerticalScroll(target);//隐藏Scroll
+                    }
+
+                });
+                grid = $("#" + target).data("kendoExcelGrid");
+            }
+            if (callBack) {
+                callBack();
+            }
+        }
+        function serviceStateFilter(element) {
+            DropDownListFilter(element, "SIMList", "SIMStatus");
+        }
+        var GetProcessInst = function () {
+            var Processcolumns = [
+                {
+                    field: "IsCheck", title: "", width: 20, template: function (item) {
+                        return "<input type='checkbox' name='chkItems' value='" + item.FormId + "'/>";
+                    }, headerTemplate: "<input type='checkbox'/>", filterable: false
+                },
+                {
+                    field: "LongNumber", title: "长号", width: 200, filterable: false, template: function (item) {
+                        //if (isSIMManager == 'True') {
+                        return "<a href='/JSRSIMManagement/JSRSIMManagement/Index?FormId=" + item.FormId + "&_ForminstenceId=" + item._FormId + "' target='_blank' class='Folio' >" + item.LongNumber + "</a>";
+                        //}else{
+                        //    return  item.LongNumber;
+                        //}
+                    }
+                },
+                { field: "Suite", title: "套餐", width: 80, filterable: false },
+                { field: "BorrowDept", title: "部门", width: 80, filterable: false },
+                { field: "ServiceState", title: "网络制式", width: 50, filterable: false },
+                {
+                    field: "SIMStatus", title: "状态", width: 50, template: function (item) {
+                        return "<span>" + item.SIMStatus + "</span>";
+                    }, headerTemplate: "状态", filterable: { ui: serviceStateFilter }
+                },
+                {
+                    field: "借用申请", title: "", width: 50, template: function (item) {
+                        if (item.Validate != "Available") {
+                            return "<span>申请</span>";
+                        } else {
+                            if (item.SIMStatus.indexOf("待使用") >= 0) {
+                                return "<a target='block' href='/JSRSIMBorrow/JSRSIMBorrow/Index?FormId=" + item.FormId + "'>申请</a>";
+                            } else {
+                                return "<span>申请</span>";
+                            }
+                        }
+                    }, headerTemplate: "借用申请", filterable: false
+                },
+                {
+                    field: "SIMStatus", title: "", width: 50, template: function (item) {
+                        if (item.Validate != "Available") {
+                            return "<span>续借</span>";
+                        } else {
+                            if (item.SIMStatus.indexOf("使用中") >= 0) {
+                                return "<a target='block'  href='/JSRSIMStatusManagement/JSRSIMStatusManagement/Index?type=Reborrow&FormId=" + item.FormId + "'>续借</a>";
+                            } else {
+                                return "<span>续借</span>";
+                            }
+                        }
+                    }, headerTemplate: "确认状态1", filterable: false
+                },
+                {
+                    field: "SIMStatus", title: "", width: 50, template: function (item) {
+                        if (item.Validate != "Available") {
+                            return "<span>归还</span>";
+                        } else {
+                            if (item.SIMStatus.indexOf("使用中") >= 0) {
+                                return "<a target='block' href='/JSRSIMStatusManagement/JSRSIMStatusManagement/Index?type=Return&FormId=" + item.FormId + "'>归还</a>";
+                            } else {
+                                return "<span>归还</span>";
+                            }
+                        }
+                    }, headerTemplate: "确认状态2", filterable: false
+                },
+                {
+                    field: "SIMStatus", title: "", width: 50, template: function (item) {
+                        if (item.Validate != "Available") {
+                            return "<span>丢失</span>";
+                        } else {
+                            if (item.SIMStatus.indexOf("使用中") >= 0) {
+                                return "<a target='block' href='/JSRSIMStatusManagement/JSRSIMStatusManagement/Index?type=Lose&FormId=" + item.FormId + "'>丢失</a>";
+                            } else {
+                                return "<span>丢失</span>";
+                            }
+                        }
+                    }, headerTemplate: "确认状态3", filterable: false
+                },
+                {
+                    field: "SIMStatus", title: "", width: 60, template: function (item) {
+                        if (item.Validate != "Available") {
+                            return "<span>损坏</span>";
+                        } else {
+                            if (item.SIMStatus.indexOf("使用中") >= 0) {
+                                return "<a target='block' href='/JSRSIMStatusManagement/JSRSIMStatusManagement/Index?type=Broken&FormId=" + item.FormId + "'>损坏</a>";
+                            } else {
+                                return "<span>损坏</span>";
+                            }
+                        }
+                    }, headerTemplate: "确认状态4", filterable: false
+                },
+            ]
+            var ProcessModel = kendo.data.Model.define({
+                id: "FormId",
+                fields: {
+                    LongNumber: { type: "string" },
+                    Suite: { type: "string" },
+                    BorrowDept: { type: "string" },
+                    ServiceState: { type: "string" },
+                    SIMStatus: { type: "string" },
+                    FormId: { Type: "string" }
+                }
+            });
+            return { model: ProcessModel, columns: Processcolumns }
+        }
+
+        var ProcessInfo = GetProcessInst()
+
+        //debugger;
+        NeowayInitKendoExcelGrid('SIMList', ProcessInfo.model, ProcessInfo.columns, 15, title,
+             function () {
+                 bindAndLoad("SIMList");
+             });
+
+    }).click();
+    $(document).ready(function () {
+        $("#btnAdd").click(function () { window.open("/JSRSIMManagement"); });
+        $("#btnPurchase").click(function () { window.open("/JSRSIMPurchase"); });
+    });
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+    function langSet(obj) {
+        OperatorEvent();
+    }
+
+
+</script>

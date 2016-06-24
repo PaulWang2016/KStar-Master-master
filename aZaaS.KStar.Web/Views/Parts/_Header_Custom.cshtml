@@ -1,0 +1,76 @@
+﻿<header id="NeowayHeader">
+    <div id="logo"></div>
+    <div style="width:50%;overflow: hidden;height: 52px;text-align: center;float: left;"><img src="~/images/top_title.png" style=" margin-top:15px;border:0px;" /></div>
+    <div id="login">
+        <div class="login-date">@DateTime.Now.ToString("yyyy年M月d日 dddd") @*2015年1月5日 星期一*@</div>
+        <div class="login-info">
+            <span class="logout-info">
+                <a id="LogOut" data-auth-type="@Context.CurrentAuthType()" href="javascript:void(0)">
+                    <span class="logout-icon"></span>
+                    <span class="logout-txt">注销</span>
+                </a>
+            </span>
+            <span class="line"></span>
+            <span class="user-info">
+           
+                <span class="user-icon"></span>
+                <span class="user-txt">欢迎</span>
+                <span class="user-name">@Context.CurrentRequester()</span> 
+            </span>
+            @{
+
+                var lang = Request.Cookies["LANG"].Value;
+
+                List<SelectListItem> list = new List<SelectListItem>();
+
+                list = aZaaS.KStar.Facades.PortalEnvironment.GetLanguageList().ToList();
+
+                //if (lang == "zh-CN")
+                //{
+                //    list.Add(new SelectListItem { Text = "简体中文", Value = "zh-CN", Selected = true });
+                //    list.Add(new SelectListItem { Text = "English", Value = "en-US" });
+                //}
+                //else
+                //{
+                //    list.Add(new SelectListItem { Text = "简体中文", Value = "zh-CN" });
+                //    list.Add(new SelectListItem { Text = "English", Value = "en-US", Selected = true });
+                //}
+                list.Where(p => p.Value == lang).FirstOrDefault().Selected = true;
+
+                @Html.DropDownList("state", list, new Dictionary<string, object>
+                      {
+                         {"class", "myCssClass"},
+                         {"onchange", "return langSet(this)"}
+                      })
+            }
+         
+
+        </div>
+    </div>
+</header>
+
+<style>
+
+.myCssClass{
+margin: 10px 2px 2px;
+} 
+</style>
+<script type="text/javascript"> 
+    function langSet(obj) {
+
+        $.ajax({
+            url: "/Home/LangSet",
+            data: { "lang": obj.value },
+            type: "GET",
+            success: function (data, textStatus) {
+
+                window.location.reload(true);
+            },
+            error: function () {
+
+            }
+        }); 
+    }
+
+
+</script>

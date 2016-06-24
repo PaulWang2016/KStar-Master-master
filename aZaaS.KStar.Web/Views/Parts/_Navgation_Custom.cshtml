@@ -1,0 +1,47 @@
+﻿<nav>
+    <a href="/" class="home">
+        <div>
+            <span class="nav-icon"></span>
+            <span class="nav-txt">首&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</span>
+        </div>
+    </a>
+    <a href="/#pane=Dashboard&widget=/ProcessManagement/ProcessStart?isAll=1" class="process-map">
+        <div>
+            <span class="nav-icon"></span>
+            <span class="nav-txt">流程地图</span>
+        </div>
+    </a>
+    <a class="process-analysis dropdown" style="width:170px;cursor:pointer;">
+        <div data-toggle="dropdown" class="dropdown-toggle">
+            <span class="nav-icon"></span>
+            <span class="nav-txt">流程绩效分析 <strong class="caret"></strong></span>
+        </div>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="background-color: #5d8e00; ">
+            <li style="display:none;"><p style="display: block" onclick="location.href = '/#pane=Dashboard&widget=/Report/WorkflowReport1';">流程审批信息统计报表</p></li>
+            <li style="display:none;"><p style="display: block" onclick="location.href = '/#pane=Dashboard&widget=/Report/WorkflowReport2';">流程总量统计表</p></li>
+            <li><p style="display: block" onclick="location.href = '/#pane=Dashboard&widget=/Report/completionrate';">流程处理完成率</p></li>
+            <li><p style="display: block" onclick="location.href = '/#pane=Dashboard&widget=/Report/procdealduration';">流程处理时长</p></li>
+            <li><p style="display: block" onclick="location.href = '/#pane=Dashboard&widget=/Report/UseFrequency';">流程使用频次</p> </li>
+            <li class="divider"></li>
+            <li><p style="display: block" onclick="location.href = '/#pane=Dashboard&widget=/Report/ProcessApprovalConsumingSecond';">流程及节点处理时长统计分析</p></li>
+        </ul>
+    </a>
+    <a href="/#pane=Dashboard&widget=/Maintenance/MyProcessInstance" class="process-monitoring">
+        <div>
+            <span class="nav-icon"></span>
+            <span class="nav-txt">流程监控</span>
+        </div>
+    </a>
+    <a href="/#pane=Dashboard&widget=/Report/CommonReport" style="cursor:pointer;" class="report-query" title="抱歉，拼命实现中。。。">
+        <div>
+            <span class="nav-icon"></span>
+            <span class="nav-txt">报表查询</span>
+        </div>
+    </a>
+    <a href="javascript:void(0)" style="cursor:pointer;" class="personal-settings" onclick=" ShowTip('抱歉，拼命实现中。。。', 'info');" title="抱歉，拼命实现中。。。">
+        <div>
+            <span class="nav-icon"></span>
+            <span class="nav-txt">个人设置</span>
+        </div>
+    </a> 
+</nav>

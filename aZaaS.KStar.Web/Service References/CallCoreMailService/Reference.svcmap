@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1d0704e9-1e8f-42d9-87da-78350bc0e82b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://192.168.2.159:8090/CallCoreMail.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CallCoreMail.wsdl" MetadataType="Wsdl" ID="be0dd7a6-3979-4a3f-9374-a77830cfd8ce" SourceId="1" SourceUrl="http://192.168.2.159:8090/CallCoreMail.svc?wsdl" />
+    <MetadataFile FileName="CallCoreMail.xsd" MetadataType="Schema" ID="0cb840f5-ffc4-491e-bb28-cd0f1323a279" SourceId="1" SourceUrl="http://192.168.2.159:8090/CallCoreMail.svc?xsd=xsd1" />
+    <MetadataFile FileName="CallCoreMail.disco" MetadataType="Disco" ID="ebe0accb-cbf0-467f-b674-bc78cb8d2977" SourceId="1" SourceUrl="http://192.168.2.159:8090/CallCoreMail.svc?disco" />
+    <MetadataFile FileName="CallCoreMail1.xsd" MetadataType="Schema" ID="7d2a5827-736e-484c-8860-1fbecbe40d40" SourceId="1" SourceUrl="http://192.168.2.159:8090/CallCoreMail.svc?xsd=xsd2" />
+    <MetadataFile FileName="CallCoreMail2.xsd" MetadataType="Schema" ID="16e9f83d-7e7c-4e85-87a7-dd68609ad24a" SourceId="1" SourceUrl="http://192.168.2.159:8090/CallCoreMail.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,88 @@
+﻿@using aZaaS.KStar.Html;
+<div class="section">
+    <div class="top-heading top-toolbar">
+        <div class="top-title">@ViewBag.key @Html.CSHtmlResx("Management")</div>
+        <a class="k-button ImportApp" href="javascript:void(0)" title="Import from Excel"><span class="glyphicon glyphicon-import"></span></a>
+        <a class="k-button ExportApp" href="javascript:void(0)" title="Export to Excel"><span class="glyphicon glyphicon-export"></span></a>
+        <a class='k-button' href='#widget=/Maintenance/Applications'><span class='glyphicon glyphicon-arrow-left'></span></a>
+    </div>
+    <div id="RoleContextMenu" style="top: 100px; left: 230px; display: none;">
+            @*<div class="m-split"></div>*@
+            <li style="display: normal;">
+                <a id="AddRoleContextMenu" href="#">
+                    <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddRole")</span></a></li>
+            <li style="display: normal;">
+                <a id="EditRoleContextMenu" href="#">
+                    <span class="glyphicon glyphicon-pencil"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("EditRole")</span></a></li>
+            <li style="display: normal;">
+                <a id="AddCategoryContextMenu" href="#">
+                    <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddRoleCategory")</span></a></li>
+            <li style="display: normal;">
+                <a id="EditCategoryContextMenu" href="#">
+                    <span class="glyphicon glyphicon-pencil"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("EditRoleCategory")</span></a></li>
+            <li style="display: normal;">
+                <a id="DelContextMenu" href="#">
+                    <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("DeleteRoleOrCategory")</span></a></li>            
+        </div>
+    <div style="overflow: auto; overflow-x: hidden;">
+        <ul id="Details">
+            <li>
+                <a href="#">@Html.CSHtmlResx("RoleManagement")</a>
+                <div style="height: 600px;">
+                    @Html.Partial("~/Areas/Maintenance/Views/PanelParts/_RoleManagement.cshtml")
+                </div>
+            </li>
+            <li>
+                @*class="k-state-active"*@
+                <a href="#">@Html.CSHtmlResx("MenuManagement")</a>
+                <div>
+                    @Html.Partial("~/Areas/Maintenance/Views/PanelParts/_MenuManagement.cshtml")
+                </div>
+            </li>
+            <li>
+                @*class="k-state-active"*@
+                <a href="#">@Html.CSHtmlResx("DocumentManagement")</a>
+                <div>
+                    @Html.Partial("~/Areas/Maintenance/Views/PanelParts/_DocumentManagement.cshtml")
+                </div>
+            </li>
+            <li>
+                @*class="k-state-active"*@
+                <a href="#">@Html.CSHtmlResx("WidgetManagement")</a>
+                <div>
+                    @Html.Partial("~/Areas/Maintenance/Views/PanelParts/_WidgetManagement.cshtml")
+                </div>
+            </li>
+            <li>
+                @*class="k-state-active"*@
+                <a href="#">@Html.CSHtmlResx("PermissionManagement")</a>
+                <div style="height: 600px;">
+                    @Html.Partial("~/Areas/Maintenance/Views/PanelParts/_PermissionManagement.cshtml")
+                </div>
+            </li>
+            @*<li>
+                class="k-state-active"
+                <a href="#">@Html.CSHtmlResx("DelegationManagement")</a>
+                <div>
+                    @Html.Partial("~/Areas/Maintenance/Views/PanelParts/_DelegationManagement.cshtml")
+                </div>
+            </li>*@
+        </ul>
+
+    </div>
+</div>
+
+
+<div id="ImportAppWindow" style="display: none">
+</div>
+
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script src="~/JS/AeroWindow-Contextmenu.js"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script>
+    seajs.use("/JS/Maintenance/_Sea_ApplicationDetail", function (ApplicationDetail) {
+        var applicationDetail = new ApplicationDetail("@ViewBag.key");
+        applicationDetail.init();
+        $(window).resize();
+    });
+</script>

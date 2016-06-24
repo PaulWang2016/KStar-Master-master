@@ -1,0 +1,29 @@
+﻿ul.controlsGroup
+{
+   
+    list-style-type: none;
+    margin: 0px;
+    padding:0px;
+    /*text-align: center;*/
+}
+    ul.controlsGroup li
+    {
+        /*border: 1px solid red;*/
+        display: inline-block;
+        margin: 5px 10px;
+    }
+  
+    ul.controls
+{
+   
+    list-style-type: none;
+    margin: 0px;
+    padding:0px;
+    /*text-align: center;*/
+}
+    ul.controls li
+    {
+      
+        display: inline-block;
+        margin: 5px 10px;
+    }

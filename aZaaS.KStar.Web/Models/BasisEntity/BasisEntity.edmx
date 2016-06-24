@@ -1,0 +1,1733 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BasisEntity.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CommonReportConfig_DisplayArea">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProcSetID" Type="int" />
+          <Property Name="FieldName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FieldType" Type="nvarchar" MaxLength="20" />
+          <Property Name="DataResource" Type="varchar" MaxLength="500" />
+          <Property Name="XPATH" Type="varchar" MaxLength="1000" />
+          <Property Name="Memo" Type="nvarchar" MaxLength="200" />
+          <Property Name="FieldID" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CommonReportConfig_SearchArea">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProcSetID" Type="int" />
+          <Property Name="FieldName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FieldType" Type="nvarchar" MaxLength="40" />
+          <Property Name="DataResource" Type="varchar" MaxLength="500" />
+          <Property Name="XPATH" Type="varchar" MaxLength="1000" />
+          <Property Name="Memo" Type="nvarchar" MaxLength="200" />
+          <Property Name="FieldID" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="CommonReportPermission">
+          <Key>
+            <PropertyRef Name="Role_SysId" />
+            <PropertyRef Name="ProcessFullName" />
+          </Key>
+          <Property Name="Role_SysId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProcessFullName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_Customer">
+          <Key>
+            <PropertyRef Name="PK" />
+          </Key>
+          <Property Name="PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="BelongIndustry" Type="nvarchar" MaxLength="500" />
+          <Property Name="BelongArea" Type="nvarchar(max)" />
+          <Property Name="SalePerson" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_labelTemplate">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="Principal" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="Picture" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_ModuleType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="PMCCharge" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_ProcessingVendor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_ToolSoft">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Principal" Type="nvarchar" MaxLength="100" />
+          <Property Name="ToolType" Type="nvarchar" MaxLength="100" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Size" Type="int" />
+          <Property Name="IssueDate" Type="datetime" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Custom_Business_Daily">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SysId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FormID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Custom_Business_WeeklyDaily">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SysId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FormID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DBLogEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="Source" Type="nvarchar(max)" />
+          <Property Name="Category" Type="nvarchar(max)" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="OccurTime" Type="datetime" Nullable="false" />
+          <Property Name="Exception" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="EmailTransferConfig">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" />
+          <Property Name="TypeKey" Type="nvarchar" MaxLength="300" />
+          <Property Name="TypeValue" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="FormAttachment">
+          <Key>
+            <PropertyRef Name="FileId" />
+          </Key>
+          <Property Name="FileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileGuid" Type="uniqueidentifier" />
+          <Property Name="FormId" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProcInstId" Type="int" />
+          <Property Name="ProcessName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ActivityName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FileBytes" Type="bigint" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="200" />
+          <Property Name="FileExtension" Type="nvarchar" MaxLength="50" />
+          <Property Name="OldFileName" Type="nvarchar" MaxLength="200" />
+          <Property Name="NewFileName" Type="nvarchar" MaxLength="200" />
+          <Property Name="StoragePath" Type="nvarchar" MaxLength="200" />
+          <Property Name="DownloadUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="Uploader" Type="nvarchar" MaxLength="200" />
+          <Property Name="UploaderName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UploadedDate" Type="datetime" />
+          <Property Name="FileComment" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="NetworkRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="250" />
+          <Property Name="RoleID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="OrgNode">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Chart_SysId" Type="uniqueidentifier" />
+          <Property Name="Parent_SysId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="OrgNodeExtends">
+          <Key>
+            <PropertyRef Name="SysId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“aZaaS.Framework.dbo.Position”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Category_SysId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="PositionCategory">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Parent_SysId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="PositionOrgNodes">
+          <Key>
+            <PropertyRef Name="Position_SysId" />
+            <PropertyRef Name="OrgNode_SysId" />
+          </Key>
+          <Property Name="Position_SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrgNode_SysId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PositionUsers">
+          <Key>
+            <PropertyRef Name="Position_SysId" />
+            <PropertyRef Name="User_SysId" />
+          </Key>
+          <Property Name="Position_SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="User_SysId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProcessActivityParticipantSet">
+          <Key>
+            <PropertyRef Name="SetID" />
+          </Key>
+          <Property Name="SetID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Assigner" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AssignerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Setter" Type="nvarchar" MaxLength="50" />
+          <Property Name="SetterName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="ProcInstID" Type="int" />
+          <Property Name="ProcessFullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ActivityID" Type="int" />
+          <Property Name="ActivityName" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsPeeked" Type="bit" />
+          <Property Name="IsOriginal" Type="bit" />
+          <Property Name="SkipAssigner" Type="bit" />
+          <Property Name="SkipSet" Type="bit" />
+          <Property Name="DateAssigned" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ProcessActivityParticipantSetEntry">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SetID" Type="uniqueidentifier" />
+          <Property Name="EntryType" Type="nvarchar" MaxLength="20" />
+          <Property Name="EntryID" Type="uniqueidentifier" />
+          <Property Name="EntryName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“aZaaS.Framework.dbo.ProcessFormApprovalDraft”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ProcessFormApprovalDraft">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SerialNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionComment" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ProcessFormCancel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProcInstId" Type="int" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="ProcessFormCC">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FormId" Type="int" Nullable="false" />
+          <Property Name="Originator" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginatorName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Receiver" Type="nvarchar" MaxLength="500" />
+          <Property Name="ReceiverName" Type="nvarchar" MaxLength="500" />
+          <Property Name="FormViewUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ReceiverStatus" Type="bit" />
+          <Property Name="ReviewComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="ReceiverDate" Type="datetime" />
+          <Property Name="ActivityId" Type="int" />
+          <Property Name="ActivityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ProcessFormContent">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormID" Type="int" />
+          <Property Name="JsonData" Type="nvarchar(max)" />
+          <Property Name="XmlData" Type="xml" />
+        </EntityType>
+        <EntityType Name="ProcessFormHeader">
+          <Key>
+            <PropertyRef Name="FormID" />
+          </Key>
+          <Property Name="FormID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormSubject" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProcInstID" Type="int" />
+          <Property Name="ProcessFolio" Type="nvarchar(max)" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="SubmitterAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="SubmitterDisplayName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SubmitDate" Type="datetime" />
+          <Property Name="ApplicantAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApplicantDisplayName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ApplicantTelNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApplicantEmail" Type="nvarchar" MaxLength="200" />
+          <Property Name="ApplicantPositionID" Type="nvarchar" MaxLength="200" />
+          <Property Name="ApplicantPositionName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ApplicantOrgNodeID" Type="nvarchar" MaxLength="200" />
+          <Property Name="ApplicantOrgNodeName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SubmitComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsDraft" Type="bit" />
+          <Property Name="DraftUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="OutSystemProcessID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“aZaaS.Framework.dbo.ProcessFormSigner”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ProcessFormSigner">
+          <Key>
+            <PropertyRef Name="ProcessInstId" />
+            <PropertyRef Name="SignerName" />
+          </Key>
+          <Property Name="ProcessInstId" Type="int" Nullable="false" />
+          <Property Name="ActivityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SignerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SignerDate" Type="datetime" />
+          <Property Name="IsApproval" Type="bit" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApprovalDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ProcessLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProcInstID" Type="int" />
+          <Property Name="ActInstID" Type="int" />
+          <Property Name="SN" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProcessName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActivityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrigUserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrigUserAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProfileID" Type="nvarchar" MaxLength="50" />
+          <Property Name="OpType" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="CommentDate" Type="datetime" />
+          <Property Name="TenantID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ProcessPrognosis">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ActID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="SourceName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="LineName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LinkOrder" Type="int" Nullable="false" />
+          <Property Name="ProcInstID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProcessPrognosisDetail">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RSysID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ProcessPrognosisTask">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProcInstID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuartzCacheSendMails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReplyTo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Prompt" Type="varchar(max)" />
+          <Property Name="Forward" Type="bit" Nullable="false" />
+          <Property Name="ReplyDate" Type="datetime" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuartzSendMails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReplyTo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Prompt" Type="varchar(max)" />
+          <Property Name="Forward" Type="bit" Nullable="false" />
+          <Property Name="ReplyDate" Type="datetime" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Category_SysId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="RoleUsers">
+          <Key>
+            <PropertyRef Name="Role_SysId" />
+            <PropertyRef Name="User_SysId" />
+          </Key>
+          <Property Name="Role_SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="User_SysId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SendErrorLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ErrorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TempSupervision">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SN" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="Sex" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserOrgNodes">
+          <Key>
+            <PropertyRef Name="User_SysId" />
+            <PropertyRef Name="OrgNode_SysId" />
+          </Key>
+          <Property Name="User_SysId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrgNode_SysId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“aZaaS.Framework.dbo.view_ProcinstList”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="view_ProcinstList">
+          <Key>
+            <PropertyRef Name="ProcInstID" />
+            <PropertyRef Name="StartDate" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="Originator" />
+            <PropertyRef Name="Folio" />
+            <PropertyRef Name="ProcID" />
+            <PropertyRef Name="FinishDate" />
+          </Key>
+          <Property Name="ProcInstID" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="tinyint" Nullable="false" />
+          <Property Name="Originator" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Folio" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="ProcID" Type="int" Nullable="false" />
+          <Property Name="FinishDate" Type="datetime" Nullable="false" />
+          <Property Name="ActName" Type="nvarchar" MaxLength="128" />
+          <Property Name="TaskStartDate" Type="datetime" />
+          <Property Name="Destination" Type="nvarchar" MaxLength="255" />
+          <Property Name="ActID" Type="int" />
+          <Property Name="SN" Type="varchar" MaxLength="41" />
+          <Property Name="StartName" Type="nvarchar(max)" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“aZaaS.Framework.dbo.VW_ErrorLog”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="VW_ErrorLog">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ProcID" />
+            <PropertyRef Name="ProcInstID" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Context" />
+            <PropertyRef Name="ObjectID" />
+            <PropertyRef Name="Descr" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="ItemName" />
+            <PropertyRef Name="CodeID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Folio" Type="nvarchar" MaxLength="1024" />
+          <Property Name="ProcID" Type="int" Nullable="false" />
+          <Property Name="ProcInstID" Type="int" Nullable="false" />
+          <Property Name="State" Type="tinyint" Nullable="false" />
+          <Property Name="Context" Type="tinyint" Nullable="false" />
+          <Property Name="ObjectID" Type="int" Nullable="false" />
+          <Property Name="Descr" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="StackTrace" Type="nvarchar(max)" />
+          <Property Name="CodeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="BasisEntityStoreContainer">
+          <EntitySet Name="CommonReportConfig_DisplayArea" EntityType="Self.CommonReportConfig_DisplayArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommonReportConfig_SearchArea" EntityType="Self.CommonReportConfig_SearchArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommonReportPermission" EntityType="Self.CommonReportPermission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Custom_BaseData_Customer" EntityType="Self.Custom_BaseData_Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Custom_BaseData_labelTemplate" EntityType="Self.Custom_BaseData_labelTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Custom_BaseData_ModuleType" EntityType="Self.Custom_BaseData_ModuleType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Custom_BaseData_ProcessingVendor" EntityType="Self.Custom_BaseData_ProcessingVendor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Custom_BaseData_ToolSoft" EntityType="Self.Custom_BaseData_ToolSoft" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Custom_Business_Daily" EntityType="Self.Custom_Business_Daily" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Custom_Business_WeeklyDaily" EntityType="Self.Custom_Business_WeeklyDaily" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DBLogEntry" EntityType="Self.DBLogEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailTransferConfig" EntityType="Self.EmailTransferConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormAttachment" EntityType="Self.FormAttachment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NetworkRole" EntityType="Self.NetworkRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrgNode" EntityType="Self.OrgNode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrgNodeExtends" EntityType="Self.OrgNodeExtends" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PositionCategory" EntityType="Self.PositionCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PositionOrgNodes" EntityType="Self.PositionOrgNodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PositionUsers" EntityType="Self.PositionUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessActivityParticipantSet" EntityType="Self.ProcessActivityParticipantSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessActivityParticipantSetEntry" EntityType="Self.ProcessActivityParticipantSetEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessFormCancel" EntityType="Self.ProcessFormCancel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessFormCC" EntityType="Self.ProcessFormCC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessFormContent" EntityType="Self.ProcessFormContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessFormHeader" EntityType="Self.ProcessFormHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessLog" EntityType="Self.ProcessLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessPrognosis" EntityType="Self.ProcessPrognosis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessPrognosisDetail" EntityType="Self.ProcessPrognosisDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessPrognosisTask" EntityType="Self.ProcessPrognosisTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuartzCacheSendMails" EntityType="Self.QuartzCacheSendMails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuartzSendMails" EntityType="Self.QuartzSendMails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleUsers" EntityType="Self.RoleUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SendErrorLog" EntityType="Self.SendErrorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TempSupervision" EntityType="Self.TempSupervision" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserOrgNodes" EntityType="Self.UserOrgNodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Position].[SysId] AS [SysId], 
+    [Position].[Name] AS [Name], 
+    [Position].[Category_SysId] AS [Category_SysId]
+    FROM [dbo].[Position] AS [Position]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ProcessFormApprovalDraft" EntityType="Self.ProcessFormApprovalDraft" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProcessFormApprovalDraft].[Id] AS [Id], 
+    [ProcessFormApprovalDraft].[SerialNo] AS [SerialNo], 
+    [ProcessFormApprovalDraft].[ActionName] AS [ActionName], 
+    [ProcessFormApprovalDraft].[ActionComment] AS [ActionComment]
+    FROM [dbo].[ProcessFormApprovalDraft] AS [ProcessFormApprovalDraft]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ProcessFormSigner" EntityType="Self.ProcessFormSigner" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProcessFormSigner].[ProcessInstId] AS [ProcessInstId], 
+    [ProcessFormSigner].[ActivityName] AS [ActivityName], 
+    [ProcessFormSigner].[UserName] AS [UserName], 
+    [ProcessFormSigner].[SignerName] AS [SignerName], 
+    [ProcessFormSigner].[SignerDate] AS [SignerDate], 
+    [ProcessFormSigner].[IsApproval] AS [IsApproval], 
+    [ProcessFormSigner].[ActionName] AS [ActionName], 
+    [ProcessFormSigner].[ApprovalDate] AS [ApprovalDate]
+    FROM [dbo].[ProcessFormSigner] AS [ProcessFormSigner]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="view_ProcinstList" EntityType="Self.view_ProcinstList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [view_ProcinstList].[ProcInstID] AS [ProcInstID], 
+    [view_ProcinstList].[StartDate] AS [StartDate], 
+    [view_ProcinstList].[Status] AS [Status], 
+    [view_ProcinstList].[Originator] AS [Originator], 
+    [view_ProcinstList].[Folio] AS [Folio], 
+    [view_ProcinstList].[ProcID] AS [ProcID], 
+    [view_ProcinstList].[FinishDate] AS [FinishDate], 
+    [view_ProcinstList].[ActName] AS [ActName], 
+    [view_ProcinstList].[TaskStartDate] AS [TaskStartDate], 
+    [view_ProcinstList].[Destination] AS [Destination], 
+    [view_ProcinstList].[ActID] AS [ActID], 
+    [view_ProcinstList].[SN] AS [SN], 
+    [view_ProcinstList].[StartName] AS [StartName], 
+    [view_ProcinstList].[FullName] AS [FullName]
+    FROM [dbo].[view_ProcinstList] AS [view_ProcinstList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_ErrorLog" EntityType="Self.VW_ErrorLog" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_ErrorLog].[ID] AS [ID], 
+    [VW_ErrorLog].[Folio] AS [Folio], 
+    [VW_ErrorLog].[ProcID] AS [ProcID], 
+    [VW_ErrorLog].[ProcInstID] AS [ProcInstID], 
+    [VW_ErrorLog].[State] AS [State], 
+    [VW_ErrorLog].[Context] AS [Context], 
+    [VW_ErrorLog].[ObjectID] AS [ObjectID], 
+    [VW_ErrorLog].[Descr] AS [Descr], 
+    [VW_ErrorLog].[Date] AS [Date], 
+    [VW_ErrorLog].[Code] AS [Code], 
+    [VW_ErrorLog].[ItemName] AS [ItemName], 
+    [VW_ErrorLog].[StackTrace] AS [StackTrace], 
+    [VW_ErrorLog].[CodeID] AS [CodeID]
+    FROM [dbo].[VW_ErrorLog] AS [VW_ErrorLog]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BasisEntity" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="BasisEntityContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Custom_BaseData_ProcessingVendor" EntityType="BasisEntity.Custom_BaseData_ProcessingVendor" />
+          <EntitySet Name="Custom_BaseData_Customer" EntityType="BasisEntity.Custom_BaseData_Customer" />
+          <EntitySet Name="Custom_BaseData_labelTemplate" EntityType="BasisEntity.Custom_BaseData_labelTemplate" />
+          <EntitySet Name="Custom_BaseData_ToolSoft" EntityType="BasisEntity.Custom_BaseData_ToolSoft" />
+          <EntitySet Name="QuartzCacheSendMails" EntityType="BasisEntity.QuartzCacheSendMail" />
+          <EntitySet Name="Custom_Business_Daily" EntityType="BasisEntity.Custom_Business_Daily" />
+          <EntitySet Name="ProcessFormContents" EntityType="BasisEntity.ProcessFormContent" />
+          <EntitySet Name="OrgNodes" EntityType="BasisEntity.OrgNode" />
+          <EntitySet Name="Users" EntityType="BasisEntity.User" />
+          <EntitySet Name="UserOrgNodes" EntityType="BasisEntity.UserOrgNode" />
+          <EntitySet Name="PositionUsers" EntityType="BasisEntity.PositionUser" />
+          <EntitySet Name="Positions" EntityType="BasisEntity.Position" />
+          <EntitySet Name="Custom_Business_WeeklyDaily" EntityType="BasisEntity.Custom_Business_WeeklyDaily" />
+          <EntitySet Name="OrgNodeExtends" EntityType="BasisEntity.OrgNodeExtend" />
+          <EntitySet Name="PositionCategories" EntityType="BasisEntity.PositionCategory" />
+          <EntitySet Name="Roles" EntityType="BasisEntity.Role" />
+          <EntitySet Name="RoleUsers" EntityType="BasisEntity.RoleUser" />
+          <EntitySet Name="PositionOrgNodes" EntityType="BasisEntity.PositionOrgNode" />
+          <EntitySet Name="SendErrorLogs" EntityType="BasisEntity.SendErrorLog" />
+          <EntitySet Name="VW_ErrorLog" EntityType="BasisEntity.VW_ErrorLog" />
+          <EntitySet Name="TempSupervisions" EntityType="BasisEntity.TempSupervision" />
+          <EntitySet Name="EmailTransferConfigs" EntityType="BasisEntity.EmailTransferConfig" />
+          <EntitySet Name="QuartzSendMails" EntityType="BasisEntity.QuartzSendMail" />
+          <EntitySet Name="FormAttachments" EntityType="BasisEntity.FormAttachment" />
+          <EntitySet Name="NetworkRoles" EntityType="BasisEntity.NetworkRole" />
+          <EntitySet Name="CommonReportConfig_DisplayArea" EntityType="BasisEntity.CommonReportConfig_DisplayArea" />
+          <EntitySet Name="CommonReportConfig_SearchArea" EntityType="BasisEntity.CommonReportConfig_SearchArea" />
+          <EntitySet Name="Custom_BaseData_ModuleType" EntityType="BasisEntity.Custom_BaseData_ModuleType" />
+          <EntitySet Name="view_ProcinstList" EntityType="BasisEntity.view_ProcinstList" />
+          <EntitySet Name="ProcessLog" EntityType="BasisEntity.ProcessLog" />
+          <EntitySet Name="ProcessFormCancel" EntityType="BasisEntity.ProcessFormCancel" />
+          <EntitySet Name="ProcessActivityParticipantSet" EntityType="BasisEntity.ProcessActivityParticipantSet" />
+          <EntitySet Name="ProcessActivityParticipantSetEntry" EntityType="BasisEntity.ProcessActivityParticipantSetEntry" />
+          <EntitySet Name="ProcessFormCC" EntityType="BasisEntity.ProcessFormCC" />
+          <EntitySet Name="ProcessFormHeader" EntityType="BasisEntity.ProcessFormHeader" />
+          <EntitySet Name="ProcessPrognosis" EntityType="BasisEntity.ProcessPrognosis" />
+          <EntitySet Name="ProcessPrognosisDetail" EntityType="BasisEntity.ProcessPrognosisDetail" />
+          <EntitySet Name="ProcessPrognosisTask" EntityType="BasisEntity.ProcessPrognosisTask" />
+          <EntitySet Name="ProcessFormApprovalDraft" EntityType="BasisEntity.ProcessFormApprovalDraft" />
+          <EntitySet Name="ProcessFormSigner" EntityType="BasisEntity.ProcessFormSigner" />
+          <EntitySet Name="DBLogEntry" EntityType="BasisEntity.DBLogEntry" />
+          <EntitySet Name="CommonReportPermission" EntityType="BasisEntity.CommonReportPermission" />
+        </EntityContainer>
+        <EntityType Name="Custom_BaseData_ProcessingVendor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_Customer">
+          <Key>
+            <PropertyRef Name="PK" />
+          </Key>
+          <Property Name="PK" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SalePerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BelongIndustry" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BelongArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_labelTemplate">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Principal" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Picture" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_ToolSoft">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ToolType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="Int32" />
+          <Property Name="IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Principal" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="QuartzCacheSendMail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyTo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Prompt" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Forward" Type="Boolean" Nullable="false" />
+          <Property Name="ReplyDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Custom_Business_Daily">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SysId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FormID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="ProcessFormContent">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormID" Type="Int32" />
+          <Property Name="JsonData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="XmlData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="OrgNode">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Chart_SysId" Type="Guid" />
+          <Property Name="Parent_SysId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserOrgNode">
+          <Key>
+            <PropertyRef Name="User_SysId" />
+            <PropertyRef Name="OrgNode_SysId" />
+          </Key>
+          <Property Name="User_SysId" Type="Guid" Nullable="false" />
+          <Property Name="OrgNode_SysId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PositionUser">
+          <Key>
+            <PropertyRef Name="Position_SysId" />
+            <PropertyRef Name="User_SysId" />
+          </Key>
+          <Property Name="Position_SysId" Type="Guid" Nullable="false" />
+          <Property Name="User_SysId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category_SysId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="Custom_Business_WeeklyDaily">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SysId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FormID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="OrgNodeExtend">
+          <Key>
+            <PropertyRef Name="SysId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="SysId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PositionCategory">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_SysId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category_SysId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="RoleUser">
+          <Key>
+            <PropertyRef Name="Role_SysId" />
+            <PropertyRef Name="User_SysId" />
+          </Key>
+          <Property Name="Role_SysId" Type="Guid" Nullable="false" />
+          <Property Name="User_SysId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PositionOrgNode">
+          <Key>
+            <PropertyRef Name="Position_SysId" />
+            <PropertyRef Name="OrgNode_SysId" />
+          </Key>
+          <Property Name="Position_SysId" Type="Guid" Nullable="false" />
+          <Property Name="OrgNode_SysId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SendErrorLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ErrorID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VW_ErrorLog">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ProcID" />
+            <PropertyRef Name="ProcInstID" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Context" />
+            <PropertyRef Name="ObjectID" />
+            <PropertyRef Name="Descr" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="ItemName" />
+            <PropertyRef Name="CodeID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProcID" Type="Int32" Nullable="false" />
+          <Property Name="ProcInstID" Type="Int32" Nullable="false" />
+          <Property Name="State" Type="Byte" Nullable="false" />
+          <Property Name="Context" Type="Byte" Nullable="false" />
+          <Property Name="ObjectID" Type="Int32" Nullable="false" />
+          <Property Name="Descr" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Code" Type="Guid" Nullable="false" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="StackTrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CodeID" Type="Int32" Nullable="false" />
+          <Property Name="Folio" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TempSupervision">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SN" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="EmailTransferConfig">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TypeKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="TypeValue" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="QuartzSendMail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyTo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Prompt" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Forward" Type="Boolean" Nullable="false" />
+          <Property Name="ReplyDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="FormAttachment">
+          <Key>
+            <PropertyRef Name="FileId" />
+          </Key>
+          <Property Name="FileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileGuid" Type="Guid" />
+          <Property Name="FormId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProcInstId" Type="Int32" />
+          <Property Name="ProcessName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileBytes" Type="Int64" />
+          <Property Name="FileType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FileExtension" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OldFileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NewFileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StoragePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DownloadUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Uploader" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UploaderName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UploadedDate" Type="DateTime" Precision="3" />
+          <Property Name="FileComment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NetworkRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Guid" />
+        </EntityType>
+        <EntityType Name="CommonReportConfig_DisplayArea">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProcSetID" Type="Int32" />
+          <Property Name="FieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FieldType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DataResource" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="XPATH" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Memo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FieldID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CommonReportConfig_SearchArea">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProcSetID" Type="Int32" />
+          <Property Name="FieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FieldType" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="DataResource" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="XPATH" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Memo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FieldID" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Custom_BaseData_ModuleType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PMCCharge" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="view_ProcinstList">
+          <Key>
+            <PropertyRef Name="ProcInstID" />
+            <PropertyRef Name="StartDate" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="Originator" />
+            <PropertyRef Name="Folio" />
+            <PropertyRef Name="ProcID" />
+            <PropertyRef Name="FinishDate" />
+          </Key>
+          <Property Name="ProcInstID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Byte" Nullable="false" />
+          <Property Name="Originator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Folio" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="ProcID" Type="Int32" Nullable="false" />
+          <Property Name="FinishDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TaskStartDate" Type="DateTime" Precision="3" />
+          <Property Name="Destination" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ActID" Type="Int32" />
+          <Property Name="SN" Type="String" MaxLength="41" FixedLength="false" Unicode="false" />
+          <Property Name="StartName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProcInstID" Type="Int32" />
+          <Property Name="ActInstID" Type="Int32" />
+          <Property Name="SN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProcessName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrigUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrigUserAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CommentDate" Type="DateTime" Precision="3" />
+          <Property Name="TenantID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessFormCancel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ProcInstId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ProcessActivityParticipantSet">
+          <Key>
+            <PropertyRef Name="SetID" />
+          </Key>
+          <Property Name="SetID" Type="Guid" Nullable="false" />
+          <Property Name="Assigner" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AssignerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Setter" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SetterName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="ProcInstID" Type="Int32" />
+          <Property Name="ProcessFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityID" Type="Int32" />
+          <Property Name="ActivityName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsPeeked" Type="Boolean" />
+          <Property Name="IsOriginal" Type="Boolean" />
+          <Property Name="SkipAssigner" Type="Boolean" />
+          <Property Name="SkipSet" Type="Boolean" />
+          <Property Name="DateAssigned" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessActivityParticipantSetEntry">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SetID" Type="Guid" />
+          <Property Name="EntryType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EntryID" Type="Guid" />
+          <Property Name="EntryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessFormCC">
+          <Key>
+            <PropertyRef Name="SysId" />
+          </Key>
+          <Property Name="SysId" Type="Guid" Nullable="false" />
+          <Property Name="FormId" Type="Int32" Nullable="false" />
+          <Property Name="Originator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Receiver" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FormViewUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ReceiverStatus" Type="Boolean" />
+          <Property Name="ReviewComment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiverDate" Type="DateTime" Precision="3" />
+          <Property Name="ActivityId" Type="Int32" />
+          <Property Name="ActivityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessFormHeader">
+          <Key>
+            <PropertyRef Name="FormID" />
+          </Key>
+          <Property Name="FormID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormSubject" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProcInstID" Type="Int32" />
+          <Property Name="ProcessFolio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="SubmitterAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubmitterDisplayName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+          <Property Name="ApplicantAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicantDisplayName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicantTelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicantEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicantPositionID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicantPositionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicantOrgNodeID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicantOrgNodeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SubmitComment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsDraft" Type="Boolean" />
+          <Property Name="DraftUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OutSystemProcessID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessPrognosis">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="Guid" Nullable="false" />
+          <Property Name="ActID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SourceName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LineName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LinkOrder" Type="Int32" Nullable="false" />
+          <Property Name="ProcInstID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProcessPrognosisDetail">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="Guid" Nullable="false" />
+          <Property Name="RSysID" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessPrognosisTask">
+          <Key>
+            <PropertyRef Name="SysID" />
+          </Key>
+          <Property Name="SysID" Type="Guid" Nullable="false" />
+          <Property Name="ProcInstID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProcessFormApprovalDraft">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessFormSigner">
+          <Key>
+            <PropertyRef Name="ProcessInstId" />
+            <PropertyRef Name="SignerName" />
+          </Key>
+          <Property Name="ProcessInstId" Type="Int32" Nullable="false" />
+          <Property Name="ActivityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SignerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SignerDate" Type="DateTime" Precision="3" />
+          <Property Name="IsApproval" Type="Boolean" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DBLogEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <Property Name="Source" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OccurTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CommonReportPermission">
+          <Key>
+            <PropertyRef Name="Role_SysId" />
+            <PropertyRef Name="ProcessFullName" />
+          </Key>
+          <Property Name="Role_SysId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProcessFullName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="BasisEntity" />
+        <Alias Key="Target" Value="BasisEntity.Store" />
+        <EntityContainerMapping CdmEntityContainer="BasisEntityContainer" StorageEntityContainer="BasisEntityStoreContainer">
+          <EntitySetMapping Name="Custom_BaseData_ProcessingVendor">
+            <EntityTypeMapping TypeName="BasisEntity.Custom_BaseData_ProcessingVendor">
+              <MappingFragment StoreEntitySet="Custom_BaseData_ProcessingVendor">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Custom_BaseData_Customer">
+            <EntityTypeMapping TypeName="BasisEntity.Custom_BaseData_Customer">
+              <MappingFragment StoreEntitySet="Custom_BaseData_Customer">
+                <ScalarProperty Name="BelongArea" ColumnName="BelongArea" />
+                <ScalarProperty Name="BelongIndustry" ColumnName="BelongIndustry" />
+                <ScalarProperty Name="SalePerson" ColumnName="SalePerson" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="PK" ColumnName="PK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Custom_BaseData_labelTemplate">
+            <EntityTypeMapping TypeName="BasisEntity.Custom_BaseData_labelTemplate">
+              <MappingFragment StoreEntitySet="Custom_BaseData_labelTemplate">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Principal" ColumnName="Principal" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Custom_BaseData_ToolSoft">
+            <EntityTypeMapping TypeName="BasisEntity.Custom_BaseData_ToolSoft">
+              <MappingFragment StoreEntitySet="Custom_BaseData_ToolSoft">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Principal" ColumnName="Principal" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ToolType" ColumnName="ToolType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuartzCacheSendMails">
+            <EntityTypeMapping TypeName="BasisEntity.QuartzCacheSendMail">
+              <MappingFragment StoreEntitySet="QuartzCacheSendMails">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ReplyDate" ColumnName="ReplyDate" />
+                <ScalarProperty Name="Forward" ColumnName="Forward" />
+                <ScalarProperty Name="Prompt" ColumnName="Prompt" />
+                <ScalarProperty Name="ReplyTo" ColumnName="ReplyTo" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessFormContents">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessFormContent">
+              <MappingFragment StoreEntitySet="ProcessFormContent">
+                <ScalarProperty Name="XmlData" ColumnName="XmlData" />
+                <ScalarProperty Name="JsonData" ColumnName="JsonData" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrgNodes">
+            <EntityTypeMapping TypeName="BasisEntity.OrgNode">
+              <MappingFragment StoreEntitySet="OrgNode">
+                <ScalarProperty Name="Parent_SysId" ColumnName="Parent_SysId" />
+                <ScalarProperty Name="Chart_SysId" ColumnName="Chart_SysId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BasisEntity.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserOrgNodes">
+            <EntityTypeMapping TypeName="BasisEntity.UserOrgNode">
+              <MappingFragment StoreEntitySet="UserOrgNodes">
+                <ScalarProperty Name="OrgNode_SysId" ColumnName="OrgNode_SysId" />
+                <ScalarProperty Name="User_SysId" ColumnName="User_SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PositionUsers">
+            <EntityTypeMapping TypeName="BasisEntity.PositionUser">
+              <MappingFragment StoreEntitySet="PositionUsers">
+                <ScalarProperty Name="User_SysId" ColumnName="User_SysId" />
+                <ScalarProperty Name="Position_SysId" ColumnName="Position_SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="BasisEntity.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="Category_SysId" ColumnName="Category_SysId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrgNodeExtends">
+            <EntityTypeMapping TypeName="BasisEntity.OrgNodeExtend">
+              <MappingFragment StoreEntitySet="OrgNodeExtends">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PositionCategories">
+            <EntityTypeMapping TypeName="BasisEntity.PositionCategory">
+              <MappingFragment StoreEntitySet="PositionCategory">
+                <ScalarProperty Name="Parent_SysId" ColumnName="Parent_SysId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="BasisEntity.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Category_SysId" ColumnName="Category_SysId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleUsers">
+            <EntityTypeMapping TypeName="BasisEntity.RoleUser">
+              <MappingFragment StoreEntitySet="RoleUsers">
+                <ScalarProperty Name="User_SysId" ColumnName="User_SysId" />
+                <ScalarProperty Name="Role_SysId" ColumnName="Role_SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PositionOrgNodes">
+            <EntityTypeMapping TypeName="BasisEntity.PositionOrgNode">
+              <MappingFragment StoreEntitySet="PositionOrgNodes">
+                <ScalarProperty Name="OrgNode_SysId" ColumnName="OrgNode_SysId" />
+                <ScalarProperty Name="Position_SysId" ColumnName="Position_SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SendErrorLogs">
+            <EntityTypeMapping TypeName="BasisEntity.SendErrorLog">
+              <MappingFragment StoreEntitySet="SendErrorLog">
+                <ScalarProperty Name="ErrorID" ColumnName="ErrorID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_ErrorLog">
+            <EntityTypeMapping TypeName="BasisEntity.VW_ErrorLog">
+              <MappingFragment StoreEntitySet="VW_ErrorLog">
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="CodeID" ColumnName="CodeID" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Descr" ColumnName="Descr" />
+                <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ProcInstID" ColumnName="ProcInstID" />
+                <ScalarProperty Name="ProcID" ColumnName="ProcID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempSupervisions">
+            <EntityTypeMapping TypeName="BasisEntity.TempSupervision">
+              <MappingFragment StoreEntitySet="TempSupervision">
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailTransferConfigs">
+            <EntityTypeMapping TypeName="BasisEntity.EmailTransferConfig">
+              <MappingFragment StoreEntitySet="EmailTransferConfig">
+                <ScalarProperty Name="TypeValue" ColumnName="TypeValue" />
+                <ScalarProperty Name="TypeKey" ColumnName="TypeKey" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuartzSendMails">
+            <EntityTypeMapping TypeName="BasisEntity.QuartzSendMail">
+              <MappingFragment StoreEntitySet="QuartzSendMails">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ReplyDate" ColumnName="ReplyDate" />
+                <ScalarProperty Name="Forward" ColumnName="Forward" />
+                <ScalarProperty Name="Prompt" ColumnName="Prompt" />
+                <ScalarProperty Name="ReplyTo" ColumnName="ReplyTo" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormAttachments">
+            <EntityTypeMapping TypeName="BasisEntity.FormAttachment">
+              <MappingFragment StoreEntitySet="FormAttachment">
+                <ScalarProperty Name="FileComment" ColumnName="FileComment" />
+                <ScalarProperty Name="UploadedDate" ColumnName="UploadedDate" />
+                <ScalarProperty Name="UploaderName" ColumnName="UploaderName" />
+                <ScalarProperty Name="Uploader" ColumnName="Uploader" />
+                <ScalarProperty Name="DownloadUrl" ColumnName="DownloadUrl" />
+                <ScalarProperty Name="StoragePath" ColumnName="StoragePath" />
+                <ScalarProperty Name="NewFileName" ColumnName="NewFileName" />
+                <ScalarProperty Name="OldFileName" ColumnName="OldFileName" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="FileBytes" ColumnName="FileBytes" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+                <ScalarProperty Name="ProcInstId" ColumnName="ProcInstId" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="FileGuid" ColumnName="FileGuid" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NetworkRoles">
+            <EntityTypeMapping TypeName="BasisEntity.NetworkRole">
+              <MappingFragment StoreEntitySet="NetworkRole">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Custom_Business_WeeklyDaily">
+            <EntityTypeMapping TypeName="IsTypeOf(BasisEntity.Custom_Business_WeeklyDaily)">
+              <MappingFragment StoreEntitySet="Custom_Business_WeeklyDaily">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Custom_Business_Daily">
+            <EntityTypeMapping TypeName="IsTypeOf(BasisEntity.Custom_Business_Daily)">
+              <MappingFragment StoreEntitySet="Custom_Business_Daily">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommonReportConfig_DisplayArea">
+            <EntityTypeMapping TypeName="BasisEntity.CommonReportConfig_DisplayArea">
+              <MappingFragment StoreEntitySet="CommonReportConfig_DisplayArea">
+                <ScalarProperty Name="FieldID" ColumnName="FieldID" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="XPATH" ColumnName="XPATH" />
+                <ScalarProperty Name="DataResource" ColumnName="DataResource" />
+                <ScalarProperty Name="FieldType" ColumnName="FieldType" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="ProcSetID" ColumnName="ProcSetID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommonReportConfig_SearchArea">
+            <EntityTypeMapping TypeName="BasisEntity.CommonReportConfig_SearchArea">
+              <MappingFragment StoreEntitySet="CommonReportConfig_SearchArea">
+                <ScalarProperty Name="FieldID" ColumnName="FieldID" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="XPATH" ColumnName="XPATH" />
+                <ScalarProperty Name="DataResource" ColumnName="DataResource" />
+                <ScalarProperty Name="FieldType" ColumnName="FieldType" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="ProcSetID" ColumnName="ProcSetID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Custom_BaseData_ModuleType">
+            <EntityTypeMapping TypeName="BasisEntity.Custom_BaseData_ModuleType">
+              <MappingFragment StoreEntitySet="Custom_BaseData_ModuleType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PMCCharge" ColumnName="PMCCharge" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="view_ProcinstList">
+            <EntityTypeMapping TypeName="BasisEntity.view_ProcinstList">
+              <MappingFragment StoreEntitySet="view_ProcinstList">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="StartName" ColumnName="StartName" />
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="ActID" ColumnName="ActID" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="TaskStartDate" ColumnName="TaskStartDate" />
+                <ScalarProperty Name="ActName" ColumnName="ActName" />
+                <ScalarProperty Name="FinishDate" ColumnName="FinishDate" />
+                <ScalarProperty Name="ProcID" ColumnName="ProcID" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Originator" ColumnName="Originator" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ProcInstID" ColumnName="ProcInstID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessLog">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessLog">
+              <MappingFragment StoreEntitySet="ProcessLog">
+                <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="OpType" ColumnName="OpType" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="OrigUserAccount" ColumnName="OrigUserAccount" />
+                <ScalarProperty Name="OrigUserName" ColumnName="OrigUserName" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="ActInstID" ColumnName="ActInstID" />
+                <ScalarProperty Name="ProcInstID" ColumnName="ProcInstID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessFormCancel">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessFormCancel">
+              <MappingFragment StoreEntitySet="ProcessFormCancel">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProcInstId" ColumnName="ProcInstId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessActivityParticipantSet">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessActivityParticipantSet">
+              <MappingFragment StoreEntitySet="ProcessActivityParticipantSet">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateAssigned" ColumnName="DateAssigned" />
+                <ScalarProperty Name="SkipSet" ColumnName="SkipSet" />
+                <ScalarProperty Name="SkipAssigner" ColumnName="SkipAssigner" />
+                <ScalarProperty Name="IsOriginal" ColumnName="IsOriginal" />
+                <ScalarProperty Name="IsPeeked" ColumnName="IsPeeked" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+                <ScalarProperty Name="ProcessFullName" ColumnName="ProcessFullName" />
+                <ScalarProperty Name="ProcInstID" ColumnName="ProcInstID" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="SetterName" ColumnName="SetterName" />
+                <ScalarProperty Name="Setter" ColumnName="Setter" />
+                <ScalarProperty Name="AssignerName" ColumnName="AssignerName" />
+                <ScalarProperty Name="Assigner" ColumnName="Assigner" />
+                <ScalarProperty Name="SetID" ColumnName="SetID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessActivityParticipantSetEntry">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessActivityParticipantSetEntry">
+              <MappingFragment StoreEntitySet="ProcessActivityParticipantSetEntry">
+                <ScalarProperty Name="EntryName" ColumnName="EntryName" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+                <ScalarProperty Name="EntryType" ColumnName="EntryType" />
+                <ScalarProperty Name="SetID" ColumnName="SetID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessFormCC">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessFormCC">
+              <MappingFragment StoreEntitySet="ProcessFormCC">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+                <ScalarProperty Name="ReceiverDate" ColumnName="ReceiverDate" />
+                <ScalarProperty Name="ReviewComment" ColumnName="ReviewComment" />
+                <ScalarProperty Name="ReceiverStatus" ColumnName="ReceiverStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="FormViewUrl" ColumnName="FormViewUrl" />
+                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+                <ScalarProperty Name="Receiver" ColumnName="Receiver" />
+                <ScalarProperty Name="OriginatorName" ColumnName="OriginatorName" />
+                <ScalarProperty Name="Originator" ColumnName="Originator" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="SysId" ColumnName="SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessFormHeader">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessFormHeader">
+              <MappingFragment StoreEntitySet="ProcessFormHeader">
+                <ScalarProperty Name="OutSystemProcessID" ColumnName="OutSystemProcessID" />
+                <ScalarProperty Name="DraftUrl" ColumnName="DraftUrl" />
+                <ScalarProperty Name="IsDraft" ColumnName="IsDraft" />
+                <ScalarProperty Name="SubmitComment" ColumnName="SubmitComment" />
+                <ScalarProperty Name="ApplicantOrgNodeName" ColumnName="ApplicantOrgNodeName" />
+                <ScalarProperty Name="ApplicantOrgNodeID" ColumnName="ApplicantOrgNodeID" />
+                <ScalarProperty Name="ApplicantPositionName" ColumnName="ApplicantPositionName" />
+                <ScalarProperty Name="ApplicantPositionID" ColumnName="ApplicantPositionID" />
+                <ScalarProperty Name="ApplicantEmail" ColumnName="ApplicantEmail" />
+                <ScalarProperty Name="ApplicantTelNo" ColumnName="ApplicantTelNo" />
+                <ScalarProperty Name="ApplicantDisplayName" ColumnName="ApplicantDisplayName" />
+                <ScalarProperty Name="ApplicantAccount" ColumnName="ApplicantAccount" />
+                <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+                <ScalarProperty Name="SubmitterDisplayName" ColumnName="SubmitterDisplayName" />
+                <ScalarProperty Name="SubmitterAccount" ColumnName="SubmitterAccount" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="ProcessFolio" ColumnName="ProcessFolio" />
+                <ScalarProperty Name="ProcInstID" ColumnName="ProcInstID" />
+                <ScalarProperty Name="FormSubject" ColumnName="FormSubject" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessPrognosis">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessPrognosis">
+              <MappingFragment StoreEntitySet="ProcessPrognosis">
+                <ScalarProperty Name="ProcInstID" ColumnName="ProcInstID" />
+                <ScalarProperty Name="LinkOrder" ColumnName="LinkOrder" />
+                <ScalarProperty Name="LineName" ColumnName="LineName" />
+                <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ActID" ColumnName="ActID" />
+                <ScalarProperty Name="SysID" ColumnName="SysID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessPrognosisDetail">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessPrognosisDetail">
+              <MappingFragment StoreEntitySet="ProcessPrognosisDetail">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RSysID" ColumnName="RSysID" />
+                <ScalarProperty Name="SysID" ColumnName="SysID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessPrognosisTask">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessPrognosisTask">
+              <MappingFragment StoreEntitySet="ProcessPrognosisTask">
+                <ScalarProperty Name="ProcInstID" ColumnName="ProcInstID" />
+                <ScalarProperty Name="SysID" ColumnName="SysID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessFormApprovalDraft">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessFormApprovalDraft">
+              <MappingFragment StoreEntitySet="ProcessFormApprovalDraft">
+                <ScalarProperty Name="ActionComment" ColumnName="ActionComment" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessFormSigner">
+            <EntityTypeMapping TypeName="BasisEntity.ProcessFormSigner">
+              <MappingFragment StoreEntitySet="ProcessFormSigner">
+                <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="IsApproval" ColumnName="IsApproval" />
+                <ScalarProperty Name="SignerDate" ColumnName="SignerDate" />
+                <ScalarProperty Name="SignerName" ColumnName="SignerName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ProcessInstId" ColumnName="ProcessInstId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DBLogEntry">
+            <EntityTypeMapping TypeName="BasisEntity.DBLogEntry">
+              <MappingFragment StoreEntitySet="DBLogEntry">
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="OccurTime" ColumnName="OccurTime" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommonReportPermission">
+            <EntityTypeMapping TypeName="BasisEntity.CommonReportPermission">
+              <MappingFragment StoreEntitySet="CommonReportPermission">
+                <ScalarProperty Name="ProcessFullName" ColumnName="ProcessFullName" />
+                <ScalarProperty Name="Role_SysId" ColumnName="Role_SysId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

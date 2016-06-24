@@ -1,0 +1,229 @@
+﻿@using aZaaS.KStar.Html;
+@using aZaaS.Framework.Extend;
+@using System.Text;
+@{
+    IHtmlString SpecialCharTip = new HtmlString(@Html.CSHtmlResx("SpecialCharTip"));
+    IHtmlString RequiredTip = new HtmlString(@Html.CSHtmlResx("RequiredTip"));   
+}
+<style type="text/css">   
+#AddCustomRoleWindow label { height: 28px; line-height: 28px; }
+#AddCustomRoleWindow .k-widget.k-upload { margin-top: 0; border-width: 0; background: 0; }
+#AddCustomRoleWindow .k-widget.k-upload em,
+#AddCustomRoleWindow .k-widget.k-upload strong { display: none; }
+#AddCustomRoleWindow .k-widget.k-upload .k-dropzone { padding: 0; }
+</style>
+<div id="CustomRoleContextMenu" style="top: 100px; left: 230px; display: none;">
+    <li style="display: normal;">
+        <a id="AddCategoryContextMenu" href="#">
+            <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddCategory")</span></a></li>
+    <li style="display: normal;">
+        <a id="AddCustomRoleContextMenu" href="#">
+            <span class="glyphicon glyphicon-plus"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("AddCustomRole")</span></a></li>
+    <li style="display: normal;">
+        <a id="DelContextMenu" href="#">
+            <span class="glyphicon glyphicon-remove"></span><span style="margin-left: 5px;">@Html.CSHtmlResx("Delete")</span></a></li>
+</div>
+
+<!--  CustomRole Management  -->
+<div class="section">
+    <div class="top-heading">
+        <div class="top-title">@Html.CSHtmlResx("CustomRoleManagement")</div>
+    </div>
+    <div class="fullwidget">
+        <div id="CustomRoleManaView" class="well">
+            <div>
+                <div class="top-toolbar">
+                    <input id="CustomRoleTypeDrop" style="margin-right: 10px;" />
+                    <a id="CategoryAdd" class="k-button" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                </div>
+                <div id="CustomRoleManageTreeView" style="position: absolute; top: 35px;"></div>
+            </div>
+            <div id="CustomRoleInfomation">
+                <ul>
+                    <li id="liCategoryInfomation" class="k-state-active">
+                        <a href="#"><span class="info-title">@Html.CSHtmlResx("CategoryInfomation")</span></a>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3  col-sm-3">@Html.CSHtmlResx("Name")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input id="itemName" class="k-textbox" name="Name" style="width: 100%" />
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            var itemform = $("#CustomRoleInfomation");
+                                            kendo.init(itemform);
+                                            itemform.kendoValidator({
+                                                validateOnBlur: true,
+                                                messages: {
+                                                    Name: @SpecialCharTip,
+                                                    RequireName: @RequiredTip
+                                                    },
+                                                rules: {
+                                                    Name: function (input) {
+                                                        if (input.is("[name='Name']")) {
+                                                            var flag = true;
+                                                            var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                                            return regx.test(input.val());                                    
+                                                        }
+                                                        else {
+                                                            return true;
+                                                        }
+                                                    },
+                                                    RequireName: function (input) {
+                                                        if (input.is("[name='Name']")) {
+                                                            if(input.val().length==0)
+                                                            {
+                                                                return false;
+                                                            }
+                                                            return true;
+                                                        }
+                                                        else {
+                                                            return true;
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div>
+                            <div id="showAssembleList" style=""></div>
+                        </div>
+                        </div>
+                    </li>
+                    <li id="liClassifyInfomation" class="k-state-active" style="display: none;">
+                        <a href="#"><span class="assemble-title">@Html.CSHtmlResx("RoleInfomation")</span></a>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3  col-sm-3">@Html.CSHtmlResx("AssembleName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input id="assembleName" class="k-textbox" name="assembleName" readonly="readonly" required="required" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3  col-sm-3">@Html.CSHtmlResx("ClassName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input id="className" class="k-textbox" name="className" readonly="readonly" required="required" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3  col-sm-3">@Html.CSHtmlResx("RoleName")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input id="roleName" class="k-textbox" name="roleName" required="required" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3  col-sm-3">@Html.CSHtmlResx("EnabledFlag")</div>
+                                <div class="col-lg-9 col-md-9  col-sm-9">
+                                    <input id="enabledFlag" class="k-textbox" name="enabledFlag" required="required" style="width: 100%" />
+                                </div>
+                            </div>
+                        </div>    
+                    </li>
+                </ul>
+                <div class="operabar">
+                    <div class="operamask"></div>
+                    <button id="itemSave" class="k-button operacontent" style="width: 80px; display: block;">@Html.CSHtmlResx("Save")</button>
+                    <div class="tips" style="color: green; text-align: center; visibility: hidden">@Html.CSHtmlResx("Savedsuccessfully")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AddCategoryWindow-->
+<div id="AddCategoryWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3  col-sm-3">@Html.CSHtmlResx("DispalyName")</div>
+            <div class="col-lg-9 col-md-9  col-sm-9">
+                <input id="CategoryName" class="k-textbox" name="CategoryName" required="required" style="width: 100%" />
+                <script type="text/javascript">
+                    $(function () {
+                        var itemform = $("#AddCategoryWindow");
+                        kendo.init(itemform);
+                        itemform.kendoValidator({
+                            validateOnBlur: false,
+                            messages: {
+                                CategoryName: @SpecialCharTip
+                                },
+                            rules: {
+                                CategoryName: function (input) {
+                                    if (input.is("[name='CategoryName']")) {
+                                        var flag = true;
+                                        var regx =new RegExp(/^(([^\^\.<>%&',;=?$"':#@@!~\]\[{}\\/`\|*])*)$/); 
+                                        return regx.test(input.val());                                    
+                                    }
+                                    else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+<!-- AddCustomRoleWindow-->
+<div id="AddCustomRoleWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">@Html.CSHtmlResx("UploadZip")</div>
+            <div class="col-lg-6 col-md-6  col-sm-6">
+                <input id="UploadDllName" class="k-textbox" name="UploadDllName" style="width: 100%" />
+            </div>
+            <div class="col-lg-3 col-md-3  col-sm-3">
+                <span>
+                    @*<input type="file" name="UploadDllFile" style=" id="UploadDllFile" />*@
+                    <input type="file" name="UploadDllFile" id="UploadDllFile" accept="application/x-zip-compressed" style=" width: 100%;" />
+                </span>
+            </div>    
+        </div>
+    </div>
+     <div>
+            <div id="assembleList" style=""></div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/JS/seajs/sea.js"></script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaCustomRole" type="text/javascript"></script>
+<script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_CustomRole", function (init) {
+        init();
+        $(window).resize();
+    });
+</script>
+<script id="CustomRoleManageTreeView-template" type="text/kendo-ui-template">   
+            # if(item.Type == "Category"){ #
+          
+            <span class="k-sprite folder"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #"  data-DisplayName= "#= item.DisplayName #"/>
+            # }else{ #
+      
+            <span class="k-sprite property"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #" data-DisplayName= "#= item.DisplayName #"/>
+            # } #
+           
+            #: item.DisplayName #
+</script>

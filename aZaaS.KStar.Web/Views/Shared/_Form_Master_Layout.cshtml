@@ -1,0 +1,73 @@
+﻿@using aZaaS.KStar.Web.Controllers;
+@using aZaaS.KStar.Form.Helpers;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/bootstrap/css")
+    @Styles.Render("~/Content/css")
+
+</head>
+<body>
+    <!-- #kstarform container -->
+    <div class="container">
+
+        <!-- #kstarform content part -->
+        <div class="row kstar-component" title="表单信息" role="_kstarform_content">
+            @RenderBody()
+        </div>
+        <!-- ./kstarform content part -->
+
+        <!-- #kstarform toolbar part -->
+        <div class="row kstar-component" title="操作选项" role="_kstarform_toolbar">
+            @PartialExtensions.Partial(Html, "_Form_Toolbar_Part")
+        </div>
+        <!-- ./kstarform toolbar part -->
+
+    </div>
+    <!-- ./kstarform container -->
+
+    <script type="text/javascript">
+        var $_userPickerUrl = '@Url.Action("GetUserInfo", Html.ViewContext.RouteData.Values)';
+        var $_attachmentUploadUrl = '@Url.Action("_AttachmentUpload", Html.ViewContext.RouteData.Values)';
+        var $_attachemntExtFilter = ""
+        var $_attachemntAllowedTypes = "";
+        var $_attachemntMaxFileSize = "";
+        var $_attachemntAllowedTypes = '@UploaderOptions.AllowedTypes';
+        var $_attachemntAllowedTypes = '@UploaderOptions.AllowedTypes';
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/kstarform")
+    @*@Scripts.Render("~/bundles/dmuploader")*@
+    @Scripts.Render("~/bundles/jqueryuiwidget")
+    @Scripts.Render("~/bundles/iframe-transport")
+    @Scripts.Render("~/bundles/fileupload")
+    @Scripts.Render("~/bundles/jqueryztree")
+
+    <script type="text/javascript">
+        $(function () {
+            KStarForm.init();
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        @Html.GetKStarFormUser()
+        @Html.ApplyFormData()
+    </script>
+
+
+
+
+
+</body>
+</html>

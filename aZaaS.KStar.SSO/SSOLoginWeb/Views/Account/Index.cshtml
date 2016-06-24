@@ -1,0 +1,376 @@
+﻿@model K2.Framework.SSO.ISSOLogin.LoginModel
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "NeoWayLogin";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>K2-OA办公平台</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="~/Scripts/html5shiv.js"></script>
+      <script src="~/Scripts/respond.min.js"></script>
+    <![endif]-->
+    <link href="~/images_custom/customLogin.css" rel="stylesheet" />
+    <script type="text/javascript">
+
+        function uaMatch() {
+            var userAgent = navigator.userAgent,
+                   rMsie = /(msie\s|trident.*rv:)([\w.]+)/,
+                   rFirefox = /(firefox)\/([\w.]+)/,
+                   rOpera = /(opera).+version\/([\w.]+)/,
+                   rChrome = /(chrome)\/([\w.]+)/,
+                   rSafari = /version\/([\w.]+).*(safari)/;
+            var ua = userAgent.toLowerCase();
+            var match = rMsie.exec(ua);
+            if (match != null) {
+                return { browser: "IE", version: match[2] || "0" };
+            }
+            var match = rFirefox.exec(ua);
+            if (match != null) {
+                return { browser: match[1] || "", version: match[2] || "0" };
+            }
+            var match = rOpera.exec(ua);
+            if (match != null) {
+                return { browser: match[1] || "", version: match[2] || "0" };
+            }
+            var match = rChrome.exec(ua);
+            if (match != null) {
+                return { browser: match[1] || "", version: match[2] || "0" };
+            }
+            var match = rSafari.exec(ua);
+            if (match != null) {
+                return { browser: match[2] || "", version: match[1] || "0" };
+            }
+            if (match != null) {
+                return { browser: "", version: "0" };
+            }
+        }
+
+        var $alertWarning = function (type, message) {
+            var msgWindow = '<div class=\"modal fade\" data-backdrop=\"static\">'
+                        + '  <div class=\"modal-dialog\">'
+                        + '    <div class=\"modal-content\">'
+                        + '      <div class=\"modal-header\">'
+                        + '        <button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>'
+                        + '        <h4 class=\"modal-title\">系统提示</h4>'
+                        + '      </div>'
+                        + '      <div class=\"modal-body\">'
+                        + '        <p>' + message + '</p>'
+                        + '      </div>'
+                        + '      <div class=\"modal-footer\">'
+                        + '        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">确定</button>'
+                        + '      </div>'
+                        + '    </div>'
+                        + '  </div>'
+                        + '</div>';
+
+            $(msgWindow).modal('show').on('hidden.bs.modal', function (e) {
+                if (type == 1) {//1:Exec Success
+                    KStarForm.close();
+                }
+            });
+        }
+
+        var $alterpwdwindow = function (type, message) {
+            var msgWindow = '<div class=\"modal fade\" id=\"modelwindow\" data-backdrop=\"static\" >'
+                        + '  <div class=\"modal-dialog\" style="width:900px;">'
+                        + '    <div class=\"modal-content\">'
+                        + '      <div class=\"modal-header\">'
+                        + '        <button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>'
+                        + '        <h4 class=\"modal-title\">修改密码</h4>'
+                        + '      </div>'
+                        + '      <div class=\"modal-body\">'
+                        + '        <p>' + message + '</p>'
+                        + '      </div>'
+                        + '    </div>'
+                        + '  </div>'
+                        + '</div>';
+
+            if ($("#modelwindow").length > 0) {
+                $("#modelwindow").modal("show");
+            }
+            else {
+                $(msgWindow).insertAfter($("body"));
+                $("#modelwindow").modal("show");
+            }
+        }
+
+        var respassword = function () {
+            var html = "<iframe id=\"iframe_psw\" src=\"/Account/ResetPassword\"  width=800 height=450 frameborder='no' border='0' marginwidth='0' marginheight='0' scrolling='no' allowtransparency='yes' />";
+            $alterpwdwindow(0, html);
+            if (document.getElementById('iframe_psw') != null && document.getElementById('iframe_psw').contentWindow != null && document.getElementById('iframe_psw').contentWindow.document.getElementById("account") != null) {
+                document.getElementById('iframe_psw').contentWindow.document.getElementById("account").value = $("#account").val();
+            }
+        }
+
+        var ProcessMsg = {
+            UsernameRequired: '<div style="color:red;"><strong>请填写用户名！</strong></div>',
+            PasswordRequired: '<div style="color:red;"><strong>请填写密码！</strong></div>',
+            Authenticating: '<strong>正在登录，请稍后...</strong>',
+            InvalidIdOrPassword: '<div style="color:red;"><strong>无效用户名或密码！</strong></div>',
+            SuccessAuthenticated: '<strong>登录验证成功！</strong>',
+            ValidateCodeRequired: '<div style="color:red;"><strong>请填写验证码！</strong></div>',
+            ValidateCodeError: '<div style="color:red;"><strong>验证码错误！</strong></div>',
+            InternetRoleRequired: '<div style="color:red;"><strong>没有外网访问权限！</strong></div>'
+
+        };
+
+        var disableLogin = function (flag) {
+            if (flag) {
+                $('#btn_login').attr('disabled', 'disabled');
+            } else {
+                $('#btn_login').removeAttr('disabled');
+            }
+        }
+        var showProcess = function (msg) {
+            $('#process').html(msg);
+        }
+        var getUrlVars = function (name) {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars[name];
+        }
+
+        var getHashValue = function (url) {
+            var result = {};
+            var reg = new RegExp('([\\#|&])(.+?)=([^&?]*)', 'ig');
+            var arr = reg.exec(url);
+
+            while (arr) {
+                result[arr[2]] = arr[3];
+
+                arr = reg.exec(url);
+            }
+            return result;
+        }
+        var getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+
+        var signInUser = function () {
+
+            var $post = {
+                Account: $("#account").val(),
+                Password: $('#password').val(),
+                code: $('#validate_Code').val()
+            }
+
+            disableLogin(true);
+            showProcess(ProcessMsg.Authenticating);
+            //TODO:Using validation library or Server validation
+            if (!$post.Account || $post.Account.length < 1) {
+                showProcess(ProcessMsg.UsernameRequired);
+                disableLogin(false);
+                return;
+            }
+            //TODO:Using validation library or Server validation
+            if (!$post.Password || $post.Password.length < 1) {
+                showProcess(ProcessMsg.PasswordRequired);
+                disableLogin(false);
+                return;
+            }
+
+            //验证码的验证
+            if ($('.ValidateCode').css("display") != "none") {
+                if (!$("#validate_Code").val() || $("#validate_Code").val().length < 1) {
+                    showProcess(ProcessMsg.ValidateCodeRequired);
+                    disableLogin(false);
+                    return;
+                }
+            }
+            jQuery.cookie("userName", escape($("#account").val()), { expires: 7 });
+            jQuery.cookie("isCheck", escape($('#CheckPassWord').prop("checked")), { expires: 7 })
+            if ($('#CheckPassWord').prop("checked")) {
+
+                jQuery.cookie("userPass", escape($("#password").val()), { expires: 7 })
+
+            }
+            else {
+                jQuery.cookie("userPass", "");
+                jQuery.cookie("isCheck", "");
+            }
+
+            $.ajax({
+                url: '/Account/SSOLogin?RequestUrl=' + getUrlParam("RequestUrl"),
+                type: 'POST',
+                data: $post,
+                dataType: 'json'
+            }).done(function (data) {
+
+                if (data && !data.IsAuthenticated) {
+
+                    if (data.RoleError == true) {
+                        showProcess(ProcessMsg.InternetRoleRequired);
+                    } else if (data.CheckCodeError == true) {
+                        showProcess(ProcessMsg.ValidateCodeError);
+                    } else {
+                        showProcess("<div style=\"color:red;\"><strong>" + data.Error + "</strong></div>");
+                    }
+                    disableLogin(false);
+                    ShowValidateCode();
+                    return;
+                }
+                var returnUrl = data.ReturnUrl;
+                location.href = returnUrl;
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('ERROR:' + textStatus + '-' + errorThrown);
+                disableLogin(false);
+            });
+        }
+
+        var ShowValidateCode = function () {
+            //验证码
+            var ValidateCode = jQuery.cookie("ValidateCode");
+            if (ValidateCode == "true") {
+                document.getElementById("ImageCode").src = "/Account/ValidateCode?" + Math.random() * 100000;
+                $('.ValidateCode').show();
+            } else {
+                $('.ValidateCode').hide();
+                $('.ValidateCode').val("");
+            }
+        }
+
+        $(function () {
+            $('#btn_login').click(function () { signInUser(); });
+            $("#account").keydown(function (e) { if (e.keyCode == 13) { signInUser(); } });
+            $("#password").keydown(function (e) { if (e.keyCode == 13) { signInUser(); } });
+
+            $('#ForgetPassWord').click(function () {
+                $alertWarning(0, "请联系IT管理员重置密码:郭先超（66585）");
+            });
+
+            $('#CheckPassWord').click(function () {
+                // debugger;
+                //this.checked=! this.checked
+                if (!this.checked) {
+                    //jQuery.cookie("userName",escape($("#account").val()),{expires:7});
+                    jQuery.cookie("userPass", null);
+                }
+
+            });
+            //if($('#CheckPassWord').attr)
+            var IsCheck = jQuery.cookie("isCheck")
+            var userName = jQuery.cookie("userName") || "";
+            var userPass = jQuery.cookie("userPass");
+            if (userName.length > 0) {
+                $("#account").val(unescape(userName));
+            }
+            var authorname = getUrlVars("authorname");
+            if (authorname != undefined && authorname != null && authorname.length > 0) {
+                var username = unescape(authorname);
+                if (username.indexOf('\\') >= 0) {
+                    username = username.substr(username.indexOf('\\') + 1, username.length);
+                }
+                $("#account").val(username);
+            }
+            else {
+                if (IsCheck == "true") {
+                    $('#CheckPassWord').prop("checked", true);
+
+                    $("#password").val(unescape(userPass));
+                }
+                else {
+                    $('#CheckPassWord').prop("checked", false);
+                }
+            }
+
+            var hash = getHashValue(window.location);
+            if (hash != undefined && (hash.isInvalid == "true" || hash.isInvalid)) {
+                showProcess(ProcessMsg.InvalidIdOrPassword);
+            }
+            if (hash != undefined && (hash.isDisable == "true" || hash.isDisable)) {
+                showProcess(ProcessMsg.InvalidIdOrPassword);
+            }
+
+            var userBrowser = uaMatch();
+            
+            $("#ImageCode").click(function () {
+                document.getElementById("ImageCode").src = "/Account/ValidateCode?" + Math.random() * 100000;
+            });
+            ShowValidateCode();
+        });
+
+    </script>
+</head>
+<body style="">
+    <div class="form-signin form-horizontal">
+        <header>
+            <div>
+                <img src="~/images_custom/logo.png" />
+                <span class="header-div-line"></span>
+                <span class="header-div-explain">OA办公平台</span>
+            </div>
+        </header>
+        <div class="panel panel-default contextpanel">
+            <div class="headPeople">
+                <img src="~/images_custom/people.png">
+            </div>
+            <div class="div-welcome">
+                欢迎登录
+            </div>
+            <div class="userName">
+                <input type="text" id="account" class="form-control" value="" placeholder="请输入工号">
+                <input id="returnUrl" name="returnUrl" type="hidden" value="/" />
+            </div>
+
+            <div class="password">
+                <input type="password" id="password" value="" class="form-control" placeholder="请输入密码">
+            </div>
+            <div class="ValidateCode" style="display:none;">
+                <img id="ImageCode" style="height: 30px;width: 90px;float:right;" src="/Account/ValidateCode" title="看不清？点击更换图片。" />
+                <input type="text" id="validate_Code" class="form-control" style="width: 185px;" placeholder="请输入验证码" />
+
+            </div>
+            <div class="setting">
+                <label class="radio-inline">
+                    <input type="checkbox" id="CheckPassWord" />
+                    记住密码
+                </label>
+                <label class="radio-inline">
+                    <a onclick="respassword()">修改密码</a>
+                </label>
+                <label class="radio-inline" id="ForgetPassWord">
+                    忘记密码?
+                </label>
+            </div>
+            <div class="btnEnter">
+                <button id="btn_login" type="submit" class="btn btn-default">
+                    登&nbsp;&nbsp;录
+                </button>
+            </div>
+            <div id="process" style="margin-bottom:20px;"></div>
+        </div>
+        <div class="contextleft">
+        </div>
+        <footer>
+            Copyright&nbsp;@Html.Raw("@")&nbsp;2015 上海斯歌信息技术有限公司
+        </footer>
+
+    </div>
+</body>
+</html>

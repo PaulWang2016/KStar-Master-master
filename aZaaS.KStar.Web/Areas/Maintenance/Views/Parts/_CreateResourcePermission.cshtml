@@ -1,0 +1,205 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>@ViewBag.Title</div>
+    </div>
+</div>
+
+<div id="CreateResourcePermission">
+    <div>
+        <table>
+            <tr>
+                <td>Permission <a href="#" class="k-icon k-i-search searchPermission">&nbsp;</a>:</td>
+                <td>
+                    <input type="text" class="k-textbox Permission" data-value="" readonly="true" placeholder="Permission" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div>
+            <span style="margin: 3px;">
+                <input type="text" class="k-textbox ResourcePermissionInput" /></span>
+            <span style="margin: 3px;">
+                <a class="k-button ResourcePermissionSearch"href="javascript:void(0)"  type="button" >Search</a></span>
+        </div>
+        <div class="ListGridResource" style="margin-top: 7px;"></div>
+    </div>
+    <div style="margin-top: 30px;">
+        <div style="margin: 0 auto;">
+            <button class="k-button Confirm"onclick="Confirm()" data-id="@ViewBag.ID">Confirm</button>
+            <button class="k-button Cancel" onclick="Cancel()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="AddResourcePermissionWindows" style="display: none">
+    <div>
+        <div>
+            <span style="margin: 3px;">
+                <input type="text" class="k-textbox ResourcePermissionInput" /></span>
+            <span style="margin: 3px;">
+                <a class="k-button ResourcePermissionSearch"href="javascript:void(0)"  type="button" >Search</a></span>
+        </div>
+        <div class="ListGridPermission" style="margin-top: 7px;"></div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var PermissionModel = kendo.data.Model.define({
+        id: "SysId",
+        fields: {
+            SysId: { type: "string" },
+            Name: { type: "string" }
+        }
+    });
+    var Permissioncolumns = [
+    {
+        title: "Checked", width: 35, template: "<input type='checkbox' value='#= SysId #' />",
+        headerTemplate: "<input type='checkbox' />"
+    },
+    { field: "Name", title: "Permission" }
+    ]
+    var ResourceModel = kendo.data.Model.define({
+        id: "ID",
+        fields: {
+            ID: { type: "string" },
+            DisplayName: { type: "string" },
+            Type: { type: "string" }
+        }
+    });
+    var Resourcecolumns = [
+    {
+        title: "Checked", width: 35, template: "<input type='checkbox' value='#= ID #' />",
+        headerTemplate: "<input type='checkbox' />"
+    },
+    { field: "DisplayName", title: "Resource" },
+    { field: "Type", title: "Type" }
+    ]
+</script>
+
+<script>
+    var Cancel = function () {
+        window.location.href = "#pane=Dashboard&widget=/Maintenance/ResourcePermissions";
+    }
+    var Confirm = function () {
+        var PermissionSysId = $("#CreateResourcePermission .Permission").attr("data-value");
+        var SysId = $("#CreateResourcePermission .Confirm").attr("data-id");
+        var ResourceType = $("#CreateResourcePermission .Resource").attr("data-Type");
+        var Resource = $("#CreateResourcePermission .Resource").val();
+        var Permission = $("#CreateResourcePermission .Permission").val();
+        var idList = new Array();
+        $("#CreateResourcePermission .ListGridResource .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0 && PermissionSysId != "")
+            $.ajax({
+                url: "/Maintenance/ResourcePermission/CreateResourcePermission",
+                type: "POST",
+                data: { ResourceIdList: idList, ResourceType: ResourceType, PermissionSysId: PermissionSysId },
+                traditional: true,
+                success: function (items) {
+                    Cancel();
+                },
+                dataType: "json"
+            })
+
+
+    }
+    var PermissionGrid = function () {
+
+        $("#AddResourcePermissionWindows").data("kendoWindow").title("Search Permission").center().open();
+
+        $.get("/Maintenance/Permission/GetPermission", function (items) {
+            $("#AddResourcePermissionWindows .ResourcePermissionInput").val("");
+            InitBaseKendoGrid("AddResourcePermissionWindows .ListGridPermission", PermissionModel, Permissioncolumns, items, function () {
+                bindGridCheckbox("AddResourcePermissionWindows .ListGridPermission");
+                $("#AddResourcePermissionWindows .ListGridPermission .k-grid-content").css("height", "190px")
+            });
+        })
+    }
+
+    var ResourceGrid = function () {;
+        $.get("/Maintenance/ResourcePermission/GetResourceList", function (items) {
+            $("#CreateResourcePermission .OtherInput").val("");
+            InitBaseKendoGrid("CreateResourcePermission .ListGridResource", ResourceModel, Resourcecolumns, items, function () {
+                bindGridCheckbox("CreateResourcePermission .ListGridResource");
+                $("#CreateResourcePermission .ListGridResource .k-grid-content").find(":checkbox").click(function () {
+                    $("#CreateResourcePermission .ListGridResource .k-grid-content").find(":checkbox").prop("checked", false);
+                    $(this).prop("checked", true);
+                });
+                $("#CreateResourcePermission .ListGridResource .k-grid-content").css("height", "190px")
+            });
+        })
+    }
+
+    var PermissionSearch = function () {
+        var input = $("#AddResourcePermissionWindows .ResourcePermissionInput").val();
+
+        $.post("/Maintenance/ResourcePermission/FindPermission", { input: input }, function (items) {
+            InitBaseKendoGrid("AddResourcePermissionWindows .ListGridPermission", PermissionModel, Permissioncolumns, items, function () {
+                bindGridCheckbox("AddResourcePermissionWindows .ListGridPermission");
+                $("#AddResourcePermissionWindows .ListGridPermission .k-grid-content").css("height", "190px")
+            });
+        })
+    }
+    var ResourceSearch = function () {
+        var input = $("#CreateResourcePermission .ResourcePermissionInput").val();
+        $.post("/Maintenance/ResourcePermission/FindResource", { input: input }, function (items) {
+
+            InitBaseKendoGrid("CreateResourcePermission .ListGridResource", ResourceModel, Resourcecolumns, items, function () {
+                bindGridCheckbox("CreateResourcePermission .ListGridResource");
+                $("#CreateResourcePermission .ListGridResource .k-grid-content").find(":checkbox").click(function () {
+                    $("#CreateResourcePermission .ListGridResource .k-grid-content").find(":checkbox").prop("checked", false);
+                    $(this).prop("checked", true);
+                });
+                $("#CreateResourcePermission .ListGridResource .k-grid-content").css("height", "190px")
+            });
+        })
+    }
+
+    var winCancel = function () {
+        $("#AddResourcePermissionWindows").data("kendoWindow").close()
+    }
+
+    var winConfirm = function () {
+        var text = $("#AddResourcePermissionWindows .ListGridPermission .k-grid-content").find(":checked").first().parent().next().text();
+        var value = $("#AddResourcePermissionWindows .ListGridPermission .k-grid-content").find(":checked").first().val();
+        if (text == "") return;
+        $("#CreateResourcePermission .Permission").val(text);
+        $("#CreateResourcePermission .Permission").attr("data-value", value);
+        $("#AddResourcePermissionWindows").data("kendoWindow").close();
+    }
+
+    $(function () {
+
+        $("#AddResourcePermissionWindows").kendoWindow({
+            width: "500px",
+            height: "380px",
+            actions: [
+                "Close"
+            ],
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddResourcePermissionWindows").data("kendoWindow"));
+
+        ResourceGrid();
+        $("#CreateResourcePermission  .searchPermission").click(PermissionGrid);
+
+        $("#AddResourcePermissionWindows .ResourcePermissionSearch").click(PermissionSearch);
+        $("#CreateResourcePermission .ResourcePermissionSearch").click(ResourceSearch);
+        $("#AddResourcePermissionWindows .windowCancel").click(winCancel);
+        $("#AddResourcePermissionWindows .windowConfirm").click(winConfirm);
+    });
+
+
+</script>

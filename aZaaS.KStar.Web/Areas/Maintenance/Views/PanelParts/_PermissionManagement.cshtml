@@ -1,0 +1,82 @@
+﻿@using aZaaS.KStar.Html;
+<div id="PermissionView" style="position: relative; height: 100%;">
+    <div id="PermissionLeft">
+        <div id="PermissionLeftTab">
+            <div id="RolePermissionList"></div>
+        </div>
+    </div>
+    <div id="PermissionRight" style="visibility: hidden; overflow: auto; -webkit-overflow-scrolling: touch;">
+        @*display: none; *@
+        <ul>
+            <li class="k-state-active">
+                @*class="k-state-active"*@
+                <a href="#">@Html.CSHtmlResx("MenuPermissionManagement")</a>
+                <div>
+                    <div style="overflow: auto;">
+                        <div id="MenuPermissionTree"></div>
+                    </div>
+                </div>
+            </li>
+            <li class="k-state-active">
+                @*class="k-state-active"*@
+                <a href="#">@Html.CSHtmlResx("DocumentPermissionManagement")</a>
+                <div>
+                    <div style="overflow: auto;">
+                        <div id="DocPermissionTree"></div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                @*class="k-state-active"*@
+                <a href="#">@Html.CSHtmlResx("WidgetPermissionManagement")</a>
+                <div>
+                    <div style="overflow: auto;">
+                        <div id="WidgetPermissionGrid"></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="operabar">
+            <div class="operamask"></div>
+            <button id="Permission_Information_Save" class="k-button operacontent" style="width: 80px; text-align: center; display: block;">@Html.CSHtmlResx("Save")</button>
+            <div class="tips" style="color: green; text-align: center; visibility: hidden; display: block;">@Html.CSHtmlResx("Savedsuccessfully")</div>
+        </div>
+    </div>
+</div>
+<script id="RolePermissionTreeView-template" type="text/kendo-ui-template">   
+            # if(item.Type == "Category"){ #
+          
+            <span class="k-sprite folder"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #"  data-DisplayName= "#= item.DisplayName #"/>
+            # }else{ #
+      
+            <span class="k-sprite property"></span>
+            <input type="checkbox" value="#= item.ID #" data-type= "#= item.Type #" 
+                                    data-parentid= "#= item.ParentID #" data-DisplayName= "#= item.DisplayName #"/>
+            # } #
+           
+            #: item.DisplayName #
+</script>
+<script id="PermissionTree-template" type="text/kendo-ui-template">
+    # if(item.ParentID!= null){ #
+    <span class="k-sprite property"></span>
+    # }else{ #
+
+    <span class="k-sprite folder"></span>
+    # } #
+    # if(item.Status == true) {#
+
+    <input type="checkbox" checked="true" value="#= item.ID #" />
+    # } else{#
+    <input type="checkbox" value="#= item.ID #" />
+    # } #
+    #: item.Name #
+</script>
+<script id="treeview-template" type="text/kendo-ui-template">
+            #: item.text #
+            # if (!item.items) { #
+                <a class='delete-link' href='\#'></a>
+            # } #
+        </script>

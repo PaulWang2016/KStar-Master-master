@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2fe71d19-a7e3-42ed-a6e4-1d7f3b7a3ce6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://127.0.0.1:807/ProcessService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ProcessService.xsd" MetadataType="Schema" ID="7483b388-aaa1-4254-9533-9acb53ac799e" SourceId="1" SourceUrl="http://127.0.0.1:807/ProcessService.svc?xsd=xsd2" />
+    <MetadataFile FileName="ProcessService.disco" MetadataType="Disco" ID="27e056cc-0413-4588-ac8d-5f9294e73145" SourceId="1" SourceUrl="http://127.0.0.1:807/ProcessService.svc?disco" />
+    <MetadataFile FileName="ProcessService1.xsd" MetadataType="Schema" ID="11f1778e-ebb5-4d71-a7fd-c0d907dc91b9" SourceId="1" SourceUrl="http://127.0.0.1:807/ProcessService.svc?xsd=xsd3" />
+    <MetadataFile FileName="ProcessService2.xsd" MetadataType="Schema" ID="8cee15c8-80fd-4fdd-9c13-5323e0cfa4fe" SourceId="1" SourceUrl="http://127.0.0.1:807/ProcessService.svc?xsd=xsd4" />
+    <MetadataFile FileName="ProcessService.wsdl" MetadataType="Wsdl" ID="e0cea8a3-7794-4e1c-a4ea-805a709a0521" SourceId="1" SourceUrl="http://127.0.0.1:807/ProcessService.svc?wsdl" />
+    <MetadataFile FileName="ProcessService3.xsd" MetadataType="Schema" ID="bd3270d9-3e86-4e25-ae31-0f0054e4b220" SourceId="1" SourceUrl="http://127.0.0.1:807/ProcessService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ProcessService4.xsd" MetadataType="Schema" ID="c86a5211-c643-4bb9-9d1f-c6bdd200acf8" SourceId="1" SourceUrl="http://127.0.0.1:807/ProcessService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="命名空间:&#xD;&#xA;aZaaS.KStar.Form">
+    <Position X="1.729" Y="0.5" Height="0.562" Width="1.7" />
+  </Comment>
+  <Class Name="aZaaS.KStar.Form.Infrastructure.ContextBase">
+    <Position X="1.75" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQAIAAAAAAAAAAAAAAAAAAAAECAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\ContextBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.Infrastructure.StorageContext">
+    <Position X="5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAoAAAAAAAAAAAAAAAAAAAAIAAAAAACAAAAAggAA=</HashCode>
+      <FileName>Infrastructure\StorageContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.Infrastructure.WorkflowTaskContext">
+    <Position X="1.75" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAACAAAAkBAAAIAAAQAgAAAAAAAAAAEkAAQAhA=</HashCode>
+      <FileName>Infrastructure\WorkflowTaskContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.AttachmentModel">
+    <Position X="3" Y="13.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAEAAAAgAAAAAAAAAAAACAAAAAAAAAAAQBCAAA=</HashCode>
+      <FileName>ViewModels\AttachmentModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.ControlTemplateModel">
+    <Position X="5.75" Y="19.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAAAAABCAAA=</HashCode>
+      <FileName>ViewModels\ControlTemplateModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.CotnrolSettingModel">
+    <Position X="5.75" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAEEQAAAAAIAAAAAgAAAAAAAAAQAACAQA=</HashCode>
+      <FileName>ViewModels\CotnrolSettingModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.FormSettingModel">
+    <Position X="5.75" Y="16.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAEAAAAAAIAAAAAAAAAAAAAIAQAACAAA=</HashCode>
+      <FileName>ViewModels\FormSettingModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.KStarFormModel">
+    <Position X="0.5" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAoYABAAACBEAEEAQABCIAAACQAACAQAEAAABAAgCA=</HashCode>
+      <FileName>ViewModels\KStarFormModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.ProcessLogModel">
+    <Position X="3" Y="16" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAkAAAEAAAEAAAAAAAAAAAAAEEAAgAEAAASAAA=</HashCode>
+      <FileName>ViewModels\ProcessLogModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.TemplateCagetoryModel">
+    <Position X="3" Y="19.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAgAAAAACAAA=</HashCode>
+      <FileName>ViewModels\TemplateCagetoryModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aZaaS.KStar.Form.ViewModels.WorkflowTaskModel">
+    <Position X="0.5" Y="19.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAEAAAAAABQAAA=</HashCode>
+      <FileName>ViewModels\WorkflowTaskModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IControlTmplProvider">
+    <Position X="7.5" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAQAAAAAAYAACAAAAAAAAAAAAAQgQAAAGAAAEAAAAA=</HashCode>
+      <FileName>Infrastructure\IControlTmplProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IDataHandler">
+    <Position X="7.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\IDataHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IDataValidator">
+    <Position X="7.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\IDataValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IExecutionBehavior">
+    <Position X="10" Y="7" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AKAJAAAAAAAAQAAAAACAAkAEAAAAgAgAAAgAAAgAAAA=</HashCode>
+      <FileName>Infrastructure\IExecutionBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IFormControlFilter">
+    <Position X="4.75" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\IFormControlFilter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IFormSettingProvider">
+    <Position X="1.75" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAEAEAAAAAAAAAAAAAAgAAAAAAAAAAAAQAAQ=</HashCode>
+      <FileName>Infrastructure\IFormSettingProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IStorageBehavior">
+    <Position X="7.5" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAASBEAAAACAIAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\IStorageBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IStorageProvider">
+    <Position X="10" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAAAAAAAAAAAEAEEAAAgAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\IStorageProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IStorageService">
+    <Position X="7.75" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAgAAAAAAAAAAAABAAAQAAAAAAAAAAAAQCAA=</HashCode>
+      <FileName>Infrastructure\IStorageService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="aZaaS.KStar.Form.Infrastructure.IWorkflowService">
+    <Position X="10" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>YICAAAEAAAAAAAAAAAAAAEAAAAAEAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\IWorkflowService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="aZaaS.KStar.Form.ControlType">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>ControlType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aZaaS.KStar.Form.WorkMode">
+    <Position X="5.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAEAAAAAAAAAAAAABIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WorkMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

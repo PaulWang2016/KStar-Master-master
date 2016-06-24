@@ -1,0 +1,54 @@
+﻿ 
+@using aZaaS.KStar.Html;
+<link href="~/Content/bootstrap-table.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-table.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading">点击率报表</div>
+    <div class="panel-body"> 
+        <div class="form-group" id="custom-toolbar" style="position: absolute;    right: 100px;top: 70px;">
+       
+           
+
+            <label class="control-label col-sm-2">开始时间</label>
+            <div class="col-sm-4">
+                <input type="text" class="customdatepicker" name="StartDate" />
+            </div>
+            <label class="control-label col-sm-2">结束时间</label>
+            <div class="col-sm-4">
+                <input type="text" data-format="yyyy-MM-dd" class="customdatepicker" name="EndDate" />
+            </div>
+               
+            </div>
+      
+        <table data-toggle="table" data-method="post"  data-url="Report/ReportCenter/StatisticsRoport" data-show-refresh="true" data-query-params="getStatisticsRoport"  data-cache="false">
+            <thead>
+                <tr>
+                    <th data-field="name" data-sortable="true">报表名称</th>
+                    <th data-field="count" data-sortable="true">点击数量</th>
+                </tr>
+            </thead>
+        </table> 
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () { 
+        $(".customdatepicker").kendoDatePicker({
+            format: "yyyy-MM-dd",
+            max: new Date(9999, 11, 31)
+        }); 
+    });
+
+    var getStatisticsRoport = function (params) {
+        debugger;
+        var startDate = $("input[name='StartDate']").val();
+        var endDate = $("input[name='EndDate']").val();
+         
+        var data = { StartDate: startDate, EndDate: endDate }
+
+        return data;
+    }
+
+</script>

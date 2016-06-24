@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Addto" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Attheendoftheprocessto" xml:space="preserve">
+    <value>流程结束时抄送</value>
+  </data>
+  <data name="Basicinformation" xml:space="preserve">
+    <value>基础信息</value>
+  </data>
+  <data name="configurationoperation" xml:space="preserve">
+    <value>配置操作</value>
+  </data>
+  <data name="Connectedwiththeapprovalofthemskip" xml:space="preserve">
+    <value>相连同一审批人跳过</value>
+  </data>
+  <data name="currentversion" xml:space="preserve">
+    <value>当前版本</value>
+  </data>
+  <data name="deploymenttime" xml:space="preserve">
+    <value>部署时间</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="Flowbackto" xml:space="preserve">
+    <value>流程回退时抄送</value>
+  </data>
+  <data name="flownumber" xml:space="preserve">
+    <value>流程编号</value>
+  </data>
+  <data name="Flowofparticipants" xml:space="preserve">
+    <value>流程参与人</value>
+  </data>
+  <data name="Flowpromoter" xml:space="preserve">
+    <value>流程发起人</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>对象</value>
+  </data>
+  <data name="Preservation" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="ProcessapprovalURL" xml:space="preserve">
+    <value>流程审批URL</value>
+  </data>
+  <data name="Processname" xml:space="preserve">
+    <value>流程名称</value>
+  </data>
+  <data name="ProcessviewURL" xml:space="preserve">
+    <value>流程查看URL</value>
+  </data>
+  <data name="Serialnumber" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="Sortnumber" xml:space="preserve">
+    <value>排序编号</value>
+  </data>
+  <data name="TheprocessinitiatedbyURL" xml:space="preserve">
+    <value>流程发起URL</value>
+  </data>
+  <data name="Theprocesssetnumber" xml:space="preserve">
+    <value>流程集编号</value>
+  </data>
+  <data name="Thespecifiedperson" xml:space="preserve">
+    <value>指定人</value>
+  </data>
+  <data name="Thesponsor" xml:space="preserve">
+    <value>发起人</value>
+  </data>
+  <data name="Thetypeofbusiness" xml:space="preserve">
+    <value>业务类型</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="Versioninformation" xml:space="preserve">
+    <value>版本信息</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="Processfullname" xml:space="preserve">
+    <value>流程全名</value>
+  </data>
+  <data name="Savedsuccessfully" xml:space="preserve">
+    <value>保存成功</value>
+  </data>
+  <data name="Deletefrom" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Worklistsettings" xml:space="preserve">
+    <value>工作列表配置</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ConnectionString" xml:space="preserve">
+    <value>连接字符串：</value>
+  </data>
+  <data name="DataTable" xml:space="preserve">
+    <value>数据表：</value>
+  </data>
+  <data name="WhereQuery" xml:space="preserve">
+    <value>查询条件：</value>
+  </data>
+  <data name="AddWorklistDataConfig" xml:space="preserve">
+    <value>添加worklistdata配置</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>列名：</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>显示名称：</value>
+  </data>
+  <data name="IsVisible" xml:space="preserve">
+    <value>可见：</value>
+  </data>
+  <data name="ValueType" xml:space="preserve">
+    <value>值类型：</value>
+  </data>
+  <data name="WorklistDataSetting" xml:space="preserve">
+    <value>编辑业务数据列</value>
+  </data>
+  <data name="Fetch" xml:space="preserve">
+    <value>取</value>
+  </data>
+  <data name="FormStartConfiguration" xml:space="preserve">
+    <value>表单发起配置</value>
+  </data>
+  <data name="ConfigImportAndExport" xml:space="preserve">
+    <value>配置导入导出</value>
+  </data>
+</root>

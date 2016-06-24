@@ -1,0 +1,35 @@
+﻿@model aZaaS.KStar.Menu
+
+<div id="sidebar-nav" class="sidebar-nav">
+    <ul class="accordion">
+        @foreach (var mi in Model.Items.Where(m => m.Parent == null))
+        {
+            <li class="sub-group @mi.IconKey">
+                <a class="sub-head" href="@(string.IsNullOrWhiteSpace(mi.Hyperlink) ? "javascript:void(0)" : mi.Hyperlink)">@Html.Raw(Html.DBResxFor_aZaaSKStar_MenuBar_DisplayName(mi.DisplayName))</a>
+                <ul class="sub-menu off">
+                    @foreach (var child in Model.Items.Where(m => m.Parent == mi))
+                    {
+                        <li>
+                            <a href="@child.Hyperlink" data-scope="@Model.Key" data-target="@child.Target.ToString()" data-url="@child.Hyperlink">
+                                @Html.Raw(Html.DBResxFor_aZaaSKStar_MenuBar_DisplayName(child.DisplayName))
+                                @switch (child.Hyperlink)
+                                {
+                                    case "/Maintenance/MyDrafts":
+                                    case "/Maintenance/Delegation":
+                                    case "/DynamicWidget/PendingTasks":
+                                    case "/Maintenance/WaitRead":
+                                        <span class="badge" style="padding:3px 7px;vertical-align: middle; color:white;">0</span>
+                                        break;
+
+                                }
+
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+
+

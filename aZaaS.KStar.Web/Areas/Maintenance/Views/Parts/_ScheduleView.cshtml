@@ -1,0 +1,177 @@
+﻿<!--  Schedule Configuration  -->
+@using aZaaS.KStar.Html;
+<div class="section">
+@*    <div class="selectbar1">
+        <span>Name : </span>
+        <span>
+            <input type="text" class="k-textbox" name="Name" style="margin-bottom: 0" />
+        </span>
+        <span>Create Date : From</span>
+        <span>
+            <input type="text" class="datepicker" name="StartDate" />
+        </span>
+        <span>To</span>
+        <span>
+            <input type="text" class="datepicker" name="EndDate" />
+        </span>
+        <span>
+            <a type="button" name="select" class="k-button selectbtn">select</a>
+        </span>
+    </div>*@
+    <div id="ScheduleConfigView" class="sectionGrid"></div>
+</div>
+<!--  /.Schedule Configuration  -->
+<div id="AddScheduleWindow" style="display: none">
+    <div>
+        <ul id="scheduleTab">
+            <li class="k-state-active">
+                <a href="#">@Html.CSHtmlResx("BasicInformation")</a>
+                <div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("TaskName")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="taskName" name="TaskName" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("TypeName")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="typeName" name="TypeName" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("AssemblyName")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="assemblyName" name="AssemblyName" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("PrivateBinPath")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="privateBinPath" name="PrivateBinPath" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("Description")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="description" name="Description" style="width: 100%;" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+         @*   <li>
+                <a href="#">System Information</a>
+                <div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">System Name:</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="systemName" name="SystemName" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">Target Name:</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" id="targetName" name="TargetName" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">Source Name:</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" id="sourceName" name="SourceName" style="width: 100%;" />
+                        </div>
+                    </div>
+                </div>
+            </li>*@
+            <li>
+                <a href="#">@Html.CSHtmlResx("ControlInformation")</a>
+                <div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("Interval")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" id="interval" name="Interval" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("IntervalType")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" id="intervalType" name="IntervalType" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("StartTime")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="datepicker" id="startTime" name="StartTime" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("ExitOn")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="datepicker" id="exitOn" name="ExitOn" style="width: 100%;" />
+                        </div>
+                    </div>
+                    @*<div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">Status:</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" id="status" name="Status" style="width: 100%;" />
+                        </div>
+                    </div>*@
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("TriggerDesc")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="triggerDescription" name="TriggerDescription" style="width: 100%;" />
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <li>
+                <a href="#">@Html.CSHtmlResx("NotificationInformation")</a>
+                <div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">&nbsp;</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <label style="font-weight: normal;">
+                                <input type="checkbox" id="onExec" name="OnExec" /> @Html.CSHtmlResx("OnExecNotification")
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">&nbsp;</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <label style="font-weight: normal;">
+                                <input type="checkbox" id="onError" name="OnError" /> @Html.CSHtmlResx("OnErrorNotification")
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">@Html.CSHtmlResx("ReceiverEmail")</div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            <input type="text" class="k-textbox" id="notificationReceiver" name="NotificationReceiver" style="width: 100%;" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/JS/Maintenance/Schedule.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            LoadScheduleView();
+        })
+    </script>*@
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaSchedule" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_Schedule", function (init) {
+        init();
+    });
+</script>

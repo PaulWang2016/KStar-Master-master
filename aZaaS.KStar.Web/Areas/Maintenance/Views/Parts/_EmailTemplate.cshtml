@@ -1,0 +1,62 @@
+﻿<style>
+    .k-button-group .k-tool
+    {
+        display: inline-block;
+    }
+</style>
+
+
+<!--  Email Template  -->
+@using aZaaS.KStar.Html;
+<div class="section">
+    <div id="EmailTmplView" class="sectionGrid"></div>
+</div>
+<!--  /.Email Template  -->
+
+<div id="AddTpmlWindow" class="overflowhidden" style="display: none">
+    <div>
+        <div class="clearfix form-group">
+            <div class="col-lg-1 col-md-1 text-right" style="padding: 0;">@Html.CSHtmlResx("Name")</div>
+            <div class="col-lg-5 col-md-5">
+                <input type="text" id="tpmlName" class="k-textbox" style="width: 100%;" placeholder="" />
+            </div>
+            <div class="col-lg-1 col-md-1 text-right" style="padding: 0;">@Html.CSHtmlResx("Process")</div>
+            <div class="col-lg-5 col-md-5">
+                <input type="text" id="tpmlProcess" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="clearfix form-group">
+            <div class="col-lg-1 col-md-1 text-right" style="padding: 0; vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Subject")</div>
+            <div class="col-lg-11 col-md-11">
+                <textarea id="tpmlSubInfo" class="k-textbox" style="height: 50px; width: 100%;"></textarea>
+            </div>
+        </div>
+        <div class="clearfix form-group">
+            <div class="col-lg-1 col-md-1 text-right" style="padding: 0; vertical-align: top; margin-top: 5px; display: block;">@Html.CSHtmlResx("Content")</div>
+            <div class="col-lg-11 col-md-11">
+                <textarea id="tpmlConInfo" style="height: 145px;"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">@Html.CSHtmlResx("Confirm")</button>
+            <button class="k-button windowCancel" style="float: right">@Html.CSHtmlResx("Cancel")</button>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/JS/Maintenance/EmailTpml.js"></script>
+<script type="text/javascript">
+    $(function () {
+        LoadEmailtpmlView();
+    })
+</script>*@
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaEmailTpml" type="text/javascript"></script>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_EmailTpml", function (init) {
+        init();
+    });
+</script>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>KStarWorkflow</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{13c3ac1f-6456-423e-bebb-3ec1881e66b8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>KStarWorkflow</RootNamespace>
+    <AssemblyName>KStarWorkflow</AssemblyName>
+    <Language>C#</Language>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+    <OutputPath>bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+    <OutputPath>bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="WorkDailyDemo.kprx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SourceCode\v1.0\ProjectSystem.targets" />
+</Project>

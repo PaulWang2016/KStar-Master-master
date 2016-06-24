@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="aZaaS.KStar.Wcf.QuartzMailService,aZaaS.KStar.Wcf" Factory="Autofac.Integration.Wcf.AutofacServiceHostFactory, Autofac.Integration.Wcf" CodeBehind="QuartzMailService.svc.cs" %>

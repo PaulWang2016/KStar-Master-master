@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="gb2312"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccreditationObtained" xml:space="preserve">
+    獲得認可
+  </data>
+  <data name="Action" xml:space="preserve">
+    動作
+  </data>
+  <data name="ApplicationDate" xml:space="preserve">
+    申請日期
+  </data>
+  <data name="ApprovalHistory" xml:space="preserve">
+    審批歷史記錄
+  </data>
+  <data name="ArrearRecovery" xml:space="preserve">
+    欠款回收（美元）
+  </data>
+  <data name="Arrears" xml:space="preserve">
+    欠款（美元）
+  </data>
+  <data name="ArrearsPeriodForm" xml:space="preserve">
+    拖欠日期
+  </data>
+  <data name="ArrearsPeriodTo" xml:space="preserve">
+    拖欠期
+  </data>
+  <data name="AuctionofSeizure" xml:space="preserve">
+    拍賣扣押
+  </data>
+  <data name="AuctionProperty" xml:space="preserve">
+    拍賣的財產（美元）
+  </data>
+  <data name="Bailiff1stAttemptDate" xml:space="preserve">
+    Bailiff的第一次日期
+  </data>
+  <data name="Bailiff2stAttemptDate" xml:space="preserve">
+    Bailiff的第二次日期
+  </data>
+  <data name="Bailiff3stAttemptDate" xml:space="preserve">
+    Bailiff的第三次日期
+  </data>
+  <data name="Category" xml:space="preserve">
+    類別
+  </data>
+  <data name="Checked" xml:space="preserve">
+    檢查
+  </data>
+  <data name="ClusterCode" xml:space="preserve">
+    集群碼
+  </data>
+  <data name="Content" xml:space="preserve">
+    內容
+  </data>
+  <data name="CreditFor" xml:space="preserve">
+    信用證
+  </data>
+  <data name="CurrentActivity" xml:space="preserve">
+    當前環節
+  </data>
+  <data name="CustomerCode" xml:space="preserve">
+    客戶代碼
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    客戶名稱
+  </data>
+  <data name="CustomerType" xml:space="preserve">
+    客戶類型
+  </data>
+  <data name="Default" xml:space="preserve">
+    默認
+  </data>
+  <data name="DelegateFrom" xml:space="preserve">
+    委托
+  </data>
+  <data name="DelegateTo" xml:space="preserve">
+    受理人
+  </data>
+  <data name="Department" xml:space="preserve">
+    部門
+  </data>
+  <data name="Description" xml:space="preserve">
+    描述
+  </data>
+  <data name="DesertionDate" xml:space="preserve">
+    最后的日期
+  </data>
+  <data name="Details" xml:space="preserve">
+    細節
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    顯示名稱
+  </data>
+  <data name="DistrictCode" xml:space="preserve">
+    區碼
+  </data>
+  <data name="DivisionCode" xml:space="preserve">
+    部門編碼
+  </data>
+  <data name="DOEDOT" xml:space="preserve">
+    DOE/DOT
+  </data>
+  <data name="DOT" xml:space="preserve">
+    DOT
+  </data>
+  <data name="Electiondistrict" xml:space="preserve">
+    選舉區
+  </data>
+  <data name="ElectionGeographicalDistrict" xml:space="preserve">
+    選舉（地理）區
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    結束日期
+  </data>
+  <data name="ExternalLegalLetterDateOptional" xml:space="preserve">
+    外部法律信函的日期（可選）
+  </data>
+  <data name="FormID" xml:space="preserve">
+    表單ID
+  </data>
+  <data name="FormNo" xml:space="preserve">
+    表單編號
+  </data>
+  <data name="FormType" xml:space="preserve">
+    表格類型
+  </data>
+  <data name="ImportantDate" xml:space="preserve">
+    重要日期
+  </data>
+  <data name="InputDate" xml:space="preserve">
+    登記日期
+  </data>
+  <data name="IsReaded" xml:space="preserve">
+    已閱
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    工作頭銜
+  </data>
+  <data name="Key" xml:space="preserve">
+    鍵值
+  </data>
+  <data name="LastActivityDate" xml:space="preserve">
+    最后環節日期
+  </data>
+  <data name="LastActivityUser" xml:space="preserve">
+    最近環節的用戶
+  </data>
+  <data name="LeaseCode" xml:space="preserve">
+    租賃號
+  </data>
+  <data name="LeaseEndDate" xml:space="preserve">
+    租賃結束日期
+  </data>
+  <data name="LeaseID" xml:space="preserve">
+    租賃ID
+  </data>
+  <data name="LeaseName" xml:space="preserve">
+    租賃的名字
+  </data>
+  <data name="LeaseStartDate" xml:space="preserve">
+    租賃開始日
+  </data>
+  <data name="Legalcost" xml:space="preserve">
+    法律成本（美元）
+  </data>
+  <data name="LegalCostBilledToTenant" xml:space="preserve">
+    訴訟費用由承租人
+  </data>
+  <data name="LegalCostRecovery" xml:space="preserve">
+    法律的回收成本（美元）
+  </data>
+  <data name="LegalCostRecoveryDate" xml:space="preserve">
+    法律成本回收期
+  </data>
+  <data name="LegalInstructionDate" xml:space="preserve">
+    法律指導日期
+  </data>
+  <data name="LegalLetterDate" xml:space="preserve">
+    法律信函的日期
+  </data>
+  <data name="ModifiedDate" xml:space="preserve">
+    修改日期
+  </data>
+  <data name="NameOfAssociationorDetails" xml:space="preserve">
+    協會或細節的名字
+  </data>
+  <data name="NameofRecognitionAward" xml:space="preserve">
+    頭銜
+  </data>
+  <data name="Nature" xml:space="preserve">
+    自然
+  </data>
+  <data name="NoOfAttempt" xml:space="preserve">
+    嘗試
+  </data>
+  <data name="NoticeDate" xml:space="preserve">
+    通知日期
+  </data>
+  <data name="Organizer" xml:space="preserve">
+    承辦人
+  </data>
+  <data name="PeriodoftermFrom" xml:space="preserve">
+    學期（從）
+  </data>
+  <data name="PeriodoftermTo" xml:space="preserve">
+    學期（到）
+  </data>
+  <data name="Phase2" xml:space="preserve">
+    第二期
+  </data>
+  <data name="Phase3" xml:space="preserve">
+    第三期
+  </data>
+  <data name="Position" xml:space="preserve">
+    職位
+  </data>
+  <data name="Post" xml:space="preserve">
+    后
+  </data>
+  <data name="PostBackground" xml:space="preserve">
+    后/背景
+  </data>
+  <data name="Process" xml:space="preserve">
+    流程
+  </data>
+  <data name="ProcessName" xml:space="preserve">
+    流程名稱
+  </data>
+  <data name="PropertyCode" xml:space="preserve">
+    屬性編號
+  </data>
+  <data name="PropertyName" xml:space="preserve">
+    屬性名
+  </data>
+  <data name="RecognitionAwardFor" xml:space="preserve">
+    識別/獎
+  </data>
+  <data name="RecordLevel" xml:space="preserve">
+    紀錄級別
+  </data>
+  <data name="RecordType" xml:space="preserve">
+    記錄式樣
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    備注
+  </data>
+  <data name="ReportTo" xml:space="preserve">
+    匯報給
+  </data>
+  <data name="RequestCompletionDate" xml:space="preserve">
+    要求完成日期
+  </data>
+  <data name="RequestCreationDate" xml:space="preserve">
+    要求的創建日期
+  </data>
+  <data name="Requester" xml:space="preserve">
+    請求者
+  </data>
+  <data name="Role" xml:space="preserve">
+    角色
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    設置名稱
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    設定值
+  </data>
+  <data name="SettlingArrearDate" xml:space="preserve">
+    解決拖欠日期
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    簡介
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    開始日期
+  </data>
+  <data name="Status" xml:space="preserve">
+    狀態
+  </data>
+  <data name="SubmitDate" xml:space="preserve">
+    提交日期
+  </data>
+  <data name="TenantName" xml:space="preserve">
+    承租人的名字
+  </data>
+  <data name="TermFrom" xml:space="preserve">
+    來自
+  </data>
+  <data name="TermTo" xml:space="preserve">
+    去往
+  </data>
+  <data name="TradeMix" xml:space="preserve">
+    行業組合
+  </data>
+  <data name="TradeName" xml:space="preserve">
+    商標
+  </data>
+  <data name="Type" xml:space="preserve">
+    類型
+  </data>
+  <data name="TypeDescription" xml:space="preserve">
+    類型描述
+  </data>
+  <data name="UnitAddress" xml:space="preserve">
+    單位地址
+  </data>
+  <data name="UnitCode" xml:space="preserve">
+    單位代碼
+  </data>
+  <data name="UnitName" xml:space="preserve">
+    單位名稱
+  </data>
+  <data name="UnitShopNoandDescription" xml:space="preserve">
+    單元/車間編號和描述
+  </data>
+  <data name="UnitType" xml:space="preserve">
+    單位類型
+  </data>
+  <data name="WorkflowStep" xml:space="preserve">
+    工作流程步驟
+  </data>
+  <data name="Year" xml:space="preserve">
+    年
+  </data>
+  <data name="Configure" xml:space="preserve">
+    配置操作
+  </data>
+  <data name="DeployDate" xml:space="preserve">
+    部署時間
+  </data>
+  <data name="IsCurrent" xml:space="preserve">
+    當前版本
+  </data>
+  <data name="VersionNo" xml:space="preserve">
+    流程編號
+  </data>
+  <data name="Export" xml:space="preserve">
+    導出
+  </data>
+  <data name="Import" xml:space="preserve">
+    導入
+  </data>
+  <data name="ActivityName" xml:space="preserve">
+    當前環節名稱
+  </data>
+  <data name="Originator" xml:space="preserve">
+    申請人
+  </data>
+  <data name="ProcDestinationDate" xml:space="preserve">
+    任務到達時間
+  </data>
+  <data name="ProcStartDate" xml:space="preserve">
+    申請時間
+  </data>
+  <data name="ClassName" xml:space="preserve">
+    類名稱
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    角色名稱
+  </data>
+  <data name="AssembleName" xml:space="preserve">
+    程序集名稱
+  </data>
+  <data name="FinishDate" xml:space="preserve">
+    結束時間
+  </data>
+  <data name="Priority" xml:space="preserve">
+    優先級
+  </data>
+  <data name="FormSubject" xml:space="preserve">
+    表單主題
+  </data>
+  <data name="DateDiff" xml:space="preserve">
+    還有{0}時間到期
+  </data>
+  <data name="Day" xml:space="preserve">
+    天
+  </data>
+  <data name="Hour" xml:space="preserve">
+    小時
+  </data>
+  <data name="Minute" xml:space="preserve">
+    分鐘
+  </data>
+  <data name="TimeOut" xml:space="preserve">
+    超時
+  </data>
+  <data name="Overdue" xml:space="preserve">
+    過期
+  </data>
+  <data name="Enable" xml:space="preserve">
+    啟用
+  </data>
+  <data name="Submitter" xml:space="preserve">
+    提交人
+  </data>
+  <data name="InsteadRequest" xml:space="preserve">
+    代我申請
+  </data>
+</root>

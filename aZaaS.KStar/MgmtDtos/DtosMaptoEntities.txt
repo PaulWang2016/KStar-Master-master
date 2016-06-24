@@ -1,0 +1,93 @@
+﻿				
+Mapper.CreateMap<OrgChart, OrgChartBaseDto>();
+Mapper.CreateMap<OrgChartBaseDto, OrgChart>();
+				
+Mapper.CreateMap<OrgChart, OrgChartWithNodesDto>();
+Mapper.CreateMap<OrgChartWithNodesDto, OrgChart>();
+				
+Mapper.CreateMap<OrgChart, OrgChartWithRelationshipsDto>();
+Mapper.CreateMap<OrgChartWithRelationshipsDto, OrgChart>();
+				
+Mapper.CreateMap<OrgChart, OrgChartWithRootDto>();
+Mapper.CreateMap<OrgChartWithRootDto, OrgChart>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeBaseDto>();
+Mapper.CreateMap<OrgNodeBaseDto, OrgNode>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeWithChartDto>();
+Mapper.CreateMap<OrgNodeWithChartDto, OrgNode>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeWithChildNodesDto>();
+Mapper.CreateMap<OrgNodeWithChildNodesDto, OrgNode>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeWithFieldsDto>();
+Mapper.CreateMap<OrgNodeWithFieldsDto, OrgNode>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeWithParentDto>();
+Mapper.CreateMap<OrgNodeWithParentDto, OrgNode>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeWithPositionsDto>();
+Mapper.CreateMap<OrgNodeWithPositionsDto, OrgNode>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeWithRelationshipsDto>();
+Mapper.CreateMap<OrgNodeWithRelationshipsDto, OrgNode>();
+				
+Mapper.CreateMap<OrgNode, OrgNodeWithUsersDto>();
+Mapper.CreateMap<OrgNodeWithUsersDto, OrgNode>();
+				
+Mapper.CreateMap<Position, PositionBaseDto>();
+Mapper.CreateMap<PositionBaseDto, Position>();
+				
+Mapper.CreateMap<PositionCategory, PositionCategoryBaseDto>();
+Mapper.CreateMap<PositionCategoryBaseDto, PositionCategory>();
+				
+Mapper.CreateMap<PositionCategory, PositionCategoryWithChildCategoriesDto>();
+Mapper.CreateMap<PositionCategoryWithChildCategoriesDto, PositionCategory>();
+				
+Mapper.CreateMap<PositionCategory, PositionCategoryWithParentDto>();
+Mapper.CreateMap<PositionCategoryWithParentDto, PositionCategory>();
+				
+Mapper.CreateMap<PositionCategory, PositionCategoryWithPositionsDto>();
+Mapper.CreateMap<PositionCategoryWithPositionsDto, PositionCategory>();
+				
+Mapper.CreateMap<PositionCategory, PositionCategoryWithRelationshipsDto>();
+Mapper.CreateMap<PositionCategoryWithRelationshipsDto, PositionCategory>();
+				
+Mapper.CreateMap<Position, PositionWithCategoryDto>();
+Mapper.CreateMap<PositionWithCategoryDto, Position>();
+				
+Mapper.CreateMap<Position, PositionWithNodesDto>();
+Mapper.CreateMap<PositionWithNodesDto, Position>();
+				
+Mapper.CreateMap<Position, PositionWithRelationshipsDto>();
+Mapper.CreateMap<PositionWithRelationshipsDto, Position>();
+				
+Mapper.CreateMap<Position, PositionWithUsersDto>();
+Mapper.CreateMap<PositionWithUsersDto, Position>();
+				
+Mapper.CreateMap<Role, RoleBaseDto>();
+Mapper.CreateMap<RoleBaseDto, Role>();
+				
+Mapper.CreateMap<Role, RoleWithRelationshipsDto>();
+Mapper.CreateMap<RoleWithRelationshipsDto, Role>();
+				
+Mapper.CreateMap<User, UserBaseDto>();
+Mapper.CreateMap<UserBaseDto, User>();
+				
+Mapper.CreateMap<User, UserWithFieldsDto>();
+Mapper.CreateMap<UserWithFieldsDto, User>();
+				
+Mapper.CreateMap<User, UserWithNodesDto>();
+Mapper.CreateMap<UserWithNodesDto, User>();
+				
+Mapper.CreateMap<User, UserWithOwnersDto>();
+Mapper.CreateMap<UserWithOwnersDto, User>();
+				
+Mapper.CreateMap<User, UserWithPositionsDto>();
+Mapper.CreateMap<UserWithPositionsDto, User>();
+				
+Mapper.CreateMap<User, UserWithRelationshipsDto>();
+Mapper.CreateMap<UserWithRelationshipsDto, User>();
+				
+Mapper.CreateMap<User, UserWithRolesDto>();
+Mapper.CreateMap<UserWithRolesDto, User>();

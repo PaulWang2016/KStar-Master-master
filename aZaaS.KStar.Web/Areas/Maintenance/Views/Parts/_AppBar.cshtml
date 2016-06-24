@@ -1,0 +1,189 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div>App Management</div>
+    </div>
+    <div class="top-toolbar">
+        <a class="more k-button" href="javascript:void(0)" onclick="Add()"><span class="glyphicon glyphicon-plus"></span></a>
+        <a class="more k-button" href="javascript:void(0)" onclick="Del()"><span class="glyphicon glyphicon-remove"></span></a>
+    </div>
+    <div id="GridView"></div>
+</div>
+
+<div id="AddAppWindow" style="display: none">
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>Key:</td>
+                <td style="width: 300px;">
+                    <input type="text" class="k-textbox Key" style="width: 100%;" placeholder="Key" /></td>
+                <td style="width: 50px;"></td>
+                <td>Display Name:</td>
+                <td>
+                    <input type="text" class="k-textbox DisplayName" style="width: 100%;" placeholder="Display Name" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; margin-top: 5px; display: block;">Scope:</td>
+                <td>
+                    <input type="text" id="Scope" class="k-textbox" style="width: 100%;" placeholder="Scope" /></td>
+                <td style="width: 50px;"></td>
+                <td>Default Page:</td>
+                <td>
+                    <input type="text" class="k-textbox DefaultPage" style="width: 100%;" placeholder="Default Page" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <button class="k-button windowConfirm" style="float: left;">Confirm</button>
+            <button class="k-button windowCancel" style="float: right">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var model = kendo.data.Model.define({
+        id: "Key",
+        fields: {
+            Key: { type: "string" },
+            DisplayName: { type: "string" },
+            DefaultPage: { type: "string" },
+            Scope: { type: "string" }
+        }
+    });
+    var columns = [
+        {
+            title: "Checked", width: 35, template: function (item) {
+                return "<input type='checkbox' value='" + item.Key + "' />";
+            }, headerTemplate: "<input type='checkbox' />", filterable: false
+        },
+        {
+            field: "Key", title: "Key", template: function (item) {
+                return "<a href='#widget=/Maintenance/MenuBar-" + item.Key + "'> " + item.Key + "</a>";
+            }, filterable: false
+        },
+        { field: "DisplayName", title: "Display Name", filterable: false },
+        { field: "DefaultPage", title: "Default Page", filterable: false },
+        { field: "Scope", title: "Scope", filterable: false },
+        { command: [{ name: "edit", template: "<a  href='javascript:void(0)' class='k-button k-button-icontext k-grid-edit'><span class='glyphicon glyphicon-pencil'></span></a>", text: "", click: function (e) { var tr = $(e.target).closest("tr"); var data = this.dataItem(tr); EditApp(data.Key) } }], width: 58 }
+    ]
+
+    var resetWindow = function () {
+        $("#AddAppWindow .k-textbox").val("");//清除输入框
+        $("#AddAppWindow .Key").attr("disabled", false);
+    }
+    var Cancel = function () {
+        $("#AddAppWindow").data("kendoWindow").close()
+    }
+    var Confirm = function () {
+        var url = $(this).attr("data-url");
+        var data = {
+            Key: $("#AddAppWindow .Key").val(),
+            DisplayName: $("#AddAppWindow .DisplayName").val(),
+            DefaultPage: $("#AddAppWindow .DefaultPage").val(),
+            Scope: $("#Scope").val()
+        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            traditional: true,
+            success: function (item) {
+                var grid = getKendoGrid("GridView");
+                var model = grid.dataSource.get(item.Key);
+                if (model) {
+                    for (var key in item) {
+                        model.set(key, item[key]);
+                    }
+                }
+                else {
+                    grid.dataSource.add(item)
+                }
+                $("#AddAppWindow").data("kendoWindow").close();
+            }
+        })
+    }
+
+    var Add = function () {
+        $("#AddAppWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Apps/CreateMenu").attr("data-id", "");
+        $("#AddAppWindow").data("kendoWindow").title("Add App").center().open();
+    }
+    //var Edit = function () {
+    //    var key = $("#GridView .k-grid-content").find(":checked").first().val();
+    //    EditApp(key);
+    //}
+    var EditApp = function (key) {
+        if (key) {
+            var item = getKendoGrid("GridView").dataSource.get(key);
+            $("#AddAppWindow .Key").val(item.id).attr("disabled", true);
+            $("#AddAppWindow .DisplayName").val(item.DisplayName);
+            $("#AddAppWindow .DefaultPage").val(item.DefaultPage);
+            $("#Scope").val(item.Scope);
+
+            $("#AddAppWindow").find(".windowConfirm").attr("data-url", "/Maintenance/Apps/UpdateMenu").attr("data-id", item.id);
+            $("#AddAppWindow").data("kendoWindow").title("Edit App").center().open();
+        }
+    }
+    var Del = function () {
+        var idList = new Array();
+        $("#GridView .k-grid-content").find(":checked").each(function () {
+            idList.push(this.value)
+        })
+        if (idList.length > 0) {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Maintenance/Apps/DelMenu",
+                        type: "POST",
+                        data: { KeyList: idList },
+                        traditional: true,
+                        success: function (ids) {
+                            var grid = getKendoGrid("GridView");
+                            for (var i = 0; i < ids.length; i++) {
+                                var item = grid.dataSource.get(ids[i])
+                                grid.dataSource.remove(item);
+                            }
+                        },
+                        dataType: "json"
+                    })
+
+                }
+            });
+        }
+    }
+    $(function () {
+        $.getJSON("/Maintenance/Apps/GetApps", { "_t": new Date() }, function (items) {
+            InitBaseKendoGrid("GridView", model, columns, items, function () {
+                //bindAndLoad("delegationList");
+                bindGridCheckbox("GridView");
+
+                //$("#delegationList .k-toolbar").append("<a id='delegationAdd' class='k-button'><span class='glyphicon glyphicon-plus'></span></a>")
+                //.append("<a id='delegationDisable' class='k-button'><span class='glyphicon glyphicon-ban-circle'></span></a>");
+
+                //$("#delegationAdd").click(AddDelegation)
+                //$("#delegationDisable").click(DisableDelegation)
+            });
+        });
+
+        $("#AddAppWindow").kendoWindow({
+            width: "800px",
+            title: "Add App",
+            actions: [
+                "Close"
+            ],
+            open: function (e) {
+                $("#AddAppWindow .windowCancel").bind("click", Cancel)
+                $("#AddAppWindow .windowConfirm").bind("click", Confirm)
+            },
+            close: function (e) {
+                resetWindow();
+                $("#AddAppWindow .windowCancel").unbind("click", Cancel)
+                $("#AddAppWindow .windowConfirm").unbind("click", Confirm)
+            },
+            resizable: false,
+            modal: true
+        });
+        AddSplitters($("#AddAppWindow").data("kendoWindow"));
+
+    })
+</script>

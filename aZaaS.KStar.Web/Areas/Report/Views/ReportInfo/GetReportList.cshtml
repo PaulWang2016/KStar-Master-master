@@ -1,0 +1,107 @@
+﻿@model IEnumerable<aZaaS.KStar.Report.ReportInfoEntity>
+@using aZaaS.KStar.Html;
+<link rel="stylesheet" href="~/Content/report.css" />
+<script src="~/JS/jquery.cookies.min.js"></script>
+<script src="~/JS/Report/SeaReportCenter.js"></script>
+
+<div >
+    
+        
+        @foreach (var item in Model)
+        {
+            <div class="tableBlock" style="float:left;" >
+                <table border="0" width="100%">
+                    <tr>
+                        <td>
+                            <img src='@item.ImageThumbPath' style="width:auto;height:60px"  class="img-rounded" align="left"  /></td>
+                        <td>
+                            <ul class="report">
+                                <li>@Html.CSHtmlResx("ReportName")<a class="repName" href="javascript:window.open('@item.ReportUrl', '_blank')">@item.Name</a>
+                                </li>
+                                <li>@Html.CSHtmlResx("ResponsibleDepartment")
+                                                    <p class="Department" style="display: inline">@item.Department</p>
+                                </li>
+                                <li>@Html.CSHtmlResx("DateAdded")<span class="PublishedDate">@item.PublishedDate</span>
+                                </li>
+                                <li class="departmentLevel ">@Html.CSHtmlResx("Level")
+                                                    <p class="Level" style="display: inline">@item.Level</p>
+                                </li>
+                                <li class="departmentCategory">@Html.CSHtmlResx("Type")
+                                                   <span class="Category"> @item.Category</span>
+                                </li>
+                                <li>@Html.CSHtmlResx("Internalnumber")
+                                                   <p class="Code" style="display: inline;">@item.ReportCode</p>
+                                </li>
+                                <li>@Html.CSHtmlResx("Aretheshelf")<span class="xiajia">@item.Status</span>
+                                </li>
+
+                            </ul>
+                        </td>
+                        <td> 
+                            <ul class="buttonGroup">
+                                <li>
+                                    <button onclick="ReportEditor('@item.ID')" >@Html.CSHtmlResx("Editor")</button></li>
+
+                                <li>
+                                    <button type="button" onclick="Feedback('@item.ID')">@Html.CSHtmlResx("Feedback")
+</button></li>
+
+                                <li>
+                                    <button type="button" onclick="favReport('@item.ID')">@Html.CSHtmlResx("Collect")</button></li>
+
+                            </ul>
+                            <script>
+                                $(document).ready(function () {
+                                    $("button").kendoButton();
+                                });
+                            </script>
+                            <div id="star" style="float: left; width: 100%;">
+
+                                <ul class="stars_@item.ID">
+
+                                    <li style="background: url(../images/report/star.png) no-repeat 0 -28px"><a href="javascript:;">1</a></li>
+                                    <li style="background: url(../images/report/star.png) no-repeat 0 -28px"><a href="javascript:;">2</a></li>
+                                    <li style="background: url(../images/report/star.png) no-repeat 0 -28px"><a href="javascript:;">3</a></li>
+                                    <li style="background: url(../images/report/star.png) no-repeat 0 -28px"><a href="javascript:;">4</a></li>
+                                    <li style="background: url(../images/report/star.png) no-repeat 0 -28px"><a href="javascript:;">5</a></li>
+                                </ul>
+                                <script>
+                                    $(function () {
+                                        
+                                        var averageScore = 0;
+                                        $.post("/Report/Feedback/GetReportFeedback", { parentID: "@item.ID" }, function (data) {
+                                            
+                                            if (data.length > 0) {
+                                                for (var i = 0; i < data.length; i++) {
+                                                    averageScore += Number(data[i].Rate);
+                                                }
+                                                averageScore = Math.round(averageScore / data.length);
+                                                $.post("/Report/ReportInfo/UpdateReportRate", { ID: "@item.ID", Rate: averageScore })
+                                            }
+                                            if (averageScore != 0) {
+                                                for (var i = 0; i < (5 - averageScore) ; i++) {
+                                                    $("ul.stars_@item.ID li").eq(i).hide();
+
+                                                }
+                                            }
+                                            
+
+                                        }, "json");
+                                    });
+                                </script>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="comm">
+                        <td colspan="3">
+                            <div style="padding-top: 15px;" class="Comment">
+                                <label>@item.Comment</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+        }
+    
+</div>

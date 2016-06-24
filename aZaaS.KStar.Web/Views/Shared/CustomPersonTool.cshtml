@@ -1,0 +1,1104 @@
+﻿@{
+    ViewBag.Title = "CustomPersonTool";
+    string Type = ViewBag.Type ?? "Person";
+    string SessionId = ViewBag.SessionId ?? "";
+}
+<link href="/CSS/oneclubIndex.css" rel="stylesheet" />
+<link href="/CSS/selectpersonwindow.css" rel="stylesheet" />
+<span id="selectwindow"></span>
+@section scripts{
+    <script src="/JS/base.js"></script>
+    <script src="/JSResource/GetJavascriptResx?jsPageName=base" type="text/javascript"></script>
+    <script src="/JS/jquery.cookies.min.js"></script>
+    <script src="/JSResource/GetJavascriptResx?jsPageName=baseInitView" type="text/javascript"></script>    
+    <script src="/JS/baseInitView.js?v="></script>
+    <script src="/JS/Filters.js?v="></script>    
+    <script>
+        function disableConfirm(flag) {
+            if (flag) {
+                $('#btn_confirm').attr('disabled', 'disabled');
+            } else {
+                $('#btn_confirm').removeAttr('disabled');
+            }
+        }
+
+        function disableReelect(flag) {
+            if (flag) {
+                $('#btn_reelect').attr('disabled', 'disabled');
+            } else {
+                $('#btn_reelect').removeAttr('disabled');
+            }
+        }
+
+        $(function () {
+            var isShowNonReference = true;
+            var type = "@Type";
+            var sessionid = "@SessionId";
+            window.CurrentApp = [];
+            window.CurrentApp.pane = "Dashboard";
+            if (sessionid == null || sessionid == undefined || sessionid == "")
+            {
+                $("#selectwindow").html("No permission to access.");
+                return;
+            }
+            var that = $("#selectwindow");
+            that.attr("sessionid", sessionid);
+            var curid = that.attr("swid");
+            var more = { id: '', text: '……' };
+
+            var defaults = {
+                actions: [],
+                resizable: false,
+                modal: false,
+                draggable: false
+            };            
+            var template = "<div class=\"section\">"
+                            + "    <div class=\"top-heading\">"
+                            + "        <div class=\"top-title\" style=\"height:35px;line-height:32px; margin-left:90px;\">"
+                            + "               <div class=\"col-lg-3 col-md-3  col-sm-3\">"+jsResxbaseInitView.Pleasefillinthekeyword+"</div>"
+                            + "                                <div class=\"col-lg-9 col-md-9  col-sm-9\">"
+                            + "                                    <input id=\"selectKey#swid#-#id#\"  class=\"selectKey k-textbox\" style=\"width: 45%\" />"
+                            + "                 </div>"
+                            + "        </div>"
+                            + "    </div>"
+                            + "    <div>"
+                            + "        <div id=\"SelectPersonManaView#swid#-#id#\" class=\"well\" style=\"min-height:320px;padding:0px;\">"
+                            + "            <div>"
+                            + "                <div id=\"SelectPersonManageTreeView#swid#-#id#\" style=\"position: absolute;border: 1px solid #79b7e7;width: 240px; height:300px;margin-top: 1px;  margin-left:20px;overflow-y: auto;overflow-x: auto;-moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;\"></div>"
+                            + "            </div>"
+                            + "            <div id=\"SelectPersonInfomation#swid#-#id#\"  style=\" margin-left:270px;\">"
+                                            + "<table>"
+                                            + "        <tr>"
+                                            + "            <td>"
+                                            + "                <ul id=\"left#swid#-#id#\" class=\"listbox cleverlistbox ui-menu ui-widget ui-widget-content ui-corner-all\">"
+                                            + "                </ul>"
+                                            + "            </td>"
+                                            + "            <td>"
+                                            + "                <input type=\"button\" value=\"&gt;&gt;\" id=\"btnAllRight\" class=\"btnAllRight\" style=\"width: 50px;\" /><br /><br />"
+                                            + "                <input type=\"button\" value=\"&gt;\" id=\"btnRight\" class=\"btnRight\" style=\"width: 50px;\" /><br /><br />"
+                                            + "                <input type=\"button\" value=\"&lt;\" id=\"btnLeft\" class=\"btnLeft\" style=\"width: 50px;\" /><br /><br />"
+                                            + "                <input type=\"button\" value=\"&lt;&lt;\" id=\"btnAllLeft\" class=\"btnAllLeft\" style=\"width: 50px;\" /><br />"
+                                            + "            </td>"
+                                            + "            <td>"
+                                            + "                <ul id=\"right#swid#-#id#\" class=\"listbox cleverlistbox ui-menu ui-widget ui-widget-content ui-corner-all \">"
+                                            + "                </ul>"
+                                            + "            </td>"
+                                            + "        </tr>"
+                                            + "    </table>"
+                            + "            </div>"
+                            + "        </div>"
+                            + "    </div>"
+                            + "</div>";
+
+            if (!curid) {
+                var id = "sw_customperson";
+                that.attr("swid", id);
+                $("<div id=\"" + id + "\" style=\"display: none\">" +
+                "    <div>" +
+                "    <div id=\"tabstrip" + id + "\">" +
+                "                    <ul>" +
+                "                    </ul>" +
+                "    </div>" +
+                "    <div class=\"operabar\">" +
+                "        <div class=\"operamask\"></div>" +
+                "        <div class=\"operacontent\">" +
+                "            <button id=\"btn_confirm\" class=\"k-button windowConfirm\" style=\"float: left;\">" + jsResxbaseInitView.Confirm + "</button>" +
+                "            <button id=\"btn_reelect\" class=\"k-button windowReelect\" style=\"float: right\">" + jsResxbaseInitView.Reelect + "</button>" +
+                "        </div>" +
+                "    </div>" +
+                "</div>").insertAfter(that);
+                curid = that.attr("swid");
+            }
+
+            var ClearHistory = function (jobj, type, id) {
+                //清空历史数据
+                jobj.data("persondata", []);
+                jobj.data("positiondata", []);
+                jobj.data("deptdata", []);
+                jobj.data("custdata", []);
+
+                if (id != undefined && id != null) {
+                    switch (type) {
+                        case "Person":
+                        case "Position":
+                        case "Department":
+                        case "Custom":
+                        case "Role":
+                            $("#left" + id + "-0").html("");
+                            $("#right" + id + "-0").html("");
+                            $("#SelectPersonManageTreeView" + id + "-0").find("input").prop("checked", false);
+                            $("#SelectPersonManageTreeView" + id + "-0").data("kendoTreeView").select($());
+
+                            $("#selectKey" + id + "-0").val("");
+                            break;
+                        default:
+                            $("#left" + id + "-0").html("");
+                            $("#right" + id + "-0").html("");
+                            $("#left" + id + "-1").html("");
+                            $("#right" + id + "-1").html("");
+                            $("#left" + id + "-2").html("");
+                            $("#right" + id + "-2").html("");
+                            $("#left" + id + "-3").html("");
+                            $("#right" + id + "-3").html("");
+                            $("#left" + id + "-4").html("");
+                            $("#right" + id + "-4").html("");
+
+                            $("#SelectPersonManageTreeView" + id + "-0").find("input").prop("checked", false);
+                            $("#SelectPersonManageTreeView" + id + "-1").find("input").prop("checked", false);
+                            $("#SelectPersonManageTreeView" + id + "-2").find("input").prop("checked", false);
+                            $("#SelectPersonManageTreeView" + id + "-3").find("input").prop("checked", false);
+                            $("#SelectPersonManageTreeView" + id + "-4").find("input").prop("checked", false);
+
+                            $("#SelectPersonManageTreeView" + id + "-0").data("kendoTreeView").select($());
+
+                            if ($("#SelectPersonManageTreeView" + id + "-1").data("kendoTreeView")) {
+                                $("#SelectPersonManageTreeView" + id + "-1").data("kendoTreeView").select($());
+                            }
+                            if ($("#SelectPersonManageTreeView" + id + "-2").data("kendoTreeView")) {
+                                $("#SelectPersonManageTreeView" + id + "-2").data("kendoTreeView").select($());
+                            }
+                            if ($("#SelectPersonManageTreeView" + id + "-3").data("kendoTreeView")) {
+                                $("#SelectPersonManageTreeView" + id + "-3").data("kendoTreeView").select($());
+                            }
+                            if ($("#SelectPersonManageTreeView" + id + "-4").data("kendoTreeView")) {
+                                $("#SelectPersonManageTreeView" + id + "-4").data("kendoTreeView").select($());
+                            }
+
+                            $("#selectKey" + id + "-0").val("");
+                            $("#selectKey" + id + "-1").val("");
+                            $("#selectKey" + id + "-2").val("");
+                            $("#selectKey" + id + "-3").val("");
+                            $("#selectKey" + id + "-4").val("");
+                            break;
+                    }
+                }
+            }
+
+            var swindow = $(document).find("#" + curid);
+            if (!swindow.data("kendoWindow")) {
+
+                swindow.kendoWindow({
+                    width: "800px",
+                    title: jsResxbaseInitView.SelectPersonWindowTitle,
+                    actions: defaults.actions,
+                    resizable: defaults.resizable,
+                    modal: defaults.modal,
+                    draggable: defaults.draggable,
+                    close: onClose
+                });
+
+                //清空listbox
+                var clearlistbox = function (id) {
+                    $("#" + id).html("");
+                }
+
+                //listbox添加项目
+                var addtolistbox = function (id, item) {
+                    var flag = listboxexistsitem(id, item);
+                    if (!flag && item.id.length > 0) {
+                        $("#" + id).append("<li class=\"ui-menu-item ui-corner-all\"><a id=\"" + item.id + "\" class=\"ui-corner-all\" tabindex=\"-1\" dataFirstName=\"" + item.FirstName + "\" dataLastName=\"" + item.LastName + "\">" + item.text + "</a></li>");
+                    }
+                }
+
+                //listbox添加Person项目
+                var addPersontolistbox = function (id, item) {
+                    var flag = listboxexistsitem(id, item);
+                    if (!flag && item.id.length > 0) {
+                        $("#" + id).append("<li class=\"ui-menu-item ui-corner-all\"><a id=\"" + item.id + "\" class=\"ui-corner-all\" tabindex=\"-1\" dataFirstName=\"" + item.FirstName + "\" dataLastName=\"" + item.LastName + "\">" + item.LastName + item.FirstName + "</a></li>");
+                    }
+                }
+
+                //listbox移除项目
+                var removetolistbox = function (id, item) {
+                    $("#" + id).find("#" + item.id).parent().remove();
+                }
+
+                //获取listbox选中项
+                var getlistboxselectitem = function (id) {
+                    var items = [];
+                    var as = $("#" + id + " li a.ui-state-active");
+
+                    $.each(as, function (i) {
+                        items.push({ id: as[i].id, text: as[i].innerHTML, FirstName: $(as[i]).attr("dataFirstName"), LastName: $(as[i]).attr("dataLastName") });
+                    });
+                    return items;
+                }
+
+                //获取listbox当前全部项
+                var getlistboxallitem = function (id) {
+                    var items = [];
+                    var as = $("#" + id + " li a");
+                    $.each(as, function (i) {
+                        items.push({ id: as[i].id, text: as[i].innerHTML, FirstName: $(as[i]).attr("dataFirstName"), LastName: $(as[i]).attr("dataLastName") });
+                    });
+                    return items;
+                }
+
+                var listboxexistsitem = function (id, item) {
+                    var flag = false;
+                    var as = $("#" + id + " li a");
+                    $.each(as, function (i) {
+                        if (item.id == as[i].id) {
+                            flag = true;
+                        }
+                    });
+                    return flag;
+                }
+
+                var onClose = function () {
+
+                }
+                //tree datasource
+                var initPersonData = function () {
+                    return new kendo.data.HierarchicalDataSource({
+                        transport: {
+                            read: {
+                                url: function (options) {
+                                    return kendo.format("/Maintenance/Organization/GetOrgChartTree?isshownonreference=" + isShowNonReference + "&tree=Person&Type={0}", "Root");
+                                },
+                                dataType: "json"
+                            }
+                        },
+                        schema: {
+                            model: {
+                                id: "ID",               //绑定ID
+                                hasChildren: "HasChildNode"  //绑定是否包含子节点                 
+                            }
+                        }
+                    });
+                }
+                var initPositionData = function () {
+                    return new kendo.data.HierarchicalDataSource({
+                        transport: {
+                            read: {
+                                url: function (options) {
+                                    return kendo.format("/Maintenance/Organization/GetOrgChartTree?isshownonreference=" + isShowNonReference + "&tree=Position&Type={0}", "Root");
+                                },
+                                dataType: "json"
+                            }
+                        },
+                        schema: {
+                            model: {
+                                id: "ID",               //绑定ID
+                                hasChildren: "HasChildNode"  //绑定是否包含子节点                 
+                            }
+                        }
+                    });
+                }
+                var initCommonData = function () {
+                    return new kendo.data.HierarchicalDataSource({
+                        transport: {
+                            read: {
+                                url: function (options) {
+                                    return kendo.format("/Maintenance/Organization/GetOrgChartTree?Type={0}", "Root");
+                                },
+                                dataType: "json"
+                            }
+                        },
+                        schema: {
+                            model: {
+                                id: "ID",               //绑定ID
+                                hasChildren: "HasChildNode"  //绑定是否包含子节点                 
+                            }
+                        }
+                    });
+                }
+
+                var initCustomRoleData = function () {
+                    return new kendo.data.HierarchicalDataSource({
+                        transport: {
+                            read: {
+                                url: function (options) {
+                                    return kendo.format("/Maintenance/CustomRole/GetCustomRoleByCommonControl");
+                                },
+                                dataType: "json"
+                            }
+                        },
+                        schema: {
+                            model: {
+                                id: "ID",               //绑定ID
+                                hasChildren: "HasChildNode"  //绑定是否包含子节点                 
+                            }
+                        }
+                    });
+                }
+
+                //系统角色
+                var initSystemRoleData = function () {
+                    return new kendo.data.HierarchicalDataSource({
+                        transport: {
+                            read: {
+                                url: function (options) {
+                                    return kendo.format("/Maintenance/Organization/GetRolesList?pane={0}", window.CurrentApp.pane);
+                                },
+                                dataType: "json"
+                            }
+                        },
+                        schema: {
+                            model: {
+                                id: "ID",               //绑定ID
+                                hasChildren: "HasChildNode"  //绑定是否包含子节点                 
+                            }
+                        }
+                    });
+                }
+
+                var GetCurrentType = function () {
+                    var idx = that.attr("tabcurindex");
+                    var taptype = "";
+                    switch (type) {
+                        case "Person":
+                        case "Position":
+                        case "Department":
+                        case "Custom":
+                        case "Role":
+                            taptype = type;
+                            break;
+                        default:
+                            switch (parseInt(idx)) {
+                                case 0:
+                                    taptype = "Person";
+                                    break;
+                                case 1:
+                                    taptype = "Position";
+                                    break;
+                                case 2:
+                                    taptype = "Department";
+                                    break;
+                                case 3:
+                                    taptype = "Custom";
+                                    break;
+                                case 4:
+                                    taptype = "Role";
+                                    break;
+                            }
+                            break;
+                    }
+                    return taptype;
+                }
+
+
+                //初始化tree
+                var initTreeView = function (index) {
+                    var idx = that.attr("tabcurindex");
+                    var taptype = "";
+                    var treedatasource;
+                    switch (type) {
+                        case "Person":
+                            taptype = type;
+                            treedatasource = initPersonData();
+                            break;
+                        case "Position":
+                            taptype = type;
+                            treedatasource = initPositionData();
+                            break;
+                        case "Department":
+                            taptype = type;
+                            treedatasource = initCommonData();
+                            break;
+                        case "Custom":
+                            taptype = type;
+                            treedatasource = initCustomRoleData();
+                            break;
+                        case "Role":
+                            taptype = type;
+                            treedatasource = initSystemRoleData();
+                            break;
+                        case "All":
+                            switch (parseInt(idx)) {
+                                case 0:
+                                    taptype = "Person";
+                                    treedatasource = initPersonData();
+                                    break;
+                                case 1:
+                                    taptype = "Position";
+                                    treedatasource = initPositionData();
+                                    break;
+                                case 2:
+                                    taptype = "Department";
+                                    treedatasource = initCommonData();
+                                    break;
+                                case 3:
+                                    taptype = "Custom";
+                                    treedatasource = initCustomRoleData();
+                                    break;
+                                case 4:
+                                    taptype = "Role";
+                                    treedatasource = initSystemRoleData();
+                                    break;
+                            }
+                            break;
+                        default:
+                            switch (parseInt(idx)) {
+                                case 0:
+                                    taptype = "Person";
+                                    treedatasource = initPersonData();
+                                    break;
+                                case 1:
+                                    taptype = "Position";
+                                    treedatasource = initPositionData();
+                                    break;
+                                case 2:
+                                    taptype = "Department";
+                                    treedatasource = initCommonData();
+                                    break;
+                                case 3:
+                                    taptype = "Custom";
+                                    treedatasource = initCustomRoleData();
+                                    break;
+                                case 4:
+                                    taptype = "Role";
+                                    treedatasource = initSystemRoleData();
+                                    break;
+                            }
+                            break;
+                    }
+
+
+                    var SelectPersonManageTreeView = $("#SelectPersonManageTreeView" + curid + "-" + index).data("kendoTreeView");
+                    var treetemplate = "# if(item.Type != \"Root\"){ #"
+                                 + "            <span class=\"k-sprite property\"></span>"
+                                 + "            # }else{ #"
+                                 + "            <span class=\"k-sprite folder\"></span>"
+                                 + "            # } #  "
+                                 + "            <input type=\"checkbox\" value=\"#= item.ID #\" data-type=\"#= item.Type #\" />"
+                                 + "            #: item.NodeName #";
+                    if (!SelectPersonManageTreeView) {
+                        $("#SelectPersonManageTreeView" + curid + "-" + index).kendoTreeView({
+                            template: kendo.template(treetemplate),
+                            dataSource: treedatasource,
+                            select: function (e) {
+                                $("#SelectPersonManageTreeView" + curid + "-" + idx).find("input").prop("checked", false);
+                                var select = $("#SelectPersonManageTreeView" + curid + "-" + idx + "_tv_active").find("input").first().prop("checked", true);  //利用 #treeview_tv_active 获取当前选中对象 查找 隐藏的 input 对象 提取隐藏信息
+                                var item = $("#SelectPersonManageTreeView" + curid + "-" + idx).data("kendoTreeView").dataSource.get(select.val());
+                                var itemtype = select.attr("data-type");
+                                switch (taptype) {
+                                    case "Person":
+                                        $.getJSON("/Maintenance/Organization/GetSelectPersonUserByNode", { _t: new Date(), id: select.val().toString().substring(2), type: itemtype, isshownonreference: isShowNonReference }, function (items) {
+                                            clearlistbox("left" + curid + "-" + idx);
+                                            if (items.length > 20) {
+                                                for (var j = 0; j < 20; j++) {
+                                                    addPersontolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                                addPersontolistbox("left" + curid + "-" + idx, more);
+                                            }
+                                            else {
+                                                for (var j = 0; j < items.length; j++) {
+                                                    addPersontolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                            }
+                                            that.data("persondata", items);
+                                        });
+                                        break;
+                                    case "Position":
+                                        $.getJSON("/Maintenance/Organization/GetSelectPersonPositionByNode", { _t: new Date(), id: select.val().toString().substring(2), type: itemtype, isshownonreference: isShowNonReference }, function (items) {
+                                            clearlistbox("left" + curid + "-" + idx);
+                                            if (items.length > 20) {
+                                                for (var j = 0; j < 20; j++) {
+                                                    addtolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                                addtolistbox("left" + curid + "-" + idx, more);
+                                            }
+                                            else {
+                                                for (var j = 0; j < items.length; j++) {
+                                                    addtolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                            }
+                                            that.data("positiondata", items);
+                                        });
+                                        break;
+                                    case "Department":
+                                        $.getJSON("/Maintenance/Organization/GetSelectPersonDeptByNode", { _t: new Date(), id: select.val().toString().substring(2), type: itemtype }, function (items) {
+                                            clearlistbox("left" + curid + "-" + idx);
+                                            if (items.length > 20) {
+                                                for (var j = 0; j < 20; j++) {
+                                                    addtolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                                addtolistbox("left" + curid + "-" + idx, more);
+                                            }
+                                            else {
+                                                for (var j = 0; j < items.length; j++) {
+                                                    addtolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                            }
+                                            that.data("deptdata", items);
+                                        });
+                                        break;
+                                    case "Custom":
+                                        $.getJSON("/Maintenance/CustomRole/GetClassifyByCommonControl", { _t: new Date(), id: select.val() }, function (items) {
+                                            clearlistbox("left" + curid + "-" + idx);
+                                            if (items.length > 20) {
+                                                for (var j = 0; j < 20; j++) {
+                                                    addtolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                                addtolistbox("left" + curid + "-" + idx, more);
+                                            }
+                                            else {
+                                                for (var j = 0; j < items.length; j++) {
+                                                    addtolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                            }
+                                            that.data("deptdata", items);
+                                        });
+                                        break;
+                                    case "Role":                                        
+                                        var roleid = select.val();
+                                        if (roleid.toString().substring(0, 1) == "1") {
+                                            $.getJSON("/Maintenance/Organization/GetRolesListByCategory", { _t: new Date(), ID: roleid, pane: window.CurrentApp.pane }, function (items) {
+                                                clearlistbox("left" + curid + "-" + idx);
+                                                for (var j = 0; j < items.length; j++) {
+                                                    addtolistbox("left" + curid + "-" + idx, items[j]);
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            var roleitem = { id: select.val().toString().substring(2), text: item.NodeName, FirstName: "", LastName: "" }
+                                            clearlistbox("left" + curid + "-" + idx);
+                                            addtolistbox("left" + curid + "-" + idx, roleitem);
+                                        }
+                                        break;
+                                }
+                            },
+                            collapse: function (e) {
+                                var idx = that.attr("tabcurindex");
+                                $("#SelectPersonManageTreeView" + curid + "-" + idx + "_tv_active").find(".k-sprite").first().removeClass("on");
+                            },
+                            expand: function (e) {
+                                var idx = that.attr("tabcurindex");
+                                $("#SelectPersonManageTreeView" + curid + "-" + idx + "_tv_active").find(".k-sprite").first().addClass("on");
+                            },
+                            dataBound: function (e) {
+                                var idx = that.attr("tabcurindex");
+                                var clickevent = { "click": checkboxUnChange, "dblclick": checkboxUnChange };
+                                var mousedown = function (e) { if (e.which == 3) $(this).click(); }
+                                $("#SelectPersonManageTreeView" + curid + "-" + idx).find(":checkbox").unbind(clickevent).bind(clickevent);
+                                $("#SelectPersonManageTreeView" + curid + "-" + idx).off("mousedown", ".k-state-hover", mousedown).on("mousedown", ".k-state-hover", mousedown)
+                                $("#SelectPersonManageTreeView" + curid + "-" + index).data("kendoTreeView").expand(".k-first");
+                            }
+                        });
+                        SelectPersonManageTreeView = $("#SelectPersonManageTreeView" + curid + "-" + index).data("kendoTreeView");
+                        TreeViewNodeToggle("SelectPersonManageTreeView" + curid + "-" + index);
+                    }
+                    else {
+                        SelectPersonManageTreeView.setDataSource(treedatasource);
+                    }
+                }
+                $("#tabstrip" + curid).kendoTabStrip({
+                    animation: {
+                        open: {
+                            effects: "fadeIn"
+                        }
+                    }, select: function (e) {
+                        if (e.item.attributes["aria-controls"].value.length > 0) {
+                            var index = parseInt(e.item.attributes["aria-controls"].value.split('-')[1]) - 1;
+                            that.attr("tabcurindex", index);
+                            initTreeView(index);
+                        }
+                        else {
+                            that.attr("tabcurindex", 0);
+                            initTreeView(0);
+                        }
+                    }
+                });
+                var tabStrip = $("#tabstrip" + curid).data("kendoTabStrip");
+                var ShowTab = function (title, url, text) {
+                    tabStrip.append(
+                          [{
+                              text: title,
+                              content: text
+                          }]
+                      );
+                }
+                var ShowAllTab = function () {
+                    RemoveAllTab();
+                    ShowTab(jsResxbaseInitView.Person, "", template.replace(/#id#/g, 0).replace(/#swid#/g, curid));
+                    ShowTab(jsResxbaseInitView.Position, "", template.replace(/#id#/g, 1).replace(/#swid#/g, curid));
+                    ShowTab(jsResxbaseInitView.Department, "", template.replace(/#id#/g, 2).replace(/#swid#/g, curid));
+                    ShowTab(jsResxbaseInitView.CustomRoles, "", template.replace(/#id#/g, 3).replace(/#swid#/g, curid));
+                    ShowTab(jsResxbaseInitView.SystemRoles, "", template.replace(/#id#/g, 4).replace(/#swid#/g, curid));
+                }
+
+                var RemoveAllTab = function () {
+                    var items = tabStrip.items();
+                    $.each(items, function (i) {
+                        tabStrip.remove(0);
+                    })
+                }
+
+                switch (type) {
+                    case "Person":
+                        RemoveAllTab();
+                        ShowTab(jsResxbaseInitView.Person, "", template.replace(/#id#/g, 0).replace(/#swid#/g, curid));
+                        break;
+                    case "Position":
+                        RemoveAllTab();
+                        ShowTab(jsResxbaseInitView.Position, "", template.replace(/#id#/g, 0).replace(/#swid#/g, curid));
+                        break;
+                    case "Department":
+                        RemoveAllTab();
+                        ShowTab(jsResxbaseInitView.Department, "", template.replace(/#id#/g, 0).replace(/#swid#/g, curid));
+                        break;
+                    case "Custom":
+                        RemoveAllTab();
+                        ShowTab(jsResxbaseInitView.CustomRoles, "", template.replace(/#id#/g, 0).replace(/#swid#/g, curid));
+                        break;
+                    case "Role":
+                        RemoveAllTab();
+                        ShowTab(jsResxbaseInitView.SystemRoles, "", template.replace(/#id#/g, 0).replace(/#swid#/g, curid));
+                        break;
+                    case "All":
+                        ShowAllTab();
+                        break;
+                    default:
+                        ShowAllTab();
+                        break;
+                }
+                //初始化选择项
+                tabStrip.select(0);
+
+                //确认
+                $("#" + curid + " .windowConfirm").bind("click", function () {
+                    disableConfirm(true);
+                    var json = { "Root": { "Users": { "Item": [] }, "Depts": { "Item": [] }, "Positions": { "Item": [] }, "CustomRoles": { "Item": [] }, "SystemRoles": { "Item": [] } } };
+                    var tabs = tabStrip.items();
+                    var count = 0;
+                    switch (type) {
+                        case "Person":
+                            var items = getlistboxallitem("right" + curid + "-0");
+                            $.each(items, function (i) {
+                                json.Root.Users.Item.push({ Value: items[i].id, Name: items[i].text });
+                            });
+                            count += items.length;
+                            break;
+                        case "Position":
+                            var items = getlistboxallitem("right" + curid + "-0");
+                            $.each(items, function (i) {
+                                json.Root.Positions.Item.push({ Value: items[i].id, Name: items[i].text });
+                            });
+                            count += items.length;
+                            break;
+                        case "Department":
+                            var items = getlistboxallitem("right" + curid + "-0");
+                            $.each(items, function (i) {
+                                json.Root.Depts.Item.push({ Value: items[i].id, Name: items[i].text });
+                            });
+                            count += items.length;
+                            break;
+                        case "Custom":
+                            var items = getlistboxallitem("right" + curid + "-0");
+                            $.each(items, function (i) {
+                                json.Root.CustomRoles.Item.push({ Value: items[i].id, Name: items[i].text });
+                            });
+                            count += items.length;
+                            break;
+                        case "Role":
+                            var items = getlistboxallitem("right" + curid + "-0");
+                            $.each(items, function (i) {
+                                json.Root.SystemRoles.Item.push({ Value: items[i].id, Name: items[i].text });
+                            });
+                            count += items.length;
+                            break;
+                        case "All":
+                            $.each(tabs, function (i) {
+                                var index = parseInt($(tabs[i]).attr("aria-controls").split('-')[1]) - 1;
+                                var items = getlistboxallitem("right" + curid + "-" + index);
+                                $.each(items, function (i) {
+                                    switch (index) {
+                                        case 0:
+                                            json.Root.Users.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 1:
+                                            json.Root.Positions.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 2:
+                                            json.Root.Depts.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 3:
+                                            json.Root.CustomRoles.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 4:
+                                            json.Root.SystemRoles.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                    }
+                                });
+                                count += items.length;
+                            });
+                            break;
+                        default:
+                            $.each(tabs, function (i) {
+                                var index = parseInt($(tabs[i]).attr("aria-controls").split('-')[1]) - 1;
+                                var items = getlistboxallitem("right" + curid + "-" + index);
+                                $.each(items, function (i) {
+                                    switch (index) {
+                                        case 0:
+                                            json.Root.Users.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 1:
+                                            json.Root.Positions.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 2:
+                                            json.Root.Depts.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 3:
+                                            json.Root.CustomRoles.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                        case 4:
+                                            json.Root.SystemRoles.Item.push({ Value: items[i].id, Name: items[i].text });
+                                            break;
+                                    }
+                                });
+                                count += items.length;
+                            });
+                            break;
+                    }
+                    if (count <= 0) {
+                        ShowTip(jsResxbaseInitView.Donotchooseanyitem, "error");
+                        disableConfirm(false);
+                        disableReelect(true);
+                        return;
+                    }
+                    
+                    var personlist = json.Root.Users.Item;
+                    var departlist = json.Root.Depts.Item;
+                    var positionlist = json.Root.Positions.Item;
+                    var customlist = json.Root.CustomRoles.Item;
+                    var rolelist = json.Root.SystemRoles.Item;
+
+                    var PersonList = new Array();
+                    $.each(personlist, function (i, item) {
+                        PersonList.push(item.Value);
+                    });
+
+                    var DepartList = new Array();
+                    $.each(departlist, function (i, item) {
+                        DepartList.push(item.Value);
+                    })
+
+                    var PositionList = new Array();
+                    $.each(positionlist, function (i, item) {
+                        PositionList.push(item.Value);
+                    })
+
+                    var CustomList = new Array();
+                    $.each(customlist, function (i, item) {
+                        CustomList.push(item.Value);
+                    })
+
+                    var Rolelist = new Array();
+                    $.each(rolelist, function (i, item) {
+                        Rolelist.push(item.Value);
+                    })
+
+                    var data = {
+                        sessionid: that.attr("sessionid"),
+                        personlist: PersonList,
+                        departlist: DepartList,
+                        positionlist: PositionList,
+                        customlist: CustomList,
+                        rolelist: Rolelist
+                    }
+                    
+                    $.ajax({
+                        url: "/CustomPerson/SaveCustomPersonData",
+                        type: "POST",
+                        data: data,
+                        traditional: true,
+                        success: function (item) {
+                            if (item!=null&&item!=undefined&&item.length>0) {
+                                ShowTip(jsResxbaseInitView.Savecustompersondatasuccessfully, "info");
+                                disableReelect(false);
+                            }
+                            else {
+                                ShowTip(jsResxbaseInitView.Savecustompersondatafailed, "error");
+                                disableConfirm(false);
+                                disableReelect(true);
+                            }
+                        },
+                        dataType: "json"
+                    }).fail(function () {
+                        disableConfirm(false);
+                        disableReelect(true);
+                    });
+                });
+                //取消
+                $("#" + curid + " .windowReelect").bind("click", function () {
+                    bootbox.confirm(jsResxbaseInitView.Areyousuredeletecustompersondata, function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/CustomPerson/DeleteCustomPersonData",
+                                type: "POST",
+                                data: {
+                                    sessionid: that.attr("sessionid")                          
+                                },
+                                traditional: true,
+                                success: function (flag) {
+                                    if (flag) {
+                                        ShowTip(jsResxbaseInitView.Deletecustompersondatasuccessfully, "info");
+                                        disableConfirm(false);
+                                        disableReelect(true);
+                                    }
+                                    else {
+                                        ShowTip(jsResxbaseInitView.Deletecustompersondatafailed, "error");
+                                        disableConfirm(true);
+                                        disableReelect(false);
+                                    }
+                                },
+                                dataType: "json"
+                            }).fail(function () {
+                                disableConfirm(false);
+                                disableReelect(true);
+                            });
+                        }
+                    });                    
+                });
+
+                var getJsonToList = function (curtype, curid, index, addside, clearside, url, data) {
+                    $.getJSON(url, data, function (items) {
+                        clearlistbox(clearside + curid + "-" + index);
+                        if (curtype == "Person" || curtype == "0") {
+                            $.each(items, function (i, item) {
+                                addPersontolistbox(addside + curid + "-" + index, item);
+                            });
+                        }
+                        else {
+                            $.each(items, function (i, item) {
+                                addtolistbox(addside + curid + "-" + index, item);
+                            });
+                        }
+                    });
+                }
+
+                //搜索符合条件的人，职位，部门
+                var searchperson = function (addside, clearside, allowpage) {
+                    var index = that.attr("tabcurindex");
+                    var key = $("#selectKey" + curid + "-" + index).val();
+                    var select = $("#SelectPersonManageTreeView" + curid + "-" + index + "_tv_active").find("input").first().prop("checked", true);
+                    var node = $("#SelectPersonManageTreeView" + curid + "-" + index).data("kendoTreeView").dataSource.get(select.val());
+                    var itemtype = select.attr("data-type");
+                    if ((key.length == 0 || key.length >= 2) && select != null && select != undefined && select.length == 1) {
+                        var jsonparams = { _t: new Date(), id: select.val().toString().substring(2), type: itemtype, isshownonreference: isShowNonReference, keyword: key, allowpage: allowpage };
+                        switch (type) {
+                            case "Person":
+                                getJsonToList(type, curid, index, addside, clearside, "/Maintenance/Organization/GetSelectPersonUserByNode", jsonparams);
+                                break;
+                            case "Position":
+                                getJsonToList(type, curid, index, addside, clearside, "/Maintenance/Organization/GetSelectPersonPositionByNode", jsonparams);
+                                break;
+                            case "Department":
+                                getJsonToList(type, curid, index, addside, clearside, "/Maintenance/Organization/GetSelectPersonDeptByNode", jsonparams);
+                                break;
+                            case "Custom":
+                                getJsonToList(type, curid, index, addside, clearside, "/Maintenance/CustomRole/GetClassifyByCommonControl", { _t: new Date(), id: select.val(), keyword: key, allowpage: allowpage });
+                                break;
+                            case "Role":
+                                if (key.length > 0) {
+                                    var items = getlistboxallitem(clearside + curid + "-" + index);
+                                    clearlistbox(clearside + curid + "-" + index);
+                                    $.each(items, function (i) {
+                                        if (items[i].text.toLowerCase().indexOf(key.toLowerCase()) >= 0) {
+                                            addtolistbox(addside + curid + "-" + index, items[i]);
+                                        }
+                                    });
+                                }
+                                else {
+                                    clearlistbox(clearside + curid + "-" + index);
+                                    var roleid = select.val();
+                                    if (roleid.toString().substring(0, 1) == "1") {
+                                        $.getJSON("/Maintenance/Organization/GetRolesListByCategory", { _t: new Date(), ID: roleid, pane: window.CurrentApp.pane }, function (items) {
+                                            for (var j = 0; j < items.length; j++) {
+                                                addtolistbox(addside + curid + "-" + index, items[j]);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        var roleitem = { id: select.val().toString().substring(2), text: node.NodeName, FirstName: "", LastName: "" }
+                                        addtolistbox(addside + curid + "-" + index, roleitem);
+                                    }
+                                }
+                                break;
+                            case "All":
+                                switch (parseInt(index)) {
+                                    case 0:
+                                        getJsonToList(index.toString(), curid, index, addside, clearside, "/Maintenance/Organization/GetSelectPersonUserByNode", jsonparams);
+                                        break;
+                                    case 1:
+                                        getJsonToList(index.toString(), curid, index, addside, clearside, "/Maintenance/Organization/GetSelectPersonPositionByNode", jsonparams);
+                                        break;
+                                    case 2:
+                                        getJsonToList(index.toString(), curid, index, addside, clearside, "/Maintenance/Organization/GetSelectPersonDeptByNode", jsonparams);
+                                        break;
+                                    case 3:
+                                        getJsonToList(index.toString(), curid, index, addside, clearside, "/Maintenance/CustomRole/GetClassifyByCommonControl", { _t: new Date(), id: select.val(), keyword: key, allowpage: allowpage });
+                                        break;
+                                    case 4:
+                                        if (key.length > 0) {
+                                            var items = getlistboxallitem(clearside + curid + "-" + index);
+                                            clearlistbox(clearside + curid + "-" + index);
+                                            $.each(items, function (i) {
+                                                if (items[i].text.toLowerCase().indexOf(key.toLowerCase()) >= 0) {
+                                                    addtolistbox(addside + curid + "-" + index, items[i]);
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            clearlistbox(clearside + curid + "-" + index);
+                                            var roleid = select.val();
+                                            if (roleid.toString().substring(0, 1) == "1") {
+                                                $.getJSON("/Maintenance/Organization/GetRolesListByCategory", { _t: new Date(), ID: roleid, pane: window.CurrentApp.pane }, function (items) {
+                                                    for (var j = 0; j < items.length; j++) {
+                                                        addtolistbox(addside + curid + "-" + index, items[j]);
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                var roleitem = { id: select.val().toString().substring(2), text: node.NodeName, FirstName: "", LastName: "" }
+                                                addtolistbox(addside + curid + "-" + index, roleitem);
+                                            }
+                                        }
+                                        break;
+                                }
+                                break;
+                        }
+                    }
+                }
+
+                $('ul.listbox').off('click mouseover mouseout').on('click mouseover mouseout', 'a', function (event) {
+                    if (event.type == 'click') {
+                        var a = $(this);
+                        if (a.hasClass('ui-state-active')) {
+                            a.removeClass('ui-state-active');
+                        } else {
+                            a.addClass('ui-state-active');
+                        }
+                    }
+                    else if (event.type == 'mouseover') {
+                        if (!$(this).hasClass('ui-state-active')) {
+                            $(this).addClass('ui-state-hover');
+                        }
+                    } else {
+                        $(this).removeClass('ui-state-hover');
+                    }
+                });
+                //为listbox添加按钮事件
+                $(".btnRight").click(function () {
+                    var index = that.attr("tabcurindex");
+                    var items = getlistboxselectitem("left" + curid + "-" + index);
+                    //移除左边
+                    $.each(items, function (i) {
+                        removetolistbox("left" + curid + "-" + index, items[i]);
+                    });
+                    //添加到右边
+                    if (GetCurrentType() == "Person") {
+                        $.each(items, function (i) {
+                            addPersontolistbox("right" + curid + "-" + index, items[i]);
+                        });
+                    }
+                    else {
+                        $.each(items, function (i) {
+                            addtolistbox("right" + curid + "-" + index, items[i]);
+                        });
+                    }
+                });
+
+                $(".btnAllRight").click(function () {
+                    //获取所有
+                    searchperson("right", "left", false);
+                });
+
+                $(".btnLeft").click(function () {
+                    var index = that.attr("tabcurindex");
+                    var items = getlistboxselectitem("right" + curid + "-" + index);
+                    //移除右边
+                    $.each(items, function (i) {
+                        removetolistbox("right" + curid + "-" + index, items[i]);
+                    });
+                    //添加到左边
+                    if (GetCurrentType() == "Person") {
+                        $.each(items, function (i) {
+                            addPersontolistbox("left" + curid + "-" + index, items[i]);
+                        });
+                    }
+                    else {
+                        $.each(items, function (i) {
+                            addtolistbox("left" + curid + "-" + index, items[i]);
+                        });
+                    }
+                });                
+                $(".btnAllLeft").click(function () {
+                    searchperson("left", "right", true);
+                });
+
+                $(".selectKey").keyup(function () {
+                    searchperson("left", "left", true);
+                });
+            }
+            disableReelect(true);
+            swindow.data("kendoWindow").open();
+
+        });
+
+
+        //直接调用
+        //$(function () {
+        //    var obj = $("#selectwindow");
+        //    InitSelectPersonWindow(obj, "Person", function (json) {        
+        //        var personlist = json.Root.Users.Item;
+        //        var departlist = json.Root.Depts.Item;
+        //        var positionlist = json.Root.Positions.Item;
+        //        var customlist = json.Root.CustomRoles.Item;
+
+        //        var PersonList = new Array();
+        //        $.each(personlist, function (i, item) {
+        //            PersonList.push(item.Value);
+        //        });
+
+        //        var DepartList = new Array();
+        //        $.each(departlist, function (i, item) {
+        //            DepartList.push(item.Value);
+        //        })
+
+        //        var PositionList = new Array();
+        //        $.each(positionlist, function (i, item) {
+        //            PositionList.push(item.Value);
+        //        })
+
+        //        var CustomList = new Array();
+        //        $.each(customlist, function (i, item) {
+        //            CustomList.push(item.Value);
+        //        })
+
+        //        var data = {
+        //            personlist: PersonList,
+        //            departlist: DepartList,
+        //            positionlist: PositionList,
+        //            customlist: CustomList
+        //        }
+
+        //        $.ajax({
+        //            url: "/CustomPerson/SaveCustomPersonData",
+        //            type: "POST",
+        //            data: data,
+        //            traditional: true,
+        //            success: function (item) {
+        //                console.log(item);
+        //            },
+        //            dataType: "json"
+        //        }).fail(function () {
+        //        })
+        //    }, null, {
+        //        actions: [
+        //            "Pin"
+        //        ],
+        //        resizable: false,
+        //        modal: false,
+        //        draggable: false,
+        //        onDetermine: function () {
+        //            alert("onDetermine");
+        //        },
+        //        onClose: function () {
+        //            alert("onClose");
+        //        }
+        //    })
+        //});
+    </script>
+}

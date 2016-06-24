@@ -1,0 +1,37 @@
+﻿@using aZaaS.KStar.Html;
+
+<div class="section" id="procStartSection">
+    <div class="section">
+        <div class="selectbar1">
+            <span>@Html.CSHtmlResx("StartDateFrom")</span>
+            <span>
+                <input type="text" class="datepicker" id="StartDate" /></span>
+            <span>@Html.CSHtmlResx("To")</span>
+            <span>
+                <input type="text" class="datepicker" id="EndDate" /></span>
+            <span>@Html.CSHtmlResx("ProcessFolio")</span>
+            <span>
+                <input type="text" class="k-textbox" id="FormSubject" /></span>
+            <span>@Html.CSHtmlResx("ProcessName")</span>
+            <span>
+                <input type="text" class="k-textbox" id="ProcessName" /></span>
+            <span>
+                <a type="button" id="Select" href="javascript:void(0)" class="k-button selectbtn">@Html.CSHtmlResx("select")</a></span>
+        </div>
+    </div>
+    <div class="section">
+        <div id="dataList" class="sectionGrid">
+        </div>
+    </div>
+</div>
+
+<script src="~/JS/seajs/sea.js"></script>
+<script src="/JSResource/GetJavascriptResx?jsPageName=Maintenance_SeaHaveRead" type="text/javascript"></script>
+<script src="~/JS/AeroWindow-Contextmenu.js" type="text/javascript"></script>
+<link href="~/CSS/AeroWindow-Contextmenu.css" rel="stylesheet" />
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_HaveRead", function (init) {
+        init();
+        $(window).resize();
+    });
+</script>

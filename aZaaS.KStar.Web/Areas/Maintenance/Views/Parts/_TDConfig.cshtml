@@ -1,0 +1,82 @@
+﻿<div class="section">
+    <div class="top-heading">
+        <div class="top-title">Tenant Database Configuration</div>
+        @*<a class="k-button" href="javascript:void(0)" id="PortalImport" title="Import from Excel"><span class="glyphicon glyphicon-import"></span></a>
+        <a class="k-button" href="javascript:void(0)" id="PortalExport" title="Export to Excel"><span class="glyphicon glyphicon-export"></span></a>*@
+    </div>
+    <div class="configDetail">
+        <div class="row" style="margin-top: 12px;">
+            <div class="col-md-2 col-lg-2  col-xs-3">
+                <span>
+                    <label style="">LM Position Name:</label>
+                </span>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-8">
+                <span>
+                    <input id="LMPositionName" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-3">
+                <span></span>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+            <div class="col-md-2 col-lg-2  col-xs-3">
+                <span>
+                    <label style="">PM Position Name:</label>
+                </span>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-8">
+                <span>
+                    <input id="PMPositionName" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+            <div class="col-md-2 col-lg-2  col-xs-3">
+                <span>
+                    <label style="">LM Reviewer JobClass:</label>
+                </span>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-8">
+                <span>
+                    <input id="LMReviewerJobClass" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+            <div class="col-md-2 col-lg-2  col-xs-3">
+                <span>
+                    <label style="">PM Reviewer JobClass:</label>
+                </span>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-8">
+                <span>
+                    <input id="PMReviewerJobClass" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+            <div class="col-md-2 col-lg-2  col-xs-3">
+                <span>
+                    <label style="">Max. size of uploading file（MB）:</label>
+                </span>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-8">
+                <span>
+                    <input id="UploadFileMaxSize" class="k-textbox" style="width: 100%;" />
+                </span>
+            </div>
+        </div>
+        <div style="margin-top: 10px; text-align: center;">
+            <button class="k-button" id="ConfigSave">Save</button>
+            <div class="tips" style="color: green; text-align: center; visibility: hidden">Saved successfully.</div>
+        </div>
+    </div>
+</div>
+<script src="~/JS/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.use("/JS/Maintenance/_Sea_TDConfig", function (init) {
+        init();
+    });
+</script>

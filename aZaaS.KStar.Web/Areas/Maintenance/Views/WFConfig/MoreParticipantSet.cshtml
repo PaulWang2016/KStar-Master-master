@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "MoreParticipantSet";
+}
+@using aZaaS.KStar.Form.Mvc;
+@using aZaaS.KStar.Form.Helpers;
+<div class="section">
+    <div class="top-heading">
+        <div class="k-block" style="overflow: hidden;">
+    @*<div class="toolbar" style="min-width:900px; float:left !important; width:100%">
+        <label class="category-label" for="Folio" style="width: 15%;">流程实例编号：</label>
+        <input type="text" id="txtFolio" class="k-textbox" style="width: 30%; margin-right:25px;" />
+        <label class="category-label" for="Originator" style="width: 15%;">发起人：</label>
+        <input type="text" id="txtOriginator" class="k-textbox" style="width: 30%; margin-right:20px;" />
+    </div>
+    <div class="toolbar" style="min-width: 900px; margin-top: 2px; float: left !important; width: 100%">
+        <label class="category-label" for="ProcStartDate" style="width: 15%;"> 发起时间：</label>
+        <input type="text" id="ProcStartDate" name="ProcStartDate" style="width: 15%; " data-date-format="yyyy-mm-dd" />
+        <input type="text" id="ProcEndDate" name="ProcEndDate" style="width: 15%;margin-right:20px;" data-date-format="yyyy-mm-dd" />
+        <label class="Process-label" for="ProcessName" style="width: 15%;">流程名称：</label>
+        <select id="stProcessName" style="width: 30%; margin-right: 50px; margin-top: 2px; vertical-align: middle;" data-placeholder="请选择流程...."></select>
+    </div>
+    <div class="toolbar" style="min-width: 900px; margin-top: 4px; float: left !important; width: 100%">
+        <label class="category-label" style="width: 60%;"></label>
+        <span style="margin-left:35px;width:30%;display: -moz-inline-box;display: inline-block;overflow: hidden;height: 27px;">
+            <input class="k-button selectbtn" name="select" type="button" style="width: 75px; float: right;" value="查询" />
+        </span>
+    </div>*@
+        <div class="toolbar" style="min-width: 600px;">
+            <input class="k-button selectbtn" name="select" type="button" id="NewSigner" style="width: 75px; float: right;" value="+加签组" />
+            </div>
+    </div>
+    </div>
+    <div class="sectionGrid" id="ActivityParticipantSet"></div>
+</div>
+<div id="AddStaffWindow" style="display: none">
+
+    <div id="staffTab" style="overflow: auto; overflow-x: hidden;">
+        <div id="BasicInformation">
+            <div class="row">
+                <div class="col-lg-2 col-md-2  col-sm-2">加签组备注</div>
+                <div class="col-lg-6 col-md-6  col-sm-6">
+                    <input type="text" id="txtRemark" name="Remark" class="k-textbox" style="width: 100%;" />
+                </div>
+                @*<div class="col-lg-4 col-md-4  col-sm-4">
+                    <button type="button" id="btnAddUser" name="AddUser" value="">添加审批人</button>
+                    <span class="glyphicon glyphicon-search form-control-feedback"
+                          id="_kstarform_btn_chooseTechReview" data-target="btnAddUser" data-callback="SelectApprovers" data-control="userpick" data-options="{mutilselect:true}" data-controltype="all"></span>
+                </div>*@
+               
+            </div>
+            <div class="top-toolbar">
+                <a id="btnAddUser" class="k-button mt-Add" href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a>
+                <a id="SignerDeletefrom" class="k-button mt-Delete" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+             <div id="SingerUserList"></div>
+            <div class="bootgrid-footer">
+                <input type="checkbox" id="SkipSigner"  />忽略加签人
+            </div>
+            
+        </div>
+    </div>
+    <div class="operabar">
+        <div class="operamask"></div>
+        <div class="operacontent">
+            <input id="hdUserId" type="hidden" />
+            <input id="hdStaffName" type="hidden" />
+            <button class="k-button windowConfirm" style="float: left;">确认</button>
+            <button class="k-button windowCancel" style="float: right">取消</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-kendo-template" id="template">
+    <div class="toolbar">
+       加签编辑器
+    </div>
+</script>
+<script src="~/Scripts/kstarform.userpick.js"></script>
+<script src="~/JS/Maintenance/Sea_MoreParticipantSigner.js"></script>
+<script type="text/javascript">
+     @Html.GetKStarUser()
+    $(document).ready(function () {
+        Load();
+        $("#NewSigner").bind("click", function () {
+            $("#AddStaffWindow").kendoWindow({
+                title: "Title",
+                width: 900,
+                height: 450,
+                actions: [
+                    "Pin",
+                    "Minimize",
+                    "Maximize",
+                    "Close"
+                ],
+                modal: true
+            });
+            LoadParticipantEntry();
+            $("#AddStaffWindow").data("kendoWindow").center().title("加签编辑器").open();
+        });
+        $("#AddStaffWindow .windowCancel").bind("click", function () {
+            $("#AddStaffWindow").data("kendoWindow").close();
+        });
+        $("#AddStaffWindow .windowConfirm").bind("click", function () {
+            //AddCommonReportConfig();
+            SaveData();
+        });
+        var itemform = $("#staffTab");
+        kendo.init(itemform);
+        itemform.kendoValidator({
+            validateOnBlur: true,
+            messages: {
+                ProcessRequired: "请选择流程",
+                StaffNameRequired: "请输入字段ID",
+                FirstNameRequired: "请输入字段名称",
+                LastNameRequired: "请输入字段类型",
+                XPathRequired: "请输入XPATH",
+            },
+            rules: {
+                //UserId: function (input) {
+                //    if (input.is("[name='UserId']")) {
+                //        var flag = true;
+                //        if ($("#hdUserId").val() != input.val() && input.val().length > 0) {
+                //            $.ajax({
+                //                type: "POST",
+                //                url: "/Maintenance/Staff/ExistStaffId",
+                //                data: { UserId: input.val() },
+                //                async: false,
+                //                success: function (result) {
+                //                    if (result) {
+                //                        flag = false;
+                //                    }
+                //                }
+                //            });
+                //        }
+                //        return flag;
+                //    }
+                //    else {
+                //        return true;
+                //    }
+                //},
+
+                ProcessRequired: function (input) {
+                    if (input.is("[name='UserId']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                StaffNameRequired: function (input) {
+                    if (input.is("[name='StaffName']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                FirstNameRequired: function (input) {
+                    if (input.is("[name='FirstName']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                LastNameRequired: function (input) {
+                    if (input.is("[name='LastName']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                XPathRequired: function (input) {
+                    if (input.is("[name='XPATH']")) {
+                        if (input.val().length == 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            }
+        });
+
+    });
+</script>

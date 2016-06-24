@@ -1,0 +1,37 @@
+﻿@model aZaaS.KStar.DocumentLibrary
+
+@*<div class="k-block">
+    <div class="k-header"></div>
+    <div>
+        <ul>
+            @if (Model.Items != null)
+            {
+                foreach (var item in Model.Items)
+                {
+                <li>
+                    <a href="javascript:void(0)">
+                        <div class="lsit-icon">
+                            <img src="@item.IconPath" />
+                        </div>
+                        <span>@item.DisplayName</span>
+                    </a>
+                </li>
+                }
+            }
+        </ul>
+    </div>
+</div>*@
+<div class="@Model.Key">
+    <span style="background-image: url(@Model.IconPath);">@Model.DisplayName</span>
+    <ul>
+        @*<li><a href="#">Tenant Database Form Guide</a></li>
+        <li><a href="#">Tenant Database Form Guide2</a></li>*@
+        @if (Model.Items != null)
+        {
+            foreach (var item in Model.Items)
+            {
+            <li><a href="@(string.IsNullOrWhiteSpace(item.StorageUri) ? "javascript:void(0)" : item.StorageUri)">@item.DisplayName</a></li>
+            }
+        }
+    </ul>
+</div>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "ImportfromExcel";
+}
+
+<div>
+    <input type="file" name="ImportFile" id="ImportFile" class="hide" />
+</div>
+@section scripts{
+    <script>
+        var checkExcelfiles = function (e) {
+            var files = e.files;
+            $.each(files, function () {
+                var extension = this.extension.toLowerCase()
+                if (extension != ".xls" && extension != ".xlsx") {
+                    top.bootbox.alert("Only .xls .xlsx .png files")
+                    e.preventDefault();
+                }
+            });
+        }
+        $("#ImportFile").removeClass("hide").kendoUpload({
+            async: {
+                saveUrl: "/Export/ImportfromExcel",
+                saveField: "files"
+            },
+            multiple: false,
+            showFileList: false,
+            success: function (e) {
+                var files = e.files;
+                if (e.operation == "upload") {
+                    top.bootbox.confirm("@Html.CSHtmlResx("KendoUploadSuccess")", function (result) {
+                        if (result) {
+                            top.location = "/";
+                        }
+                    });
+                }
+            },
+            upload: function (e) {
+                checkExcelfiles(e);
+                e.data = { type: "@ViewBag.type", pane: "@ViewBag.pane" };
+            },
+            localization: {
+                select: "@Html.CSHtmlResx("KendoUploadSelectText")"
+            }
+        });
+    </script>
+}
